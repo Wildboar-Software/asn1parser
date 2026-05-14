@@ -2,7 +2,6 @@ import { type Assignment } from '../constructs/Assignment.js';
 import AssignmentType from '../constructs/AssignmentType.js';
 import type Defined from '../constructs/Defined.js';
 import type Module from '../constructs/Module.js';
-import _ from 'lodash';
 import type ObjectClassFieldType from '../constructs/Types/ObjectClassFieldType.js';
 import TypeType from '../constructs/TypeType.js';
 import type Parameter from '../constructs/Parameter.js';

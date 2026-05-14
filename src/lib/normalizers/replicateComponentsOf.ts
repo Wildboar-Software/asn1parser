@@ -5,7 +5,6 @@ import TypeType from '../constructs/TypeType.js';
 import { type ComponentType } from '../constructs/ComponentType.js';
 import automaticTaggingInEffectForSetOrSequence from '../automaticTaggingInEffectForSetOrSequence.js';
 import applyTagsToSetOrSequence from './applyTagsToSetOrSequence.js';
-import _ from 'lodash';
 import AssignmentType from '../constructs/AssignmentType.js';
 import recursivelyResolve from '../recursivelyResolve.js';
 

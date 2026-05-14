@@ -1,7 +1,6 @@
 import { type Type } from '../constructs/Type.js';
 import TypeType from '../constructs/TypeType.js';
 import { type ComponentType } from '../constructs/ComponentType.js';
-import _ from 'lodash';
 import AssignmentType from '../constructs/AssignmentType.js';
 import type Defined from '../constructs/Defined.js';
 import type NamedType from '../constructs/NamedType.js';

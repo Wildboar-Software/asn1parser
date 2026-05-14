@@ -11,7 +11,6 @@ import recursivelyResolve from '../recursivelyResolve.js';
 import { type Assignment } from '../constructs/Assignment.js';
 import AssignmentType from '../constructs/AssignmentType.js';
 import type TypeAssignment from '../constructs/AssignmentTypes/TypeAssignment.js';
-import _ from "lodash";
 
 // FIXME: I think you could make a more generic version: `applyTagToType()`
 // The NamedType's identifier is not even used anywhere here...
