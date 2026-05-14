@@ -1,0 +1,36 @@
+import type GrokContext from '../interfaces/GrokContext.js';
+import type Production from '../Production.js';
+import ProductionType from '../ProductionType.js';
+import type Tuple from '../constructs/Tuple.js';
+
+// Tuple ::= "{" TableColumn "," TableRow "}"
+// TableColumn ::= number
+// TableRow ::= number
+
+export default function grok(cst: Production, ctx: GrokContext): Tuple {
+  const text: string = ctx.text;
+  const components: Production[] = cst.children
+    .slice(1, -1)
+    .filter(
+      (child: Production): boolean =>
+        child.type !== ProductionType.whitespace &&
+        child.type !== ProductionType.comma
+    );
+
+  const TableColumn: Production = components[0];
+  const TableRow: Production = components[1];
+
+  return {
+    column: Number.parseInt(
+      text.slice(
+        TableColumn.location.startIndex,
+        TableColumn.location.endIndex
+      ),
+      10
+    ),
+    row: Number.parseInt(
+      text.slice(TableRow.location.startIndex, TableRow.location.endIndex),
+      10
+    ),
+  };
+}

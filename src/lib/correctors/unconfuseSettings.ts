@@ -1,0 +1,284 @@
+import { type DefaultSyntax } from '../constructs/AssignmentTypes/ObjectAssignment/ObjectDefn/DefaultSyntax.js';
+import type Module from '../constructs/Module.js';
+import type ObjectAssignment from '../constructs/AssignmentTypes/ObjectAssignment.js';
+import recursivelyResolve from '../recursivelyResolve.js';
+import AssignmentType from '../constructs/AssignmentType.js';
+import translateDefinedSyntaxToDefaultSyntax from '../normalizers/translateDefinedSyntaxToDefaultSyntax.js';
+import type ObjectClassAssignment from '../constructs/AssignmentTypes/ObjectClassAssignment.js';
+import { type SomethingFromObject } from '../constructs/SomethingFromObject.js';
+import FieldSpecType from '../constructs/FieldSpecType.js';
+import TypeType from '../constructs/TypeType.js';
+import ValueType from '../constructs/ValueType.js';
+import lex from '../lex.js';
+import objectSetParser from '../parsers/specific/ObjectSet.js';
+import valueSetParser from '../parsers/specific/ValueSet.js';
+import oidValueParser from '../parsers/specific/ObjectIdentifierValue.js';
+import objectSetGroker from '../grokers/ObjectSet.js';
+import valueSetGroker from '../grokers/ValueSet.js';
+import oidValueGroker from '../grokers/Values/ObjectIdentifierValue.js';
+import type GrokContext from '../interfaces/GrokContext.js';
+import consoleLogger from '../loggers/console.js';
+import type {
+  TypeSetting,
+  ValueSetting,
+  ObjectSetting,
+  ValueSetSetting,
+  ObjectSetSetting,
+  Setting,
+} from '../constructs/AssignmentTypes/ObjectAssignment/Setting.js';
+import { LexicalProductionType } from "../ProductionType.js";
+
+function deleteKeys(s: Partial<Setting>): void {
+  if ('value' in s) {
+    delete s.value;
+  }
+  if ('valueSet' in s) {
+    delete s.valueSet;
+  }
+  if ('type' in s) {
+    delete s.type;
+  }
+  if ('object' in s) {
+    delete s.object;
+  }
+  if ('objectSet' in s) {
+    delete s.objectSet;
+  }
+}
+
+/**
+ * @summary Unconfuse object settings
+ * @description
+ * Sometimes `Setting` productions can be parsed incorrectly. Since a
+ * `DefinedType` and `DefinedValue` production have the same syntax, a
+ * `DefinedType` could be parsed for a setting that is really a `DefinedValue`.
+ * This function corrects that by referring to the object class assignment to
+ * determine what alternative the `Setting` should have, and make corrections
+ * where necessary.
+ *
+ * This does not unconfuse every setting conceivable, but it gets close enough.
+ *
+ * @param {DefaultSyntax} object The information object whose settings are to be
+ *  unconfused
+ * @param {ObjectClassAssignment} oca The object class assignment of which the
+ *  information object is an instance.
+ * @param {Module} currentModule The current module
+ */
+function unconfuseSettingsGivenObjectClassAssignment(
+  object: DefaultSyntax,
+  oca: ObjectClassAssignment,
+  currentModule: Module
+): void {
+  if ('reference' in oca.objectClass) {
+    // It was supposed to have been recursively resolved already.
+    throw new Error();
+  }
+  const specs = oca.objectClass.fieldSpecs;
+  Object.entries(object.fieldSettings).forEach(([name, setting]) => {
+    const spec = specs[name];
+    switch (spec.specType) {
+      case FieldSpecType.TypeFieldSpec: {
+        if ('value' in setting) {
+          // We parsed the wrong thing.
+          if (setting.value.valueType === ValueType.ValueFromObject) {
+            const v = setting.value.value;
+            const t: TypeSetting = {
+              type: {
+                text:
+                  setting.text ??
+                  v.text ??
+                  `${v.referencedObjects}.${v.fieldName.join('.')}`,
+                typeType: TypeType.TypeFromObject,
+                type: {
+                  ...v,
+                },
+              },
+            };
+            Object.assign(setting, t);
+            delete (setting as {value?: any}).value;
+          }
+        }
+        break;
+      }
+      case FieldSpecType.FixedTypeValueFieldSpec:
+      case FieldSpecType.VariableTypeValueFieldSpec: {
+        if ('type' in setting) {
+          // We parsed the wrong thing.
+          if (setting.type.typeType === TypeType.TypeFromObject) {
+            const t = setting.type.type;
+            const v: ValueSetting = {
+              value: {
+                text:
+                  setting.text ??
+                  t.text ??
+                  `${t.referencedObjects}.${t.fieldName.join('.')}`,
+                valueType: ValueType.ValueFromObject,
+                value: {
+                  ...setting.type.type,
+                },
+              },
+            };
+            Object.assign(setting, v);
+            delete (setting as {type?: any}).type;
+          }
+        } else if (
+            'value' in setting
+            && spec.specType === FieldSpecType.FixedTypeValueFieldSpec
+            && spec.type.typeType === TypeType.ObjectIdentifierType
+            && setting.value.valueType === ValueType.BitStringValue
+        ) {
+            const lexemes = Array.from(lex(setting.text!)).filter((l) => l.type !== LexicalProductionType.comment);
+            const parsing = oidValueParser.start(lexemes, setting.text!);
+            const ctx: GrokContext = {
+              log: consoleLogger,
+              text: setting.text!,
+              currentModule,
+              enumItems: parsing.definedEnumItems,
+            };
+            const v: ValueSetting = {
+                value: {
+                    text: setting.text!,
+                    valueType: ValueType.ObjectIdentifierValue,
+                    productionType: parsing.cst.type,
+                    production: parsing.cst,
+                    value: oidValueGroker(parsing.cst, ctx),
+                },
+            };
+            deleteKeys(setting);
+            Object.assign(setting, v);
+        }
+        break;
+      }
+      case FieldSpecType.ObjectFieldSpec: {
+        if ('value' in setting) {
+          if (setting.value.valueType === ValueType.DefinedValue) {
+            const o: ObjectSetting = {
+              object: setting.value.value,
+            };
+            Object.assign(setting, o);
+            delete (setting as {value?: any}).value;
+          } else if (setting.value.valueType === ValueType.ValueFromObject) {
+            const f: SomethingFromObject = { ...setting.value.value };
+            const o: ObjectSetting = {
+              object: f,
+            };
+            Object.assign(setting, o);
+            delete (setting as {value?: any}).value;
+          }
+        }
+        break;
+      }
+      case FieldSpecType.FixedTypeValueSetFieldSpec:
+      case FieldSpecType.VariableTypeValueSetFieldSpec: {
+        if (!('valueSet' in setting) && setting.text) {
+          const lexemes = Array.from(lex(setting.text)).filter((l) => l.type !== LexicalProductionType.comment);
+          const parsing = valueSetParser.start(lexemes, setting.text);
+          const ctx: GrokContext = {
+            log: consoleLogger,
+            text: setting.text,
+            currentModule,
+            enumItems: parsing.definedEnumItems,
+          };
+          const vs: ValueSetSetting = {
+            valueSet: valueSetGroker(parsing.cst, ctx),
+          };
+          deleteKeys(setting);
+          Object.assign(setting, vs);
+        }
+        break;
+      }
+      case FieldSpecType.ObjectSetFieldSpec: {
+        if (!('objectSet' in setting) && setting.text) {
+          const lexemes = Array.from(lex(setting.text)).filter((l) => l.type !== LexicalProductionType.comment);
+          const parsing = objectSetParser.start(lexemes, setting.text);
+          const ctx: GrokContext = {
+            log: consoleLogger,
+            text: setting.text,
+            currentModule,
+            enumItems: parsing.definedEnumItems,
+          };
+          const os: ObjectSetSetting = {
+            objectSet: objectSetGroker(parsing.cst, ctx),
+          };
+          deleteKeys(setting);
+          Object.assign(setting, os);
+        }
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  });
+}
+
+/**
+ * @summary Unconfuse object settings
+ * @description
+ * Sometimes `Setting` productions can be parsed incorrectly. Since a
+ * `DefinedType` and `DefinedValue` production have the same syntax, a
+ * `DefinedType` could be parsed for a setting that is really a `DefinedValue`.
+ * This function corrects that by referring to the object class assignment to
+ * determine what alternative the `Setting` should have, and make corrections
+ * where necessary.
+ *
+ * This does not unconfuse every setting conceivable, but it gets close enough.
+ *
+ * @param {ObjectAssignment} oa The object assignment whose object is to be
+ *  unconfused.
+ * @param {Module} currentModule The current module
+ * @param {Module[]} modulesInScope All modules in scope
+ * @function
+ */
+export default function unconfuseSettings(
+  oa: ObjectAssignment,
+  currentModule: Module,
+  modulesInScope: Module[]
+): void {
+  const oca = recursivelyResolve(
+    oa.definedObjectClass,
+    currentModule,
+    modulesInScope
+  );
+  if (!oca) {
+    return;
+  }
+  if (oca.assignmentType !== AssignmentType.ObjectClassAssignment) {
+    console.error(oa);
+    console.error(oca);
+    throw new Error('6e08241e-2394-4088-9ba2-4b31e922283b');
+  }
+  if ('reference' in oca.objectClass) {
+    console.error(oca.objectClass);
+    throw new Error('dcc5fda1-40e2-4cfb-8c7e-109f473a1782');
+  }
+  const obj = oa.object;
+  if ('reference' in obj || 'referencedObjects' in obj) {
+    return;
+  }
+
+  const defaultSyntax: DefaultSyntax =
+    'fieldSettings' in obj
+      ? obj
+      : (() => {
+          const [defaultSyntax] = translateDefinedSyntaxToDefaultSyntax(
+            obj,
+            oca.objectClass.syntax ?? [],
+            currentModule
+          );
+          if (!defaultSyntax) {
+            console.error(obj);
+            console.error(oca.objectClass.syntax);
+            throw new Error(
+              `Incorrect syntax for object of class ${oca.identifier} in module ${currentModule.name}.`
+            );
+          }
+          return defaultSyntax;
+        })();
+
+  unconfuseSettingsGivenObjectClassAssignment(
+    defaultSyntax,
+    oca,
+    currentModule
+  );
+}

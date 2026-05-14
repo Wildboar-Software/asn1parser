@@ -1,0 +1,87 @@
+ParameterizedAssignment ::=
+    ParameterizedTypeAssignment
+    | ParameterizedValueAssignment
+    | ParameterizedValueSetTypeAssignment
+    | ParameterizedObjectClassAssignment
+    | ParameterizedObjectAssignment
+    | ParameterizedObjectSetAssignment
+
+ParameterizedTypeAssignment ::=
+    typereference ParameterList "::=" Type
+
+ParameterizedValueAssignment ::=
+    valuereference ParameterList Type "::=" Value
+
+ParameterizedValueSetTypeAssignment ::=
+    typereference ParameterList Type "::=" ValueSet
+
+ParameterizedObjectClassAssignment ::=
+    objectclassreference ParameterList "::=" ObjectClass
+
+ParameterizedObjectAssignment ::=
+    objectreference ParameterList DefinedObjectClass "::=" Object
+
+ParameterizedObjectSetAssignment ::=
+    objectsetreference ParameterList DefinedObjectClass "::=" ObjectSet
+
+ParameterList ::=
+    "{" Parameter "," + "}"
+
+Parameter ::=
+    ParamGovernor ":" DummyReference
+    | DummyReference
+
+ParamGovernor ::=
+    Governor
+    | DummyGovernor
+
+Governor ::=
+    Type
+    | DefinedObjectClass
+
+DummyGovernor ::=
+    DummyReference
+
+DummyReference ::=
+    Reference
+
+ParameterizedReference ::=
+    Reference
+    | Reference "{"  "}"
+
+SimpleDefinedType ::=
+    ExternalTypeReference
+    | typereference
+
+SimpleDefinedValue ::=
+    ExternalValueReference
+    | valuereference
+
+ParameterizedType ::=
+    SimpleDefinedType ActualParameterList
+
+ParameterizedValue ::=
+    SimpleDefinedValue ActualParameterList
+
+ParameterizedValueSetType ::=
+    SimpleDefinedType ActualParameterList
+
+ParameterizedObjectClass ::=
+    DefinedObjectClass ActualParameterList
+
+ParameterizedObjectSet ::=
+    DefinedObjectSet ActualParameterList
+
+ParameterizedObject ::=
+    DefinedObject ActualParameterList
+
+ActualParameterList ::=
+    "{" ActualParameter "," + "}"
+
+ActualParameter ::=
+    Type
+    | Value
+    | ValueSet
+    | DefinedObjectClass
+    | Object
+    | ObjectSet

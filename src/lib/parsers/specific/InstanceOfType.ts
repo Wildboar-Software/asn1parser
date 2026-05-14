@@ -1,0 +1,30 @@
+import {
+  anything,
+  assert,
+  literal,
+  recursiveParser,
+  whitespaceTolerantSequenceOf,
+} from '../generic/index.js';
+import * as parserFor from '../specific/index.js';
+import type Parser from '../../Parser.js';
+import ProductionType from '../../ProductionType.js';
+
+/**
+ * `InstanceOfType ::= INSTANCE OF DefinedObjectClass`
+ */
+export default recursiveParser(
+  (): Parser =>
+    whitespaceTolerantSequenceOf(ProductionType.InstanceOfType, [
+      literal(ProductionType._INSTANCE),
+      assert(
+        literal(ProductionType._OF),
+        parserFor.DefinedObjectClass,
+        '47754181-E905-4BDD-B410-C51ABE58C806'
+      ),
+      assert(
+        parserFor.DefinedObjectClass,
+        anything,
+        '1B9D64D2-99CC-4A17-87C3-7D3566129BC3'
+      ),
+    ])
+);

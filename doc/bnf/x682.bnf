@@ -1,0 +1,40 @@
+GeneralConstraint ::=
+    UserDefinedConstraint
+    | TableConstraint
+    | ContentsConstraint
+
+UserDefinedConstraint ::=
+    CONSTRAINED BY "{" UserDefinedConstraintParameter "," * "}"
+
+UserDefinedConstraintParameter ::=
+    Governor ":" Value
+    | Governor ":" Object
+    | DefinedObjectSet
+    | Type
+    | DefinedObjectClass
+
+TableConstraint ::=
+    SimpleTableConstraint
+    | ComponentRelationConstraint
+
+SimpleTableConstraint ::=
+    ObjectSet
+
+ComponentRelationConstraint ::=
+    "{" DefinedObjectSet "}" "{" AtNotation "," + "}"
+
+AtNotation ::=
+    "@" ComponentIdList
+    | "@." Level ComponentIdList
+
+Level ::=
+    "." Level
+    | empty
+
+ComponentIdList ::=
+    identifier "." +
+
+ContentsConstraint ::=
+    CONTAINING Type
+    | ENCODED BY Value
+    | CONTAINING Type ENCODED BY Value

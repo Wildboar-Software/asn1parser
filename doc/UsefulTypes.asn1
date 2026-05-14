@@ -1,0 +1,13 @@
+-- UsefulObjectClassReference ::= TYPE-IDENTIFIER | ABSTRACT-SYNTAX
+
+-- Defined in ITU X.681, Annex A.
+TYPE-IDENTIFIER ::= CLASS {
+    &id OBJECT IDENTIFIER UNIQUE,
+    &Type }
+    WITH SYNTAX { &Type IDENTIFIED BY &id }
+
+ABSTRACT-SYNTAX ::= CLASS {
+    &id OBJECT IDENTIFIER UNIQUE,
+    &Type,
+    &property BIT STRING {handles-invalid-encodings(0)} DEFAULT {} }
+    WITH SYNTAX { &Type IDENTIFIED BY &id [HAS PROPERTY &property] }
