@@ -1,4 +1,4 @@
-import { ASN1UniversalType } from "asn1-ts";
+import { ASN1UniversalType } from "../ASN1UniversalType.mjs";
 import TypeType from '../constructs/TypeType.mjs';
 
 /**

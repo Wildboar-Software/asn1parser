@@ -11,6 +11,14 @@ available ITU-T Recommendations
 [X.682](https://www.itu.int/rec/T-REC-X.682/en),
 and [X.683](https://www.itu.int/rec/T-REC-X.683/en).
 
+## Documentation
+
+- [Usage](./doc/usage.md)
+- [Compatibility with Old ASN.1 Features](./doc/backwards-compatibility.md)
+- [Phases of Compilation](./doc/phases.md)
+- [Terminology Used by this Module](./doc/terminology.md)
+- [Design Mistakes](./doc/design-mistakes.md)
+
 ## Module System and Environment
 
 This module is published as an ESM module exclusively. If you are still using
@@ -20,6 +28,9 @@ This module is intentionally run-time agnostic. It works on
 [Node.js](https://nodejs.org/), [Deno](https://deno.com/),
 [Bun](https://bun.sh/), and it probably would work on
 [QuickJS](https://quickjs-ng.github.io/quickjs/) and in any browser.
+
+This module has a single run-time dependency, which itself has no further
+dependencies.
 
 ## Building
 
@@ -40,14 +51,6 @@ None of the code in this repository was written AI / LLMs, except a few tests
 that were previously written run using Jest were converted to using the
 built-in NodeJS test runner.
 
-## Documentation
-
-- [Usage](./doc/usage.md)
-- [Compatibility with Old ASN.1 Features](./doc/backwards-compatibility.md)
-- [Phases of Compilation](./doc/phases.md)
-- [Terminology Used by this Module](./doc/terminology.md)
-- [Design Mistakes](./doc/design-mistakes.md)
-
 ## See Also
 
 - [Meerkat DSA](https://wildboar-software.github.io/directory/), an X.500
@@ -62,7 +65,7 @@ built-in NodeJS test runner.
 - [x] ~~Create a command-line tool~~ (Requires node types. Should be a separate package entirely.)
 - [x] ~~Use double-quotes~~ (not worth it)
 - [x] Fix tests
-- [ ] Remove dependency on `asn1-ts`
+- [x] Remove dependency on `asn1-ts`
 - [x] Test that it works on Deno and Bun.
 - [ ] Performance Enhancements
 - [x] Documentation

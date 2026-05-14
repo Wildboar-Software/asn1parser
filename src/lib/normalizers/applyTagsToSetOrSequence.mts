@@ -6,7 +6,7 @@ import TaggingMode from '../constructs/TaggingMode.mjs';
 import { type Type } from '../constructs/Type.mjs';
 import typeToTagNumberMap from '../maps/typeToTagNumberMap.mjs';
 import applyTagsToChoice from './applyTagsToChoice.mjs';
-import { ASN1UniversalType } from "asn1-ts";
+import { ASN1UniversalType } from "../ASN1UniversalType.mjs";
 import recursivelyResolve from '../recursivelyResolve.mjs';
 import { type Assignment } from '../constructs/Assignment.mjs';
 import AssignmentType from '../constructs/AssignmentType.mjs';

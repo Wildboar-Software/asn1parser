@@ -30,7 +30,6 @@
   "version": "1.0.2",
   "type": "module",
   "dependencies": {
-    "asn1-ts": "^11.1.0",
     "dependency-graph": "^1.0.0"
   },
   "engines": {
