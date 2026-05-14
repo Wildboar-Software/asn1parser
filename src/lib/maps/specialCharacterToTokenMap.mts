@@ -6,7 +6,7 @@ import { LexicalProductionType } from '../ProductionType.mjs';
  * This is used by the lexer to emit tokens.
  * @constant
  */
-export default new Map<string, LexicalProductionType>([
+export const specialCharacterToTokenMap: Map<string, LexicalProductionType> = new Map<string, LexicalProductionType>([
   ['{', LexicalProductionType.curlyOpening],
   ['}', LexicalProductionType.curlyClosing],
   ['<', LexicalProductionType.lessThan],
@@ -32,3 +32,5 @@ export default new Map<string, LexicalProductionType>([
   ['*', LexicalProductionType.asterisk],
   ['&', LexicalProductionType.ampersand],
 ]);
+
+export default specialCharacterToTokenMap;

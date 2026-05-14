@@ -45,6 +45,9 @@ with [Bun](https://bun.sh/), use `npm run bun-test`. To test with
 [Deno](https://deno.com/), use `npm run deno-test`. There is only one Deno
 test, whose purpose is to kind of "smoke test" that this works on Deno.
 
+You can check if this module has any problems with JSR by running
+`npx jsr publish --dry-run --allow-dirty`.
+
 ## AI / LLM Usage Statement
 
 None of the code in this repository was written AI / LLMs, except a few tests
@@ -60,13 +63,7 @@ built-in NodeJS test runner.
 
 ## To Do
 
-- [x] ~~Switch to using `@wildboar/asn1` / JSR~~
-- [x] Use `.mjs` extensions
-- [x] ~~Create a command-line tool~~ (Requires node types. Should be a separate package entirely.)
-- [x] ~~Use double-quotes~~ (not worth it)
-- [x] Fix tests
-- [x] Remove dependency on `asn1-ts`
-- [x] Test that it works on Deno and Bun.
 - [ ] Performance Enhancements
-- [x] Documentation
+- [ ] Make dependency on `dependency-graph` optional
+- [ ] GitHub Actions
 - [ ] Publish

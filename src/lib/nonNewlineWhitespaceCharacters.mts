@@ -24,7 +24,7 @@
  *
  * @constant
  */
-export default new Set<number>([
+export const nonNewlineWhitespaceCharacters: Set<number> = new Set<number>([
   0x0009, 0x0020, 0x00a0,
   // 0x1680,
   // 0x2000,
@@ -42,3 +42,5 @@ export default new Set<number>([
   // 0x205F,
   // 0x3000,
 ]);
+
+export default nonNewlineWhitespaceCharacters;

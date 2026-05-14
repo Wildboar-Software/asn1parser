@@ -5,7 +5,7 @@ import TypeType from '../constructs/TypeType.mjs';
  * @summary A mapping of ASN.1 data types to tag numbers.
  * @constant
  */
-export default new Map<TypeType, ASN1UniversalType>([
+export const typeToTagNumberMap: Map<TypeType, ASN1UniversalType> = new Map<TypeType, ASN1UniversalType>([
   [TypeType.BitStringType, ASN1UniversalType.bitString],
   [TypeType.BooleanType, ASN1UniversalType.boolean],
   // [ TypeType.CharacterStringType, ASN1UniversalType. ],
@@ -51,3 +51,5 @@ export default new Map<TypeType, ASN1UniversalType>([
   [TypeType.UTCTime, ASN1UniversalType.utcTime],
   [TypeType.ObjectDescriptor, ASN1UniversalType.objectDescriptor],
 ]);
+
+export default typeToTagNumberMap;

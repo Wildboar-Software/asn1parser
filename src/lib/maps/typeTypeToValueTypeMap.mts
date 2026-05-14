@@ -5,7 +5,7 @@ import ValueType from '../constructs/ValueType.mjs';
  * @summary A mapping of ASN.1 value types to their equivalent ASN.1 type types.
  * @constant
  */
-export default new Map<TypeType, ValueType>([
+export const typeTypeToValueTypeMap: Map<TypeType, ValueType> = new Map<TypeType, ValueType>([
   [TypeType.BitStringType, ValueType.BitStringValue],
   [TypeType.BooleanType, ValueType.BooleanValue],
   [TypeType.ChoiceType, ValueType.ChoiceValue],
@@ -26,3 +26,5 @@ export default new Map<TypeType, ValueType>([
   [TypeType.SetOfType, ValueType.SetOfValue],
   [TypeType.SetType, ValueType.SetValue],
 ]);
+
+export default typeTypeToValueTypeMap;

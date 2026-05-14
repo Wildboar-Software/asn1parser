@@ -20,9 +20,11 @@
  *
  * @constant
  */
-export default new Set<number>([
+export const newlineWhitespaceCharacters: Set<number> = new Set<number>([
   0x000a, 0x000b, 0x000c, 0x000d,
   // 0x0085,
   // 0x2028,
   // 0x2029,
 ]);
+
+export default newlineWhitespaceCharacters;

@@ -4,7 +4,7 @@ import { KeywordProductionType } from '../ProductionType.mjs';
  * @summary A mapping of ASN.1 keywords to their production types.
  * @constant
  */
-export default new Map<string, KeywordProductionType>([
+export const keywordToTokenMap: Map<string, KeywordProductionType> = new Map<string, KeywordProductionType>([
   ['ABSENT', KeywordProductionType._ABSENT],
   ['ABSTRACT-SYNTAX', KeywordProductionType._ABSTRACT_SYNTAX],
   ['ALL', KeywordProductionType._ALL],
@@ -116,3 +116,5 @@ export default new Map<string, KeywordProductionType>([
   // [ "VALUE", KeywordProductionType._VALUE ],
   // [ "NOTATION", KeywordProductionType._NOTATION ],
 ]);
+
+export default keywordToTokenMap;
