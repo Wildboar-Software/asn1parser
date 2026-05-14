@@ -2,5 +2,10 @@
 
 ## To Do
 
-- [ ] Switch to using `@wildboar/asn1` / JSR
-- [ ] Get rid of `lodash` dependency
+- [x] ~~Switch to using `@wildboar/asn1` / JSR~~
+- [ ] Use `.mjs` extensions
+- [ ] Create a command-line tool
+- [ ] Use double-quotes?
+- [ ] Fix tests
+- [ ] Documentation
+- [ ] Publish
