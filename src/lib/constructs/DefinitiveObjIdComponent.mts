@@ -1,3 +1,3 @@
-import { type NameAndOrNumber } from './NameAndOrNumber.js';
+import { type NameAndOrNumber } from './NameAndOrNumber.mjs';
 
 export type DefinitiveObjIdComponent = NameAndOrNumber;

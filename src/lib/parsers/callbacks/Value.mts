@@ -1,4 +1,4 @@
-import type ParseContext from '../../interfaces/ParseContext.js';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
 
 /**
  * @summary The callback called upon parsing a `Value`

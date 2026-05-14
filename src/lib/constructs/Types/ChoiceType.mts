@@ -1,6 +1,6 @@
-import type GrokedThing from '../../interfaces/GrokedThing.js';
-import type NamedType from  '../NamedType.js';
-import { type ExceptionIdentification } from '../ExceptionIdentification.js';
+import type GrokedThing from '../../interfaces/GrokedThing.mjs';
+import type NamedType from  '../NamedType.mjs';
+import { type ExceptionIdentification } from '../ExceptionIdentification.mjs';
 
 // ChoiceType ::=
 // 	CHOICE "{" AlternativeTypeLists "}"

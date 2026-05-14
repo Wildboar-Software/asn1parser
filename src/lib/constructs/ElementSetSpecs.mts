@@ -1,6 +1,6 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import { NonTerminalProductionType } from '../ProductionType.js';
-import type { ElementSetSpec } from './ElementSetSpec.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import { NonTerminalProductionType } from '../ProductionType.mjs';
+import type { ElementSetSpec } from './ElementSetSpec.mjs';
 
 // ElementSetSpecs ::=
 //     RootElementSetSpec

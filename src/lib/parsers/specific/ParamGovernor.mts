@@ -1,1 +1,1 @@
-export { default } from '../optimized/ParamGovernor.js';
+export { default } from '../optimized/ParamGovernor.mjs';

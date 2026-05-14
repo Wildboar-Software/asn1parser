@@ -1,5 +1,5 @@
-import type ParseContext from '../../interfaces/ParseContext.js';
-import ProductionType from '../../ProductionType.js';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 /**
  * @summary The callback called upon parsing an `EnumerationItem`

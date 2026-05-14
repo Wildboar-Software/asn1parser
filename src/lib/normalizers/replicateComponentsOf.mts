@@ -1,12 +1,12 @@
-import { type Assignment } from '../constructs/Assignment.js';
-import type SetOrSequenceType from '../constructs/Types/SetOrSequenceType.js';
-import type Module from '../constructs/Module.js';
-import TypeType from '../constructs/TypeType.js';
-import { type ComponentType } from '../constructs/ComponentType.js';
-import automaticTaggingInEffectForSetOrSequence from '../automaticTaggingInEffectForSetOrSequence.js';
-import applyTagsToSetOrSequence from './applyTagsToSetOrSequence.js';
-import AssignmentType from '../constructs/AssignmentType.js';
-import recursivelyResolve from '../recursivelyResolve.js';
+import { type Assignment } from '../constructs/Assignment.mjs';
+import type SetOrSequenceType from '../constructs/Types/SetOrSequenceType.mjs';
+import type Module from '../constructs/Module.mjs';
+import TypeType from '../constructs/TypeType.mjs';
+import { type ComponentType } from '../constructs/ComponentType.mjs';
+import automaticTaggingInEffectForSetOrSequence from '../automaticTaggingInEffectForSetOrSequence.mjs';
+import applyTagsToSetOrSequence from './applyTagsToSetOrSequence.mjs';
+import AssignmentType from '../constructs/AssignmentType.mjs';
+import recursivelyResolve from '../recursivelyResolve.mjs';
 
 /**
  * @summary Replace `COMPONENTS OF` components with the components to which they

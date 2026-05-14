@@ -1,10 +1,10 @@
-import { type Assignment } from './constructs/Assignment.js';
-import AssignmentType from './constructs/AssignmentType.js';
-import type NamedType from './constructs/NamedType.js';
-import recursivelyResolve from './recursivelyResolve.js';
-import { type Type } from './constructs/Type.js';
-import TypeType from './constructs/TypeType.js';
-import type Module from './constructs/Module.js';
+import { type Assignment } from './constructs/Assignment.mjs';
+import AssignmentType from './constructs/AssignmentType.mjs';
+import type NamedType from './constructs/NamedType.mjs';
+import recursivelyResolve from './recursivelyResolve.mjs';
+import { type Type } from './constructs/Type.mjs';
+import TypeType from './constructs/TypeType.mjs';
+import type Module from './constructs/Module.mjs';
 
 /**
  * @deprecated

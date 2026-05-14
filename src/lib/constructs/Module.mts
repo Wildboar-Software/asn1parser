@@ -1,7 +1,7 @@
-import TaggingMode from '../constructs/TaggingMode.js';
-import { type NameAndOrNumber } from './NameAndOrNumber.js';
-import { type Assignment } from './Assignment.js';
-import type SymbolsFromModule from './SymbolsFromModule.js';
+import TaggingMode from '../constructs/TaggingMode.mjs';
+import { type NameAndOrNumber } from './NameAndOrNumber.mjs';
+import { type Assignment } from './Assignment.mjs';
+import type SymbolsFromModule from './SymbolsFromModule.mjs';
 
 /**
  * `ModuleDefinition ::=

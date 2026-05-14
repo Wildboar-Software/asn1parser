@@ -1,4 +1,4 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
 
 interface NameOnly extends GrokedThing {
   name: string;

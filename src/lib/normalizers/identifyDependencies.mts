@@ -1,11 +1,11 @@
-import { type Assignment } from '../constructs/Assignment.js';
-import AssignmentType from '../constructs/AssignmentType.js';
-import type Defined from '../constructs/Defined.js';
-import type Module from '../constructs/Module.js';
-import type ObjectClassFieldType from '../constructs/Types/ObjectClassFieldType.js';
-import TypeType from '../constructs/TypeType.js';
-import type Parameter from '../constructs/Parameter.js';
-import ValueType from '../constructs/ValueType.js';
+import { type Assignment } from '../constructs/Assignment.mjs';
+import AssignmentType from '../constructs/AssignmentType.mjs';
+import type Defined from '../constructs/Defined.mjs';
+import type Module from '../constructs/Module.mjs';
+import type ObjectClassFieldType from '../constructs/Types/ObjectClassFieldType.mjs';
+import TypeType from '../constructs/TypeType.mjs';
+import type Parameter from '../constructs/Parameter.mjs';
+import ValueType from '../constructs/ValueType.mjs';
 
 /**
  * @summary If this `Defined*` comes from a parameter, get its index in the

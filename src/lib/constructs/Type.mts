@@ -1,9 +1,9 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import type Constraint from './Constraint.js';
-import type Tagging from './Tagging.js';
-import * as types from '../constructs/Types/index.js';
-import TypeType from './TypeType.js';
-import type Defined from '../constructs/Defined.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import type Constraint from './Constraint.mjs';
+import type Tagging from './Tagging.mjs';
+import * as types from '../constructs/Types/index.mjs';
+import TypeType from './TypeType.mjs';
+import type Defined from '../constructs/Defined.mjs';
 
 interface CommonType extends GrokedThing {
   tagging?: Tagging;

@@ -1,9 +1,9 @@
-import { type Type } from '../../Type.js';
-import { type Value } from '../../Value.js';
-import { type ValueSet } from '../../ValueSet.js';
-import { type Object_ } from '../../AssignmentTypes/ObjectAssignment/Object.js';
-import { type ObjectSet } from '../../ObjectSet.js';
-import type GrokedThing from '../../../interfaces/GrokedThing.js';
+import { type Type } from '../../Type.mjs';
+import { type Value } from '../../Value.mjs';
+import { type ValueSet } from '../../ValueSet.mjs';
+import { type Object_ } from '../../AssignmentTypes/ObjectAssignment/Object.mjs';
+import { type ObjectSet } from '../../ObjectSet.mjs';
+import type GrokedThing from '../../../interfaces/GrokedThing.mjs';
 
 export interface TypeSetting extends GrokedThing {
   type: Type;

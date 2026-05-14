@@ -1,5 +1,5 @@
-import ProductionType from '../ProductionType.js';
-import TypeType from '../constructs/TypeType.js';
+import ProductionType from '../ProductionType.mjs';
+import TypeType from '../constructs/TypeType.mjs';
 
 /**
  * @summary A mapping of production types to ASN.1 data types.

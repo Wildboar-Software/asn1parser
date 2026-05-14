@@ -1,6 +1,6 @@
-import type Defined from './Defined.js';
-import { type Type } from './Type.js';
-import { type Value } from './Value.js';
+import type Defined from './Defined.mjs';
+import { type Type } from './Type.mjs';
+import { type Value } from './Value.mjs';
 
 /**
  * `ExceptionIdentification ::=

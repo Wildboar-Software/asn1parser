@@ -1,5 +1,5 @@
-import type SetOrSequenceType from './constructs/Types/SetOrSequenceType.js';
-import { type ComponentType } from './constructs/ComponentType.js';
+import type SetOrSequenceType from './constructs/Types/SetOrSequenceType.mjs';
+import { type ComponentType } from './constructs/ComponentType.mjs';
 
 /**
  * @summary Iterate over all `ComponentType` alternatives within a `SET` or

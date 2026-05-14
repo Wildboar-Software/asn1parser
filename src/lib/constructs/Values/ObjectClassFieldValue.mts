@@ -1,5 +1,5 @@
-import { type FixedTypeFieldVal } from './FixedTypeFieldVal.js';
-import type OpenTypeFieldVal from './OpenTypeFieldVal.js';
+import { type FixedTypeFieldVal } from './FixedTypeFieldVal.mjs';
+import type OpenTypeFieldVal from './OpenTypeFieldVal.mjs';
 
 /**
  * `ObjectClassFieldValue ::= OpenTypeFieldVal | FixedTypeFieldVal`

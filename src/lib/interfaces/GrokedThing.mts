@@ -1,5 +1,5 @@
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
 
 /**
  * @summary Any construct

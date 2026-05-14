@@ -1,21 +1,21 @@
-import type Module from './constructs/Module.js';
-import AssignmentType from './constructs/AssignmentType.js';
-import type GrokContext from './interfaces/GrokContext.js';
-import isTypeCompatibleWithValue from './isTypeCompatibleWithValue.js';
-import lex from './lex.js';
-import valueParser from './parsers/generic/valueParser.js';
-import valueGroker from './grokers/Value.js';
-import consoleLogger from './loggers/console.js';
-import unconfuseObjectAndValueAssignments from './correctors/unconfuseObjectAndValueAssignments.js';
-import unconfuseSettings from './correctors/unconfuseSettings.js';
-import getInnerType from './getUnprefixedType.js';
-import TypeType from './constructs/TypeType.js';
-import ValueType from './constructs/ValueType.js';
-import iterateOverComponentTypes from './iterateOverComponentTypes.js';
-import iterateOverAlternatives from './iterateOverAlternatives.js';
-import getBuiltinType from './getBuiltinType.js';
-import getDuplicates from './getDuplicates.js';
-import { LexicalProductionType } from "./ProductionType.js";
+import type Module from './constructs/Module.mjs';
+import AssignmentType from './constructs/AssignmentType.mjs';
+import type GrokContext from './interfaces/GrokContext.mjs';
+import isTypeCompatibleWithValue from './isTypeCompatibleWithValue.mjs';
+import lex from './lex.mjs';
+import valueParser from './parsers/generic/valueParser.mjs';
+import valueGroker from './grokers/Value.mjs';
+import consoleLogger from './loggers/console.mjs';
+import unconfuseObjectAndValueAssignments from './correctors/unconfuseObjectAndValueAssignments.mjs';
+import unconfuseSettings from './correctors/unconfuseSettings.mjs';
+import getInnerType from './getUnprefixedType.mjs';
+import TypeType from './constructs/TypeType.mjs';
+import ValueType from './constructs/ValueType.mjs';
+import iterateOverComponentTypes from './iterateOverComponentTypes.mjs';
+import iterateOverAlternatives from './iterateOverAlternatives.mjs';
+import getBuiltinType from './getBuiltinType.mjs';
+import getDuplicates from './getDuplicates.mjs';
+import { LexicalProductionType } from "./ProductionType.mjs";
 
 /**
  * Correct errors made during parsing.

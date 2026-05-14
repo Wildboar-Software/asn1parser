@@ -1,14 +1,14 @@
-import { type Assignment } from './constructs/Assignment.js';
-import AssignmentType from './constructs/AssignmentType.js';
-import type Defined from './constructs/Defined.js';
-import type Module from './constructs/Module.js';
-import { type Type } from './constructs/Type.js';
-import TypeType from './constructs/TypeType.js';
-import recursivelyResolve from './recursivelyResolve.js';
-import type ObjectClassAssignment from './constructs/AssignmentTypes/ObjectClassAssignment.js';
-import { type FieldName } from './constructs/FieldName.js';
-import FieldSpecType from './constructs/FieldSpecType.js';
-import getUnderlyingType from './getUnderlyingType.js';
+import { type Assignment } from './constructs/Assignment.mjs';
+import AssignmentType from './constructs/AssignmentType.mjs';
+import type Defined from './constructs/Defined.mjs';
+import type Module from './constructs/Module.mjs';
+import { type Type } from './constructs/Type.mjs';
+import TypeType from './constructs/TypeType.mjs';
+import recursivelyResolve from './recursivelyResolve.mjs';
+import type ObjectClassAssignment from './constructs/AssignmentTypes/ObjectClassAssignment.mjs';
+import { type FieldName } from './constructs/FieldName.mjs';
+import FieldSpecType from './constructs/FieldSpecType.mjs';
+import getUnderlyingType from './getUnderlyingType.mjs';
 
 /**
  * @summary Get the underlying type of an `ObjectClassFieldType`

@@ -1,7 +1,7 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import type Quadruple from '../constructs/Quadruple.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import type Quadruple from '../constructs/Quadruple.mjs';
 
 // Quadruple ::= "{" Group "," Plane "," Row "," Cell "}"
 // Group ::= number

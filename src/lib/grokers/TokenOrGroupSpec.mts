@@ -1,7 +1,7 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type TokenOrGroupSpec } from '../constructs/TokenOrGroupSpec.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type TokenOrGroupSpec } from '../constructs/TokenOrGroupSpec.mjs';
 
 // `SyntaxList ::= "{" TokenOrGroupSpec empty + "}"`
 

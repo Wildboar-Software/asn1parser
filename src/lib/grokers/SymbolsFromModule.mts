@@ -1,9 +1,9 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type SymbolsFromModule from '../constructs/SymbolsFromModule.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import SelectionOption from '../constructs/SelectionOption.js';
-import grokAssignedIdentifier from './AssignedIdentifier.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type SymbolsFromModule from '../constructs/SymbolsFromModule.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import SelectionOption from '../constructs/SelectionOption.mjs';
+import grokAssignedIdentifier from './AssignedIdentifier.mjs';
 
 // SymbolsFromModule ::=
 // 	SymbolList FROM GlobalModuleReference SelectionOption

@@ -5,11 +5,11 @@ import {
   recursiveParser,
   whitespace,
   recyclingSequenceOf,
-} from '../generic/index.js';
-import * as parserFor from '../specific/index.js';
-import Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import ElementSetSpec from './ElementSetSpec_Subtype.js';
+} from '../generic/index.mjs';
+import * as parserFor from '../specific/index.mjs';
+import Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import ElementSetSpec from './ElementSetSpec_Subtype.mjs';
 
 const RootElementSetSpec = recursiveParser(
   (): Parser => aliasFor(ProductionType.RootElementSetSpec, ElementSetSpec)

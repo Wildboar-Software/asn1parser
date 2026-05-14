@@ -1,9 +1,9 @@
-import { choiceOf, recursiveParser, aliasFor } from '../generic/index.js';
-import * as parserFor from '../specific/index.js';
-import Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
-import TypeType from '../../constructs/TypeType.js';
+import { choiceOf, recursiveParser, aliasFor } from '../generic/index.mjs';
+import * as parserFor from '../specific/index.mjs';
+import Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
 
 /**
  * @summary `Value` parser that intelligently uses the right alternatives of

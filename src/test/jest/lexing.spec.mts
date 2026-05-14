@@ -1,7 +1,7 @@
-import LogLevel from '../../lib/LogLevel.js';
-import lex from '../../lib/lex.js';
-import logger from '../../lib/loggers/console.js';
-import ProductionType from '../../lib/ProductionType.js';
+import LogLevel from '../../lib/LogLevel.mjs';
+import lex from '../../lib/lex.mjs';
+import logger from '../../lib/loggers/console.mjs';
+import ProductionType from '../../lib/ProductionType.mjs';
 
 describe('Lexing', () => {
   logger.level = LogLevel.error;

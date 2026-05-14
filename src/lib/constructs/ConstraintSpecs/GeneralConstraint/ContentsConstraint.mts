@@ -1,6 +1,6 @@
-import { type Value } from '../../Value.js';
-import { type Type } from '../../Type.js';
-import type GrokedThing from '../../../interfaces/GrokedThing.js';
+import { type Value } from '../../Value.mjs';
+import { type Type } from '../../Type.mjs';
+import type GrokedThing from '../../../interfaces/GrokedThing.mjs';
 
 interface JustContaining extends GrokedThing {
   containing: Type;

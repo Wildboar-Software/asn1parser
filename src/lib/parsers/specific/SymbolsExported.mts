@@ -1,6 +1,6 @@
-import { optional, recursiveParser } from '../generic/index.js';
-import type Parser from '../../Parser.js';
-import SymbolList from './SymbolList.js';
+import { optional, recursiveParser } from '../generic/index.mjs';
+import type Parser from '../../Parser.mjs';
+import SymbolList from './SymbolList.mjs';
 
 /**
  * `SymbolsExported ::= SymbolList | empty`

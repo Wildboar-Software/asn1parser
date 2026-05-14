@@ -1,4 +1,4 @@
-import type ComponentRelationConstraint from './TableConstraint/ComponentRelationConstraint.js';
-import { type SimpleTableConstraint } from './TableConstraint/SimpleTableConstraint.js';
+import type ComponentRelationConstraint from './TableConstraint/ComponentRelationConstraint.mjs';
+import { type SimpleTableConstraint } from './TableConstraint/SimpleTableConstraint.mjs';
 
 export type TableConstraint = ComponentRelationConstraint | SimpleTableConstraint;

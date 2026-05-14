@@ -1,9 +1,9 @@
-import { choiceOf, aliasFor } from '../generic/index.js';
-import ProductionType from '../../ProductionType.js';
-import Parser from '../../Parser.js';
-import typeTypeToValueParserMap from '../../maps/typeTypeToValueParserMap.js';
-import * as parserFor from '../specific/index.js';
-import TypeType from '../../constructs/TypeType.js';
+import { choiceOf, aliasFor } from '../generic/index.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import Parser from '../../Parser.mjs';
+import typeTypeToValueParserMap from '../../maps/typeTypeToValueParserMap.mjs';
+import * as parserFor from '../specific/index.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
 
 /**
  * @summary Parse a `Value` according to the expected ASN.1 type.

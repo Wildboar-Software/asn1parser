@@ -1,10 +1,10 @@
-import * as parserFor from '../specific/index.js';
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
+import * as parserFor from '../specific/index.mjs';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
 import {
   recursiveParser,
   whitespaceOptionalDelimitedList,
-} from '../generic/index.js';
+} from '../generic/index.mjs';
 
 /**
  * `DefinitiveObjIdComponentList ::=

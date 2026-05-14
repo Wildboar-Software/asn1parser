@@ -1,12 +1,12 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import ProductionType from '../../ProductionType.js';
-import type ObjectClassAssignment from '../../constructs/AssignmentTypes/ObjectClassAssignment.js';
-import AssignmentType from '../../constructs/AssignmentType.js';
-import grokObjectClass from '../ObjectClass.js';
-import grokParameter from '../Parameter.js';
-import type Parameter from '../../constructs/Parameter.js';
-import hasDuplicates from '../../hasDuplicates.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import type ObjectClassAssignment from '../../constructs/AssignmentTypes/ObjectClassAssignment.mjs';
+import AssignmentType from '../../constructs/AssignmentType.mjs';
+import grokObjectClass from '../ObjectClass.mjs';
+import grokParameter from '../Parameter.mjs';
+import type Parameter from '../../constructs/Parameter.mjs';
+import hasDuplicates from '../../hasDuplicates.mjs';
 
 // ObjectClassAssignment ::=
 //     objectclassreference "::=" ObjectClass

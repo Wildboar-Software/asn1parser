@@ -1,7 +1,7 @@
-import LogLevel from '../../lib/LogLevel.js';
+import LogLevel from '../../lib/LogLevel.mjs';
 import grok from '../../lib/grok';
-import logger from '../../lib/loggers/console.js';
-import FieldSpecType from '../../lib/constructs/FieldSpecType.js';
+import logger from '../../lib/loggers/console.mjs';
+import FieldSpecType from '../../lib/constructs/FieldSpecType.mjs';
 
 describe('Groking', () => {
   logger.level = LogLevel.error;

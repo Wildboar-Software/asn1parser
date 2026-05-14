@@ -1,6 +1,6 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import { type ReferencedObjects } from './ReferencedObjects.js';
-import { type FieldName } from './FieldName.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import { type ReferencedObjects } from './ReferencedObjects.mjs';
+import { type FieldName } from './FieldName.mjs';
 
 // ValueFromObject ::= ReferencedObjects "." FieldName
 // ValueSetFromObjects ::= ReferencedObjects "." FieldName

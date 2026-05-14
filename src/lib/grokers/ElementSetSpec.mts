@@ -1,7 +1,7 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type ElementSetSpec } from '../constructs/ElementSetSpec.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type ElementSetSpec } from '../constructs/ElementSetSpec.mjs';
 
 // ElementSetSpec ::=
 //     Unions

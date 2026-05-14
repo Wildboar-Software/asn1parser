@@ -1,13 +1,13 @@
-import AssignmentType from './AssignmentType.js';
-import type Defined from './Defined.js';
-import type Parameter from './Parameter.js';
-import type ObjectAssignment from './AssignmentTypes/ObjectAssignment.js';
-import type ObjectClassAssignment from './AssignmentTypes/ObjectClassAssignment.js';
-import type ObjectSetAssignment from './AssignmentTypes/ObjectSetAssignment.js';
-import type TypeAssignment from './AssignmentTypes/TypeAssignment.js';
-import type ValueAssignment from './AssignmentTypes/ValueAssignment.js';
-import type ValueSetTypeAssignment from './AssignmentTypes/ValueSetTypeAssignment.js';
-import type GrokedThing from '../interfaces/GrokedThing.js';
+import AssignmentType from './AssignmentType.mjs';
+import type Defined from './Defined.mjs';
+import type Parameter from './Parameter.mjs';
+import type ObjectAssignment from './AssignmentTypes/ObjectAssignment.mjs';
+import type ObjectClassAssignment from './AssignmentTypes/ObjectClassAssignment.mjs';
+import type ObjectSetAssignment from './AssignmentTypes/ObjectSetAssignment.mjs';
+import type TypeAssignment from './AssignmentTypes/TypeAssignment.mjs';
+import type ValueAssignment from './AssignmentTypes/ValueAssignment.mjs';
+import type ValueSetTypeAssignment from './AssignmentTypes/ValueSetTypeAssignment.mjs';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
 
 export interface CommonAssignment extends GrokedThing {
   identifier: string;

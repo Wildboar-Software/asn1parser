@@ -1,10 +1,10 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type Object_ } from '../constructs/AssignmentTypes/ObjectAssignment/Object.js';
-import grokDefined from './Defined.js';
-import grokObjectDefn from './Object/ObjectDefn.js';
-import grokObjectFromObject from './Object/ObjectFromObject.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type Object_ } from '../constructs/AssignmentTypes/ObjectAssignment/Object.mjs';
+import grokDefined from './Defined.mjs';
+import grokObjectDefn from './Object/ObjectDefn.mjs';
+import grokObjectFromObject from './Object/ObjectFromObject.mjs';
 
 // Object ::=
 //     DefinedObject

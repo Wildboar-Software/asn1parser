@@ -5,11 +5,11 @@ import {
   optional,
   recursiveParser,
   whitespaceTolerantSequenceOf,
-} from '../generic/index.js';
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import SymbolsExported from './SymbolsExported.js';
-import * as parserFor from '../specific/index.js';
+} from '../generic/index.mjs';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import SymbolsExported from './SymbolsExported.mjs';
+import * as parserFor from '../specific/index.mjs';
 
 /**
  * `Exports ::= EXPORTS SymbolsExported ";" | EXPORTS ALL ";" | empty`

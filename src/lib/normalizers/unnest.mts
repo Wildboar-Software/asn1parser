@@ -1,20 +1,20 @@
-import { type Type } from '../constructs/Type.js';
-import TypeType from '../constructs/TypeType.js';
-import { type ComponentType } from '../constructs/ComponentType.js';
-import AssignmentType from '../constructs/AssignmentType.js';
-import type Defined from '../constructs/Defined.js';
-import type NamedType from '../constructs/NamedType.js';
-import type Module from '../constructs/Module.js';
-import type Parameter from '../constructs/Parameter.js';
-import convertParameterToActualParameter from './convertParameterToActualParameter.js';
-import normalizeTypeAssignment from './Assignment/TypeAssignment.js';
-import normalizeObjectAssignment from './Assignment/ObjectAssignment.js';
-import type TypeAssignment from '../constructs/AssignmentTypes/TypeAssignment.js';
-import type ObjectAssignment from '../constructs/AssignmentTypes/ObjectAssignment.js';
-import type ObjectClassAssignment from '../constructs/AssignmentTypes/ObjectClassAssignment.js';
-import type ObjectSetAssignment from '../constructs/AssignmentTypes/ObjectSetAssignment.js';
-import { type Object_ } from '../constructs/AssignmentTypes/ObjectAssignment/Object.js';
-import FieldSpecType from '../constructs/FieldSpecType.js';
+import { type Type } from '../constructs/Type.mjs';
+import TypeType from '../constructs/TypeType.mjs';
+import { type ComponentType } from '../constructs/ComponentType.mjs';
+import AssignmentType from '../constructs/AssignmentType.mjs';
+import type Defined from '../constructs/Defined.mjs';
+import type NamedType from '../constructs/NamedType.mjs';
+import type Module from '../constructs/Module.mjs';
+import type Parameter from '../constructs/Parameter.mjs';
+import convertParameterToActualParameter from './convertParameterToActualParameter.mjs';
+import normalizeTypeAssignment from './Assignment/TypeAssignment.mjs';
+import normalizeObjectAssignment from './Assignment/ObjectAssignment.mjs';
+import type TypeAssignment from '../constructs/AssignmentTypes/TypeAssignment.mjs';
+import type ObjectAssignment from '../constructs/AssignmentTypes/ObjectAssignment.mjs';
+import type ObjectClassAssignment from '../constructs/AssignmentTypes/ObjectClassAssignment.mjs';
+import type ObjectSetAssignment from '../constructs/AssignmentTypes/ObjectSetAssignment.mjs';
+import { type Object_ } from '../constructs/AssignmentTypes/ObjectAssignment/Object.mjs';
+import FieldSpecType from '../constructs/FieldSpecType.mjs';
 
 /**
  * @summary Unnest a `BIT STRING` type with a named bit list

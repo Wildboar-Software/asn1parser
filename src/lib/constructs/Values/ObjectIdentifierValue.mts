@@ -1,6 +1,6 @@
-import type GrokedThing from '../../interfaces/GrokedThing.js';
-import type DefinedValue from '../Defined.js';
-import { type ObjIdComponents } from '../ObjIdComponents.js';
+import type GrokedThing from '../../interfaces/GrokedThing.mjs';
+import type DefinedValue from '../Defined.mjs';
+import { type ObjIdComponents } from '../ObjIdComponents.mjs';
 
 // ObjectIdentifierValue ::=
 //     "{" ObjIdComponentsList "}"

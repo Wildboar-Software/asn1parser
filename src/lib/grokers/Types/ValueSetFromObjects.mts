@@ -1,8 +1,8 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import TypeType from '../../constructs/TypeType.js';
-import { type Type } from '../../constructs/Type.js';
-import grokSomethingFromObject from '../SomethingFromObject.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
+import { type Type } from '../../constructs/Type.mjs';
+import grokSomethingFromObject from '../SomethingFromObject.mjs';
 
 export default function grok(cst: Production, ctx: GrokContext): Type {
   return {

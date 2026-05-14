@@ -1,7 +1,7 @@
-import { type CommonFieldSpec } from '../FieldSpec.js';
-import { type Type } from '../Type.js';
-import { type Value } from '../Value.js';
-import FieldSpecType from '../FieldSpecType.js';
+import { type CommonFieldSpec } from '../FieldSpec.mjs';
+import { type Type } from '../Type.mjs';
+import { type Value } from '../Value.mjs';
+import FieldSpecType from '../FieldSpecType.mjs';
 
 // TypeFixedTypeValueFieldSpec ::=
 //     valuefieldreference Type UNIQUE? ValueOptionalitySpec ?

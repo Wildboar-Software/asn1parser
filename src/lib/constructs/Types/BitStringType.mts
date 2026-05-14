@@ -1,5 +1,5 @@
-import type GrokedThing from '../../interfaces/GrokedThing.js';
-import type NamedNumber from '../NamedNumber.js';
+import type GrokedThing from '../../interfaces/GrokedThing.mjs';
+import type NamedNumber from '../NamedNumber.mjs';
 
 // BitStringType ::=
 //     BIT STRING

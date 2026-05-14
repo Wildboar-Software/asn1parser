@@ -1,5 +1,5 @@
-import { type Type } from './constructs/Type.js';
-import TypeType from './constructs/TypeType.js';
+import { type Type } from './constructs/Type.mjs';
+import TypeType from './constructs/TypeType.mjs';
 
 /**
  * @summary Strip all prefixes from a `Type`.

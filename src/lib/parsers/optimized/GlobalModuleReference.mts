@@ -5,11 +5,11 @@ import {
   sequenceOf,
   whitespace,
   literal,
-} from '../generic/index.js';
-import * as parserFor from '../specific/index.js';
-import Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
+} from '../generic/index.mjs';
+import * as parserFor from '../specific/index.mjs';
+import Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
 
 /**
  * @summary `GlobalModuleReference` that avoids a sneaky problem

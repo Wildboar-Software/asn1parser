@@ -1,8 +1,8 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import grokReferencedObjects from './Defined.js';
-import grokFieldName from './FieldName.js';
-import { type SomethingFromObject } from  '../constructs/SomethingFromObject.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import grokReferencedObjects from './Defined.mjs';
+import grokFieldName from './FieldName.mjs';
+import { type SomethingFromObject } from  '../constructs/SomethingFromObject.mjs';
 
 /**
  * `ValueFromObject ::= ReferencedObjects "." FieldName`

@@ -1,12 +1,12 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import { type CharacterStringValue } from '../../constructs/Values/CharacterStringValue.js';
-import ProductionType from '../../ProductionType.js';
-import grokSetOrSequenceValue from './SetOrSequenceValue.js';
-import grokTuple from '../Tuple.js';
-import grokQuadruple from '../Quadruple.js';
-import grokDefined from '../Defined.js';
-import unescapeCstring from '../../unescapeCstring.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import { type CharacterStringValue } from '../../constructs/Values/CharacterStringValue.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import grokSetOrSequenceValue from './SetOrSequenceValue.mjs';
+import grokTuple from '../Tuple.mjs';
+import grokQuadruple from '../Quadruple.mjs';
+import grokDefined from '../Defined.mjs';
+import unescapeCstring from '../../unescapeCstring.mjs';
 
 // CharacterStringValue ::=
 //     RestrictedCharacterStringValue

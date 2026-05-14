@@ -1,5 +1,5 @@
-import type Logger from '../interfaces/Logger.js';
-import LogLevel from '../LogLevel.js';
+import type Logger from '../interfaces/Logger.mjs';
+import LogLevel from '../LogLevel.mjs';
 
 /**
  * @summary A `Logger` that just uses the `console` API.

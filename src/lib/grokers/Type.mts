@@ -1,23 +1,23 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type Type } from '../constructs/Type.js';
-import TypeType from '../constructs/TypeType.js';
-import grokAnyType from './Types/AnyType.js';
-import grokBitStringType from './Types/BitStringType.js';
-import grokChoiceType from './Types/ChoiceType.js';
-import grokEnumeratedType from './Types/EnumeratedType.js';
-import grokInstanceOfType from './Types/InstanceOfType.js';
-import grokIntegerType from './Types/IntegerType.js';
-import grokObjectClassFieldType from './Types/ObjectClassFieldType.js';
-import grokPrefixedType from './Types/PrefixedType.js';
-import grokSetOrSequenceOfType from './Types/SetOrSequenceOfType.js';
-import grokSetOrSequenceType from './Types/SetOrSequenceType.js';
-import grokDefined from './Defined.js';
-import grokConstrainedType from './Types/ConstrainedType.js';
-import grokSelectionType from './Types/SelectionType.js';
-import grokTypeFromObject from './Types/TypeFromObject.js';
-import grokValueSetFromObjects from './Types/ValueSetFromObjects.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type Type } from '../constructs/Type.mjs';
+import TypeType from '../constructs/TypeType.mjs';
+import grokAnyType from './Types/AnyType.mjs';
+import grokBitStringType from './Types/BitStringType.mjs';
+import grokChoiceType from './Types/ChoiceType.mjs';
+import grokEnumeratedType from './Types/EnumeratedType.mjs';
+import grokInstanceOfType from './Types/InstanceOfType.mjs';
+import grokIntegerType from './Types/IntegerType.mjs';
+import grokObjectClassFieldType from './Types/ObjectClassFieldType.mjs';
+import grokPrefixedType from './Types/PrefixedType.mjs';
+import grokSetOrSequenceOfType from './Types/SetOrSequenceOfType.mjs';
+import grokSetOrSequenceType from './Types/SetOrSequenceType.mjs';
+import grokDefined from './Defined.mjs';
+import grokConstrainedType from './Types/ConstrainedType.mjs';
+import grokSelectionType from './Types/SelectionType.mjs';
+import grokTypeFromObject from './Types/TypeFromObject.mjs';
+import grokValueSetFromObjects from './Types/ValueSetFromObjects.mjs';
 
 // Type ::=
 //     BuiltinType

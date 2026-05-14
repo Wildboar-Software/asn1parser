@@ -1,4 +1,4 @@
-import type Logger from './Logger.js';
+import type Logger from './Logger.mjs';
 
 /**
  * @summary A generic context to pass between functions

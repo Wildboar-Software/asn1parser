@@ -1,6 +1,6 @@
-import { choiceOf, literal } from '../generic/index.js';
-import ProductionType from '../../ProductionType.js';
-import keywordsPermissibleAsLiterals from '../../keywordsPermissibleAsLiterals.js';
+import { choiceOf, literal } from '../generic/index.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import keywordsPermissibleAsLiterals from '../../keywordsPermissibleAsLiterals.mjs';
 
 export default choiceOf(
   [

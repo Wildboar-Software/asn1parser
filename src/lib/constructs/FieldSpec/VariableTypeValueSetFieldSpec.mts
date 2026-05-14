@@ -1,7 +1,7 @@
-import { type CommonFieldSpec } from '../FieldSpec.js';
-import { type FieldName } from '../FieldName.js';
-import { type ValueSet } from '../ValueSet.js';
-import FieldSpecType from '../FieldSpecType.js';
+import { type CommonFieldSpec } from '../FieldSpec.mjs';
+import { type FieldName } from '../FieldName.mjs';
+import { type ValueSet } from '../ValueSet.mjs';
+import FieldSpecType from '../FieldSpecType.mjs';
 
 // VariableTypeValueSetFieldSpec ::=
 //     valuesetfieldreference FieldName ValueSetOptionalitySpec?

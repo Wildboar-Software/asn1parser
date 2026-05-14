@@ -1,9 +1,9 @@
-import LogLevel from '../../lib/LogLevel.js';
-import lex from '../../lib/lex.js';
-import parse from '../../lib/parse.js';
-import logger from '../../lib/loggers/console.js';
+import LogLevel from '../../lib/LogLevel.mjs';
+import lex from '../../lib/lex.mjs';
+import parse from '../../lib/parse.mjs';
+import logger from '../../lib/loggers/console.mjs';
 import find from '../../lib/find';
-import ProductionType from '../../lib/ProductionType.js';
+import ProductionType from '../../lib/ProductionType.mjs';
 
 describe('Parsing', () => {
   logger.level = LogLevel.error;

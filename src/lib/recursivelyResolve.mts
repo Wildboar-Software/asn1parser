@@ -1,14 +1,14 @@
-import { type Assignment } from './constructs/Assignment.js';
-import type Defined from './constructs/Defined.js';
-import type Module from './constructs/Module.js';
-import TypeType from './constructs/TypeType.js';
-import resolve from './resolve.js';
-import AssignmentType from './constructs/AssignmentType.js';
-import type TypeAssignment from './constructs/AssignmentTypes/TypeAssignment.js';
-import type ValueAssignment from './constructs/AssignmentTypes/ValueAssignment.js';
-import type ObjectAssignment from './constructs/AssignmentTypes/ObjectAssignment.js';
-import type ObjectClassAssignment from './constructs/AssignmentTypes/ObjectClassAssignment.js';
-import ValueType from './constructs/ValueType.js';
+import { type Assignment } from './constructs/Assignment.mjs';
+import type Defined from './constructs/Defined.mjs';
+import type Module from './constructs/Module.mjs';
+import TypeType from './constructs/TypeType.mjs';
+import resolve from './resolve.mjs';
+import AssignmentType from './constructs/AssignmentType.mjs';
+import type TypeAssignment from './constructs/AssignmentTypes/TypeAssignment.mjs';
+import type ValueAssignment from './constructs/AssignmentTypes/ValueAssignment.mjs';
+import type ObjectAssignment from './constructs/AssignmentTypes/ObjectAssignment.mjs';
+import type ObjectClassAssignment from './constructs/AssignmentTypes/ObjectClassAssignment.mjs';
+import ValueType from './constructs/ValueType.mjs';
 
 /**
  * @summary Resolve the assignment to which a reference refers.

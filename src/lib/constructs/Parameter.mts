@@ -1,7 +1,7 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import AssignmentType from './AssignmentType.js';
-import type Defined from './Defined.js';
-import { type Type } from './Type.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import AssignmentType from './AssignmentType.mjs';
+import type Defined from './Defined.mjs';
+import { type Type } from './Type.mjs';
 
 // Parameter ::=
 //     ParamGovernor ":" DummyReference

@@ -1,6 +1,6 @@
-import { type CommonAssignment } from '../Assignment.js';
-import AssignmentType from '../AssignmentType.js';
-import { type ObjectClass } from './ObjectClassAssignment/ObjectClass.js';
+import { type CommonAssignment } from '../Assignment.mjs';
+import AssignmentType from '../AssignmentType.mjs';
+import { type ObjectClass } from './ObjectClassAssignment/ObjectClass.mjs';
 
 // ObjectClassAssignment ::=
 //     objectclassreference "::=" ObjectClass

@@ -1,13 +1,13 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import ProductionType from '../../ProductionType.js';
-import type ValueAssignment from '../../constructs/AssignmentTypes/ValueAssignment.js';
-import AssignmentType from '../../constructs/AssignmentType.js';
-import grokType from '../Type.js';
-import grokValue from '../Value.js';
-import grokParameter from '../Parameter.js';
-import type Parameter from '../../constructs/Parameter.js';
-import hasDuplicates from '../../hasDuplicates.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import type ValueAssignment from '../../constructs/AssignmentTypes/ValueAssignment.mjs';
+import AssignmentType from '../../constructs/AssignmentType.mjs';
+import grokType from '../Type.mjs';
+import grokValue from '../Value.mjs';
+import grokParameter from '../Parameter.mjs';
+import type Parameter from '../../constructs/Parameter.mjs';
+import hasDuplicates from '../../hasDuplicates.mjs';
 
 // ValueAssignment ::=
 //     valuereference Type "::=" Value

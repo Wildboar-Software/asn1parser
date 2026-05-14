@@ -1,8 +1,8 @@
-import optional from './optional.js';
-import whitespace from './whitespace.js';
-import Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import whitespaceIntolerantSequenceOf from './whitespaceIntolerantSequenceOf.js';
+import optional from './optional.mjs';
+import whitespace from './whitespace.mjs';
+import Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import whitespaceIntolerantSequenceOf from './whitespaceIntolerantSequenceOf.mjs';
 
 function spliceInWhitespace(parsers: Parser[]): Parser[] {
   return parsers.flatMap((p) => [p, optional(whitespace)]).slice(0, -1);

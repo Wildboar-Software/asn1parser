@@ -3,9 +3,9 @@ import {
   sequenceOf,
   whitespaceDelimitedList,
   optional,
-} from './generic/index.js';
-import * as parserFor from './specific/index.js';
-import ProductionType from '../ProductionType.js';
+} from './generic/index.mjs';
+import * as parserFor from './specific/index.mjs';
+import ProductionType from '../ProductionType.mjs';
 
 /**
  * @summary Parse an ASN.1 file, which may contain multiple ASN.1 modules.

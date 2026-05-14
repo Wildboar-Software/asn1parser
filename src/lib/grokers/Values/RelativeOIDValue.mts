@@ -1,9 +1,9 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import { type RelativeOIDValue } from '../../constructs/Values/RelativeOIDValue.js';
-import grokObjIdComponents from '../ObjIdComponents.js';
-import { type ObjIdComponents } from '../../constructs/ObjIdComponents.js';
-import ProductionType from '../../ProductionType.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import { type RelativeOIDValue } from '../../constructs/Values/RelativeOIDValue.mjs';
+import grokObjIdComponents from '../ObjIdComponents.mjs';
+import { type ObjIdComponents } from '../../constructs/ObjIdComponents.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 // RelativeOIDValue ::=
 //     "{" RelativeOIDComponentsList "}"

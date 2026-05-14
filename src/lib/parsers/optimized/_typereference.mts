@@ -1,7 +1,7 @@
-import Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
-import Production from '../../Production.js';
+import Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
+import Production from '../../Production.mjs';
 
 /**
  * @summary Efficient parser for a `typereference`

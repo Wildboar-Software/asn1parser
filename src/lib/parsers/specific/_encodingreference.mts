@@ -1,6 +1,6 @@
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import { aliasFor, literal, recursiveParser } from '../generic/index.js';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import { aliasFor, literal, recursiveParser } from '../generic/index.mjs';
 
 /**
  * An "encodingreference" shall consist of a sequence of characters as specified

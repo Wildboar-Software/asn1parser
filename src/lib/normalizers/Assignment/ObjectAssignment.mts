@@ -1,12 +1,12 @@
-import type Module from '../../constructs/Module.js';
-import recursivelyResolve from '../../recursivelyResolve.js';
-import type ObjectAssignment from '../../constructs/AssignmentTypes/ObjectAssignment.js';
-import AssignmentType from '../../constructs/AssignmentType.js';
-import identifyDependencies from '../../normalizers/identifyDependencies.js';
-import translateDefinedSyntaxToDefaultSyntax from '../translateDefinedSyntaxToDefaultSyntax.js';
-import unnestType, { unnestObject } from '../../normalizers/unnest.js';
-import TypeType from '../../constructs/TypeType.js';
-import removeItemDependencies from '../removeItemDependencies.js';
+import type Module from '../../constructs/Module.mjs';
+import recursivelyResolve from '../../recursivelyResolve.mjs';
+import type ObjectAssignment from '../../constructs/AssignmentTypes/ObjectAssignment.mjs';
+import AssignmentType from '../../constructs/AssignmentType.mjs';
+import identifyDependencies from '../../normalizers/identifyDependencies.mjs';
+import translateDefinedSyntaxToDefaultSyntax from '../translateDefinedSyntaxToDefaultSyntax.mjs';
+import unnestType, { unnestObject } from '../../normalizers/unnest.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
+import removeItemDependencies from '../removeItemDependencies.mjs';
 
 export default function normalize(
   assignment: ObjectAssignment,

@@ -1,5 +1,5 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import type Tag from './Tag.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import type Tag from './Tag.mjs';
 
 export default interface Tagging extends GrokedThing {
   /**

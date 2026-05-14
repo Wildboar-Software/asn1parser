@@ -1,5 +1,5 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import { type Type } from './Type.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import { type Type } from './Type.mjs';
 
 // NamedType ::= identifier Type
 

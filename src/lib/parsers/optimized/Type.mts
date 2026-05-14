@@ -5,12 +5,12 @@ import {
   whitespace,
   aliasFor,
   whitespaceOptionalDelimitedList,
-} from '../generic/index.js';
-import * as parserFor from '../specific/index.js';
-import Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
-import Production from '../../Production.js';
+} from '../generic/index.mjs';
+import * as parserFor from '../specific/index.mjs';
+import Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
+import Production from '../../Production.mjs';
 
 const UnconstrainedType = recursiveParser(
   (): Parser => choiceOf([parserFor.BuiltinType, parserFor.ReferencedType])

@@ -1,10 +1,10 @@
-import type GrokContext from '../../../interfaces/GrokContext.js';
-import type Production from '../../../Production.js';
-import ProductionType from '../../../ProductionType.js';
-import { type DefinedSyntax } from '../../../constructs/AssignmentTypes/ObjectAssignment/ObjectDefn/DefinedSyntax.js';
-import { type Setting } from '../../../constructs/AssignmentTypes/ObjectAssignment/Setting.js';
-import { type Literal } from '../../../constructs/AssignmentTypes/ObjectAssignment/Literal.js';
-import grokSetting from '../Setting.js';
+import type GrokContext from '../../../interfaces/GrokContext.mjs';
+import type Production from '../../../Production.mjs';
+import ProductionType from '../../../ProductionType.mjs';
+import { type DefinedSyntax } from '../../../constructs/AssignmentTypes/ObjectAssignment/ObjectDefn/DefinedSyntax.mjs';
+import { type Setting } from '../../../constructs/AssignmentTypes/ObjectAssignment/Setting.mjs';
+import { type Literal } from '../../../constructs/AssignmentTypes/ObjectAssignment/Literal.mjs';
+import grokSetting from '../Setting.mjs';
 
 // DefinedSyntax ::=
 //     "{" DefinedSyntaxToken empty * "}"

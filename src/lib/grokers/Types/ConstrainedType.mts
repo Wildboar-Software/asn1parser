@@ -1,11 +1,11 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import ProductionType from '../../ProductionType.js';
-import { type Type } from '../../constructs/Type.js';
-import grokSetOrSequenceOfType from './SetOrSequenceOfType.js';
-import grokType from '../Type.js';
-import type Constraint from '../../constructs/Constraint.js';
-import grokConstraint from '../Constraint.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import { type Type } from '../../constructs/Type.mjs';
+import grokSetOrSequenceOfType from './SetOrSequenceOfType.mjs';
+import grokType from '../Type.mjs';
+import type Constraint from '../../constructs/Constraint.mjs';
+import grokConstraint from '../Constraint.mjs';
 
 // ConstrainedType ::=
 //     Type Constraint

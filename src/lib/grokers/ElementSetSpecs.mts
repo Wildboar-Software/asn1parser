@@ -1,8 +1,8 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType, { NonTerminalProductionType } from '../ProductionType.js';
-import grokElementSetSpec from '../grokers/ElementSetSpec.js';
-import type ElementSetSpecs from '../constructs/ElementSetSpecs.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType, { NonTerminalProductionType } from '../ProductionType.mjs';
+import grokElementSetSpec from '../grokers/ElementSetSpec.mjs';
+import type ElementSetSpecs from '../constructs/ElementSetSpecs.mjs';
 
 // ElementSetSpecs ::=
 //     RootElementSetSpec

@@ -1,5 +1,5 @@
-import ProductionType from './ProductionType.js';
-import type Production from './Production.js';
+import ProductionType from './ProductionType.mjs';
+import type Production from './Production.mjs';
 
 /**
  * @summary Recursively search a subtree of the AST by production type.

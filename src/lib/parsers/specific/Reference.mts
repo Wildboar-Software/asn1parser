@@ -1,9 +1,9 @@
-import literal from '../generic/literal.js';
-import choiceOf from '../generic/choiceOf.js';
-import * as parserFor from '../specific/index.js';
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import recursiveParser from '../generic/recursiveParser.js';
+import literal from '../generic/literal.mjs';
+import choiceOf from '../generic/choiceOf.mjs';
+import * as parserFor from '../specific/index.mjs';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import recursiveParser from '../generic/recursiveParser.mjs';
 
 /**
  * `Reference ::=

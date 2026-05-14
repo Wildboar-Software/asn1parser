@@ -1,13 +1,13 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import ProductionType from '../../ProductionType.js';
-import type ObjectSetAssignment from '../../constructs/AssignmentTypes/ObjectSetAssignment.js';
-import AssignmentType from '../../constructs/AssignmentType.js';
-import grokDefinedObjectClass from '../Defined.js';
-import grokObjectSet from '../ObjectSet.js';
-import grokParameter from '../Parameter.js';
-import type Parameter from '../../constructs/Parameter.js';
-import hasDuplicates from '../../hasDuplicates.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import type ObjectSetAssignment from '../../constructs/AssignmentTypes/ObjectSetAssignment.mjs';
+import AssignmentType from '../../constructs/AssignmentType.mjs';
+import grokDefinedObjectClass from '../Defined.mjs';
+import grokObjectSet from '../ObjectSet.mjs';
+import grokParameter from '../Parameter.mjs';
+import type Parameter from '../../constructs/Parameter.mjs';
+import hasDuplicates from '../../hasDuplicates.mjs';
 
 // ObjectSetAssignment ::=
 //     objectsetreference DefinedObjectClass "::=" ObjectSet

@@ -1,4 +1,4 @@
-import { type Setting } from '../Setting.js';
+import { type Setting } from '../Setting.mjs';
 
 // DefaultSyntax ::=
 //     "{" FieldSetting "," * "}"

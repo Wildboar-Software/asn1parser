@@ -1,4 +1,4 @@
-import type Production from '../Production.js';
+import type Production from '../Production.mjs';
 
 /**
  * @summary A syntactic error

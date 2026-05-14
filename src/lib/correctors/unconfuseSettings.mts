@@ -1,23 +1,23 @@
-import { type DefaultSyntax } from '../constructs/AssignmentTypes/ObjectAssignment/ObjectDefn/DefaultSyntax.js';
-import type Module from '../constructs/Module.js';
-import type ObjectAssignment from '../constructs/AssignmentTypes/ObjectAssignment.js';
-import recursivelyResolve from '../recursivelyResolve.js';
-import AssignmentType from '../constructs/AssignmentType.js';
-import translateDefinedSyntaxToDefaultSyntax from '../normalizers/translateDefinedSyntaxToDefaultSyntax.js';
-import type ObjectClassAssignment from '../constructs/AssignmentTypes/ObjectClassAssignment.js';
-import { type SomethingFromObject } from '../constructs/SomethingFromObject.js';
-import FieldSpecType from '../constructs/FieldSpecType.js';
-import TypeType from '../constructs/TypeType.js';
-import ValueType from '../constructs/ValueType.js';
-import lex from '../lex.js';
-import objectSetParser from '../parsers/specific/ObjectSet.js';
-import valueSetParser from '../parsers/specific/ValueSet.js';
-import oidValueParser from '../parsers/specific/ObjectIdentifierValue.js';
-import objectSetGroker from '../grokers/ObjectSet.js';
-import valueSetGroker from '../grokers/ValueSet.js';
-import oidValueGroker from '../grokers/Values/ObjectIdentifierValue.js';
-import type GrokContext from '../interfaces/GrokContext.js';
-import consoleLogger from '../loggers/console.js';
+import { type DefaultSyntax } from '../constructs/AssignmentTypes/ObjectAssignment/ObjectDefn/DefaultSyntax.mjs';
+import type Module from '../constructs/Module.mjs';
+import type ObjectAssignment from '../constructs/AssignmentTypes/ObjectAssignment.mjs';
+import recursivelyResolve from '../recursivelyResolve.mjs';
+import AssignmentType from '../constructs/AssignmentType.mjs';
+import translateDefinedSyntaxToDefaultSyntax from '../normalizers/translateDefinedSyntaxToDefaultSyntax.mjs';
+import type ObjectClassAssignment from '../constructs/AssignmentTypes/ObjectClassAssignment.mjs';
+import { type SomethingFromObject } from '../constructs/SomethingFromObject.mjs';
+import FieldSpecType from '../constructs/FieldSpecType.mjs';
+import TypeType from '../constructs/TypeType.mjs';
+import ValueType from '../constructs/ValueType.mjs';
+import lex from '../lex.mjs';
+import objectSetParser from '../parsers/specific/ObjectSet.mjs';
+import valueSetParser from '../parsers/specific/ValueSet.mjs';
+import oidValueParser from '../parsers/specific/ObjectIdentifierValue.mjs';
+import objectSetGroker from '../grokers/ObjectSet.mjs';
+import valueSetGroker from '../grokers/ValueSet.mjs';
+import oidValueGroker from '../grokers/Values/ObjectIdentifierValue.mjs';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import consoleLogger from '../loggers/console.mjs';
 import type {
   TypeSetting,
   ValueSetting,
@@ -25,8 +25,8 @@ import type {
   ValueSetSetting,
   ObjectSetSetting,
   Setting,
-} from '../constructs/AssignmentTypes/ObjectAssignment/Setting.js';
-import { LexicalProductionType } from "../ProductionType.js";
+} from '../constructs/AssignmentTypes/ObjectAssignment/Setting.mjs';
+import { LexicalProductionType } from "../ProductionType.mjs";
 
 function deleteKeys(s: Partial<Setting>): void {
   if ('value' in s) {

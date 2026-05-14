@@ -1,12 +1,12 @@
-import type Module from '../constructs/Module.js';
-import type ValueAssignment from '../constructs/AssignmentTypes/ValueAssignment.js';
-import TypeType from '../constructs/TypeType.js';
-import type Defined from '../constructs/Defined.js';
-import recursivelyResolve from '../recursivelyResolve.js';
-import type ObjectAssignment from '../constructs/AssignmentTypes/ObjectAssignment.js';
-import AssignmentType from '../constructs/AssignmentType.js';
-import { type Assignment } from '../constructs/Assignment.js';
-import ValueType from '../constructs/ValueType.js';
+import type Module from '../constructs/Module.mjs';
+import type ValueAssignment from '../constructs/AssignmentTypes/ValueAssignment.mjs';
+import TypeType from '../constructs/TypeType.mjs';
+import type Defined from '../constructs/Defined.mjs';
+import recursivelyResolve from '../recursivelyResolve.mjs';
+import type ObjectAssignment from '../constructs/AssignmentTypes/ObjectAssignment.mjs';
+import AssignmentType from '../constructs/AssignmentType.mjs';
+import { type Assignment } from '../constructs/Assignment.mjs';
+import ValueType from '../constructs/ValueType.mjs';
 
 // TODO: Handle ObjectFromObject.
 

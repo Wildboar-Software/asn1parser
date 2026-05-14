@@ -1,5 +1,5 @@
-import { type DefaultSyntax } from './ObjectDefn/DefaultSyntax.js';
-import { type DefinedSyntax } from './ObjectDefn/DefinedSyntax.js';
+import { type DefaultSyntax } from './ObjectDefn/DefaultSyntax.mjs';
+import { type DefinedSyntax } from './ObjectDefn/DefinedSyntax.mjs';
 
 // ObjectDefn ::=
 //     DefaultSyntax

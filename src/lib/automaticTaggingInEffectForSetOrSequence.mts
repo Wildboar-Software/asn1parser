@@ -1,8 +1,8 @@
-import { type ComponentType } from './constructs/ComponentType.js';
-import type Module from './constructs/Module.js';
-import type SetOrSequenceType from './constructs/Types/SetOrSequenceType.js';
-import TaggingMode from './constructs/TaggingMode.js';
-import TypeType from './constructs/TypeType.js';
+import { type ComponentType } from './constructs/ComponentType.mjs';
+import type Module from './constructs/Module.mjs';
+import type SetOrSequenceType from './constructs/Types/SetOrSequenceType.mjs';
+import TaggingMode from './constructs/TaggingMode.mjs';
+import TypeType from './constructs/TypeType.mjs';
 
 /**
  * @summary Determines if `AUTOMATIC` tagging applies to a `CHOICE` type.

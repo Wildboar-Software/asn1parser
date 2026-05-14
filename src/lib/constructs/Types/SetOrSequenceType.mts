@@ -1,6 +1,6 @@
-import type GrokedThing from '../../interfaces/GrokedThing.js';
-import { type ExceptionIdentification } from '../ExceptionIdentification.js';
-import { type ComponentType } from '../ComponentType.js';
+import type GrokedThing from '../../interfaces/GrokedThing.mjs';
+import { type ExceptionIdentification } from '../ExceptionIdentification.mjs';
+import { type ComponentType } from '../ComponentType.mjs';
 
 // SequenceType ::=
 //  SEQUENCE "{" "}"

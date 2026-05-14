@@ -1,10 +1,10 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import grokDefined from './Defined.js';
-import grokType from './Type.js';
-import type Parameter from '../constructs/Parameter.js';
-import AssignmentType from '../constructs/AssignmentType.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import grokDefined from './Defined.mjs';
+import grokType from './Type.mjs';
+import type Parameter from '../constructs/Parameter.mjs';
+import AssignmentType from '../constructs/AssignmentType.mjs';
 
 function isUpperCase(charCode: number): boolean {
   return charCode >= 0x41 && charCode <= 0x5a;

@@ -1,7 +1,7 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import { type ElementSetSpec } from './ElementSetSpec.js';
-import { type ObjectSetElements } from './ObjectSetElements.js';
-import { NonTerminalProductionType } from '../ProductionType.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import { type ElementSetSpec } from './ElementSetSpec.mjs';
+import { type ObjectSetElements } from './ObjectSetElements.mjs';
+import { NonTerminalProductionType } from '../ProductionType.mjs';
 
 // ObjectSet ::=
 //     "{" ObjectSetSpec "}"

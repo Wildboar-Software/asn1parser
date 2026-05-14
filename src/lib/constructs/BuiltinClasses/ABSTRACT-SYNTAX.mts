@@ -1,8 +1,8 @@
-import AssignmentType from '../AssignmentType.js';
-import type ObjectClassAssignment from '../AssignmentTypes/ObjectClassAssignment.js';
-import FieldSpecType from '../FieldSpecType.js';
-import TypeType from '../TypeType.js';
-import ValueType from '../ValueType.js';
+import AssignmentType from '../AssignmentType.mjs';
+import type ObjectClassAssignment from '../AssignmentTypes/ObjectClassAssignment.mjs';
+import FieldSpecType from '../FieldSpecType.mjs';
+import TypeType from '../TypeType.mjs';
+import ValueType from '../ValueType.mjs';
 
 /**
  * From ITU X.681, Annex B:

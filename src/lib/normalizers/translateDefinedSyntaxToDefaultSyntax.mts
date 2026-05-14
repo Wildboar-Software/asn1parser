@@ -1,18 +1,18 @@
-import { type DefaultSyntax } from '../constructs/AssignmentTypes/ObjectAssignment/ObjectDefn/DefaultSyntax.js';
-import { type DefinedSyntax } from '../constructs/AssignmentTypes/ObjectAssignment/ObjectDefn/DefinedSyntax.js';
-import { type TokenOrGroupSpec } from '../constructs/TokenOrGroupSpec.js';
-import { type Setting } from '../constructs/AssignmentTypes/ObjectAssignment/Setting.js';
-import type Module from '../constructs/Module.js';
-import AssignmentType from '../constructs/AssignmentType.js';
-import TypeType from '../constructs/TypeType.js';
-import lex from '../lex.js';
-import consoleLogger from '../loggers/console.js';
-import uppercasedFieldParser from '../parsers/optimized/Setting_uppercased.js';
-import lowercasedFieldParser from '../parsers/optimized/Setting_lowercased.js';
-import settingGroker from '../grokers/Object/Setting.js';
-import type GrokContext from '../interfaces/GrokContext.js';
-import ValueType from '../constructs/ValueType.js';
-import { LexicalProductionType } from "../ProductionType.js";
+import { type DefaultSyntax } from '../constructs/AssignmentTypes/ObjectAssignment/ObjectDefn/DefaultSyntax.mjs';
+import { type DefinedSyntax } from '../constructs/AssignmentTypes/ObjectAssignment/ObjectDefn/DefinedSyntax.mjs';
+import { type TokenOrGroupSpec } from '../constructs/TokenOrGroupSpec.mjs';
+import { type Setting } from '../constructs/AssignmentTypes/ObjectAssignment/Setting.mjs';
+import type Module from '../constructs/Module.mjs';
+import AssignmentType from '../constructs/AssignmentType.mjs';
+import TypeType from '../constructs/TypeType.mjs';
+import lex from '../lex.mjs';
+import consoleLogger from '../loggers/console.mjs';
+import uppercasedFieldParser from '../parsers/optimized/Setting_uppercased.mjs';
+import lowercasedFieldParser from '../parsers/optimized/Setting_lowercased.mjs';
+import settingGroker from '../grokers/Object/Setting.mjs';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import ValueType from '../constructs/ValueType.mjs';
+import { LexicalProductionType } from "../ProductionType.mjs";
 
 function isUpperCase(charCode: number): boolean {
   return charCode >= 0x41 && charCode <= 0x5a;

@@ -1,10 +1,10 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type ExceptionIdentification } from '../constructs/ExceptionIdentification.js';
-import grokDefined from './Defined.js';
-import grokType from './Type.js';
-import grokValue from './Value.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type ExceptionIdentification } from '../constructs/ExceptionIdentification.mjs';
+import grokDefined from './Defined.mjs';
+import grokType from './Type.mjs';
+import grokValue from './Value.mjs';
 
 // ExceptionSpec ::=
 //     "!" ExceptionIdentification

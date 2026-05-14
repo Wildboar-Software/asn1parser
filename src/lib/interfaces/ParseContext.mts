@@ -1,5 +1,5 @@
-import type Context from './Context.js';
-import type ParserState from './ParserState.js';
+import type Context from './Context.mjs';
+import type ParserState from './ParserState.mjs';
 
 /**
  * @summary The context to be passed between parsers

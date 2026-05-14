@@ -1,9 +1,9 @@
-import { type Assignment } from '../constructs/Assignment.js';
-import type Defined from '../constructs/Defined.js';
-import type Module from '../constructs/Module.js';
-import recursivelyResolve from '../recursivelyResolve.js';
-import AssignmentType from '../constructs/AssignmentType.js';
-import TypeType from '../constructs/TypeType.js';
+import { type Assignment } from '../constructs/Assignment.mjs';
+import type Defined from '../constructs/Defined.mjs';
+import type Module from '../constructs/Module.mjs';
+import recursivelyResolve from '../recursivelyResolve.mjs';
+import AssignmentType from '../constructs/AssignmentType.mjs';
+import TypeType from '../constructs/TypeType.mjs';
 
 function deleteFromDependencies(
   item: string,

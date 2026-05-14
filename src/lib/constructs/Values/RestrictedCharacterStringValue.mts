@@ -1,6 +1,6 @@
-import { type CharacterStringList } from  '../CharacterStringList.js';
-import type Quadruple from  '../Quadruple.js';
-import type Tuple from  '../Tuple.js';
+import { type CharacterStringList } from  '../CharacterStringList.mjs';
+import type Quadruple from  '../Quadruple.mjs';
+import type Tuple from  '../Tuple.mjs';
 
 /**
  * `RestrictedCharacterStringValue ::= cstring | CharacterStringList | Quadruple | Tuple`

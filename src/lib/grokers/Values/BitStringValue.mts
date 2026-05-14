@@ -1,8 +1,8 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import type BitStringValue from '../../constructs/Values/BitStringValue.js';
-import ProductionType from '../../ProductionType.js';
-import grokValue from '../Value.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import type BitStringValue from '../../constructs/Values/BitStringValue.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import grokValue from '../Value.mjs';
 
 // BitStringValue ::=
 //     bstring

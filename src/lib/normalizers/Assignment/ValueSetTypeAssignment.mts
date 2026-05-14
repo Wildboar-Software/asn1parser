@@ -1,9 +1,9 @@
-import type Module from '../../constructs/Module.js';
-import type ValueSetTypeAssignment from '../../constructs/AssignmentTypes/ValueSetTypeAssignment.js';
-import identifyDependencies from '../../normalizers/identifyDependencies.js';
-import unnestType from '../../normalizers/unnest.js';
-import TypeType from '../../constructs/TypeType.js';
-import removeItemDependencies from '../removeItemDependencies.js';
+import type Module from '../../constructs/Module.mjs';
+import type ValueSetTypeAssignment from '../../constructs/AssignmentTypes/ValueSetTypeAssignment.mjs';
+import identifyDependencies from '../../normalizers/identifyDependencies.mjs';
+import unnestType from '../../normalizers/unnest.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
+import removeItemDependencies from '../removeItemDependencies.mjs';
 
 function uppercaseInitial(str: string): string {
   return `${str.slice(0, 1).toUpperCase()}${str.slice(1)}`;

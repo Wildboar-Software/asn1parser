@@ -1,9 +1,9 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import type Constraint from '../constructs/Constraint.js';
-import grokConstraintSpec from './ConstraintSpec.js';
-import grokExceptionSpec from './ExceptionSpec.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import type Constraint from '../constructs/Constraint.mjs';
+import grokConstraintSpec from './ConstraintSpec.mjs';
+import grokExceptionSpec from './ExceptionSpec.mjs';
 
 // `Constraint ::= "(" ConstraintSpec ExceptionSpec ")"`
 // Not a lot of effort is going into groking Constraints, because they would be

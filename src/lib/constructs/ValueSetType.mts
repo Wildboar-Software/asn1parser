@@ -1,3 +1,3 @@
-import type ElementSetSpecs from './ElementSetSpecs.js';
+import type ElementSetSpecs from './ElementSetSpecs.mjs';
 
 export type ValueSetType = ElementSetSpecs<string>;

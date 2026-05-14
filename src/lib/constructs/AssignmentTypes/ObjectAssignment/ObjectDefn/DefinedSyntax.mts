@@ -1,4 +1,4 @@
-import { type Literal } from '../Literal.js';
-import { type Setting } from '../Setting.js';
+import { type Literal } from '../Literal.mjs';
+import { type Setting } from '../Setting.mjs';
 
 export type DefinedSyntax = (Literal | Setting)[];

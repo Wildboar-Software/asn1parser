@@ -1,4 +1,4 @@
-import { LexicalProductionType } from '../ProductionType.js';
+import { LexicalProductionType } from '../ProductionType.mjs';
 
 /**
  * @summary A mapping of special characters to production types.

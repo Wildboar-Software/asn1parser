@@ -1,4 +1,4 @@
-import { KeywordProductionType } from '../ProductionType.js';
+import { KeywordProductionType } from '../ProductionType.mjs';
 
 /**
  * @summary A mapping of ASN.1 keywords to their production types.

@@ -1,4 +1,4 @@
-import { type CharsDefn } from './CharsDefn.js';
+import { type CharsDefn } from './CharsDefn.mjs';
 
 /**
  * `CharacterStringList ::= "{" CharSyms "}"`

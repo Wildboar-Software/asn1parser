@@ -1,12 +1,12 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import ProductionType from '../../ProductionType.js';
-import TypeType from '../../constructs/TypeType.js';
-import type NamedType from '../../constructs/NamedType.js';
-import grokType from '../Type.js';
-import grokExceptionSpec from '../ExceptionSpec.js';
-import { type ExceptionIdentification } from '../../constructs/ExceptionIdentification.js';
-import { type Type } from '../../constructs/Type.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
+import type NamedType from '../../constructs/NamedType.mjs';
+import grokType from '../Type.mjs';
+import grokExceptionSpec from '../ExceptionSpec.mjs';
+import { type ExceptionIdentification } from '../../constructs/ExceptionIdentification.mjs';
+import { type Type } from '../../constructs/Type.mjs';
 
 // ChoiceType ::=
 // 	CHOICE "{" AlternativeTypeLists "}"

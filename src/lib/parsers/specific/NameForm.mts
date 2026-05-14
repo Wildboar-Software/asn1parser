@@ -1,6 +1,6 @@
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import { literal, recursiveParser } from '../generic/index.js';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import { literal, recursiveParser } from '../generic/index.mjs';
 
 /**
  * `NameForm ::= identifier`

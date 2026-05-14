@@ -1,9 +1,9 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import { type RealValue } from '../../constructs/Values/RealValue.js';
-import ProductionType from '../../ProductionType.js';
-import grokSetOrSequenceValue from './SetOrSequenceValue.js';
-import { type IntegerValue } from '../../constructs/Values/IntegerValue.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import { type RealValue } from '../../constructs/Values/RealValue.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import grokSetOrSequenceValue from './SetOrSequenceValue.mjs';
+import { type IntegerValue } from '../../constructs/Values/IntegerValue.mjs';
 
 // RealValue ::=
 //     NumericRealValue

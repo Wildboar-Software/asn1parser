@@ -1,4 +1,4 @@
-import type Defined from './Defined.js';
+import type Defined from './Defined.mjs';
 
 // ReferencedObjects ::=
 //     DefinedObject

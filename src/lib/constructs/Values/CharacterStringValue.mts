@@ -1,5 +1,5 @@
-import { type RestrictedCharacterStringValue } from './RestrictedCharacterStringValue.js';
-import { type UnrestrictedCharacterStringValue } from './UnrestrictedCharacterStringValue.js';
+import { type RestrictedCharacterStringValue } from './RestrictedCharacterStringValue.mjs';
+import { type UnrestrictedCharacterStringValue } from './UnrestrictedCharacterStringValue.mjs';
 
 /**
  * `CharacterStringValue ::= RestrictedCharacterStringValue | UnrestrictedCharacterStringValue`

@@ -3,9 +3,9 @@ import {
   choiceOf,
   literal,
   recursiveParser,
-} from '../generic/index.js';
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
+} from '../generic/index.mjs';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 /**
  * From ITU X.680-2015, Section 54.4:

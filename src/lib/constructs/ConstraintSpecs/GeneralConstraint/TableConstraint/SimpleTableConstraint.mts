@@ -1,4 +1,4 @@
-import { type ObjectSet } from '../../../ObjectSet.js';
+import { type ObjectSet } from '../../../ObjectSet.mjs';
 
 /**
  * `SimpleTableConstraint ::= ObjectSet`

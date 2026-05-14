@@ -1,4 +1,4 @@
-import { type ObjIdComponents } from '../ObjIdComponents.js';
+import { type ObjIdComponents } from '../ObjIdComponents.mjs';
 
 // RelativeOIDValue ::=
 //     "{" RelativeOIDComponentsList "}"

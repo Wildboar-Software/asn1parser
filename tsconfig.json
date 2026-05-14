@@ -42,7 +42,7 @@
     "skipLibCheck": true,
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.mts"
   ],
   "exclude": [
     "src/test/**"

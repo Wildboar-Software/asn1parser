@@ -1,8 +1,8 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import type AnyType from '../../constructs/Types/AnyType.js';
-import TypeType from '../../constructs/TypeType.js';
-import { type Type } from '../../constructs/Type.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import type AnyType from '../../constructs/Types/AnyType.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
+import { type Type } from '../../constructs/Type.mjs';
 
 /**
  * `AnyType ::= ANY | ANY DEFINED BY identifier`

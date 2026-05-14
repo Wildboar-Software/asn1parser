@@ -1,7 +1,7 @@
-import { aliasFor, recursiveParser } from '../generic/index.js';
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import ElementSetSpecs from '../optimized/ElementSetSpecs_Subtype.js';
+import { aliasFor, recursiveParser } from '../generic/index.mjs';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import ElementSetSpecs from '../optimized/ElementSetSpecs_Subtype.mjs';
 
 /**
  * `SubtypeConstraint ::= ElementSetSpecs`

@@ -1,6 +1,6 @@
-import { type Object_ } from './AssignmentTypes/ObjectAssignment/Object.js';
-import type Defined from './Defined.js';
-import { type SomethingFromObject } from './SomethingFromObject.js';
+import { type Object_ } from './AssignmentTypes/ObjectAssignment/Object.mjs';
+import type Defined from './Defined.mjs';
+import { type SomethingFromObject } from './SomethingFromObject.mjs';
 
 // ObjectSetElements ::=
 //     Object

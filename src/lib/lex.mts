@@ -1,9 +1,9 @@
-import Production from './Production.js';
-import ProductionType, { TerminalProductionType } from './ProductionType.js';
-import keywordToTokenMap from './maps/keywordToTokenMap.js';
-import specialCharacterToTokenMap from './maps/specialCharacterToTokenMap.js';
-import newlineWhitespaceCharacters from './newlineWhitespaceCharacters.js';
-import nonNewlineWhitespaceCharacters from './nonNewlineWhitespaceCharacters.js';
+import Production from './Production.mjs';
+import ProductionType, { TerminalProductionType } from './ProductionType.mjs';
+import keywordToTokenMap from './maps/keywordToTokenMap.mjs';
+import specialCharacterToTokenMap from './maps/specialCharacterToTokenMap.mjs';
+import newlineWhitespaceCharacters from './newlineWhitespaceCharacters.mjs';
+import nonNewlineWhitespaceCharacters from './nonNewlineWhitespaceCharacters.mjs';
 
 /**
  * Carriage return.

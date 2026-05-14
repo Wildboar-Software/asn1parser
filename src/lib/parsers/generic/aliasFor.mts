@@ -1,7 +1,7 @@
-import Parser from '../../Parser.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
-import Production from '../../Production.js';
-import ProductionType from '../../ProductionType.js';
+import Parser from '../../Parser.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
+import Production from '../../Production.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 /**
  * @summary Define a grammatical production as a simple alias to another.

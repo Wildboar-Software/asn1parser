@@ -1,16 +1,16 @@
-import type SetOrSequenceType from '../constructs/Types/SetOrSequenceType.js';
-import type Module from '../constructs/Module.js';
-import TypeType from '../constructs/TypeType.js';
-import { type ComponentType } from '../constructs/ComponentType.js';
-import TaggingMode from '../constructs/TaggingMode.js';
-import { type Type } from '../constructs/Type.js';
-import typeToTagNumberMap from '../maps/typeToTagNumberMap.js';
-import applyTagsToChoice from './applyTagsToChoice.js';
+import type SetOrSequenceType from '../constructs/Types/SetOrSequenceType.mjs';
+import type Module from '../constructs/Module.mjs';
+import TypeType from '../constructs/TypeType.mjs';
+import { type ComponentType } from '../constructs/ComponentType.mjs';
+import TaggingMode from '../constructs/TaggingMode.mjs';
+import { type Type } from '../constructs/Type.mjs';
+import typeToTagNumberMap from '../maps/typeToTagNumberMap.mjs';
+import applyTagsToChoice from './applyTagsToChoice.mjs';
 import { ASN1UniversalType } from "asn1-ts";
-import recursivelyResolve from '../recursivelyResolve.js';
-import { type Assignment } from '../constructs/Assignment.js';
-import AssignmentType from '../constructs/AssignmentType.js';
-import type TypeAssignment from '../constructs/AssignmentTypes/TypeAssignment.js';
+import recursivelyResolve from '../recursivelyResolve.mjs';
+import { type Assignment } from '../constructs/Assignment.mjs';
+import AssignmentType from '../constructs/AssignmentType.mjs';
+import type TypeAssignment from '../constructs/AssignmentTypes/TypeAssignment.mjs';
 
 // FIXME: I think you could make a more generic version: `applyTagToType()`
 // The NamedType's identifier is not even used anywhere here...

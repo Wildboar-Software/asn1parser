@@ -1,6 +1,6 @@
-import { type FieldSpec } from '../../FieldSpec/index.js';
-import { type TokenOrGroupSpec } from '../../TokenOrGroupSpec.js';
-import type GrokedThing from '../../../interfaces/GrokedThing.js';
+import { type FieldSpec } from '../../FieldSpec/index.mjs';
+import { type TokenOrGroupSpec } from '../../TokenOrGroupSpec.mjs';
+import type GrokedThing from '../../../interfaces/GrokedThing.mjs';
 
 // ObjectClassDefn ::=
 //     CLASS "{" FieldSpec "," + "}" WithSyntaxSpec?

@@ -1,10 +1,10 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import ProductionType from '../../ProductionType.js';
-import type ObjectSetFieldSpec from '../../constructs/FieldSpec/ObjectSetFieldSpec.js';
-import grokDefined from '../Defined.js';
-import grokObjectSet from '../ObjectSet.js';
-import FieldSpecType from '../../constructs/FieldSpecType.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import type ObjectSetFieldSpec from '../../constructs/FieldSpec/ObjectSetFieldSpec.mjs';
+import grokDefined from '../Defined.mjs';
+import grokObjectSet from '../ObjectSet.mjs';
+import FieldSpecType from '../../constructs/FieldSpecType.mjs';
 
 // ObjectSetFieldSpec ::=
 //     objectsetfieldreference DefinedObjectClass ObjectSetOptionalitySpec ?

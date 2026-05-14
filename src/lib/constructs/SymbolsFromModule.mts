@@ -1,6 +1,6 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import { type AssignedIdentifier } from './AssignedIdentifier.js';
-import SelectionOption from './SelectionOption.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import { type AssignedIdentifier } from './AssignedIdentifier.mjs';
+import SelectionOption from './SelectionOption.mjs';
 
 // SymbolsFromModule ::=
 // 	SymbolList FROM GlobalModuleReference SelectionOption

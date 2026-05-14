@@ -1,11 +1,11 @@
-import type GrokContext from './interfaces/GrokContext.js';
-import Production from './Production.js';
-import ProductionType from './ProductionType.js';
-import type Module from './constructs/Module.js';
-import grokModule from './grokers/Module.js';
-import consoleLogger from './loggers/console.js';
-import parse from './parse.js';
-import type ParseContext from './interfaces/ParseContext.js';
+import type GrokContext from './interfaces/GrokContext.mjs';
+import Production from './Production.mjs';
+import ProductionType from './ProductionType.mjs';
+import type Module from './constructs/Module.mjs';
+import grokModule from './grokers/Module.mjs';
+import consoleLogger from './loggers/console.mjs';
+import parse from './parse.mjs';
+import type ParseContext from './interfaces/ParseContext.mjs';
 
 /**
  * @summary Convert an ASN.1 concrete syntax tree into abstract syntax trees.

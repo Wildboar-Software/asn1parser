@@ -1,11 +1,11 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type ElementSetSpec } from '../constructs/ElementSetSpec.js';
-import { type ObjectSetElements } from '../constructs/ObjectSetElements.js';
-import grokObject from './Object.js';
-import grokDefined from './Defined.js';
-import grokSomethingFromObject from './SomethingFromObject.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type ElementSetSpec } from '../constructs/ElementSetSpec.mjs';
+import { type ObjectSetElements } from '../constructs/ObjectSetElements.mjs';
+import grokObject from './Object.mjs';
+import grokDefined from './Defined.mjs';
+import grokSomethingFromObject from './SomethingFromObject.mjs';
 
 // ElementSetSpec ::=
 //     Unions

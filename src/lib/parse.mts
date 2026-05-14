@@ -1,8 +1,8 @@
-import Production from './Production.js';
-import ProductionType from './ProductionType.js';
-import parseFile from './parsers/file.js';
-import type ParseContext from './interfaces/ParseContext.js';
-import lex from './lex.js';
+import Production from './Production.mjs';
+import ProductionType from './ProductionType.mjs';
+import parseFile from './parsers/file.mjs';
+import type ParseContext from './interfaces/ParseContext.mjs';
+import lex from './lex.mjs';
 
 /**
  * @summary Parse the ASN.1 text, and lex them first if no lexemes are supplied.

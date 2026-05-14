@@ -1,9 +1,9 @@
-import type Module from '../../constructs/Module.js';
-import type ObjectClassAssignment from '../../constructs/AssignmentTypes/ObjectClassAssignment.js';
-import identifyDependencies from '../../normalizers/identifyDependencies.js';
-import unnestType from '../../normalizers/unnest.js';
-import TypeType from '../../constructs/TypeType.js';
-import removeItemDependencies from '../removeItemDependencies.js';
+import type Module from '../../constructs/Module.mjs';
+import type ObjectClassAssignment from '../../constructs/AssignmentTypes/ObjectClassAssignment.mjs';
+import identifyDependencies from '../../normalizers/identifyDependencies.mjs';
+import unnestType from '../../normalizers/unnest.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
+import removeItemDependencies from '../removeItemDependencies.mjs';
 
 export default function normalize(
   assignment: ObjectClassAssignment,

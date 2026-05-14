@@ -1,14 +1,14 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import Module from '../constructs/Module.js';
-import TaggingMode from '../constructs/TaggingMode.js';
-import grokDefinitiveIdentification from './DefinitiveIdentification.js';
-import grokExports from './Exports.js';
-import grokImports from './Imports.js';
-import grokAssignment from './Assignment.js';
-import type SymbolsFromModule from '../constructs/SymbolsFromModule.js';
-import { type Assignment } from '../constructs/Assignment.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import Module from '../constructs/Module.mjs';
+import TaggingMode from '../constructs/TaggingMode.mjs';
+import grokDefinitiveIdentification from './DefinitiveIdentification.mjs';
+import grokExports from './Exports.mjs';
+import grokImports from './Imports.mjs';
+import grokAssignment from './Assignment.mjs';
+import type SymbolsFromModule from '../constructs/SymbolsFromModule.mjs';
+import { type Assignment } from '../constructs/Assignment.mjs';
 
 /**
  * `ModuleDefinition ::=

@@ -1,6 +1,6 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import { type ActualParameter } from './ActualParameter.js';
-import AssignmentType from './AssignmentType.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import { type ActualParameter } from './ActualParameter.mjs';
+import AssignmentType from './AssignmentType.mjs';
 
 export default interface Defined extends GrokedThing {
   module?: string;

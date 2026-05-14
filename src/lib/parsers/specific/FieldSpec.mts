@@ -3,11 +3,11 @@ import {
   literal,
   recursiveParser,
   whitespaceTolerantSequenceOf,
-} from '../generic/index.js';
-import * as parserFor from '../specific/index.js';
-import * as optimizedParserFor from '../optimized/index.js';
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
+} from '../generic/index.mjs';
+import * as parserFor from '../specific/index.mjs';
+import * as optimizedParserFor from '../optimized/index.mjs';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 /**
  * `FieldSpec ::=

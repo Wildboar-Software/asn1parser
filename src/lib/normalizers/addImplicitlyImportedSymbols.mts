@@ -1,4 +1,4 @@
-import type Module from '../constructs/Module.js';
+import type Module from '../constructs/Module.mjs';
 
 /**
  * @summary Add any dependencies that were "implicitly imported" to an ASN.1

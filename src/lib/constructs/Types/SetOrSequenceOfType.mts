@@ -1,7 +1,7 @@
-import type GrokedThing from '../../interfaces/GrokedThing.js';
-import { type Type } from '../Type.js';
-import type NamedType from  '../NamedType.js';
-import type Constraint from '../Constraint.js';
+import type GrokedThing from '../../interfaces/GrokedThing.mjs';
+import { type Type } from '../Type.mjs';
+import type NamedType from  '../NamedType.mjs';
+import type Constraint from '../Constraint.mjs';
 
 // SequenceOfType ::=
 // 	SEQUENCE OF Type | SEQUENCE OF NamedType

@@ -1,7 +1,7 @@
-import { choiceOf, recursiveParser } from '../generic/index.js';
-import type Parser from '../../Parser.js';
-import ComponentTypeLists_1_2_and_3 from '../optimized/ComponentTypeLists_1_2_and_3.js';
-import ComponentTypeLists_4_and_5 from '../optimized/ComponentTypeLists_4_and_5.js';
+import { choiceOf, recursiveParser } from '../generic/index.mjs';
+import type Parser from '../../Parser.mjs';
+import ComponentTypeLists_1_2_and_3 from '../optimized/ComponentTypeLists_1_2_and_3.mjs';
+import ComponentTypeLists_4_and_5 from '../optimized/ComponentTypeLists_4_and_5.mjs';
 
 /**
  * Custom parsers are used here to avoid the extreme waste of re-reading

@@ -1,8 +1,8 @@
-import { type Type } from './constructs/Type.js';
-import { type Value } from './constructs/Value.js';
-import TypeType from './constructs/TypeType.js';
-import valueTypeToTypeTypeMap from './maps/valueTypeToTypeTypeMap.js';
-import ValueType from './constructs/ValueType.js';
+import { type Type } from './constructs/Type.mjs';
+import { type Value } from './constructs/Value.mjs';
+import TypeType from './constructs/TypeType.mjs';
+import valueTypeToTypeTypeMap from './maps/valueTypeToTypeTypeMap.mjs';
+import ValueType from './constructs/ValueType.mjs';
 
 /**
  * The types that could refer to any builtin type.

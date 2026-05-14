@@ -1,11 +1,11 @@
-import type Module from '../../constructs/Module.js';
-import type ObjectSetAssignment from '../../constructs/AssignmentTypes/ObjectSetAssignment.js';
-import identifyDependencies from '../../normalizers/identifyDependencies.js';
+import type Module from '../../constructs/Module.mjs';
+import type ObjectSetAssignment from '../../constructs/AssignmentTypes/ObjectSetAssignment.mjs';
+import identifyDependencies from '../../normalizers/identifyDependencies.mjs';
 import unnestType, {
   unnestObjectSetAssignment,
-} from '../../normalizers/unnest.js';
-import TypeType from '../../constructs/TypeType.js';
-import removeItemDependencies from '../removeItemDependencies.js';
+} from '../../normalizers/unnest.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
+import removeItemDependencies from '../removeItemDependencies.mjs';
 
 export default function normalize(
   assignment: ObjectSetAssignment,

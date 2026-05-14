@@ -1,4 +1,4 @@
-import type ObjectSetSpec from './ObjectSetSpec.js';
+import type ObjectSetSpec from './ObjectSetSpec.mjs';
 
 // ObjectSet ::= "{" ObjectSetSpec "}"
 

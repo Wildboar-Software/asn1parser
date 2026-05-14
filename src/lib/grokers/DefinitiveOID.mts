@@ -1,7 +1,7 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type NameAndOrNumber } from '../constructs/NameAndOrNumber.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type NameAndOrNumber } from '../constructs/NameAndOrNumber.mjs';
 
 export default function grokDefinitiveOID(
   cst: Production,

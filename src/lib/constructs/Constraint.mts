@@ -1,6 +1,6 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import { type ConstraintSpec } from './ConstraintSpec.js';
-import { type ExceptionIdentification } from './ExceptionIdentification.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import { type ConstraintSpec } from './ConstraintSpec.mjs';
+import { type ExceptionIdentification } from './ExceptionIdentification.mjs';
 
 // Constraint ::= "(" ConstraintSpec ExceptionSpec ")"
 

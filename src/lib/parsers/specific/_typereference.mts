@@ -1,1 +1,1 @@
-export { default as default } from '../optimized/_typereference.js';
+export { default as default } from '../optimized/_typereference.mjs';

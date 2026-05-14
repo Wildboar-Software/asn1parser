@@ -1,11 +1,11 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import ProductionType from '../../ProductionType.js';
-import { type Type } from '../../constructs/Type.js';
-import TypeType from '../../constructs/TypeType.js';
-import grokType from '../Type.js';
-import grokDefined from '../Defined.js';
-import type Defined from '../../constructs/Defined.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import { type Type } from '../../constructs/Type.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
+import grokType from '../Type.mjs';
+import grokDefined from '../Defined.mjs';
+import type Defined from '../../constructs/Defined.mjs';
 
 // PrefixedType ::=
 //     TaggedType

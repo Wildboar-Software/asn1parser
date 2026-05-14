@@ -1,6 +1,6 @@
-import type ParseContext from '../../interfaces/ParseContext.js';
-import ProductionType from '../../ProductionType.js';
-import productionTypeToTypeTypeMap from '../../maps/productionTypeToTypeTypeMap.js';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import productionTypeToTypeTypeMap from '../../maps/productionTypeToTypeTypeMap.mjs';
 
 // NamedType ::= identifier Type
 

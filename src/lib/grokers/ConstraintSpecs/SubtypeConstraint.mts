@@ -1,7 +1,7 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import { type SubtypeConstraint } from '../../constructs/ConstraintSpecs/SubtypeConstraint.js';
-import grokElementSetSpecs from '../ElementSetSpecs.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import { type SubtypeConstraint } from '../../constructs/ConstraintSpecs/SubtypeConstraint.mjs';
+import grokElementSetSpecs from '../ElementSetSpecs.mjs';
 
 /**
  * `GeneralConstraint ::= UserDefinedConstraint | TableConstraint | ContentsConstraint`

@@ -1,6 +1,6 @@
-import { type CommonFieldSpec } from '../FieldSpec.js';
-import { type Type } from '../Type.js';
-import FieldSpecType from '../FieldSpecType.js';
+import { type CommonFieldSpec } from '../FieldSpec.mjs';
+import { type Type } from '../Type.mjs';
+import FieldSpecType from '../FieldSpecType.mjs';
 
 // TypeFieldSpec ::=
 //     typefieldreference TypeOptionalitySpec?

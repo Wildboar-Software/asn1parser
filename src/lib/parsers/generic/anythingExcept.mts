@@ -1,6 +1,6 @@
-import Parser from '../../Parser.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
-import anything from './anything.js';
+import Parser from '../../Parser.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
+import anything from './anything.mjs';
 
 /**
  * @summary Produce a `Parser` that will parse one token with an exception.

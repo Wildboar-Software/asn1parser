@@ -1,1 +1,1 @@
-export { default as default } from '../optimized/GlobalModuleReference.js';
+export { default as default } from '../optimized/GlobalModuleReference.mjs';

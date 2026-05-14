@@ -1,5 +1,5 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import type DefinedValue from './Defined.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import type DefinedValue from './Defined.mjs';
 
 // ObjIdComponents ::=
 //     NameForm

@@ -1,9 +1,9 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import { type ObjectClassFieldValue } from '../../constructs/Values/ObjectClassFieldValue.js';
-import type Production from '../../Production.js';
-import ProductionType from '../../ProductionType.js';
-import grokFixedTypeFieldVal from './FixedTypeFieldVal.js';
-import grokOpenTypeFieldVal from './OpenTypeFieldVal.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import { type ObjectClassFieldValue } from '../../constructs/Values/ObjectClassFieldValue.mjs';
+import type Production from '../../Production.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import grokFixedTypeFieldVal from './FixedTypeFieldVal.mjs';
+import grokOpenTypeFieldVal from './OpenTypeFieldVal.mjs';
 
 /**
  * `ObjectClassFieldValue ::= OpenTypeFieldVal | FixedTypeFieldVal`

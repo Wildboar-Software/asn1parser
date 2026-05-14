@@ -1,5 +1,5 @@
-import ProductionType from './ProductionType.js';
-import type Location from  './interfaces/Location.js';
+import ProductionType from './ProductionType.mjs';
+import type Location from  './interfaces/Location.mjs';
 
 /**
  * @summary A node in the abstract syntax tree.

@@ -4,10 +4,10 @@ import {
   literal,
   recursiveParser,
   whitespaceTolerantSequenceOf,
-} from '../generic/index.js';
-import ProductionType from '../../ProductionType.js';
-import type Parser from '../../Parser.js';
-import * as parserFor from '../specific/index.js';
+} from '../generic/index.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import type Parser from '../../Parser.mjs';
+import * as parserFor from '../specific/index.mjs';
 
 /**
  * Though this is permitted by the specification to be empty, it is

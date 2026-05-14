@@ -1,6 +1,6 @@
-import { commaDelimitedList, literal, recursiveParser } from '../generic/index.js';
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
+import { commaDelimitedList, literal, recursiveParser } from '../generic/index.mjs';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 /**
  * `TextList ::= identifier | TextList "," identifier`

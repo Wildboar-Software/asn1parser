@@ -1,5 +1,5 @@
-import type ObjectIdentifierValue from  './Values/ObjectIdentifierValue.js';
-import type Defined from './Defined.js';
+import type ObjectIdentifierValue from  './Values/ObjectIdentifierValue.mjs';
+import type Defined from './Defined.mjs';
 
 // AssignedIdentifier ::=
 //     ObjectIdentifierValue

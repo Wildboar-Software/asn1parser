@@ -1,7 +1,7 @@
-import { type CommonAssignment } from '../Assignment.js';
-import AssignmentType from '../AssignmentType.js';
-import type Defined from '../Defined.js';
-import { type ObjectSet } from '../ObjectSet.js';
+import { type CommonAssignment } from '../Assignment.mjs';
+import AssignmentType from '../AssignmentType.mjs';
+import type Defined from '../Defined.mjs';
+import { type ObjectSet } from '../ObjectSet.mjs';
 
 // ObjectSetAssignment ::=
 //     objectsetreference DefinedObjectClass "::=" ObjectSet

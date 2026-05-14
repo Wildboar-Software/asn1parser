@@ -1,7 +1,7 @@
-import whitespaceIntolerantList from './whitespaceIntolerantList.js';
-import type Parser from '../../Parser.js';
-import whitespace from './whitespace.js';
-import ProductionType from '../../ProductionType.js';
+import whitespaceIntolerantList from './whitespaceIntolerantList.mjs';
+import type Parser from '../../Parser.mjs';
+import whitespace from './whitespace.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 /**
  * @summary Produce a parser that will parse a whitespace-delimited list of

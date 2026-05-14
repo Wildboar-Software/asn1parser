@@ -3,10 +3,10 @@ import {
   literal,
   recursiveParser,
   whitespaceTolerantSequenceOf,
-} from '../generic/index.js';
-import Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import Constraint from '../optimized/SizeConstraintConstraint.js';
+} from '../generic/index.mjs';
+import Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import Constraint from '../optimized/SizeConstraintConstraint.mjs';
 
 /**
  * @summary Efficient `SizeConstraint` parser that only uses the

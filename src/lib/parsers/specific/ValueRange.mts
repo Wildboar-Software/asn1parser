@@ -1,1 +1,1 @@
-export { default as default } from '../optimized/ValueRange.js';
+export { default as default } from '../optimized/ValueRange.mjs';

@@ -1,7 +1,7 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import * as values from './Values/index.js';
-import ValueType from './ValueType.js';
-import type Defined from './Defined.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import * as values from './Values/index.mjs';
+import ValueType from './ValueType.mjs';
+import type Defined from './Defined.mjs';
 
 interface CommonValue extends GrokedThing {
   text: string;

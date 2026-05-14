@@ -1,7 +1,7 @@
-import type Production from '../../Production.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
-import ProductionType from '../../ProductionType.js';
-import split from '../../split.js';
+import type Production from '../../Production.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import split from '../../split.mjs';
 
 // WithSyntaxSpec ::=
 //     WITH SYNTAX SyntaxList

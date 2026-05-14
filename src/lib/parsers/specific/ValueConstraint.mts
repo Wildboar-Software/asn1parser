@@ -1,6 +1,6 @@
-import { optional, recursiveParser } from '../generic/index.js';
-import type Parser from '../../Parser.js';
-import * as parserFor from '../specific/index.js';
+import { optional, recursiveParser } from '../generic/index.mjs';
+import type Parser from '../../Parser.mjs';
+import * as parserFor from '../specific/index.mjs';
 
 /**
  * `ValueConstraint ::= Constraint | empty`

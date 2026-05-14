@@ -1,5 +1,5 @@
 import { ASN1UniversalType } from "asn1-ts";
-import TypeType from '../constructs/TypeType.js';
+import TypeType from '../constructs/TypeType.mjs';
 
 /**
  * @summary A mapping of ASN.1 data types to tag numbers.

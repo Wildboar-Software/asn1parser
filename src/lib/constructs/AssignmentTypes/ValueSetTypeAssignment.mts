@@ -1,7 +1,7 @@
-import { type CommonAssignment } from '../Assignment.js';
-import AssignmentType from '../AssignmentType.js';
-import { type Type } from '../Type.js';
-import { type ValueSetType } from '../ValueSetType.js';
+import { type CommonAssignment } from '../Assignment.mjs';
+import AssignmentType from '../AssignmentType.mjs';
+import { type Type } from '../Type.mjs';
+import { type ValueSetType } from '../ValueSetType.mjs';
 
 // ValueSetTypeAssignment ::=
 //     typereference Type "::=" ValueSet

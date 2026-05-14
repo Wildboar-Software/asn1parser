@@ -3,9 +3,9 @@ import {
   choiceOf,
   literal,
   whitespaceTolerantSequenceOf,
-} from '../generic/index.js';
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
+} from '../generic/index.mjs';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 /**
  * `AnyType ::= ANY | ANY DEFINED BY identifier`

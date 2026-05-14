@@ -1,8 +1,8 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import grokObjectSetSpec from './ObjectSetSpec.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type ObjectSet } from '../constructs/ObjectSet.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import grokObjectSetSpec from './ObjectSetSpec.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type ObjectSet } from '../constructs/ObjectSet.mjs';
 
 // ObjectSet ::= "{" ObjectSetSpec "}"
 

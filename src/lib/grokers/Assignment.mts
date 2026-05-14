@@ -1,14 +1,14 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type Assignment } from '../constructs/Assignment.js';
-import AssignmentType from '../constructs/AssignmentType.js';
-import grokValueAssignment from './Assignments/ValueAssignment.js';
-import grokValueSetTypeAssignment from './Assignments/ValueSetTypeAssignment.js';
-import grokTypeAssignment from './Assignments/TypeAssignment.js';
-import grokObjectAssignment from './Assignments/ObjectAssignment.js';
-import grokObjectSetAssignment from './Assignments/ObjectSetAssignment.js';
-import grokObjectClassAssignment from './Assignments/ObjectClassAssignment.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type Assignment } from '../constructs/Assignment.mjs';
+import AssignmentType from '../constructs/AssignmentType.mjs';
+import grokValueAssignment from './Assignments/ValueAssignment.mjs';
+import grokValueSetTypeAssignment from './Assignments/ValueSetTypeAssignment.mjs';
+import grokTypeAssignment from './Assignments/TypeAssignment.mjs';
+import grokObjectAssignment from './Assignments/ObjectAssignment.mjs';
+import grokObjectSetAssignment from './Assignments/ObjectSetAssignment.mjs';
+import grokObjectClassAssignment from './Assignments/ObjectClassAssignment.mjs';
 
 export default function grokAssignment(
   cst: Production,

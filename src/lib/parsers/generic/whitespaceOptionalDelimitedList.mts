@@ -1,8 +1,8 @@
-import whitespaceIntolerantList from './whitespaceIntolerantList.js';
-import type Parser from '../../Parser.js';
-import optional from './optional.js';
-import whitespace from './whitespace.js';
-import ProductionType from '../../ProductionType.js';
+import whitespaceIntolerantList from './whitespaceIntolerantList.mjs';
+import type Parser from '../../Parser.mjs';
+import optional from './optional.mjs';
+import whitespace from './whitespace.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 /**
  * @summary Parse any number of list items optionally separated by whitespace.

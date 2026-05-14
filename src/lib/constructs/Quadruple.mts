@@ -1,4 +1,4 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
 
 /**
  * `Quadruple ::= "{" Group "," Plane "," Row "," Cell "}"`

@@ -1,6 +1,6 @@
-import ProductionType from './ProductionType.js';
-import type ParseContext from './interfaces/ParseContext.js';
-import productionTypeToTypeTypeMap from './maps/productionTypeToTypeTypeMap.js';
+import ProductionType from './ProductionType.mjs';
+import type ParseContext from './interfaces/ParseContext.mjs';
+import productionTypeToTypeTypeMap from './maps/productionTypeToTypeTypeMap.mjs';
 
 /**
  * @summary A callback to update the current type to be parsed.

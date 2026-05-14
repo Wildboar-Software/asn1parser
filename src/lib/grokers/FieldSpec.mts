@@ -1,14 +1,14 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type FieldSpec } from '../constructs/FieldSpec.js';
-import grokTypeFieldSpec from './FieldSpec/TypeFieldSpec.js';
-import grokFixedTypeValueFieldSpec from './FieldSpec/FixedTypeValueFieldSpec.js';
-import grokVariableTypeValueFieldSpec from './FieldSpec/VariableTypeValueFieldSpec.js';
-import grokFixedTypeValueSetFieldSpec from './FieldSpec/FixedTypeValueSetFieldSpec.js';
-import grokVariableTypeValueSetFieldSpec from './FieldSpec/VariableTypeValueSetFieldSpec.js';
-import grokObjectFieldSpec from './FieldSpec/ObjectFieldSpec.js';
-import grokObjectSetFieldSpec from './FieldSpec/ObjectSetFieldSpec.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type FieldSpec } from '../constructs/FieldSpec.mjs';
+import grokTypeFieldSpec from './FieldSpec/TypeFieldSpec.mjs';
+import grokFixedTypeValueFieldSpec from './FieldSpec/FixedTypeValueFieldSpec.mjs';
+import grokVariableTypeValueFieldSpec from './FieldSpec/VariableTypeValueFieldSpec.mjs';
+import grokFixedTypeValueSetFieldSpec from './FieldSpec/FixedTypeValueSetFieldSpec.mjs';
+import grokVariableTypeValueSetFieldSpec from './FieldSpec/VariableTypeValueSetFieldSpec.mjs';
+import grokObjectFieldSpec from './FieldSpec/ObjectFieldSpec.mjs';
+import grokObjectSetFieldSpec from './FieldSpec/ObjectSetFieldSpec.mjs';
 
 // FieldSpec ::=
 //     TypeFieldSpec

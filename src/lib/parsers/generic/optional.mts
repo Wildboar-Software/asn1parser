@@ -1,6 +1,6 @@
-import Parser from '../../Parser.js';
-import OptionalParser from '../../OptionalParser.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
+import Parser from '../../Parser.mjs';
+import OptionalParser from '../../OptionalParser.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
 
 /**
  * @summary Ignore the error if something cannot be parsed.

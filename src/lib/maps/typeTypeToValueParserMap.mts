@@ -1,6 +1,6 @@
-import * as parserFor from '../parsers/specific/index.js';
-import Parser from '../Parser.js';
-import TypeType from '../constructs/TypeType.js';
+import * as parserFor from '../parsers/specific/index.mjs';
+import Parser from '../Parser.mjs';
+import TypeType from '../constructs/TypeType.mjs';
 
 /**
  * @summary A mapping of ASN.1 builtin data types to the corresponding `Value`

@@ -1,16 +1,16 @@
-import type ParseContext from './interfaces/ParseContext.js';
-import Production from './Production.js';
-import consoleLogger from './loggers/console.js';
-import ProductionType from './ProductionType.js';
-import onDidParseAssignment from './parsers/callbacks/Assignment.js';
-import onDidParseObjectClassAssignment from './parsers/callbacks/ObjectClassAssignment.js';
-import onDidParseSymbol from './parsers/callbacks/Symbol.js';
-import onDidParseEnumerationItem from './parsers/callbacks/EnumerationItem.js';
-import onDidParseNamedNumber from './parsers/callbacks/NamedNumber.js';
-import onDidParseModuleDefinition from './parsers/callbacks/ModuleDefinition.js';
-import onDidParseNamedType from './parsers/callbacks/NamedType.js';
-import onDidParseValue from './parsers/callbacks/Value.js';
-import onDidParseLiteral from './parsers/callbacks/Literal.js';
+import type ParseContext from './interfaces/ParseContext.mjs';
+import Production from './Production.mjs';
+import consoleLogger from './loggers/console.mjs';
+import ProductionType from './ProductionType.mjs';
+import onDidParseAssignment from './parsers/callbacks/Assignment.mjs';
+import onDidParseObjectClassAssignment from './parsers/callbacks/ObjectClassAssignment.mjs';
+import onDidParseSymbol from './parsers/callbacks/Symbol.mjs';
+import onDidParseEnumerationItem from './parsers/callbacks/EnumerationItem.mjs';
+import onDidParseNamedNumber from './parsers/callbacks/NamedNumber.mjs';
+import onDidParseModuleDefinition from './parsers/callbacks/ModuleDefinition.mjs';
+import onDidParseNamedType from './parsers/callbacks/NamedType.mjs';
+import onDidParseValue from './parsers/callbacks/Value.mjs';
+import onDidParseLiteral from './parsers/callbacks/Literal.mjs';
 
 /**
  * @summary A class grouping the code and data for a parser.

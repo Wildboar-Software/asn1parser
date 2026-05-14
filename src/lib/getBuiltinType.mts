@@ -1,9 +1,9 @@
-import AssignmentType from './constructs/AssignmentType.js';
-import type Module from './constructs/Module.js';
-import { type Type } from './constructs/Type.js';
-import TypeType from './constructs/TypeType.js';
-import getUnprefixedType from './getUnprefixedType.js';
-import recursivelyResolve from './recursivelyResolve.js';
+import AssignmentType from './constructs/AssignmentType.mjs';
+import type Module from './constructs/Module.mjs';
+import { type Type } from './constructs/Type.mjs';
+import TypeType from './constructs/TypeType.mjs';
+import getUnprefixedType from './getUnprefixedType.mjs';
+import recursivelyResolve from './recursivelyResolve.mjs';
 
 /**
  * @summary "Drill into" the given type and return its underlying type.

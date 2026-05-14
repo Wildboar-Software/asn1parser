@@ -1,6 +1,6 @@
-import Parser from '../../Parser.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
-import Production from '../../Production.js';
+import Parser from '../../Parser.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
+import Production from '../../Production.mjs';
 
 /**
  * @summary A `Parser` that will parse one token of any type.

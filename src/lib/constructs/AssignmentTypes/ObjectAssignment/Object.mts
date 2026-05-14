@@ -1,6 +1,6 @@
-import type DefinedObject from '../../Defined.js';
-import { type ObjectDefn } from './ObjectDefn.js';
-import type ObjectFromObject from './ObjectFromObject.js';
+import type DefinedObject from '../../Defined.mjs';
+import { type ObjectDefn } from './ObjectDefn.mjs';
+import type ObjectFromObject from './ObjectFromObject.mjs';
 
 // Object ::=
 //     DefinedObject

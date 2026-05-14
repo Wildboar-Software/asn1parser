@@ -1,6 +1,6 @@
-import type GrokedThing from '../../interfaces/GrokedThing.js';
-import { type Type } from '../Type.js';
-import { type Value } from '../Value.js';
+import type GrokedThing from '../../interfaces/GrokedThing.mjs';
+import { type Type } from '../Type.mjs';
+import { type Value } from '../Value.mjs';
 
 // OpenTypeFieldVal ::= Type ":" Value
 

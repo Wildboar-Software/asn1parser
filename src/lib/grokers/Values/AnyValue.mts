@@ -1,8 +1,8 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import type AnyValue from '../../constructs/Values/AnyValue.js';
-import grokType from '../Type.js';
-import grokValue from '../Value.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import type AnyValue from '../../constructs/Values/AnyValue.mjs';
+import grokType from '../Type.mjs';
+import grokValue from '../Value.mjs';
 
 /**
  * `AnyValue ::= Type Value`

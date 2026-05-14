@@ -1,7 +1,7 @@
-import Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import literal from './literal.js';
-import whitespaceTolerantList from './whitespaceTolerantList.js';
+import Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import literal from './literal.mjs';
+import whitespaceTolerantList from './whitespaceTolerantList.mjs';
 
 /**
  * @summary Produce a parser that will parse a comma-delimited list of

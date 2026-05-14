@@ -1,5 +1,5 @@
-import type Defined from '../../Defined.js';
-import type ObjectClassDefn from './ObjectClassDefn.js';
+import type Defined from '../../Defined.mjs';
+import type ObjectClassDefn from './ObjectClassDefn.mjs';
 
 // ObjectClass ::=
 //     DefinedObjectClass

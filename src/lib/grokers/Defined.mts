@@ -1,10 +1,10 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import type Defined from '../constructs/Defined.js';
-import { type ActualParameter } from '../constructs/ActualParameter.js';
-import grokActualParameter from './ActualParameter.js';
-import type SymbolsFromModule from '../constructs/SymbolsFromModule.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import type Defined from '../constructs/Defined.mjs';
+import { type ActualParameter } from '../constructs/ActualParameter.mjs';
+import grokActualParameter from './ActualParameter.mjs';
+import type SymbolsFromModule from '../constructs/SymbolsFromModule.mjs';
 
 // DefinedValue ::=
 //     ExternalValueReference

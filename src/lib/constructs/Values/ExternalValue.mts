@@ -1,6 +1,6 @@
-import type GrokedThing from '../../interfaces/GrokedThing.js';
-import type ObjectIdentifierValue from  './ObjectIdentifierValue.js';
-import type OctetStringValue from './OctetStringValue.js';
+import type GrokedThing from '../../interfaces/GrokedThing.mjs';
+import type ObjectIdentifierValue from  './ObjectIdentifierValue.mjs';
+import type OctetStringValue from './OctetStringValue.mjs';
 
 export default interface ExternalValue extends GrokedThing {
   syntax?: ObjectIdentifierValue;

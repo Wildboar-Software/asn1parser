@@ -1,5 +1,5 @@
-import TypeType from '../constructs/TypeType.js';
-import ValueType from '../constructs/ValueType.js';
+import TypeType from '../constructs/TypeType.mjs';
+import ValueType from '../constructs/ValueType.mjs';
 
 /**
  * @summary A mapping of ASN.1 value types to their equivalent ASN.1 type types.

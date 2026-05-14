@@ -1,5 +1,5 @@
-import type NameAndOrNumberForm from './NameAndOrNumberForm.js';
-import type DefinedValue from './Defined.js';
+import type NameAndOrNumberForm from './NameAndOrNumberForm.mjs';
+import type DefinedValue from './Defined.mjs';
 
 // ObjIdComponents ::=
 //     NameForm

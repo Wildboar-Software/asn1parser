@@ -1,24 +1,24 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type Value } from '../constructs/Value.js';
-import ValueType from '../constructs/ValueType.js';
-import grokAnyValue from './Values/AnyValue.js';
-import grokBitStringValue from './Values/BitStringValue.js';
-import grokCharacterStringValue from './Values/CharacterStringValue.js';
-import grokChoiceValue from './Values/ChoiceValue.js';
-import grokIntegerValue from './Values/IntegerValue.js';
-import grokObjectIdentifierValue from './Values/ObjectIdentifierValue.js';
-import grokOctetStringValue from './Values/OctetStringValue.js';
-import grokRealValue from './Values/RealValue.js';
-import grokRelativeOIDValue from './Values/RelativeOIDValue.js';
-import grokSetOrSequenceOfValue from './Values/SetOrSequenceOfValue.js';
-import grokSetOrSequenceValue from './Values/SetOrSequenceValue.js';
-import grokValueFromObject from './Values/ValueFromObject.js';
-import grokDefined from './Defined.js';
-import grokFixedTypeFieldVal from './Values/FixedTypeFieldVal.js';
-import grokOpenTypeFieldVal from './Values/OpenTypeFieldVal.js';
-import grokPrefixedValue from './Values/PrefixedValue.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type Value } from '../constructs/Value.mjs';
+import ValueType from '../constructs/ValueType.mjs';
+import grokAnyValue from './Values/AnyValue.mjs';
+import grokBitStringValue from './Values/BitStringValue.mjs';
+import grokCharacterStringValue from './Values/CharacterStringValue.mjs';
+import grokChoiceValue from './Values/ChoiceValue.mjs';
+import grokIntegerValue from './Values/IntegerValue.mjs';
+import grokObjectIdentifierValue from './Values/ObjectIdentifierValue.mjs';
+import grokOctetStringValue from './Values/OctetStringValue.mjs';
+import grokRealValue from './Values/RealValue.mjs';
+import grokRelativeOIDValue from './Values/RelativeOIDValue.mjs';
+import grokSetOrSequenceOfValue from './Values/SetOrSequenceOfValue.mjs';
+import grokSetOrSequenceValue from './Values/SetOrSequenceValue.mjs';
+import grokValueFromObject from './Values/ValueFromObject.mjs';
+import grokDefined from './Defined.mjs';
+import grokFixedTypeFieldVal from './Values/FixedTypeFieldVal.mjs';
+import grokOpenTypeFieldVal from './Values/OpenTypeFieldVal.mjs';
+import grokPrefixedValue from './Values/PrefixedValue.mjs';
 
 // Value ::=
 //     BuiltinValue

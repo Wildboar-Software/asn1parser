@@ -1,6 +1,6 @@
-import type Defined from './Defined.js';
-import type Quadruple from  './Quadruple.js';
-import type Tuple from  './Tuple.js';
+import type Defined from './Defined.mjs';
+import type Quadruple from  './Quadruple.mjs';
+import type Tuple from  './Tuple.mjs';
 
 /**
  * `CharsDefn ::= cstring | Quadruple | Tuple | DefinedValue`

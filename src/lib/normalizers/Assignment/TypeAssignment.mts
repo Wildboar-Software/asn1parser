@@ -1,16 +1,16 @@
-import type Module from '../../constructs/Module.js';
-import type TypeAssignment from '../../constructs/AssignmentTypes/TypeAssignment.js';
-import TypeType from '../../constructs/TypeType.js';
-import replicateComponentsOf from '../../normalizers/replicateComponentsOf.js';
-import applyTagsToSetOrSequence from '../../normalizers/applyTagsToSetOrSequence.js';
-import automaticTaggingInEffectForSetOrSequence from '../../automaticTaggingInEffectForSetOrSequence.js';
-import identifyDependencies from '../../normalizers/identifyDependencies.js';
-import applyTagsToChoice from '../../normalizers/applyTagsToChoice.js';
-import automaticTaggingInEffectForChoice from '../../automaticTaggingInEffectForChoice.js';
-import { type Type } from '../../constructs/Type.js';
-import unnestType from '../../normalizers/unnest.js';
-import getUnprefixedType from '../../getUnprefixedType.js';
-import removeItemDependencies from '../removeItemDependencies.js';
+import type Module from '../../constructs/Module.mjs';
+import type TypeAssignment from '../../constructs/AssignmentTypes/TypeAssignment.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
+import replicateComponentsOf from '../../normalizers/replicateComponentsOf.mjs';
+import applyTagsToSetOrSequence from '../../normalizers/applyTagsToSetOrSequence.mjs';
+import automaticTaggingInEffectForSetOrSequence from '../../automaticTaggingInEffectForSetOrSequence.mjs';
+import identifyDependencies from '../../normalizers/identifyDependencies.mjs';
+import applyTagsToChoice from '../../normalizers/applyTagsToChoice.mjs';
+import automaticTaggingInEffectForChoice from '../../automaticTaggingInEffectForChoice.mjs';
+import { type Type } from '../../constructs/Type.mjs';
+import unnestType from '../../normalizers/unnest.mjs';
+import getUnprefixedType from '../../getUnprefixedType.mjs';
+import removeItemDependencies from '../removeItemDependencies.mjs';
 
 export default function normalize(
   assignment: TypeAssignment,

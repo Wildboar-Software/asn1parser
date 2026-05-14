@@ -1,13 +1,13 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type ActualParameter } from '../constructs/ActualParameter.js';
-import grokDefined from './Defined.js';
-import grokValueSet from './ValueSet.js';
-import grokObject from './Object.js';
-import grokObjectSet from './ObjectSet.js';
-import grokType from './Type.js';
-import grokValue from './Value.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type ActualParameter } from '../constructs/ActualParameter.mjs';
+import grokDefined from './Defined.mjs';
+import grokValueSet from './ValueSet.mjs';
+import grokObject from './Object.mjs';
+import grokObjectSet from './ObjectSet.mjs';
+import grokType from './Type.mjs';
+import grokValue from './Value.mjs';
 
 // ActualParameter ::=
 //     Type

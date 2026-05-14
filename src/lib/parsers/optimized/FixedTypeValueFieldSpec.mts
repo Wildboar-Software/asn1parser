@@ -1,10 +1,10 @@
-import { literal, whitespace } from '../generic/index.js';
-import * as parserFor from '../specific/index.js';
-import Parser from '../../Parser.js';
-import Production from '../../Production.js';
-import ProductionType from '../../ProductionType.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
-import productionTypeToTypeTypeMap from '../../maps/productionTypeToTypeTypeMap.js';
+import { literal, whitespace } from '../generic/index.mjs';
+import * as parserFor from '../specific/index.mjs';
+import Parser from '../../Parser.mjs';
+import Production from '../../Production.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
+import productionTypeToTypeTypeMap from '../../maps/productionTypeToTypeTypeMap.mjs';
 
 /**
  * @summary Efficient `FixedTypeValueFieldSpec` that avoids reparsing

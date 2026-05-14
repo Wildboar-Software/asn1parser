@@ -1,8 +1,8 @@
-import type Defined from './constructs/Defined.js';
-import type Module from './constructs/Module.js';
-import AssignmentType from './constructs/AssignmentType.js';
-import TypeType from './constructs/TypeType.js';
-import recursivelyResolve from './recursivelyResolve.js';
+import type Defined from './constructs/Defined.mjs';
+import type Module from './constructs/Module.mjs';
+import AssignmentType from './constructs/AssignmentType.mjs';
+import TypeType from './constructs/TypeType.mjs';
+import recursivelyResolve from './recursivelyResolve.mjs';
 
 /**
  * @summary Determine if a dependency is heritable.

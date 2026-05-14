@@ -1,7 +1,7 @@
-import { type CommonFieldSpec } from '../FieldSpec.js';
-import type Defined from '../Defined.js';
-import { type ObjectSet } from '../ObjectSet.js';
-import FieldSpecType from '../FieldSpecType.js';
+import { type CommonFieldSpec } from '../FieldSpec.mjs';
+import type Defined from '../Defined.mjs';
+import { type ObjectSet } from '../ObjectSet.mjs';
+import FieldSpecType from '../FieldSpecType.mjs';
 
 // ObjectSetFieldSpec ::=
 //     objectsetfieldreference DefinedObjectClass ObjectSetOptionalitySpec ?

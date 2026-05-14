@@ -1,8 +1,8 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import { type Type } from '../../constructs/Type.js';
-import TypeType from '../../constructs/TypeType.js';
-import grokType from '../Type.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import { type Type } from '../../constructs/Type.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
+import grokType from '../Type.mjs';
 
 // SelectionType ::= identifier "<" Type
 

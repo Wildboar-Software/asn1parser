@@ -1,12 +1,12 @@
-import type Module from '../../constructs/Module.js';
-import type ValueAssignment from '../../constructs/AssignmentTypes/ValueAssignment.js';
-import identifyDependencies from '../../normalizers/identifyDependencies.js';
-import getUnprefixedType from '../../getUnprefixedType.js';
-import recursivelyResolve from '../../recursivelyResolve.js';
-import unnestType from '../../normalizers/unnest.js';
-import TypeType from '../../constructs/TypeType.js';
-import removeItemDependencies from '../removeItemDependencies.js';
-import AssignmentType from '../../constructs/AssignmentType.js';
+import type Module from '../../constructs/Module.mjs';
+import type ValueAssignment from '../../constructs/AssignmentTypes/ValueAssignment.mjs';
+import identifyDependencies from '../../normalizers/identifyDependencies.mjs';
+import getUnprefixedType from '../../getUnprefixedType.mjs';
+import recursivelyResolve from '../../recursivelyResolve.mjs';
+import unnestType from '../../normalizers/unnest.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
+import removeItemDependencies from '../removeItemDependencies.mjs';
+import AssignmentType from '../../constructs/AssignmentType.mjs';
 
 function uppercaseInitial(str: string): string {
   return `${str.slice(0, 1).toUpperCase()}${str.slice(1)}`;

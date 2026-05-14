@@ -1,9 +1,9 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type ConstraintSpec } from '../constructs/ConstraintSpec.js';
-import grokSubtypeConstraint from './ConstraintSpecs/SubtypeConstraint.js';
-import grokGeneralConstraint from './ConstraintSpecs/GeneralConstraint.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type ConstraintSpec } from '../constructs/ConstraintSpec.mjs';
+import grokSubtypeConstraint from './ConstraintSpecs/SubtypeConstraint.mjs';
+import grokGeneralConstraint from './ConstraintSpecs/GeneralConstraint.mjs';
 
 /**
  * `ConstraintSpec ::= SubtypeConstraint | GeneralConstraint`

@@ -1,5 +1,5 @@
-import type ParseContext from './interfaces/ParseContext.js';
-import Parser from './Parser.js';
+import type ParseContext from './interfaces/ParseContext.mjs';
+import Parser from './Parser.mjs';
 
 /**
  * @summary A `Parser` that tolerates reading out-of-bounds.

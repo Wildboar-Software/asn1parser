@@ -1,8 +1,8 @@
-import type Module from './constructs/Module.js';
-import type ChoiceType from './constructs/Types/ChoiceType.js';
-import TaggingMode from './constructs/TaggingMode.js';
-import TypeType from './constructs/TypeType.js';
-import type NamedType from './constructs/NamedType.js';
+import type Module from './constructs/Module.mjs';
+import type ChoiceType from './constructs/Types/ChoiceType.mjs';
+import TaggingMode from './constructs/TaggingMode.mjs';
+import TypeType from './constructs/TypeType.mjs';
+import type NamedType from './constructs/NamedType.mjs';
 
 /**
  * @summary Determines if `AUTOMATIC` tagging applies to a `CHOICE` type.

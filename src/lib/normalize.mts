@@ -1,18 +1,18 @@
-import type Module from './constructs/Module.js';
-import { type Assignment } from './constructs/Assignment.js';
-import AssignmentType from './constructs/AssignmentType.js';
-import applyModuleIdentifierToAssignments from './normalizers/applyModuleIdentifierToAssignments.js';
-import normalizeTypeAssignment from './normalizers/Assignment/TypeAssignment.js';
-import normalizeValueAssignment from './normalizers/Assignment/ValueAssignment.js';
-import normalizeObjectAssignment from './normalizers/Assignment/ObjectAssignment.js';
-import normalizeObjectClassAssignment from './normalizers/Assignment/ObjectClassAssignment.js';
-import normalizeObjectSetAssignment from './normalizers/Assignment/ObjectSetAssignment.js';
-import normalizeValueSetTypeAssignment from './normalizers/Assignment/ValueSetTypeAssignment.js';
+import type Module from './constructs/Module.mjs';
+import { type Assignment } from './constructs/Assignment.mjs';
+import AssignmentType from './constructs/AssignmentType.mjs';
+import applyModuleIdentifierToAssignments from './normalizers/applyModuleIdentifierToAssignments.mjs';
+import normalizeTypeAssignment from './normalizers/Assignment/TypeAssignment.mjs';
+import normalizeValueAssignment from './normalizers/Assignment/ValueAssignment.mjs';
+import normalizeObjectAssignment from './normalizers/Assignment/ObjectAssignment.mjs';
+import normalizeObjectClassAssignment from './normalizers/Assignment/ObjectClassAssignment.mjs';
+import normalizeObjectSetAssignment from './normalizers/Assignment/ObjectSetAssignment.mjs';
+import normalizeValueSetTypeAssignment from './normalizers/Assignment/ValueSetTypeAssignment.mjs';
 import * as dg from 'dependency-graph';
-import consoleLogger from './loggers/console.js';
-import type Logger from './interfaces/Logger.js';
-import addImplicitlyImportedSymbols from './normalizers/addImplicitlyImportedSymbols.js';
-import getDuplicates from './getDuplicates.js';
+import consoleLogger from './loggers/console.mjs';
+import type Logger from './interfaces/Logger.mjs';
+import addImplicitlyImportedSymbols from './normalizers/addImplicitlyImportedSymbols.mjs';
+import getDuplicates from './getDuplicates.mjs';
 
 /**
  * @summary Normalize the abstract syntax trees of ASN.1 modules.

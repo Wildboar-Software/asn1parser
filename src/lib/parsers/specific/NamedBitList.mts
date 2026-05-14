@@ -1,7 +1,7 @@
-import { commaDelimitedList, recursiveParser } from '../generic/index.js';
-import * as parserFor from '../specific/index.js';
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
+import { commaDelimitedList, recursiveParser } from '../generic/index.mjs';
+import * as parserFor from '../specific/index.mjs';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 /**
  * `NamedBitList ::= NamedBit | NamedBitList "," NamedBit`

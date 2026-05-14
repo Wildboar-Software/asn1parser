@@ -1,8 +1,8 @@
-import { type Assignment } from './constructs/Assignment.js';
-import type Defined from './constructs/Defined.js';
-import type Module from './constructs/Module.js';
-import TYPE_IDENTIFIER from './constructs/BuiltinClasses/TYPE-IDENTIFIER.js';
-import ABSTRACT_SYNTAX from './constructs/BuiltinClasses/ABSTRACT-SYNTAX.js';
+import { type Assignment } from './constructs/Assignment.mjs';
+import type Defined from './constructs/Defined.mjs';
+import type Module from './constructs/Module.mjs';
+import TYPE_IDENTIFIER from './constructs/BuiltinClasses/TYPE-IDENTIFIER.mjs';
+import ABSTRACT_SYNTAX from './constructs/BuiltinClasses/ABSTRACT-SYNTAX.mjs';
 
 /**
  * @summary Recursively resolve the assignment to which a reference refers.

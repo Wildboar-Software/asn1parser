@@ -1,10 +1,10 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import ProductionType from '../../ProductionType.js';
-import type VariableTypeValueFieldSpec from '../../constructs/FieldSpec/VariableTypeValueFieldSpec.js';
-import grokFieldName from '../FieldName.js';
-import grokValue from '../Value.js';
-import FieldSpecType from '../../constructs/FieldSpecType.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import type VariableTypeValueFieldSpec from '../../constructs/FieldSpec/VariableTypeValueFieldSpec.mjs';
+import grokFieldName from '../FieldName.mjs';
+import grokValue from '../Value.mjs';
+import FieldSpecType from '../../constructs/FieldSpecType.mjs';
 
 // VariableTypeValueFieldSpec ::=
 //     valuefieldreference FieldName ValueOptionalitySpec ?

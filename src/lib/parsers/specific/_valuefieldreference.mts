@@ -1,5 +1,5 @@
-import { literal, sequenceOf } from '../generic/index.js';
-import ProductionType from '../../ProductionType.js';
+import { literal, sequenceOf } from '../generic/index.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 export default sequenceOf(ProductionType.valuefieldreference, [
   literal(ProductionType.ampersand),

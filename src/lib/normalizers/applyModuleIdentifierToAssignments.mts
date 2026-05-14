@@ -1,5 +1,5 @@
-import { type Assignment } from '../constructs/Assignment.js';
-import type Module from '../constructs/Module.js';
+import { type Assignment } from '../constructs/Assignment.mjs';
+import type Module from '../constructs/Module.mjs';
 
 /**
  * @summary Applies the module identifier to each assignment it defines.

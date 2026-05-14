@@ -1,8 +1,8 @@
-import Parser from '../../Parser.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
-import anythingUntil from './anythingUntil.js';
-import ProductionType from '../../ProductionType.js';
-import ASN1SyntaxError from '../../errors/ASN1SyntaxError.js';
+import Parser from '../../Parser.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
+import anythingUntil from './anythingUntil.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 
 /**
  * @summary Produce a `Parser` that will produce a syntax error if it fails.

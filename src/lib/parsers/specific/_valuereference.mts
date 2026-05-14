@@ -1,5 +1,5 @@
-import { literal } from '../generic/index.js';
-import ProductionType from '../../ProductionType.js';
+import { literal } from '../generic/index.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 export default literal(
   ProductionType.identifier,

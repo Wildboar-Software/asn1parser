@@ -1,5 +1,5 @@
-import type ChoiceType from './constructs/Types/ChoiceType.js';
-import type NamedType from './constructs/NamedType.js';
+import type ChoiceType from './constructs/Types/ChoiceType.mjs';
+import type NamedType from './constructs/NamedType.mjs';
 
 /**
  * @summary Iterate over all `NamedType` alternatives within a `CHOICE` type.

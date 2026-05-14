@@ -1,8 +1,8 @@
-import type Production from '../Production.js';
-import type ASN1SyntaxError from '../errors/ASN1SyntaxError.js';
-import type ParseContext from './ParseContext.js';
-import AssignmentType from '../constructs/AssignmentType.js';
-import TypeType from '../constructs/TypeType.js';
+import type Production from '../Production.mjs';
+import type ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
+import type ParseContext from './ParseContext.mjs';
+import AssignmentType from '../constructs/AssignmentType.mjs';
+import TypeType from '../constructs/TypeType.mjs';
 
 /**
  * @summary The parser-specific context to be passed between parsers

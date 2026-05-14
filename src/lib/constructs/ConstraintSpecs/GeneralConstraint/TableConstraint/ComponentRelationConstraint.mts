@@ -1,5 +1,5 @@
-import type Defined from '../../../Defined.js';
-import type GrokedThing from '../../../../interfaces/GrokedThing.js';
+import type Defined from '../../../Defined.mjs';
+import type GrokedThing from '../../../../interfaces/GrokedThing.mjs';
 
 export default interface ComponentRelationConstraint extends GrokedThing {
   definedObjectSet: Defined;

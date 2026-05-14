@@ -1,5 +1,5 @@
-import type GrokedThing from '../../interfaces/GrokedThing.js';
-import { type Value } from '../Value.js';
+import type GrokedThing from '../../interfaces/GrokedThing.mjs';
+import { type Value } from '../Value.mjs';
 
 // BitStringValue ::=
 //     bstring

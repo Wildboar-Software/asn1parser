@@ -1,1 +1,1 @@
-export { default as default } from '../optimized/FixedTypeValueFieldSpec.js';
+export { default as default } from '../optimized/FixedTypeValueFieldSpec.mjs';

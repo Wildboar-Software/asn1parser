@@ -1,6 +1,6 @@
-import * as parserFor from '../specific/index.js';
-import Parser from '../../Parser.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
+import * as parserFor from '../specific/index.mjs';
+import Parser from '../../Parser.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
 
 /**
  * @summary Parser for a `FieldName` that ends with a upper-cased identifier.

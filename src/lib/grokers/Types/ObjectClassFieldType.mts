@@ -1,9 +1,9 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import ProductionType from '../../ProductionType.js';
-import grokDefined from '../Defined.js';
-import TypeType from '../../constructs/TypeType.js';
-import { type Type } from '../../constructs/Type.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import grokDefined from '../Defined.mjs';
+import TypeType from '../../constructs/TypeType.mjs';
+import { type Type } from '../../constructs/Type.mjs';
 
 // interface ObjectClassFieldType extends Type {
 //     definedObjectClass: string;

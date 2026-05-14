@@ -1,6 +1,6 @@
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
-import { aliasFor, literal, recursiveParser } from '../generic/index.js';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
+import { aliasFor, literal, recursiveParser } from '../generic/index.mjs';
 
 /**
  * Defined in ITU X.680-2015, Section 12.16.

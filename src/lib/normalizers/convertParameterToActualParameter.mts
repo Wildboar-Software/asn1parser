@@ -1,10 +1,10 @@
-import AssignmentType from '../constructs/AssignmentType.js';
-import { type ActualParameter } from '../constructs/ActualParameter.js';
-import type Module from '../constructs/Module.js';
-import type Parameter from '../constructs/Parameter.js';
-import TypeType from '../constructs/TypeType.js';
-import ValueType from '../constructs/ValueType.js';
-import { NonTerminalProductionType } from '../ProductionType.js';
+import AssignmentType from '../constructs/AssignmentType.mjs';
+import { type ActualParameter } from '../constructs/ActualParameter.mjs';
+import type Module from '../constructs/Module.mjs';
+import type Parameter from '../constructs/Parameter.mjs';
+import TypeType from '../constructs/TypeType.mjs';
+import ValueType from '../constructs/ValueType.mjs';
+import { NonTerminalProductionType } from '../ProductionType.mjs';
 
 // Assignment ::=
 //     TypeAssignment

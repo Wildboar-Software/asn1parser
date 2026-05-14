@@ -1,4 +1,4 @@
-import { type SetOrSequenceValue } from './SetOrSequenceValue.js';
+import { type SetOrSequenceValue } from './SetOrSequenceValue.mjs';
 
 /**
  * `UnrestrictedCharacterStringValue ::= SequenceValue`

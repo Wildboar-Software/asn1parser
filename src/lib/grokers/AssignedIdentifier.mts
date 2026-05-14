@@ -1,9 +1,9 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import ProductionType from '../ProductionType.js';
-import { type AssignedIdentifier } from '../constructs/AssignedIdentifier.js';
-import grokDefined from './Defined.js';
-import grokObjectIdentifierValue from './Values/ObjectIdentifierValue.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import ProductionType from '../ProductionType.mjs';
+import { type AssignedIdentifier } from '../constructs/AssignedIdentifier.mjs';
+import grokDefined from './Defined.mjs';
+import grokObjectIdentifierValue from './Values/ObjectIdentifierValue.mjs';
 
 // AssignedIdentifier ::=
 //     ObjectIdentifierValue

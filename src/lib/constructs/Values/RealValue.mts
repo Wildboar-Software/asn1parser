@@ -1,4 +1,4 @@
-import { type IntegerValue } from './IntegerValue.js';
+import { type IntegerValue } from './IntegerValue.mjs';
 
 // RealValue ::=
 //     NumericRealValue

@@ -1,5 +1,5 @@
-import type Context from './Context.js';
-import type Module from '../constructs/Module.js';
+import type Context from './Context.mjs';
+import type Module from '../constructs/Module.mjs';
 
 /**
  * @summary A context to pass between grokers

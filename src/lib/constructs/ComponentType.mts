@@ -1,7 +1,7 @@
-import type GrokedThing from '../interfaces/GrokedThing.js';
-import type NamedType from  './NamedType.js';
-import { type Value } from './Value.js';
-import { type Type } from './Type.js';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import type NamedType from  './NamedType.mjs';
+import { type Value } from './Value.mjs';
+import { type Type } from './Type.mjs';
 
 // ComponentType ::=
 //     NamedType

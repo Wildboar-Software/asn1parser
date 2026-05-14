@@ -1,15 +1,15 @@
-import { type Assignment } from './constructs/Assignment.js';
-import AssignmentType from './constructs/AssignmentType.js';
-import getUnderlyingTypeFromObjectClassFieldType from './getUnderlyingTypeFromObjectClassFieldType.js';
-import getUnderlyingType from './getUnderlyingType.js';
-import recursivelyResolve from './recursivelyResolve.js';
-import type Module from './constructs/Module.js';
-import type Tagging from './constructs/Tagging.js';
-import { type Type } from './constructs/Type.js';
-import typeToTagNumberMap from './maps/typeToTagNumberMap.js';
-import TypeType from './constructs/TypeType.js';
-import type ObjectAssignment from './constructs/AssignmentTypes/ObjectAssignment.js';
-import type ObjectSetAssignment from './constructs/AssignmentTypes/ObjectSetAssignment.js';
+import { type Assignment } from './constructs/Assignment.mjs';
+import AssignmentType from './constructs/AssignmentType.mjs';
+import getUnderlyingTypeFromObjectClassFieldType from './getUnderlyingTypeFromObjectClassFieldType.mjs';
+import getUnderlyingType from './getUnderlyingType.mjs';
+import recursivelyResolve from './recursivelyResolve.mjs';
+import type Module from './constructs/Module.mjs';
+import type Tagging from './constructs/Tagging.mjs';
+import { type Type } from './constructs/Type.mjs';
+import typeToTagNumberMap from './maps/typeToTagNumberMap.mjs';
+import TypeType from './constructs/TypeType.mjs';
+import type ObjectAssignment from './constructs/AssignmentTypes/ObjectAssignment.mjs';
+import type ObjectSetAssignment from './constructs/AssignmentTypes/ObjectSetAssignment.mjs';
 
 /**
  * @summary Determine the outermost tag of a given type.

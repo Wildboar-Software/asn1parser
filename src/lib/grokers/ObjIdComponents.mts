@@ -1,8 +1,8 @@
-import type GrokContext from '../interfaces/GrokContext.js';
-import type Production from '../Production.js';
-import { type ObjIdComponents } from '../constructs/ObjIdComponents.js';
-import ProductionType from '../ProductionType.js';
-import grokDefinedValue from './Defined.js';
+import type GrokContext from '../interfaces/GrokContext.mjs';
+import type Production from '../Production.mjs';
+import { type ObjIdComponents } from '../constructs/ObjIdComponents.mjs';
+import ProductionType from '../ProductionType.mjs';
+import grokDefinedValue from './Defined.mjs';
 
 // ObjIdComponents ::=
 //     NameForm

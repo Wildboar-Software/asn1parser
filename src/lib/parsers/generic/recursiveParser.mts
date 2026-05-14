@@ -1,5 +1,5 @@
-import Parser from '../../Parser.js';
-import type ParseContext from '../../interfaces/ParseContext.js';
+import Parser from '../../Parser.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
 
 /**
  * @summary Generate a parser that may be defined in terms of itself.

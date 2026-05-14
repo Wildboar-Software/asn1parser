@@ -1,8 +1,8 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import type OctetStringValue from '../../constructs/Values/OctetStringValue.js';
-import grokValue from '../Value.js';
-import ProductionType from '../../ProductionType.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import type OctetStringValue from '../../constructs/Values/OctetStringValue.mjs';
+import grokValue from '../Value.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 // OctetStringValue ::=
 //     bstring

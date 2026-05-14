@@ -1,10 +1,10 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import type ObjectIdentifierValue from '../../constructs/Values/ObjectIdentifierValue.js';
-import grokDefinedValue from '../Defined.js';
-import grokObjIdComponents from '../ObjIdComponents.js';
-import { type ObjIdComponents } from '../../constructs/ObjIdComponents.js';
-import ProductionType from '../../ProductionType.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import type ObjectIdentifierValue from '../../constructs/Values/ObjectIdentifierValue.mjs';
+import grokDefinedValue from '../Defined.mjs';
+import grokObjIdComponents from '../ObjIdComponents.mjs';
+import { type ObjIdComponents } from '../../constructs/ObjIdComponents.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 /**
  * NOTE: Notice that DefinedValue is an optional suffix of ObjectIdentifierValue,

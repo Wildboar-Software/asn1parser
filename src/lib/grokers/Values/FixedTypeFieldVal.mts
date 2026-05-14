@@ -1,7 +1,7 @@
-import type GrokContext from '../../interfaces/GrokContext.js';
-import type Production from '../../Production.js';
-import { type FixedTypeFieldVal } from '../../constructs/Values/FixedTypeFieldVal.js';
-import grokValue from '../Value.js';
+import type GrokContext from '../../interfaces/GrokContext.mjs';
+import type Production from '../../Production.mjs';
+import { type FixedTypeFieldVal } from '../../constructs/Values/FixedTypeFieldVal.mjs';
+import grokValue from '../Value.mjs';
 
 // FixedTypeFieldVal ::= BuiltinValue | ReferencedValue
 // FixedTypeFieldVal is a subset of Value, but close enough to being identical.

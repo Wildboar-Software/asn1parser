@@ -1,12 +1,12 @@
-import LogLevel from '../../lib/LogLevel.js';
-import lex from '../../lib/lex.js';
-import parse from '../../lib/parse.js';
+import LogLevel from '../../lib/LogLevel.mjs';
+import lex from '../../lib/lex.mjs';
+import parse from '../../lib/parse.mjs';
 import grok from '../../lib/grok';
 import correct from '../../lib/correct';
 import normalize from '../../lib/normalize';
-import logger from '../../lib/loggers/console.js';
-import AssignmentType from '../../lib/constructs/AssignmentType.js';
-import TypeType from '../../lib/constructs/TypeType.js';
+import logger from '../../lib/loggers/console.mjs';
+import AssignmentType from '../../lib/constructs/AssignmentType.mjs';
+import TypeType from '../../lib/constructs/TypeType.mjs';
 import * as fs from 'fs';
 import * as path from 'path';
 

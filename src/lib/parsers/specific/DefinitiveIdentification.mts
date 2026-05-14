@@ -1,8 +1,8 @@
-import { choiceOf, recursiveParser } from '../generic/index.js';
-import DefinitiveOID from './DefinitiveOID.js';
-import DefinitiveOIDandIRI from './DefinitiveOIDandIRI.js';
-import type Parser from '../../Parser.js';
-import ProductionType from '../../ProductionType.js';
+import { choiceOf, recursiveParser } from '../generic/index.mjs';
+import DefinitiveOID from './DefinitiveOID.mjs';
+import DefinitiveOIDandIRI from './DefinitiveOIDandIRI.mjs';
+import type Parser from '../../Parser.mjs';
+import ProductionType from '../../ProductionType.mjs';
 
 /**
  * `DefinitiveIdentification ::= DefinitiveOID | DefinitiveOIDandIRI | empty`
