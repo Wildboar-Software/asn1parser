@@ -1,5 +1,7 @@
 # ASN.1 Parser
 
+[![JSR](https://jsr.io/badges/@wildboar/asn1-parser)](https://jsr.io/@wildboar/asn1-parser)
+
 ASN.1 text parser in TypeScript. To clarify: this is not a Basic Encoding
 Rules (BER), Distinguished Encoding Rules (DER) encoder / decoder, etc.
 If you are attempting to serialize or deserialize ASN.1 data, this is not
@@ -22,7 +24,9 @@ and [X.683](https://www.itu.int/rec/T-REC-X.683/en).
 ## Module System and Environment
 
 This module is published as an ESM module exclusively. If you are still using
-CommonJS, it is time to get with the times and switch to ESM.
+CommonJS, it is time to get with the times and switch to ESM. This module is
+published on both [npmjs.com](https://www.npmjs.com/) and
+[jsr.io](https://jsr.io/@wildboar/asn1-parser).
 
 This module is intentionally run-time agnostic. It works on
 [Node.js](https://nodejs.org/), [Deno](https://deno.com/),
@@ -65,5 +69,5 @@ built-in NodeJS test runner.
 
 - [ ] Performance Enhancements
 - [ ] Make dependency on `dependency-graph` optional
-- [ ] GitHub Actions
-- [ ] Publish
+- [x] GitHub Actions
+- [x] Publish
