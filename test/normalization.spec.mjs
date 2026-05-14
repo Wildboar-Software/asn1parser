@@ -204,7 +204,6 @@ describe('Normalization', () => {
       .type.rootComponentTypeList1;
     assert(rctl1.length > 3);
     assertEqual(rctl1[0].componentsOf, undefined);
-    console.log(if_modules[0].imports.ServiceAdministration.symbolList);
     assertEqual(
       if_modules[0].imports.ServiceAdministration.symbolList.ControlOptions,
       null,

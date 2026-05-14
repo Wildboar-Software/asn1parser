@@ -24,16 +24,26 @@
     "X.680"
   ],
   "license": "MIT",
-  "main": "../../dist/libs/parser/src/index.js",
+  "main": "./dist/libs/parser/src/index.mjs",
   "name": "@wildboar/asn1-parser",
-  "types": "../../dist/libs/parser/src/index.d.ts",
+  "types": "./dist/libs/parser/src/index.d.mts",
   "version": "1.0.2",
   "type": "module",
   "dependencies": {
     "asn1-ts": "^11.1.0",
     "dependency-graph": "^1.0.0"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
-    "test": "node --test test/*.mjs"
+    "build": "npx tsc",
+    "bun-test": "bun test test/*.mjs",
+    "deno-test": "deno test deno.test.mts",
+    "node-test": "node --test test/*.mjs"
+  },
+  "devDependencies": {
+    "@std/assert": "npm:@jsr/std__assert@^1.0.19",
+    "@types/deno": "^2.5.0"
   }
 }

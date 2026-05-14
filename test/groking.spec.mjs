@@ -1,7 +1,7 @@
 import { LogLevel, grok, FieldSpecType } from '../dist/index.mjs';
 import { default as logger } from '../dist/lib/loggers/console.mjs';
 import { describe, test } from 'node:test';
-import { strictEqual as assertEqual } from 'node:assert';
+import { strictEqual as assertEqual, strict as assert } from 'node:assert';
 
 const cases = [
   [
@@ -130,16 +130,20 @@ describe('Groking', () => {
     }
   });
 
-  test.expectFailure('can detect duplicate assigned identifiers', () => {
+  test('can detect duplicate assigned identifiers', () => {
     const text =
       'A {iso(1)} DEFINITIONS ::= BEGIN Typeyboi ::= ANY Typeyboi ::= ANY END';
-    grok(text);
+    assert.throws(() => {
+      grok(text);
+    });
   });
 
-  test.expectFailure('can detect duplicate parameters', () => {
+  test('can detect duplicate parameters', () => {
     const text = `A {iso(1)} DEFINITIONS ::= BEGIN
             Typeyboi {A,B,A} ::= INTEGER
         END`;
-    grok(text);
+    assert.throws(() => {
+      grok(text);
+    });
   });
 });
