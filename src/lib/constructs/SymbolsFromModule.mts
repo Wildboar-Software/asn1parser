@@ -16,6 +16,10 @@ import SelectionOption from './SelectionOption.mjs';
 export default interface SymbolsFromModule extends GrokedThing {
   identifier: string;
   assignedIdentifier: AssignedIdentifier;
+  /**
+   * Currently, values are set to `null` if the symbol is present,
+   * and `undefined` if it is not.
+   */
   symbolList: Record<string, any>;
   selectionOption?: SelectionOption;
 }

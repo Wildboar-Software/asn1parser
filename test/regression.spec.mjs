@@ -1,15 +1,12 @@
-import LogLevel from '../../lib/LogLevel.mjs';
-import lex from '../../lib/lex.mjs';
-import parse from '../../lib/parse.mjs';
-import grok from '../../lib/grok';
-import correct from '../../lib/correct';
-import normalize from '../../lib/normalize';
-import logger from '../../lib/loggers/console.mjs';
-import ProductionType from '../../lib/ProductionType.mjs';
-import AssignmentType from '../../lib/constructs/AssignmentType.mjs';
-import TypeType from '../../lib/constructs/TypeType.mjs';
-import * as fs from 'fs';
-import * as path from 'path';
+import { lex, LogLevel, grok, ProductionType, normalize, parse, correct, AssignmentType, TypeType } from '../dist/index.mjs';
+import { default as logger } from '../dist/lib/loggers/console.mjs';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { describe, test } from 'node:test';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { strict as assert, strictEqual as assertEqual } from 'node:assert';
 
 describe('Parser', () => {
   logger.level = LogLevel.error;
@@ -18,12 +15,12 @@ describe('Parser', () => {
     const problem = 'A {iso} DEFINITIONS ::= BEGIN B ::= NULL END ';
     let lexResults;
     let parseResults;
-    expect(() => {
+    assert.doesNotThrow(() => {
       lexResults = Array.from(lex(problem));
       parseResults = parse(problem, lexResults);
-    }).not.toThrow();
-    expect(parseResults.error).toBeUndefined();
-    expect(
+    });
+    assertEqual(parseResults.error, undefined);
+    assert.ok(
       lexResults[lexResults.length - 1].type ===
         ProductionType.nonNewlineWhitespace
     );
@@ -33,31 +30,31 @@ describe('Parser', () => {
     const problem = 'A {iso} DEFINITIONS ::= BEGIN B ::= NULL END';
     let lexResults;
     let parseResults;
-    expect(() => {
+    assert.doesNotThrow(() => {
       lexResults = Array.from(lex(problem));
       parseResults = parse(problem, lexResults);
-    }).not.toThrow();
-    expect(parseResults.error).toBeUndefined();
-    expect(lexResults[lexResults.length - 1].type === ProductionType._END);
+    });
+    assertEqual(parseResults.error, undefined);
+    assert.ok(lexResults[lexResults.length - 1].type === ProductionType._END);
   });
 
   test('does not throw or return an error when there is a leading whitespace', () => {
     const problem = ' A {iso} DEFINITIONS ::= BEGIN B ::= NULL END';
     let lexResults;
     let parseResults;
-    expect(() => {
+    assert.doesNotThrow(() => {
       lexResults = Array.from(lex(problem));
       parseResults = parse(problem, lexResults);
-    }).not.toThrow();
-    expect(parseResults.error).toBeUndefined();
-    expect(lexResults[0].type === ProductionType.nonNewlineWhitespace);
+    });
+    assertEqual(parseResults.error, undefined);
+    assert.ok(lexResults[0].type === ProductionType.nonNewlineWhitespace);
   });
 
   // Tag ::= "[" EncodingReference Class ClassNumber "]"
   // EncodingReference ::= encodingreference ":" | empty
   // ClassNumber ::= number | DefinedValue
   // Class ::= UNIVERSAL | APPLICATION | PRIVATE | empty
-  test.each([
+  const taggedTypeWithEncodingReferenceCases = [
     ['A {iso} DEFINITIONS ::= BEGIN Typeyboi ::= [ BIGBOI: 8 ] Blypyboi END'],
     [
       'A {iso} DEFINITIONS ::= BEGIN Typeyboi ::= [ BIGBOI: Definedboi ] Blypyboi END',
@@ -68,15 +65,18 @@ describe('Parser', () => {
     [
       'A {iso} DEFINITIONS ::= BEGIN Typeyboi ::= [ BIGBOI: UNIVERSAL Definedboi ] Blypyboi END',
     ],
-  ])('can parse a TaggedType with and EncodingReference', (text) => {
-    let lexResults;
-    let parseResults;
-    expect(() => {
-      lexResults = Array.from(lex(text));
-      parseResults = parse(text, lexResults);
-    }).not.toThrow();
-    expect(parseResults.error).toBeUndefined();
-  });
+  ];
+  for (const [i, [text]] of taggedTypeWithEncodingReferenceCases.entries()) {
+    test(`can parse a TaggedType with and EncodingReference (${i})`, () => {
+      let lexResults;
+      let parseResults;
+      assert.doesNotThrow(() => {
+        lexResults = Array.from(lex(text));
+        parseResults = parse(text, lexResults);
+      });
+      assertEqual(parseResults.error, undefined);
+    });
+  }
 
   test('recognizes an objectclassreference as a DummyParameter', () => {
     // TODO: Check the assignment types once parameter normalization has been moved to groking.
@@ -89,10 +89,12 @@ describe('Parser', () => {
             END`;
 
       const modules = grok(text);
-      expect(
-        typeof modules[0].assignments.Typeyboi.parameters[0].paramGovernor
-      ).toBe('string');
-      expect(modules[0].assignments.Typeyboi.parameters[0].assignmentType).toBe(
+      assertEqual(
+        typeof modules[0].assignments.Typeyboi.parameters[0].paramGovernor,
+        'string'
+      );
+      assertEqual(
+        modules[0].assignments.Typeyboi.parameters[0].assignmentType,
         AssignmentType.ObjectAssignment
       );
     }
@@ -103,10 +105,12 @@ describe('Parser', () => {
             END`;
 
       const modules = grok(text);
-      expect(
-        typeof modules[0].assignments.Typeyboi.parameters[0].paramGovernor
-      ).toBe('string');
-      expect(modules[0].assignments.Typeyboi.parameters[0].assignmentType).toBe(
+      assertEqual(
+        typeof modules[0].assignments.Typeyboi.parameters[0].paramGovernor,
+        'string'
+      );
+      assertEqual(
+        modules[0].assignments.Typeyboi.parameters[0].assignmentType,
         AssignmentType.ObjectAssignment
       );
     }
@@ -118,10 +122,12 @@ describe('Parser', () => {
             END`;
 
       const modules = grok(text);
-      expect(
-        typeof modules[0].assignments.Typeyboi.parameters[0].paramGovernor
-      ).toBe('object');
-      expect(modules[0].assignments.Typeyboi.parameters[0].assignmentType).toBe(
+      assertEqual(
+        typeof modules[0].assignments.Typeyboi.parameters[0].paramGovernor,
+        'object'
+      );
+      assertEqual(
+        modules[0].assignments.Typeyboi.parameters[0].assignmentType,
         AssignmentType.ValueAssignment
       );
     }
@@ -132,14 +138,14 @@ describe('Parser', () => {
             Typeyboi {A,B,A} ::= INTEGER
         END`;
     const p = parse(text);
-    expect(p.cst.children[2]).toBeUndefined();
+    assertEqual(p.cst.children[2], undefined);
   });
 });
 
 describe('Groker', () => {
   logger.level = LogLevel.error;
 
-  test.each([
+  const sequenceSetOfCases = [
     [
       'A {iso} DEFINITIONS ::= BEGIN Typeyboi ::= SEQUENCE OF big Chungus END',
       'big',
@@ -240,41 +246,47 @@ describe('Groker', () => {
       undefined,
       'Chungus',
     ],
-  ])(
-    'groks SEQUENCE OF / SET OF types correctly',
-    (text, expectedName, expectedReference) => {
+  ];
+  for (const [i, row] of sequenceSetOfCases.entries()) {
+    const [text, expectedName, expectedReference] = row;
+    test(`groks SEQUENCE OF / SET OF types correctly (${i})`, () => {
       let lexResults;
       let parseResults;
       let grokResults;
-      expect(() => {
+      assert.doesNotThrow(() => {
         lexResults = Array.from(lex(text));
         parseResults = parse(text, lexResults);
-      }).not.toThrow();
-      expect(parseResults.error).toBeUndefined();
-      expect(() => {
+      });
+      assertEqual(parseResults.error, undefined);
+      assert.doesNotThrow(() => {
         grokResults = grok(text, parseResults);
-      }).not.toThrow();
-      expect(grokResults[0].assignments.Typeyboi).toBeDefined();
+      });
+      assert.notStrictEqual(grokResults[0].assignments.Typeyboi, undefined);
       if (expectedName) {
-        expect(
-          grokResults[0].assignments.Typeyboi.type.type.of.identifier
-        ).toBe(expectedName);
-        expect(
-          grokResults[0].assignments.Typeyboi.type.type.of.type
-        ).toBeDefined();
-        expect(
-          grokResults[0].assignments.Typeyboi.type.type.of.type.type.reference
-        ).toBe(expectedReference);
+        assertEqual(
+          grokResults[0].assignments.Typeyboi.type.type.of.identifier,
+          expectedName
+        );
+        assert.notStrictEqual(
+          grokResults[0].assignments.Typeyboi.type.type.of.type,
+          undefined
+        );
+        assertEqual(
+          grokResults[0].assignments.Typeyboi.type.type.of.type.type.reference,
+          expectedReference
+        );
       } else {
-        expect(
-          grokResults[0].assignments.Typeyboi.type.type.of.type
-        ).toBeDefined();
-        expect(
-          grokResults[0].assignments.Typeyboi.type.type.of.type.reference
-        ).toBe(expectedReference);
+        assert.notStrictEqual(
+          grokResults[0].assignments.Typeyboi.type.type.of.type,
+          undefined
+        );
+        assertEqual(
+          grokResults[0].assignments.Typeyboi.type.type.of.type.reference,
+          expectedReference
+        );
       }
-    }
-  );
+    });
+  }
 
   // Commented out because of newer constraint groking.
   // test.each([
@@ -317,16 +329,17 @@ describe('Groker', () => {
     let lexResults;
     let parseResults;
     let grokResults;
-    expect(() => {
+    assert.doesNotThrow(() => {
       lexResults = Array.from(lex(text));
       parseResults = parse(text, lexResults);
-    }).not.toThrow();
-    expect(parseResults.error).toBeUndefined();
-    expect(() => {
+    });
+    assertEqual(parseResults.error, undefined);
+    assert.doesNotThrow(() => {
       grokResults = grok(text, parseResults);
-    }).not.toThrow();
-    expect(grokResults[0].assignments.Typey).toBeDefined();
-    expect(grokResults[0].assignments.Typey.type.typeType).toBe(
+    });
+    assert.notStrictEqual(grokResults[0].assignments.Typey, undefined);
+    assertEqual(
+      grokResults[0].assignments.Typey.type.typeType,
       TypeType.SequenceType
     );
   });
@@ -339,16 +352,17 @@ describe('Groker', () => {
     let lexResults;
     let parseResults;
     let grokResults;
-    expect(() => {
+    assert.doesNotThrow(() => {
       lexResults = Array.from(lex(text));
       parseResults = parse(text, lexResults);
-    }).not.toThrow();
-    expect(parseResults.error).toBeUndefined();
-    expect(() => {
+    });
+    assertEqual(parseResults.error, undefined);
+    assert.doesNotThrow(() => {
       grokResults = grok(text, parseResults);
-    }).not.toThrow();
-    expect(grokResults[0].assignments.Typey).toBeDefined();
-    expect(grokResults[0].assignments.Typey.type.typeType).toBe(
+    });
+    assert.notStrictEqual(grokResults[0].assignments.Typey, undefined);
+    assertEqual(
+      grokResults[0].assignments.Typey.type.typeType,
       TypeType.SequenceType
     );
   });
@@ -372,10 +386,11 @@ describe('Normalizer', () => {
     const g = grok(text);
     correct(g);
     normalize(g);
-    expect(g[0].assignments.CertificateListContent).toBeDefined();
-    expect(
-      g[0].assignments['CertificateListContent-revokedCertificates-Item']
-    ).toBeDefined();
+    assert.notStrictEqual(g[0].assignments.CertificateListContent, undefined);
+    assert.notStrictEqual(
+      g[0].assignments['CertificateListContent-revokedCertificates-Item'],
+      undefined
+    );
   });
 
   test('unnests SET within a SEQUENCE OF', () => {
@@ -393,10 +408,11 @@ describe('Normalizer', () => {
     const g = grok(text);
     correct(g);
     normalize(g);
-    expect(g[0].assignments.CertificateListContent).toBeDefined();
-    expect(
-      g[0].assignments['CertificateListContent-revokedCertificates-Item']
-    ).toBeDefined();
+    assert.notStrictEqual(g[0].assignments.CertificateListContent, undefined);
+    assert.notStrictEqual(
+      g[0].assignments['CertificateListContent-revokedCertificates-Item'],
+      undefined
+    );
   });
 
   test('unnests SEQUENCE within a SET OF', () => {
@@ -414,10 +430,11 @@ describe('Normalizer', () => {
     const g = grok(text);
     correct(g);
     normalize(g);
-    expect(g[0].assignments.CertificateListContent).toBeDefined();
-    expect(
-      g[0].assignments['CertificateListContent-revokedCertificates-Item']
-    ).toBeDefined();
+    assert.notStrictEqual(g[0].assignments.CertificateListContent, undefined);
+    assert.notStrictEqual(
+      g[0].assignments['CertificateListContent-revokedCertificates-Item'],
+      undefined
+    );
   });
 
   test('unnests SET within a SET OF', () => {
@@ -435,10 +452,11 @@ describe('Normalizer', () => {
     const g = grok(text);
     correct(g);
     normalize(g);
-    expect(g[0].assignments.CertificateListContent).toBeDefined();
-    expect(
-      g[0].assignments['CertificateListContent-revokedCertificates-Item']
-    ).toBeDefined();
+    assert.notStrictEqual(g[0].assignments.CertificateListContent, undefined);
+    assert.notStrictEqual(
+      g[0].assignments['CertificateListContent-revokedCertificates-Item'],
+      undefined
+    );
   });
 
   test('unnests a CHOICE within a size-constrained SET OF', () => {
@@ -450,25 +468,33 @@ describe('Normalizer', () => {
     const g = grok(text);
     correct(g);
     normalize(g);
-    expect(g[0].assignments.SpecificExclusions).toBeDefined();
-    expect((g[0].assignments.SpecificExclusions as any).type).toBeDefined();
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type
-    ).toBeDefined();
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type.of
-    ).toBeDefined();
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type.of.typeType
-    ).toBe(TypeType.DefinedType);
-    expect(g[0].assignments['SpecificExclusions-Item']).toBeDefined();
-    expect(
-      (g[0].assignments['SpecificExclusions-Item'] as any).type.typeType
-    ).toBe(TypeType.ChoiceType);
-    expect(
-      (g[0].assignments['SpecificExclusions-Item'] as any).type.type
-        .rootAlternativeTypeList.length
-    ).toBe(2);
+    assert.notStrictEqual(g[0].assignments.SpecificExclusions, undefined);
+    assert.notStrictEqual((g[0].assignments.SpecificExclusions).type, undefined);
+    assert.notStrictEqual(
+      (g[0].assignments.SpecificExclusions).type.type,
+      undefined
+    );
+    assert.notStrictEqual(
+      (g[0].assignments.SpecificExclusions).type.type.of,
+      undefined
+    );
+    assertEqual(
+      (g[0].assignments.SpecificExclusions).type.type.of.typeType,
+      TypeType.DefinedType
+    );
+    assert.notStrictEqual(
+      g[0].assignments['SpecificExclusions-Item'],
+      undefined
+    );
+    assertEqual(
+      (g[0].assignments['SpecificExclusions-Item']).type.typeType,
+      TypeType.ChoiceType
+    );
+    assertEqual(
+      (g[0].assignments['SpecificExclusions-Item']).type.type
+        .rootAlternativeTypeList.length,
+      2
+    );
   });
 
   test('unnests a CHOICE within a size-constrained SEQUENCE OF', () => {
@@ -480,25 +506,33 @@ describe('Normalizer', () => {
     const g = grok(text);
     correct(g);
     normalize(g);
-    expect(g[0].assignments.SpecificExclusions).toBeDefined();
-    expect((g[0].assignments.SpecificExclusions as any).type).toBeDefined();
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type
-    ).toBeDefined();
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type.of
-    ).toBeDefined();
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type.of.typeType
-    ).toBe(TypeType.DefinedType);
-    expect(g[0].assignments['SpecificExclusions-Item']).toBeDefined();
-    expect(
-      (g[0].assignments['SpecificExclusions-Item'] as any).type.typeType
-    ).toBe(TypeType.ChoiceType);
-    expect(
-      (g[0].assignments['SpecificExclusions-Item'] as any).type.type
-        .rootAlternativeTypeList.length
-    ).toBe(2);
+    assert.notStrictEqual(g[0].assignments.SpecificExclusions, undefined);
+    assert.notStrictEqual((g[0].assignments.SpecificExclusions).type, undefined);
+    assert.notStrictEqual(
+      (g[0].assignments.SpecificExclusions).type.type,
+      undefined
+    );
+    assert.notStrictEqual(
+      (g[0].assignments.SpecificExclusions).type.type.of,
+      undefined
+    );
+    assertEqual(
+      (g[0].assignments.SpecificExclusions).type.type.of.typeType,
+      TypeType.DefinedType
+    );
+    assert.notStrictEqual(
+      g[0].assignments['SpecificExclusions-Item'],
+      undefined
+    );
+    assertEqual(
+      (g[0].assignments['SpecificExclusions-Item']).type.typeType,
+      TypeType.ChoiceType
+    );
+    assertEqual(
+      (g[0].assignments['SpecificExclusions-Item']).type.type
+        .rootAlternativeTypeList.length,
+      2
+    );
   });
 
   test('unnests a CHOICE within a Prefixed size-constrained SEQUENCE OF', () => {
@@ -510,25 +544,33 @@ describe('Normalizer', () => {
     const g = grok(text);
     correct(g);
     normalize(g);
-    expect(g[0].assignments.SpecificExclusions).toBeDefined();
-    expect((g[0].assignments.SpecificExclusions as any).type).toBeDefined();
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type
-    ).toBeDefined();
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type.type.of
-    ).toBeDefined();
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type.type.of.typeType
-    ).toBe(TypeType.DefinedType);
-    expect(g[0].assignments['SpecificExclusions-Item']).toBeDefined();
-    expect(
-      (g[0].assignments['SpecificExclusions-Item'] as any).type.typeType
-    ).toBe(TypeType.ChoiceType);
-    expect(
-      (g[0].assignments['SpecificExclusions-Item'] as any).type.type
-        .rootAlternativeTypeList.length
-    ).toBe(2);
+    assert.notStrictEqual(g[0].assignments.SpecificExclusions, undefined);
+    assert.notStrictEqual((g[0].assignments.SpecificExclusions).type, undefined);
+    assert.notStrictEqual(
+      (g[0].assignments.SpecificExclusions).type.type,
+      undefined
+    );
+    assert.notStrictEqual(
+      (g[0].assignments.SpecificExclusions).type.type.type.of,
+      undefined
+    );
+    assertEqual(
+      (g[0].assignments.SpecificExclusions).type.type.type.of.typeType,
+      TypeType.DefinedType
+    );
+    assert.notStrictEqual(
+      g[0].assignments['SpecificExclusions-Item'],
+      undefined
+    );
+    assertEqual(
+      (g[0].assignments['SpecificExclusions-Item']).type.typeType,
+      TypeType.ChoiceType
+    );
+    assertEqual(
+      (g[0].assignments['SpecificExclusions-Item']).type.type
+        .rootAlternativeTypeList.length,
+      2
+    );
   });
 
   test('unnests a Prefixed CHOICE within size-constrained SEQUENCE OF', () => {
@@ -540,40 +582,49 @@ describe('Normalizer', () => {
     const g = grok(text);
     correct(g);
     normalize(g);
-    expect(g[0].assignments.SpecificExclusions).toBeDefined();
-    expect((g[0].assignments.SpecificExclusions as any).type).toBeDefined();
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type
-    ).toBeDefined();
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type.of
-    ).toBeDefined();
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type.of.typeType
-    ).toBe(TypeType.PrefixedType);
-    expect(
-      (g[0].assignments.SpecificExclusions as any).type.type.of.type.typeType
-    ).toBe(TypeType.DefinedType);
-    expect(g[0].assignments['SpecificExclusions-Item']).toBeDefined();
-    expect(
-      (g[0].assignments['SpecificExclusions-Item'] as any).type.typeType
-    ).toBe(TypeType.ChoiceType);
-    expect(
-      (g[0].assignments['SpecificExclusions-Item'] as any).type.type
-        .rootAlternativeTypeList.length
-    ).toBe(2);
+    assert.notStrictEqual(g[0].assignments.SpecificExclusions, undefined);
+    assert.notStrictEqual((g[0].assignments.SpecificExclusions).type, undefined);
+    assert.notStrictEqual(
+      (g[0].assignments.SpecificExclusions).type.type,
+      undefined
+    );
+    assert.notStrictEqual(
+      (g[0].assignments.SpecificExclusions).type.type.of,
+      undefined
+    );
+    assertEqual(
+      (g[0].assignments.SpecificExclusions).type.type.of.typeType,
+      TypeType.PrefixedType
+    );
+    assertEqual(
+      (g[0].assignments.SpecificExclusions).type.type.of.type.typeType,
+      TypeType.DefinedType
+    );
+    assert.notStrictEqual(
+      g[0].assignments['SpecificExclusions-Item'],
+      undefined
+    );
+    assertEqual(
+      (g[0].assignments['SpecificExclusions-Item']).type.typeType,
+      TypeType.ChoiceType
+    );
+    assertEqual(
+      (g[0].assignments['SpecificExclusions-Item']).type.type
+        .rootAlternativeTypeList.length,
+      2
+    );
   });
 
   test('does not confuse an ObjectIdentifierValue ValueAssignment for an ObjectAssignment', () => {
     const UsefulDefinitions_asn1 = fs.readFileSync(
-      path.join(__dirname, '..', 'data', 'modules', 'UsefulDefinitions.asn1'),
+      path.join(__dirname, 'data', 'modules', 'UsefulDefinitions.asn1'),
       { encoding: 'utf8' }
     );
     const UsefulDefinitions_asn1_parseResults = parse(
       UsefulDefinitions_asn1,
       Array.from(lex(UsefulDefinitions_asn1))
     );
-    expect(UsefulDefinitions_asn1_parseResults.error).toBeUndefined();
+    assertEqual(UsefulDefinitions_asn1_parseResults.error, undefined);
     const UsefulDefinitions_asn1_modules = grok(
       UsefulDefinitions_asn1,
       UsefulDefinitions_asn1_parseResults
@@ -582,7 +633,10 @@ describe('Normalizer', () => {
     normalize(UsefulDefinitions_asn1_modules);
     Object.values(UsefulDefinitions_asn1_modules[0].assignments).forEach(
       (assn) => {
-        expect(assn.assignmentType).not.toBe(AssignmentType.ObjectAssignment);
+        assert.notStrictEqual(
+          assn.assignmentType,
+          AssignmentType.ObjectAssignment
+        );
       }
     );
   });
@@ -606,7 +660,7 @@ describe('Normalizer', () => {
    * ProductionType value the CST node had.
    */
   test('does not create a Type with an unrecognized typeType', () => {
-    function checkTypeType(node: any, depth = 0) {
+    function checkTypeType(node, depth = 0) {
       if (depth > 100) {
         // To prevent infinite loops.
         return;
@@ -614,7 +668,7 @@ describe('Normalizer', () => {
       depth++;
       if (typeof node === 'object' && node) {
         if ('typeType' in node) {
-          expect(Object.keys(TypeType)).toContain(node.typeType);
+          assert.ok(Object.keys(TypeType).includes(node.typeType));
         }
         Object.values(node).forEach((v) => checkTypeType(v, depth));
       }
@@ -623,7 +677,6 @@ describe('Normalizer', () => {
     const AuthenticationFramework_asn1 = fs.readFileSync(
       path.join(
         __dirname,
-        '..',
         'data',
         'modules',
         'AuthenticationFramework.asn1'
@@ -634,7 +687,7 @@ describe('Normalizer', () => {
       AuthenticationFramework_asn1,
       Array.from(lex(AuthenticationFramework_asn1))
     );
-    expect(AuthenticationFramework_asn1_parseResults.error).toBeUndefined();
+    assertEqual(AuthenticationFramework_asn1_parseResults.error, undefined);
     const AuthenticationFramework_asn1_modules = grok(
       AuthenticationFramework_asn1,
       AuthenticationFramework_asn1_parseResults
@@ -646,7 +699,6 @@ describe('Normalizer', () => {
     const Module_asn1 = fs.readFileSync(
       path.join(
         __dirname,
-        '..',
         'data',
         'modules',
         '_object_set_containing_objectdefns.asn1'
@@ -657,14 +709,17 @@ describe('Normalizer', () => {
       Module_asn1,
       Array.from(lex(Module_asn1))
     );
-    expect(Module_parseResults.error).toBeUndefined();
+    assertEqual(Module_parseResults.error, undefined);
     const asn1Modules = grok(Module_asn1, Module_parseResults);
     correct(asn1Modules);
     normalize(asn1Modules);
     const elementThatWasSupposedToBeReplaced = (
-      asn1Modules[0].assignments.NamedSchemes as any
+      asn1Modules[0].assignments.NamedSchemes
     ).objectSetSpec.rootElementSetSpec.unions[0].intersections[0].elements;
-    expect(elementThatWasSupposedToBeReplaced.reference).toBeDefined();
+    assert.notStrictEqual(
+      elementThatWasSupposedToBeReplaced.reference,
+      undefined
+    );
   });
 });
 
@@ -711,6 +766,6 @@ END
     `;
 
   const g = grok(text);
-  expect(() => correct(g)).not.toThrow();
-  expect(() => normalize(g)).not.toThrow();
+  assert.doesNotThrow(() => correct(g));
+  assert.doesNotThrow(() => normalize(g));
 });

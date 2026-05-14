@@ -5,7 +5,8 @@
 - [x] ~~Switch to using `@wildboar/asn1` / JSR~~
 - [x] Use `.mjs` extensions
 - [ ] Create a command-line tool
-- [ ] Use double-quotes?
-- [ ] Fix tests
+- [x] ~~Use double-quotes~~ (not worth it)
+- [x] Fix tests
+- [ ] Performance Enhancements
 - [ ] Documentation
 - [ ] Publish
