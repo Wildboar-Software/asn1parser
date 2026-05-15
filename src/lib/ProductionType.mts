@@ -910,6 +910,6 @@ const ProductionType = {
   ...UnlistedProductionType,
   ...ControlProductionType,
   ...NonTerminalProductionType,
-};
+} as const;
 
 export default ProductionType;

@@ -75,8 +75,16 @@ export type { default as InstanceOfType } from './lib/constructs/Types/InstanceO
 export type { default as IntegerType } from './lib/constructs/Types/IntegerType.mjs';
 export type { default as ObjectClassFieldType } from './lib/constructs/Types/ObjectClassFieldType.mjs';
 export type { default as SelectionType } from './lib/constructs/Types/SelectionType.mjs';
-export type { default as SetOrSequenceOfType } from './lib/constructs/Types/SetOrSequenceOfType.mjs';
-export type { default as SetOrSequenceType } from './lib/constructs/Types/SetOrSequenceType.mjs';
+export type {
+    default as SetOrSequenceOfType,
+    default as SetOfType,
+    default as SequenceOfType,
+} from './lib/constructs/Types/SetOrSequenceOfType.mjs';
+export type {
+    default as SetOrSequenceType,
+    default as SetType,
+    default as SequenceType,
+} from './lib/constructs/Types/SetOrSequenceType.mjs';
 export type { TypeFromObject } from './lib/constructs/Types/TypeFromObject.mjs';
 export type { ValueSetFromObjects } from './lib/constructs/Types/ValueSetFromObjects.mjs';
 

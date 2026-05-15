@@ -1,6 +1,6 @@
 /// <reference types="deno" />
-import { lex, LogLevel, grok, ProductionType, normalize, parse, correct, AssignmentType, TypeType } from './dist/index.mjs';
-import { assertEquals } from "jsr:@std/assert";
+import { lex, grok, normalize, parse, correct, AssignmentType } from './dist/index.mjs';
+import { assertEquals, assert } from "jsr:@std/assert";
 
 Deno.test('this module can be imported and used by Deno', () => {
   const text = 'A {iso} DEFINITIONS ::= BEGIN B ::= NULL END';
