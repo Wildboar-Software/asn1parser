@@ -4,11 +4,17 @@ import FieldSpecType from '../FieldSpecType.mjs';
 import TypeType from '../TypeType.mjs';
 
 /**
+ * A built-in information object class that simply relates an object
+ * identifier with a type.
+ * 
  * From ITU X.681, Annex A.2:
- * `TYPE-IDENTIFIER ::= CLASS {
+ * 
+ * ```asn1
+ * TYPE-IDENTIFIER ::= CLASS {
  *     &id OBJECT IDENTIFIER UNIQUE,
  *     &Type }
  *     WITH SYNTAX {&Type IDENTIFIED BY &id}`
+ * ```
  */
 // ObjectClassDefn ::= CLASS "{" FieldSpec "," + "}" WithSyntaxSpec?
 

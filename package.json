@@ -28,7 +28,7 @@
   "main": "./dist/libs/parser/src/index.mjs",
   "name": "@wildboar/asn1-parser",
   "types": "./dist/libs/parser/src/index.d.mts",
-  "version": "1.0.2",
+  "version": "2.0.0",
   "type": "module",
   "dependencies": {
     "dependency-graph": "^1.0.0"

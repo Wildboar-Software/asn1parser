@@ -5,12 +5,18 @@ import TypeType from '../TypeType.mjs';
 import ValueType from '../ValueType.mjs';
 
 /**
+ * A built-in information object class that defines an abstract syntax
+ * with an object identifier.
+ * 
  * From ITU X.681, Annex B:
- * `ABSTRACT-SYNTAX ::= CLASS {
+ *
+ * ```asn1
+ * ABSTRACT-SYNTAX ::= CLASS {
  *     &id OBJECT IDENTIFIER UNIQUE,
  *     &Type,
  *     &property BIT STRING {handles-invalid-encodings(0)} DEFAULT {} }
- *     WITH SYNTAX { &Type IDENTIFIED BY &id [HAS PROPERTY &property] }`
+ *     WITH SYNTAX { &Type IDENTIFIED BY &id [HAS PROPERTY &property] }
+ * ```
  */
 const ABSTRACT_SYNTAX: ObjectClassAssignment = {
   identifier: 'ABSTRACT-SYNTAX',

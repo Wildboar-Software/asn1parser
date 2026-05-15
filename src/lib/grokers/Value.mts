@@ -19,6 +19,7 @@ import grokDefined from './Defined.mjs';
 import grokFixedTypeFieldVal from './Values/FixedTypeFieldVal.mjs';
 import grokOpenTypeFieldVal from './Values/OpenTypeFieldVal.mjs';
 import grokPrefixedValue from './Values/PrefixedValue.mjs';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
 
 // Value ::=
 //     BuiltinValue
@@ -64,101 +65,106 @@ export default function grokValue(cst: Production, ctx: GrokContext): Value {
     subsubtypeAST.location.startIndex,
     subsubtypeAST.location.endIndex
   );
+  const grokedThing = {
+    text,
+    production: subsubtypeAST,
+    productionType: subsubtypeAST.type,
+  } satisfies GrokedThing;
   switch (subsubtypeAST.type) {
     case ProductionType.BitStringValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.BitStringValue,
         value: grokBitStringValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.BooleanValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.BooleanValue,
         value: text === 'TRUE',
       };
     }
     case ProductionType.CharacterStringValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.CharacterStringValue,
         value: grokCharacterStringValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.ChoiceValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.ChoiceValue,
         value: grokChoiceValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.IntegerValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.IntegerValue,
         value: grokIntegerValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.NullValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.NullValue,
         value: null,
       };
     }
     case ProductionType.ObjectIdentifierValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.ObjectIdentifierValue,
         value: grokObjectIdentifierValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.OctetStringValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.OctetStringValue,
         value: grokOctetStringValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.RealValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.RealValue,
         value: grokRealValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.RelativeOIDValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.RelativeOIDValue,
         value: grokRelativeOIDValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.SetOfValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.SetOfValue,
         value: grokSetOrSequenceOfValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.SequenceOfValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.SequenceOfValue,
         value: grokSetOrSequenceOfValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.SetValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.SetValue,
         value: grokSetOrSequenceValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.SequenceValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.SequenceValue,
         value: grokSetOrSequenceValue(subsubtypeAST, ctx),
       };
@@ -166,49 +172,49 @@ export default function grokValue(cst: Production, ctx: GrokContext): Value {
     case ProductionType.InstanceOfValue:
     case ProductionType.EmbeddedPDVValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.EmbeddedPDVValue,
         value: grokSetOrSequenceValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.ExternalValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.ExternalValue,
         value: grokSetOrSequenceValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.DefinedValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.DefinedValue,
         value: grokDefined(subsubtypeAST, ctx),
       };
     }
     case ProductionType.ValueFromObject: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.ValueFromObject,
         value: grokValueFromObject(subsubtypeAST, ctx),
       };
     }
     case ProductionType.FixedTypeFieldVal: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.FixedTypeFieldVal,
         value: grokFixedTypeFieldVal(subsubtypeAST, ctx),
       };
     }
     case ProductionType.OpenTypeFieldVal: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.OpenTypeFieldVal,
         value: grokOpenTypeFieldVal(subsubtypeAST, ctx),
       };
     }
     case ProductionType.PrefixedValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.PrefixedValue,
         value: grokPrefixedValue(subsubtypeAST, ctx),
       };
@@ -216,14 +222,14 @@ export default function grokValue(cst: Production, ctx: GrokContext): Value {
     case ProductionType.AnyValue: {
       // This should never actually happen.
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.AnyValue,
         value: grokAnyValue(subsubtypeAST, ctx),
       };
     }
     case ProductionType.EnumeratedValue: {
       return {
-        text,
+        ...grokedThing,
         valueType: ValueType.EnumeratedValue,
         value: {
           identifier: text,
@@ -232,7 +238,7 @@ export default function grokValue(cst: Production, ctx: GrokContext): Value {
     }
     default: {
       return {
-        text,
+        ...grokedThing,
         valueType: subsubtypeAST.type as unknown as ValueType,
         value: text,
       } as Value;

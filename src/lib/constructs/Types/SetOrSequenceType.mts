@@ -62,16 +62,46 @@ import { type ComponentType } from '../ComponentType.mjs';
 // 	| COMPONENTS OF Type
 
 export default interface SetOrSequenceType extends GrokedThing {
+  /**
+   * Root component type list 1: components that must come at the beginning of
+   * the `SEQUENCE` (not true with a `SET`).
+   */
   rootComponentTypeList1?: ComponentType[];
+
+  /**
+   * Extension additions: components added as later extensions to a
+   * `SEQUENCE` or `SET`s type definition.
+   */
   extensionAdditionList?: (
     | ComponentType
     | {
+        /**
+         * The application protocol version in which this group of components
+         * was added.
+         */
         versionNumber?: number;
+        /**
+         * The components in this extension addition group.
+         */
         componentTypeList: ComponentType[];
       }
   )[];
+
+  /**
+   * Root component type list 2: components that must come at the end of the
+   * `SEQUENCE` (not true with a `SET`).
+   */
   rootComponentTypeList2?: ComponentType[];
+
+  /**
+   * Whether the `SET` or `SEQUENCE` is explicitly extensible.
+   */
   explicitlyExtensible?: boolean;
+
+  /**
+   * A value describing what is to be done if an unrecognized extension is
+   * encountered.
+   */
   exception?: ExceptionIdentification;
 
   /**

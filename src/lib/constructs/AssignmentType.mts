@@ -1,4 +1,8 @@
-enum AssignmentType {
+
+/**
+ * Type of an ASN.1 assignment.
+ */
+export enum AssignmentType {
   TypeAssignment = 'TypeAssignment',
   ValueAssignment = 'ValueAssignment',
   XMLValueAssignment = 'XMLValueAssignment',

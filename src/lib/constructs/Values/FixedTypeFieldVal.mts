@@ -1,5 +1,11 @@
 import { type Value } from '../Value.mjs';
 
-// FixedTypeFieldVal ::= BuiltinValue | ReferencedValue
-// FixedTypeFieldVal is a subset of Value, but close enough to being identical.
+/**
+ * An ASN.1 value corresponding to a type taken from a field from an
+ * information object that has a fixed type.
+ * 
+ * ```bnf
+ * FixedTypeFieldVal ::= BuiltinValue | ReferencedValue
+ * ```
+ */
 export type FixedTypeFieldVal = Value;

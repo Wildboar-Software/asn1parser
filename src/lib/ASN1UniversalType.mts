@@ -1,3 +1,6 @@
+/**
+ * ASN.1 `UNIVERSAL` type tag numbers as used in ITU-T Recommendation X.690.
+ */
 export enum ASN1UniversalType {
     endOfContent = 0,
     boolean = 1,

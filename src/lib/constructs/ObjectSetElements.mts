@@ -8,4 +8,11 @@ import { type SomethingFromObject } from './SomethingFromObject.mjs';
 //     | ObjectSetFromObjects
 //     | ParameterizedObjectSet
 
+/**
+ * One of the individual items that may appear an `ObjectSet`.
+ *
+ * ```bnf
+ * ObjectSetElements ::= Object | DefinedObjectSet | ObjectSetFromObjects | ParameterizedObjectSet
+ * ```
+ */
 export type ObjectSetElements = Object_ | Defined | SomethingFromObject;

@@ -18,6 +18,8 @@ import type DefinedValue from './Defined.mjs';
 //     identifier "(" NumberForm ")"
 
 /**
+ * An object identifier arc as a name and/or a number.
+ * 
  * This differs from `NameAndOrNumber` in supporting `DefinedValue` as an
  * alternative for the number.
  */

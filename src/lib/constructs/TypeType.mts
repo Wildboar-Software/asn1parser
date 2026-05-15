@@ -27,6 +27,9 @@
 //     | UTCTime
 //     | ObjectDescriptor
 
+/**
+ * Type of an ASN.1 type.
+ */
 enum TypeType {
   BitStringType = 'BitStringType',
   BooleanType = 'BooleanType',

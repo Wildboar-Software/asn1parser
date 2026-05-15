@@ -10,6 +10,14 @@ import type Constraint from '../Constraint.mjs';
 //     SET OF Type
 // 	| SET OF NamedType
 
+/**
+ * A `SEQUENCE OF` or `SET OF` type.
+ * 
+ * ```bnf
+ * SequenceOfType ::= SEQUENCE OF Type | SEQUENCE OF NamedType
+ * SetOfType ::= SET OF Type | SET OF NamedType
+ * ```
+ */
 export default interface SetOrSequenceOfType extends GrokedThing {
   of: Type | NamedType;
 

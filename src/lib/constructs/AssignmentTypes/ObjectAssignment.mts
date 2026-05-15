@@ -3,9 +3,13 @@ import AssignmentType from '../AssignmentType.mjs';
 import { type Object_ } from './ObjectAssignment/Object.mjs';
 import type Defined from '../Defined.mjs';
 
-// ObjectAssignment ::=
-//     objectreference DefinedObjectClass "::=" Object
-
+/**
+ * An object assignment.
+ * 
+ * ```bnf
+ * ObjectAssignment ::= objectreference DefinedObjectClass "::=" Object
+ * ```
+ */
 export default interface ObjectAssignment extends CommonAssignment {
   assignmentType:
     | AssignmentType.ObjectAssignment

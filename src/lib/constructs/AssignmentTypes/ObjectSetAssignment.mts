@@ -3,19 +3,13 @@ import AssignmentType from '../AssignmentType.mjs';
 import type Defined from '../Defined.mjs';
 import { type ObjectSet } from '../ObjectSet.mjs';
 
-// ObjectSetAssignment ::=
-//     objectsetreference DefinedObjectClass "::=" ObjectSet
-
-// ObjectSet ::=
-//     "{" ObjectSetSpec "}"
-
-// ObjectSetSpec ::=
-//     RootElementSetSpec
-//     | RootElementSetSpec "," "..."
-//     | "..."
-//     | "..." "," AdditionalElementSetSpec
-//     | RootElementSetSpec "," "..." "," AdditionalElementSetSpec
-
+/**
+ * An object set assignment.
+ * 
+ * ```bnf
+ * ObjectSetAssignment ::= objectsetreference DefinedObjectClass "::=" ObjectSet
+ * ```
+ */
 export default interface ObjectSetAssignment extends CommonAssignment {
   assignmentType:
     | AssignmentType.ObjectSetAssignment

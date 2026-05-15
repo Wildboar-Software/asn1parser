@@ -6,4 +6,7 @@ import type ObjectClassDefn from './ObjectClassDefn.mjs';
 //     | ObjectClassDefn
 //     | ParameterizedObjectClass
 
+/**
+ * An information object class, or a reference to one.
+ */
 export type ObjectClass = Defined | ObjectClassDefn;

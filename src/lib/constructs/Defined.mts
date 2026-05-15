@@ -2,10 +2,26 @@ import type GrokedThing from '../interfaces/GrokedThing.mjs';
 import { type ActualParameter } from './ActualParameter.mjs';
 import AssignmentType from './AssignmentType.mjs';
 
+/**
+ * A reference to an assignment elsewhere. This can be a reference to a type, 
+ * a value, an object class, an object, etc. Any assignment. This is used to
+ * represent a `DefinedObject`, `DefinedType`, and so on.
+ * 
+ * Here is the definition of `DefinedObject` from the ASN.1 ABNF:
+ * 
+ * ```bnf
+ * DefinedObject ::= ExternalObjectReference | objectreference
+ * ExternalObjectReference ::= modulereference "." objectreference
+ * ```
+ */
 export default interface Defined extends GrokedThing {
+  /** The module in which this identifier is defined. */
   module?: string;
+  /** The identifier of the assignment. */
   reference: string;
+  /** The parameters of the assignment, if it is parameterized. */
   parameters?: ActualParameter[];
+  /** The type of assignment to which this refers. */
   assignmentType?: AssignmentType;
 
   /**

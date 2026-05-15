@@ -1,4 +1,7 @@
-enum ValueType {
+/**
+ * ASN.1 Type of an ASN.1 value.
+ */
+export enum ValueType {
   BitStringValue = 'BitStringValue',
   BooleanValue = 'BooleanValue',
   CharacterStringValue = 'CharacterStringValue',

@@ -5,7 +5,10 @@ import type { Exports } from './Exports.mjs';
 import type { Imports } from './Imports.mjs';
 
 /**
- * `ModuleDefinition ::=
+ * ASN.1 module
+ * 
+ * ```bnf
+ * ModuleDefinition ::=
  *     ModuleIdentifier
  *     DEFINITIONS
  *     EncodingReferenceDefault
@@ -15,7 +18,8 @@ import type { Imports } from './Imports.mjs';
  *     BEGIN
  *     ModuleBody
  *     EncodingControlSections
- *     END`
+ *     END
+ * ```
  */
 export default class Module {
   // eslint-disable-next-line max-params

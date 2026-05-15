@@ -1,6 +1,10 @@
 import { type SomethingFromObject } from  '../SomethingFromObject.mjs';
 
 /**
- * `TypeFromObject ::= ReferencedObjects "." FieldName`
+ * A type taken from a field of an object.
+ *
+ * ```bnf
+ * TypeFromObject ::= ReferencedObjects "." FieldName
+ * ```
  */
 export type TypeFromObject = SomethingFromObject;

@@ -20,7 +20,7 @@ jobs:
       - name: Build
         run: npm run build
       - name: Run Node.js Tests
-        run: npm node-test
+        run: npm run node-test
         env:
           CI: true
       - name: Set up Deno
@@ -28,13 +28,13 @@ jobs:
         with:
           deno-version: latest
       - name: Run Deno Tests
-        run: npm deno-test
+        run: npm run deno-test
         env:
           CI: true
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version: latest
       - name: Run Bun Tests
-        run: npm bun-test
+        run: npm run bun-test
         env:
           CI: true

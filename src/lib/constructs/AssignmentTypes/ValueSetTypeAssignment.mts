@@ -3,12 +3,13 @@ import AssignmentType from '../AssignmentType.mjs';
 import { type Type } from '../Type.mjs';
 import { type ValueSetType } from '../ValueSetType.mjs';
 
-// ValueSetTypeAssignment ::=
-//     typereference Type "::=" ValueSet
-
-// ValueSet ::=
-// 	"{" ElementSetSpecs "}"
-
+/**
+ * A value set type assignment.
+ * 
+ * ```bnf
+ * ValueSetTypeAssignment ::= typereference Type "::=" ValueSet
+ * ```
+ */
 export default interface ValueSetTypeAssignment extends CommonAssignment {
   assignmentType:
     | AssignmentType.ValueSetTypeAssignment

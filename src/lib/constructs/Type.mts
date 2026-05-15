@@ -279,6 +279,9 @@ export type EveryOtherType =
   | RelativeIRITypeType
   | RelativeOIDTypeType;
 
+/**
+ * An ASN.1 type.
+ */
 export type Type =
   | AnyType
   | BitStringType

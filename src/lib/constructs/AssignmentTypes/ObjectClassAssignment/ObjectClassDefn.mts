@@ -5,7 +5,19 @@ import type GrokedThing from '../../../interfaces/GrokedThing.mjs';
 // ObjectClassDefn ::=
 //     CLASS "{" FieldSpec "," + "}" WithSyntaxSpec?
 
+/**
+ * An information object class definition, which is a group of fields that
+ * have associated ASN.1 productions and, optionally, a specially-defined
+ * syntax for defining objects of this class.
+ * 
+ * ```bnf
+ * ObjectClassDefn ::= CLASS "{" FieldSpec "," + "}" WithSyntaxSpec?
+ * ```
+ */
 export default interface ObjectClassDefn extends GrokedThing {
+  /**
+   * A map of field references to their field specifications.
+   */
   fieldSpecs: {
     [reference: string]: FieldSpec;
   };

@@ -25,6 +25,13 @@ export interface ObjectSetSetting extends GrokedThing {
   objectSet: ObjectSet;
 }
 
+/**
+ * A setting for an ASN.1 information object.
+ * 
+ * ```bnf
+ * Setting ::= Type | Value | ValueSet | Object | ObjectSet
+ * ```
+ */
 export type Setting =
   | TypeSetting
   | ValueSetting

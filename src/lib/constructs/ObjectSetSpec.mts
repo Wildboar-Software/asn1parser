@@ -15,7 +15,10 @@ import { NonTerminalProductionType } from '../ProductionType.mjs';
 
 export default interface ObjectSetSpec extends GrokedThing {
   productionType: NonTerminalProductionType.ObjectSetSpec;
+  /** The root objects of the object set */
   rootElementSetSpec?: ElementSetSpec<ObjectSetElements>;
+  /** The additional objects added after extension */
   additionalElementSetSpec?: ElementSetSpec<ObjectSetElements>;
+  /** Whether the object set is explicitly extensible */
   explicitlyExtensible: boolean;
 }

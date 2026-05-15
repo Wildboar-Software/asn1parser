@@ -135,6 +135,9 @@ interface EveryOtherValue extends CommonValue {
   value: string;
 }
 
+/**
+ * An ASN.1 value.
+ */
 export type Value =
   | AnyValue
   | BitStringValue

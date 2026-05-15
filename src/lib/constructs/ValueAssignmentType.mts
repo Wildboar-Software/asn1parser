@@ -1,4 +1,7 @@
-enum ValueAssignmentType {
+/**
+ * Type of an ASN.1 value assignment.
+ */
+export enum ValueAssignmentType {
   BitStringValue = 'BitStringValue',
   BooleanValue = 'BooleanValue',
   CharacterStringValue = 'CharacterStringValue',

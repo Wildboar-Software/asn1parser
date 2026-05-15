@@ -1,6 +1,11 @@
 import { type ObjectSet } from '../../../ObjectSet.mjs';
 
 /**
- * `SimpleTableConstraint ::= ObjectSet`
+ * A simple constraint that the set of information objects from which fields
+ * may be drawn.
+ * 
+ * ```bnf
+ * SimpleTableConstraint ::= ObjectSet
+ * ```
  */
 export type SimpleTableConstraint = ObjectSet;

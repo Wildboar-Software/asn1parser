@@ -1,7 +1,11 @@
 import type GrokedThing from '../interfaces/GrokedThing.mjs';
 
 /**
- * `Quadruple ::= "{" Group "," Plane "," Row "," Cell "}"`
+ * A coordinate of four numbers identifying a Unicode code point.
+ * 
+ * ```bnf
+ * Quadruple ::= "{" Group "," Plane "," Row "," Cell "}"
+ * ```
  */
 export default interface Quadruple extends GrokedThing {
   group: number;
