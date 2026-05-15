@@ -72,6 +72,12 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
           identifier,
           number: undefined,
           additional: false,
+          production: ei,
+          productionType: ei.type,
+          text: text.slice(
+            ei.location.startIndex,
+            ei.location.endIndex
+          ),
         };
       } else {
         const namedNumberComponents: Production[] = ei.children.filter(
@@ -103,6 +109,12 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
             identifier,
             number: numericNumber,
             additional: false,
+            production: ei,
+            productionType: ei.type,
+            text: text.slice(
+              ei.location.startIndex,
+              ei.location.endIndex
+            ),
           };
         } else {
           selfContained = false;
@@ -110,6 +122,12 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
             identifier,
             number: grokDefined(namedNumberComponents[2], ctx),
             additional: false,
+            production: ei,
+            productionType: ei.type,
+            text: text.slice(
+              ei.location.startIndex,
+              ei.location.endIndex
+            ),
           };
         }
       }
@@ -146,6 +164,12 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
               identifier,
               number: undefined,
               additional: true,
+              production: ei,
+              productionType: ei.type,
+              text: text.slice(
+                ei.location.startIndex,
+                ei.location.endIndex
+              ),
             };
           } else {
             const namedNumberComponents: Production[] = ei.children.filter(
@@ -177,6 +201,12 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
                 identifier,
                 number: Number.parseInt(numberString, 10),
                 additional: true,
+                production: ei,
+                productionType: ei.type,
+                text: text.slice(
+                  ei.location.startIndex,
+                  ei.location.endIndex
+                ),
               };
             } else {
               selfContained = false;
@@ -184,6 +214,12 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
                 identifier,
                 number: grokDefined(namedNumberComponents[2], ctx),
                 additional: true,
+                production: ei,
+                productionType: ei.type,
+                text: text.slice(
+                  ei.location.startIndex,
+                  ei.location.endIndex
+                ),
               };
             }
           }

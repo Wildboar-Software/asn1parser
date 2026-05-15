@@ -27,30 +27,40 @@ export default function grok(cst: Production, ctx: GrokContext): Setting {
       return {
         text,
         type: grokType(alt, ctx),
+        production: alt,
+        productionType: alt.type,
       };
     }
     case ProductionType.Value: {
       return {
         text,
         value: grokValue(alt, ctx),
+        production: alt,
+        productionType: alt.type,
       };
     }
     case ProductionType.ValueSet: {
       return {
         text,
         valueSet: grokValueSet(alt, ctx),
+        production: alt,
+        productionType: alt.type,
       };
     }
     case ProductionType.Object: {
       return {
         text,
         object: grokObject(alt, ctx),
+        production: alt,
+        productionType: alt.type,
       };
     }
     case ProductionType.ObjectSet: {
       return {
         text,
         objectSet: grokObjectSet(alt, ctx),
+        production: alt,
+        productionType: alt.type,
       };
     }
     default: {

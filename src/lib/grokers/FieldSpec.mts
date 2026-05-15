@@ -22,25 +22,46 @@ import grokObjectSetFieldSpec from './FieldSpec/ObjectSetFieldSpec.mjs';
 export default function grok(cst: Production, ctx: GrokContext): FieldSpec {
   switch (cst.children[0].type) {
     case ProductionType.TypeFieldSpec: {
-      return grokTypeFieldSpec(cst.children[0], ctx);
+      const fs = grokTypeFieldSpec(cst.children[0], ctx);
+      fs.production = cst;
+      fs.productionType = cst.type;
+      return fs;
     }
     case ProductionType.FixedTypeValueFieldSpec: {
-      return grokFixedTypeValueFieldSpec(cst.children[0], ctx);
+      const fs = grokFixedTypeValueFieldSpec(cst.children[0], ctx);
+      fs.production = cst;
+      fs.productionType = cst.type;
+      return fs;
     }
     case ProductionType.VariableTypeValueFieldSpec: {
-      return grokVariableTypeValueFieldSpec(cst.children[0], ctx);
+      const fs = grokVariableTypeValueFieldSpec(cst.children[0], ctx);
+      fs.production = cst;
+      fs.productionType = cst.type;
+      return fs;
     }
     case ProductionType.FixedTypeValueSetFieldSpec: {
-      return grokFixedTypeValueSetFieldSpec(cst.children[0], ctx);
+      const fs = grokFixedTypeValueSetFieldSpec(cst.children[0], ctx);
+      fs.production = cst;
+      fs.productionType = cst.type;
+      return fs;
     }
     case ProductionType.VariableTypeValueSetFieldSpec: {
-      return grokVariableTypeValueSetFieldSpec(cst.children[0], ctx);
+      const fs = grokVariableTypeValueSetFieldSpec(cst.children[0], ctx);
+      fs.production = cst;
+      fs.productionType = cst.type;
+      return fs;
     }
     case ProductionType.ObjectFieldSpec: {
-      return grokObjectFieldSpec(cst.children[0], ctx);
+      const fs = grokObjectFieldSpec(cst.children[0], ctx);
+      fs.production = cst;
+      fs.productionType = cst.type;
+      return fs;
     }
     case ProductionType.ObjectSetFieldSpec: {
-      return grokObjectSetFieldSpec(cst.children[0], ctx);
+      const fs = grokObjectSetFieldSpec(cst.children[0], ctx);
+      fs.production = cst;
+      fs.productionType = cst.type;
+      return fs;
     }
     default: {
       throw new Error(

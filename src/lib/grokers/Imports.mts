@@ -3,6 +3,7 @@ import type Production from '../Production.mjs';
 import ProductionType from '../ProductionType.mjs';
 import type SymbolsFromModule from '../constructs/SymbolsFromModule.mjs';
 import grokSymbolsFromModule from './SymbolsFromModule.mjs';
+import type { Imports } from '../constructs/Imports.mjs';
 
 // Imports ::=
 //     IMPORTS SymbolsImported ";"
@@ -31,12 +32,12 @@ import grokSymbolsFromModule from './SymbolsFromModule.mjs';
 export default function grokImports(
   cst: Production,
   ctx: GrokContext
-): { [module: string]: SymbolsFromModule } {
+): Imports {
   if (cst.children.length === 0) {
-    return {};
+    return { production: cst, modules: {} };
   }
 
-  const ret: { [module: string]: SymbolsFromModule } = {};
+  const ret: Imports = { production: cst, modules: {} };
   const SymbolsImported: Production = cst.children
     .slice(1, -1)
     .filter(
@@ -44,7 +45,7 @@ export default function grokImports(
     )[0];
 
   if (SymbolsImported.children.length === 0) {
-    return {};
+    return { production: cst, modules: {} };
   }
 
   const SymbolsFromModuleList: Production = SymbolsImported.children[0];
@@ -57,7 +58,7 @@ export default function grokImports(
         symbolsFromModule,
         ctx
       );
-      ret[sfm.identifier] = sfm;
+      ret.modules[sfm.identifier] = sfm;
     });
 
   return ret;

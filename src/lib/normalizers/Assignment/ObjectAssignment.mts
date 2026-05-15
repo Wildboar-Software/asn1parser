@@ -33,7 +33,7 @@ export default function normalize(
      * This section converts objects defined using DefinedSyntax into
      * equivalent objects defined using DefaultSyntax.
      */
-    if (Array.isArray(assignment.object)) {
+    if ('tokens' in assignment.object) {
       // It is DefinedSyntax.
       if ('syntax' in objectClassAssignment.objectClass) {
         const [defaultSyntax] = translateDefinedSyntaxToDefaultSyntax(

@@ -47,5 +47,8 @@ export default function grok(cst: Production, ctx: GrokContext): ComponentType {
     },
     optional,
     default: default_ ? grokValue(default_, ctx) : undefined,
+    production: cst,
+    productionType: cst.type,
+    text: text.slice(cst.location.startIndex, cst.location.endIndex),
   };
 }

@@ -71,7 +71,10 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
       return {
         identifier,
         type: grokType(namedType.children[2], ctx),
-      } as NamedType;
+        production: namedType,
+        productionType: namedType.type,
+        text: text.slice(namedType.location.startIndex, namedType.location.endIndex),
+      };
     });
 
   if (AlternativeTypeLists.children.length === 1) {
@@ -150,7 +153,10 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
                     return {
                       identifier,
                       type: grokType(namedType.children[2], ctx),
-                    } as NamedType;
+                      production: namedType,
+                      productionType: namedType.type,
+                      text: text.slice(namedType.location.startIndex, namedType.location.endIndex),
+                    };
                   }),
               };
             } else {
@@ -162,7 +168,10 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
               return {
                 identifier,
                 type: grokType(eaa.children[2], ctx),
-              } as NamedType;
+                production: eaa,
+                productionType: eaa.type,
+                text: text.slice(eaa.location.startIndex, eaa.location.endIndex),
+              };
             }
           })
       : undefined;

@@ -32,7 +32,11 @@ export default function grok(cst: Production, ctx: GrokContext): DefaultSyntax {
   if (!fieldSettings) {
     throw new Error("Missing FieldSetting in DefaultSyntax");
   }
+  const fieldProductions: {
+    [PrimitiveFieldName: string]: Production;
+  } = {};
   return {
+    fieldProductions,
     fieldSettings: Object.fromEntries(
       fieldSettings.children
         .filter(
@@ -42,11 +46,13 @@ export default function grok(cst: Production, ctx: GrokContext): DefaultSyntax {
         .map((fs) => {
           const PrimitiveFieldName: Production = fs.children[0];
           const Setting: Production = fs.children[fs.children.length - 1];
+          const fieldName = text.slice(
+            PrimitiveFieldName.location.startIndex,
+            PrimitiveFieldName.location.endIndex
+          );
+          fieldProductions[fieldName] = fs;
           return [
-            text.slice(
-              PrimitiveFieldName.location.startIndex,
-              PrimitiveFieldName.location.endIndex
-            ),
+            fieldName,
             grokSetting(Setting, ctx),
           ];
         })

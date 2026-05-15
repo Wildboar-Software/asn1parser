@@ -30,7 +30,7 @@ export default function grok(cst: Production, ctx: GrokContext): DefinedSyntax {
     (child: Production): boolean =>
       child.type === ProductionType.DefinedSyntaxToken
   )[0];
-  return tokens.children
+  const grokedTokens = tokens.children
     .filter(
       (child: Production): boolean =>
         child.type === ProductionType.DefinedSyntaxToken
@@ -48,4 +48,9 @@ export default function grok(cst: Production, ctx: GrokContext): DefinedSyntax {
         throw new Error(alt.type);
       }
     });
+  return {
+    tokens: grokedTokens,
+    production: cst,
+    productionType: cst.type,
+  };
 }

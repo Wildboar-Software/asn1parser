@@ -1,6 +1,7 @@
 import type GrokContext from '../interfaces/GrokContext.mjs';
 import type Production from '../Production.mjs';
 import ProductionType from '../ProductionType.mjs';
+import type { Exports } from '../constructs/Exports.mjs';
 
 // Exports ::=
 //     EXPORTS SymbolsExported ";"
@@ -18,7 +19,7 @@ import ProductionType from '../ProductionType.mjs';
 export default function grokExports(
   cst: Production,
   ctx: GrokContext
-): { [identifier: string]: any } | undefined {
+): Exports | undefined {
   const text: string = ctx.text;
   if (cst.children.length === 0) {
     return undefined;
@@ -30,7 +31,10 @@ export default function grokExports(
   ) {
     return undefined;
   }
-  const ret: { [identifier: string]: any } = {};
+  const ret: Exports = {
+    production: cst,
+    exportedSymbols: {},
+  };
   cst.children
     .slice(1, -1)
     .filter(
@@ -43,8 +47,7 @@ export default function grokExports(
         child.type !== ProductionType.comma
     )
     .forEach((symbol: Production): void => {
-      ret[text.slice(symbol.location.startIndex, symbol.location.endIndex)] =
-        null;
+      ret.exportedSymbols[text.slice(symbol.location.startIndex, symbol.location.endIndex)] = symbol;
     });
 
   return ret;

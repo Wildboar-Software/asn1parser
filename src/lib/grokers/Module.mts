@@ -7,8 +7,9 @@ import grokDefinitiveIdentification from './DefinitiveIdentification.mjs';
 import grokExports from './Exports.mjs';
 import grokImports from './Imports.mjs';
 import grokAssignment from './Assignment.mjs';
-import type SymbolsFromModule from '../constructs/SymbolsFromModule.mjs';
 import { type Assignment } from '../constructs/Assignment.mjs';
+import type { Exports } from '../constructs/Exports.mjs';
+import type { Imports } from '../constructs/Imports.mjs';
 
 /**
  * `ModuleDefinition ::=
@@ -47,8 +48,8 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
   let encodingReference: string | undefined = undefined;
   let taggingMode: TaggingMode = TaggingMode.EXPLICIT;
   let extensibilityImplied: boolean = false; // Defaults to false;
-  let imports: { [module: string]: SymbolsFromModule } = {};
-  let _exports: { [identifier: string]: Assignment | undefined } | undefined;
+  let imports: Imports = { production: undefined, modules: {} };
+  let _exports: Exports | undefined;
   const assignments: { [identifier: string]: Assignment } = {};
 
   const di = DefinitiveIdentification

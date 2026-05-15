@@ -146,4 +146,14 @@ describe('Groking', () => {
       grok(text);
     });
   });
+
+  test('associates productions with every assignment', () => {
+    const text =
+      'A {iso(1)} DEFINITIONS ::= BEGIN Typeyboi1 ::= ANY value1 BOOLEAN ::= TRUE END';
+    const g = grok(text);
+    for (const assignment of Object.values(g[0].assignments)) {
+      assert(assignment.production);
+    }
+  });
+
 });

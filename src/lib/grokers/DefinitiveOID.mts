@@ -26,6 +26,8 @@ export default function grokDefinitiveOID(
               grandchild.location.startIndex,
               grandchild.location.endIndex
             ),
+            production: grandchild,
+            productionType: grandchild.type,
           };
         }
         case ProductionType.DefinitiveNumberForm: {
@@ -37,6 +39,8 @@ export default function grokDefinitiveOID(
               ),
               10
             ),
+            production: grandchild,
+            productionType: grandchild.type,
           };
         }
         case ProductionType.DefinitiveNameAndNumberForm: {
@@ -51,6 +55,8 @@ export default function grokDefinitiveOID(
               nameAndNumber.slice(indexOfFirstParentheses + 1, -1),
               10
             ),
+            production: grandchild,
+            productionType: grandchild.type,
           };
         }
         default: {

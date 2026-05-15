@@ -39,6 +39,9 @@ export default function grokSetOrSequenceValue(
           namedValue.children[namedValue.children.length - 1],
           ctx
         ),
+        production: namedValue,
+        productionType: namedValue.type,
+        text: text.slice(namedValue.location.startIndex, namedValue.location.endIndex),
       };
     });
 }

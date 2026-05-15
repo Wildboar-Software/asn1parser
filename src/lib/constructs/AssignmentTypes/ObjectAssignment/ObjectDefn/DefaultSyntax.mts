@@ -1,4 +1,5 @@
 import { type Setting } from '../Setting.mjs';
+import type Production from '../../../../Production.mjs';
 
 // DefaultSyntax ::=
 //     "{" FieldSetting "," * "}"
@@ -9,5 +10,8 @@ import { type Setting } from '../Setting.mjs';
 export type DefaultSyntax = {
   fieldSettings: {
     [PrimitiveFieldName: string]: Setting;
+  };
+  fieldProductions?: {
+    [PrimitiveFieldName: string]: Production;
   };
 };

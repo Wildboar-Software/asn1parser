@@ -204,9 +204,6 @@ describe('Normalization', () => {
       .type.rootComponentTypeList1;
     assert(rctl1.length > 3);
     assertEqual(rctl1[0].componentsOf, undefined);
-    assertEqual(
-      if_modules[0].imports.ServiceAdministration.symbolList.ControlOptions,
-      null,
-    );
+    assert(if_modules[0].imports.modules.ServiceAdministration.symbolList.ControlOptions);
   });
 });

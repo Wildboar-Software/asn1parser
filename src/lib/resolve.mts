@@ -51,7 +51,7 @@ export default function resolve(
     let moduleName: string | undefined = undefined;
     // Iterate over all imported symbols to find which module it came from.
     // We use for-loops here so we can bail out early when we finally find the module.
-    const importedModules = Object.values(module_.imports);
+    const importedModules = Object.values(module_.imports.modules);
     for (let m: number = 0; m < importedModules.length; m++) {
       const importedModule = importedModules[m];
       const importedSymbols = Object.keys(importedModule.symbolList);

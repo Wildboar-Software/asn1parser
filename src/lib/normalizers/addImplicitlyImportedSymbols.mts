@@ -27,14 +27,14 @@ export default function addImplicitlyImportedSymbols(mod: Module): void {
       if (!moduleName || moduleName === mod.name) {
         return;
       }
-      if (!(moduleName in mod.imports)) {
-        mod.imports[moduleName] = {
+      if (!(moduleName in mod.imports.modules)) {
+        mod.imports.modules[moduleName] = {
           identifier: moduleName,
           assignedIdentifier: undefined,
           symbolList: {},
         };
       }
-      mod.imports[moduleName].symbolList[dep.reference] = null;
+      mod.imports.modules[moduleName].symbolList[dep.reference] = dep.production;
     })
   );
 }

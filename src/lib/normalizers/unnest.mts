@@ -637,7 +637,7 @@ export function unnestObject( // eslint-disable-line
   if (
     'reference' in obj ||
     'referencedObjects' in obj ||
-    Array.isArray(obj) ||
+     ('tokens' in obj) ||
     !('fieldSpecs' in oca.objectClass)
   ) {
     return;
@@ -650,7 +650,9 @@ export function unnestObject( // eslint-disable-line
         // The setting is an ObjectDefn.
         if (
           'object' in setting &&
-          ('fieldSettings' in setting.object || Array.isArray(setting.object))
+          (
+            ('fieldSettings' in setting.object) || ('tokens' in setting.object)
+          )
         ) {
           const newPath: string = [...path, name.replace('&', '')].join('-');
           if (newPath in currentModule.assignments) {
@@ -808,8 +810,8 @@ export function unnestObjectSetAssignment(
       ess.unions.forEach((union, unionIndex) =>
         union.intersections.forEach((intersection, intersectionIndex) => {
           if (
-            Array.isArray(intersection.elements) ||
-            'fieldSettings' in intersection.elements
+            ('tokens' in intersection.elements) ||
+            ('fieldSettings' in intersection.elements)
           ) {
             // DefinedSyntax or DefaultSyntax
             const obj = intersection.elements;

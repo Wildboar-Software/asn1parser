@@ -72,40 +72,64 @@ export default function grokAssignment(
   const assignment: Production = cst.children[0];
   switch (assignmentType) {
     case AssignmentType.ParameterizedTypeAssignment: {
-      return grokTypeAssignment(assignment.children[0], ctx);
+      const result = grokTypeAssignment(assignment.children[0], ctx);
+      result.production = assignment;
+      return result;
     }
     case AssignmentType.TypeAssignment: {
-      return grokTypeAssignment(assignment, ctx);
+      const result = grokTypeAssignment(assignment, ctx);
+      result.production = assignment;
+      return result;
     }
     case AssignmentType.ParameterizedValueSetTypeAssignment: {
-      return grokValueSetTypeAssignment(assignment.children[0], ctx);
+      const result = grokValueSetTypeAssignment(assignment.children[0], ctx);
+      result.production = assignment;
+      return result;
     }
     case AssignmentType.ValueSetTypeAssignment: {
-      return grokValueSetTypeAssignment(assignment, ctx);
+      const result = grokValueSetTypeAssignment(assignment, ctx);
+      result.production = assignment;
+      return result;
     }
     case AssignmentType.ParameterizedValueAssignment: {
-      return grokValueAssignment(assignment.children[0], ctx);
+      const result = grokValueAssignment(assignment.children[0], ctx);
+      result.production = assignment;
+      return result;
     }
     case AssignmentType.ValueAssignment: {
-      return grokValueAssignment(assignment, ctx);
+      const result = grokValueAssignment(assignment, ctx);
+      result.production = assignment;
+      return result;
     }
     case AssignmentType.ParameterizedObjectClassAssignment: {
-      return grokObjectClassAssignment(assignment.children[0], ctx);
+      const result = grokObjectClassAssignment(assignment.children[0], ctx);
+      result.production = assignment;
+      return result;
     }
     case AssignmentType.ObjectClassAssignment: {
-      return grokObjectClassAssignment(assignment, ctx);
+      const result = grokObjectClassAssignment(assignment, ctx);
+      result.production = assignment;
+      return result;
     }
     case AssignmentType.ParameterizedObjectAssignment: {
-      return grokObjectAssignment(assignment.children[0], ctx);
+      const result = grokObjectAssignment(assignment.children[0], ctx);
+      result.production = assignment;
+      return result;
     }
     case AssignmentType.ObjectAssignment: {
-      return grokObjectAssignment(assignment, ctx);
+      const result = grokObjectAssignment(assignment, ctx);
+      result.production = assignment;
+      return result;
     }
     case AssignmentType.ParameterizedObjectSetAssignment: {
-      return grokObjectSetAssignment(assignment.children[0], ctx);
+      const result = grokObjectSetAssignment(assignment.children[0], ctx);
+      result.production = assignment;
+      return result;
     }
     case AssignmentType.ObjectSetAssignment: {
-      return grokObjectSetAssignment(assignment, ctx);
+      const result = grokObjectSetAssignment(assignment, ctx);
+      result.production = assignment;
+      return result;
     }
     case AssignmentType.XMLValueAssignment: {
       const reference: Production | undefined = assignment.children.find(
@@ -138,6 +162,7 @@ export default function grokAssignment(
           cst.location.endIndex
         ),
         dependencies: {},
+        production: assignment,
       };
     }
     default: {

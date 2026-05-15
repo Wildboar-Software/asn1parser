@@ -78,9 +78,9 @@ export default function translateDefinedSyntaxToDefaultSyntax(
   let s: number = 0; // Our index into the syntax tokens.
   let t: number = 0; // Our index into the object's tokens.
   const settings: Record<string, Setting> = {};
-  while (t < obj.length) {
+  while (t < obj.tokens.length) {
     const expected = syntax[s];
-    const token = obj[t];
+    const token = obj.tokens[t];
     if (typeof expected === 'string') {
       if (expected.startsWith('&')) {
         // Expecting a field setting.
@@ -208,7 +208,7 @@ export default function translateDefinedSyntaxToDefaultSyntax(
     } else if (typeof expected === 'object' && Array.isArray(expected)) {
       // Expecting a group.
       const [results, tokensRead] = translateDefinedSyntaxToDefaultSyntax(
-        obj.slice(t),
+        { tokens: obj.tokens.slice(t) },
         expected,
         currentModule
       );

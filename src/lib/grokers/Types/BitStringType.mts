@@ -4,6 +4,7 @@ import ProductionType from '../../ProductionType.mjs';
 import TypeType from '../../constructs/TypeType.mjs';
 import grokDefined from '../Defined.mjs';
 import type Defined from '../../constructs/Defined.mjs';
+import type NamedNumber from '../../constructs/NamedNumber.mjs';
 import { type Type } from '../../constructs/Type.mjs';
 
 // BitStringType ::=
@@ -25,7 +26,7 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
   );
   let selfContained: boolean = true;
   if (components[components.length - 1].type === ProductionType.curlyClosing) {
-    const namedBitList = components[components.length - 2].children
+    const namedBitList: NamedNumber[] = components[components.length - 2].children
       .filter(
         (child: Production): boolean => child.type === ProductionType.NamedBit
       )
@@ -53,6 +54,12 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
             namedBitComponents[0].location.endIndex
           ),
           number: number_,
+          production: namedBit,
+          productionType: ProductionType.NamedBit,
+          text: text.slice(
+            namedBit.location.startIndex,
+            namedBit.location.endIndex
+          ),
         };
       });
     return {

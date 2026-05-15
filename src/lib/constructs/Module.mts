@@ -1,7 +1,8 @@
 import TaggingMode from '../constructs/TaggingMode.mjs';
 import { type NameAndOrNumber } from './NameAndOrNumber.mjs';
 import { type Assignment } from './Assignment.mjs';
-import type SymbolsFromModule from './SymbolsFromModule.mjs';
+import type { Exports } from './Exports.mjs';
+import type { Imports } from './Imports.mjs';
 
 /**
  * `ModuleDefinition ::=
@@ -25,8 +26,8 @@ export default class Module {
     readonly encodingReference: string | undefined,
     readonly taggingMode: TaggingMode, // EXPLICIT is the default.
     readonly extensibilityImplied: boolean, // Defaults to false.
-    readonly imports: { [moduleName: string]: SymbolsFromModule },
-    readonly exports: { [symbolName: string]: any } | undefined,
+    readonly imports: Imports,
+    readonly exports: Exports | undefined,
     readonly assignments: { [identifier: string]: Assignment },
     readonly asn1FilePath: string | undefined,
     readonly comment: string | undefined,

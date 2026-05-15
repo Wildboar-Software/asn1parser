@@ -3,6 +3,7 @@ import type Production from '../../Production.mjs';
 import ProductionType from '../../ProductionType.mjs';
 import TypeType from '../../constructs/TypeType.mjs';
 import grokDefined from '../Defined.mjs';
+import type NamedNumber from '../../constructs/NamedNumber.mjs';
 import { type Type } from '../../constructs/Type.mjs';
 
 // IntegerType ::=
@@ -42,7 +43,7 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
 
   let selfContained: boolean = true;
   const NamedNumberList: Production = components[2];
-  const namedNumbers = NamedNumberList.children
+  const namedNumbers: NamedNumber[] = NamedNumberList.children
     .filter(
       (child: Production): boolean => child.type === ProductionType.NamedNumber
     )
@@ -66,12 +67,24 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
         return {
           identifier,
           number: value,
+          production: nn,
+          productionType: ProductionType.NamedNumber,
+          text: text.slice(
+            nn.location.startIndex,
+            nn.location.endIndex
+          ),
         };
       } else {
         selfContained = false;
         return {
           identifier,
           number: grokDefined(nnComponents[2], ctx),
+          production: nn,
+          productionType: ProductionType.NamedNumber,
+          text: text.slice(
+            nn.location.startIndex,
+            nn.location.endIndex
+          ),
         };
       }
     });

@@ -109,7 +109,10 @@ export default function grok(cst: Production, ctx: GrokContext): Defined {
     case ProductionType.DefinedObject:
     case ProductionType.DefinedObjectClass:
     case ProductionType.DefinedObjectSet: {
-      return grok(cst.children[0], ctx);
+      const d = grok(cst.children[0], ctx);
+      d.production = cst;
+      d.productionType = cst.type;
+      return d;
     }
     case ProductionType.ExternalValueReference:
     case ProductionType.ExternalTypeReference:
@@ -127,6 +130,8 @@ export default function grok(cst: Production, ctx: GrokContext): Defined {
         module: mod.trim(),
         reference: ref.trim(),
         computedModule: mod.trim(),
+        production: cst,
+        productionType: cst.type,
       };
     }
     case ProductionType.valuereference:
@@ -142,9 +147,11 @@ export default function grok(cst: Production, ctx: GrokContext): Defined {
       return {
         reference,
         computedModule:
-          Object.values(ctx.currentModule.imports ?? {}).find(
+          Object.values(ctx.currentModule.imports?.modules ?? {}).find(
             (sfm: SymbolsFromModule): boolean => reference in sfm.symbolList
           )?.identifier ?? ctx.currentModule.name!,
+        production: cst,
+        productionType: cst.type,
       };
     }
     case ProductionType.ParameterizedType:
@@ -195,9 +202,11 @@ export default function grok(cst: Production, ctx: GrokContext): Defined {
         reference,
         parameters,
         computedModule:
-          Object.values(ctx.currentModule.imports ?? {}).find(
+          Object.values(ctx.currentModule.imports?.modules ?? {}).find(
             (sfm: SymbolsFromModule): boolean => reference in sfm.symbolList
           )?.identifier ?? ctx.currentModule.name!,
+        production: cst,
+        productionType: cst.type,
       };
     }
     default: {
