@@ -9,6 +9,13 @@ import type Location from  './interfaces/Location.mjs';
  * @class
  */
 export default class Production<Types extends ProductionType = ProductionType> {
+
+  /**
+   * @summary The parent node in the CST.
+   * @public
+   */
+  public parent?: Production<Types>;
+
   /**
    * @private
    * @member {Location}

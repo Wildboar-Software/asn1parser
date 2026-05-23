@@ -254,3 +254,25 @@ export const val: INTEGER = 5;
 ```
 
 Where `INTEGER` is defined before the above assignment.
+
+## Doubly-Linking the CST
+
+If given a Concrete Syntax Tree (CST) node and you need to discover the node
+immediately superior to it, you must first call `doublyLinkCST()` over the
+CST's root (or some node beneath it), so the parents of those nodes can be
+associated. This is not done automatically because sometimes you do not need
+it. Here is an example:
+
+```typescript
+const text = `A {iso} DEFINITIONS ::= BEGIN
+    SIGNED{ToBeSigned} ::= SEQUENCE {
+        toBeSigned    ToBeSigned,
+        COMPONENTS OF SIGNATURE,
+        ... }
+    END`;
+const lex = Array.from(lex(text));
+const p = parse(text, lex);
+// console.log(p); // Prints the ending parser state. "p.cst" contains the concrete syntax tree.
+doublyLinkCST(p.cst);
+// Now every node in the CST has the `.parent` property populated.
+```
