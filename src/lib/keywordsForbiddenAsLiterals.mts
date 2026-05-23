@@ -1,10 +1,46 @@
 import ProductionType from './ProductionType.mjs';
 
 /**
- * Keywords that may be used as `Literal` `word`s in an object's defined syntax.
+ * Keywords that MUST NOT be used as `Literal` `word`s in an object's defined syntax.
+ * 
+ * ITU-T Rec. X.681, Section 10.6, says that these words MUST NOT appear as word literals in objects:
+ * 
+ * - `ABSTRACT-SYNTAX`
+ * - `BIT`
+ * - `BOOLEAN`
+ * - `CHARACTER`
+ * - `CHOICE`
+ * - `CONTAINING`
+ * - `DATE`
+ * - `DATE-TIME`
+ * - `DURATION`
+ * - `EMBEDDED`
+ * - `END`
+ * - `ENUMERATED`
+ * - `EXTERNAL`
+ * - `FALSE`
+ * - `INSTANCE`
+ * - `INTEGER`
+ * - `MINUS-INFINITY`
+ * - `NOT-A-NUMBER`
+ * - `NULL`
+ * - `OBJECT`
+ * - `OCTET`
+ * - `OID-IRI`
+ * - `PLUS-INFINITY`
+ * - `REAL`
+ * - `RELATIVE-OID`
+ * - `RELATIVE-OID-IRI`
+ * - `SEQUENCE`
+ * - `SET`
+ * - `TIME`
+ * - `TIME-OF-DAY`
+ * - `TRUE`
+ * - `TYPE-IDENTIFIER`
+ * 
  * @constant
  */
-export const keywordsPermissibleAsLiterals = new Set<ProductionType>([
+export const keywordsForbiddenAsLiterals = new Set<ProductionType>([
   ProductionType._ABSENT,
   ProductionType._ABSTRACT_SYNTAX,
   ProductionType._ALL,
@@ -62,4 +98,4 @@ export const keywordsPermissibleAsLiterals = new Set<ProductionType>([
   ProductionType._WITH,
 ]);
 
-export default keywordsPermissibleAsLiterals;
+export default keywordsForbiddenAsLiterals;

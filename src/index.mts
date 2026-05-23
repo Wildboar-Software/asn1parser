@@ -162,3 +162,7 @@ export { default as normalizeObjectSetAssignment } from './lib/normalizers/Assig
 export { default as normalizeTypeAssignment } from './lib/normalizers/Assignment/TypeAssignment.mjs';
 export { default as normalizeValueAssignment } from './lib/normalizers/Assignment/ValueAssignment.mjs';
 export { default as normalizeValueSetTypeAssignment } from './lib/normalizers/Assignment/ValueSetTypeAssignment.mjs';
+
+export { keywordsForbiddenAsLiterals } from './lib/keywordsForbiddenAsLiterals.mjs';
+export { keywordsPermissibleAsLiterals } from './lib/keywordsPermissibleAsLiterals.mjs';
+export { builtinRootArcNamesToNumber } from './lib/builtinRootArcNamesRootNumber.mjs';
