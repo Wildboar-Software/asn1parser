@@ -40,7 +40,7 @@ import ProductionType from './ProductionType.mjs';
  * 
  * @constant
  */
-export const keywordsForbiddenAsLiterals = new Set<ProductionType>([
+export const keywordsForbiddenAsLiterals: Set<ProductionType> = new Set([
   ProductionType._ABSENT,
   ProductionType._ABSTRACT_SYNTAX,
   ProductionType._ALL,

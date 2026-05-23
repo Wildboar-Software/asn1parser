@@ -4,7 +4,7 @@ import ProductionType from './ProductionType.mjs';
  * Keywords that may be used as `Literal` `word`s in an object's defined syntax.
  * @constant
  */
-export const keywordsPermissibleAsLiterals = new Set<ProductionType>([
+export const keywordsPermissibleAsLiterals: Set<ProductionType> = new Set([
   ProductionType._ABSENT,
   ProductionType._ABSTRACT_SYNTAX,
   ProductionType._ALL,
