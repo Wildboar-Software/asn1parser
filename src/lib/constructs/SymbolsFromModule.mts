@@ -31,9 +31,10 @@ export default interface SymbolsFromModule extends GrokedThing {
 
   /**
    * The symbols are the keys of this property, and their productions in the
-   * Concrete Syntax Tree (CST), if known, are the values.
+   * Concrete Syntax Tree (CST), if known, are the values. The values are
+   * `null` if the production in the Concrete Syntax Tree (CST) is not known.
    */
-  symbolList: Record<string, Production | undefined>;
+  symbolList: Record<string, Production | null>;
 
   /**
    * Options for identifying alternatives of an ASN.1 module from

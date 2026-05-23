@@ -34,7 +34,7 @@ export default function addImplicitlyImportedSymbols(mod: Module): void {
           symbolList: {},
         };
       }
-      mod.imports.modules[moduleName].symbolList[dep.reference] = dep.production;
+      mod.imports.modules[moduleName].symbolList[dep.reference] = dep.production ?? null;
     })
   );
 }
