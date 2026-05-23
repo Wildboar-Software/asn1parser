@@ -47,7 +47,12 @@ export default class Parser {
       log: consoleLogger,
       tokens,
       index: 0,
-      cst: new Production(ProductionType.empty),
+      cst: new Production(ProductionType.empty, [], {
+        startIndex: 0,
+        endIndex: 0,
+        lineNumber: 1,
+        columnNumber: 1,
+      }),
       syntaxErrors: {},
       discoveredIdentifiers: new Map([]),
       callbackMap: new Map([

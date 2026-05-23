@@ -28,13 +28,13 @@ export default interface Location {
   readonly endIndex: number;
 
   /**
-   * @summary The line number where this thing appears in the text.
+   * @summary The one-indexed line number where this thing appears in the text.
    * @member {number}
    */
   readonly lineNumber: number;
 
   /**
-   * @summary The column number where this thing appears in the text.
+   * @summary The one-indexed column number where this thing appears in the text.
    * @member {number}
    */
   readonly columnNumber: number;

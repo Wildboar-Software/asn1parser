@@ -28,33 +28,29 @@ export default function (
       if (parsers.length === 0) {
         return state;
       }
+      const currentloc = state.tokens[state.index]?.location;
       let nextState: ParseContext = state;
       const results: ParseContext[] = new Array(parsers.length);
       for (let i = 0; i < parsers.length; i++) {
         const result = parsers[i].execute(nextState);
         if (result.error) {
-          state.log.debug(
-            `Failed to read ${parsers[
-              i
-            ].name()} (index ${i}) as part of sequence ${containingType}.`
-          );
           return {
             ...state,
             cst: new Production(
               containingType,
-              results.slice(0, i).map((r) => r.cst)
+              results.slice(0, i).map((r) => r.cst),
+              (results.length && currentloc)
+                ? undefined
+                : {
+                  ...currentloc,
+                  endIndex: currentloc.startIndex,
+                },
             ),
             error: true,
           };
-        } else {
-          state.log.debug(
-            `Read ${parsers[
-              i
-            ].name()} (index ${i}) as part of sequence ${containingType}.`
-          );
-          nextState = result;
-          results[i] = result;
         }
+        nextState = result;
+        results[i] = result;
       }
       return {
         ...state,

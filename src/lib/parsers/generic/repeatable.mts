@@ -23,6 +23,7 @@ export default function (
   return new Parser(
     () => `${containingType} / Repeatable ${parser.name()}`,
     (state: ParseContext): ParseContext => {
+      const currentloc = state.tokens[state.index].location; 
       const children: Production[] = [];
       state.log.debug(`Repeatable index: ${state.index}.`);
       let result = state;
@@ -42,7 +43,16 @@ export default function (
         ...state,
         error: children.length === 0,
         index: result.index,
-        cst: new Production(containingType, children),
+        cst: new Production(
+          containingType,
+          children,
+          children.length
+            ? undefined
+            : {
+              ...currentloc,
+              endIndex: currentloc.startIndex,
+            },
+        ),
       };
     }
   );

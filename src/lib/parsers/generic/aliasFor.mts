@@ -25,12 +25,16 @@ export default function (
   return new Parser(
     () => `Alias Of ${containingType} (${parser.name()})`,
     (state: ParseContext): ParseContext => {
+      const currentloc = state.tokens[state.index].location;
       const result = parser.execute(state);
       if (result.error) {
         return {
           ...state,
           error: true,
-          cst: new Production(containingType),
+          cst: new Production(containingType, [], {
+            ...currentloc,
+            endIndex: currentloc.startIndex,
+          }),
         };
       }
       state.log.debug(`Read alias ${containingType}.`);

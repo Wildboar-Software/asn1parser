@@ -28,6 +28,7 @@ export default function (
   return new Parser(
     () => `${containingType || alts.map((p) => p.name()).join(',')} Choice`,
     (state: ParseContext): ParseContext => {
+      const currentloc = state.tokens[state.index].location;
       for (const labeledParser of alts) {
         const result = labeledParser.execute(state);
         if (!result.error) {
@@ -56,10 +57,16 @@ export default function (
           };
         }
       }
+
+      // None of the alternatives matched. Return an error.
+      const cst = new Production(containingType || ProductionType.empty, [], {
+        ...currentloc,
+        endIndex: currentloc.startIndex,
+      });
       return {
         ...state,
         error: true,
-        cst: new Production(containingType || ProductionType.empty, []),
+        cst,
       };
     }
   );

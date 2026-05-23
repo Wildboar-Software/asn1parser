@@ -12,12 +12,6 @@ import nonNewlineWhitespaceCharacters from './nonNewlineWhitespaceCharacters.mjs
 const CR: number = '\r'.charCodeAt(0);
 
 /**
- * Line feed.
- * @constant
- */
-const LF: number = '\n'.charCodeAt(0);
-
-/**
  * @summary Determine whether a character could be part of an `identifier`.
  * @description
  * Returns a `boolean` indicating whether the supplied character code is for
@@ -72,23 +66,8 @@ export default function* lex(
     );
   }
 
-  function isAtEndOfNewlineSequence(): boolean {
-    const currChar: number = str.charCodeAt(i);
-    const nextChar: number = str.charCodeAt(i + 1);
-    return currChar === CR
-      ? !(nextChar === LF)
-      : newlineWhitespaceCharacters.has(currChar);
-  }
-
   function theEndOfTheCurrentTokenIsKnown(): boolean {
     return tokenEndIndex > tokenStartIndex;
-  }
-
-  function thingsThatMustBeDoneForEveryCharacter(): void {
-    if (isAtEndOfNewlineSequence()) {
-      lineNumber++;
-      lineStartIndex = i + 1;
-    }
   }
 
   while (tokenStartIndex < str.length) {
@@ -375,13 +354,16 @@ export default function* lex(
         startIndex: tokenStartIndex,
         endIndex: tokenEndIndex,
         lineNumber,
-        columnNumber: tokenStartIndex - lineStartIndex + 1,
+        columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
       });
+      if (tokenType === ProductionType.newlineWhitespace) {
+        lineNumber++;
+        lineStartIndex = i;
+      }
       tokenStartIndex = tokenEndIndex;
       tokenType = ProductionType.empty;
     } else {
-      thingsThatMustBeDoneForEveryCharacter();
-      i++;
+      i++; // TODO: Why is this only done in the "else" case?
     }
 
     // There should never be more loops than there are characters in `str`,

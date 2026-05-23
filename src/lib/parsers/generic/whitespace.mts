@@ -41,10 +41,16 @@ export default new Parser(
         ),
       };
     } else {
+      // I am pretty sure you need to do this for other types.
+      const currentloc = currentToken.location;
+      const cst = new Production(ProductionType.whitespace, [], {
+        ...currentloc,
+        endIndex: currentloc.startIndex,
+      });
       return {
         ...state,
         error: true,
-        cst: new Production(ProductionType.whitespace, []),
+        cst,
       };
     }
   }

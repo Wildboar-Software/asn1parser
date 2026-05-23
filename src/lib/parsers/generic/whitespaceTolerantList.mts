@@ -34,6 +34,7 @@ export default function (
     () =>
       `Whitespace-Tolerant ${delimiterParser.name()}-delimited List ${containingType}`,
     (state: ParseContext): ParseContext => {
+      const startloc = state.tokens[state.index].location;
       let children: Production[] = [];
       let nextState: ParseContext = listItemParser.execute(state);
       if (nextState.error) {
@@ -43,7 +44,10 @@ export default function (
         return {
           ...state,
           error: true,
-          cst: new Production(containingType, []),
+          cst: new Production(containingType, [], {
+            ...startloc,
+            endIndex: startloc.startIndex,
+          }),
         };
       }
       children.push(nextState.cst);

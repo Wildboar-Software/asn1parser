@@ -35,6 +35,7 @@ export default function (
   return new Parser(
     () => `Delimited List ${containingType}`,
     (state: ParseContext): ParseContext => {
+      const startloc = state.tokens[state.index].location;
       let nextState: ParseContext = listItemParser.execute(state);
       if (nextState.error) {
         state.log.debug(
@@ -43,7 +44,10 @@ export default function (
         return {
           ...state,
           error: true,
-          cst: new Production(containingType, []),
+          cst: new Production(containingType, [], {
+            ...startloc,
+            endIndex: startloc.startIndex,
+          }),
         };
       }
       let children: Production[] = [nextState.cst];

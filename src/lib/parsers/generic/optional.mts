@@ -1,6 +1,7 @@
 import Parser from '../../Parser.mjs';
 import OptionalParser from '../../OptionalParser.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
+import { default as Production } from '../../Production.mjs';
 
 /**
  * @summary Ignore the error if something cannot be parsed.
@@ -18,9 +19,20 @@ export default function (parser: Parser): Parser {
   return new OptionalParser(
     () => `Optional ${parser.name()}`,
     (state: ParseContext): ParseContext => {
+      const currentloc = state.tokens[state.index].location;
       const result = parser.execute(state);
       if (result.error) {
         delete result.error;
+        if (result.cst.children.length === 0) {
+          result.cst = new Production(
+            result.cst.type,
+            result.cst.children,
+            {
+              ...currentloc,
+              endIndex: currentloc.startIndex,
+            },
+          );
+        }
       }
       return result;
     }

@@ -49,7 +49,7 @@ export default new Parser(
         ),
       };
     }
-    results.push(ws1);
+    ws1.cst.children.length && results.push(ws1);
     results.push(comma1);
 
     const commonProductions: Parser[] = [
@@ -82,7 +82,9 @@ export default new Parser(
           },
         };
       }
-      results.push(nextState);
+
+      // Each one of these productions should have children or be absent.
+      nextState.cst.children.length && results.push(nextState);
     }
 
     const ws2 = optional(whitespace).execute(nextState);
@@ -94,11 +96,6 @@ export default new Parser(
     const eem: ParseContext = parserFor.ExtensionEndMarker.execute(ws2);
     if (eem.error) {
       // If an ExtensionEndMarker could not be read, it must have been Option #2.
-      results.push({
-        ...eem,
-        error: undefined,
-        cst: new Production(ProductionType.OptionalExtensionMarker, []),
-      });
       return {
         ...eem,
         error: undefined,
@@ -108,7 +105,7 @@ export default new Parser(
         ),
       };
     }
-    results.push(ws2);
+    ws2.cst.children.length && results.push(ws2);
     results.push(eem);
 
     const ws3 = optional(whitespace).execute(eem);
@@ -122,7 +119,7 @@ export default new Parser(
         ),
       };
     }
-    results.push(ws3);
+    ws3.cst.children.length && results.push(ws3);
     results.push(comma2);
 
     // Otherwise, it must be Option #3
@@ -143,7 +140,7 @@ export default new Parser(
         },
       };
     }
-    results.push(ws4);
+    ws4.cst.children.length && results.push(ws4);
     results.push(rctl2);
     return {
       ...rctl2,

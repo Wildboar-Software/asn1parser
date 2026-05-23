@@ -1,4 +1,15 @@
-import { lex, LogLevel, grok, ProductionType, normalize, parse, correct, AssignmentType, TypeType } from '../dist/index.mjs';
+import {
+  lex,
+  LogLevel,
+  grok,
+  ProductionType,
+  normalize,
+  parse,
+  correct,
+  AssignmentType,
+  TypeType,
+  Production, 
+} from '../dist/index.mjs';
 import { default as logger } from '../dist/lib/loggers/console.mjs';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
@@ -6,10 +17,58 @@ import { fileURLToPath } from 'node:url';
 import { describe, test } from 'node:test';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import { strict as assert, strictEqual as assertEqual } from 'node:assert';
+import { strict as assert, strictEqual as assertEqual, notStrictEqual } from 'node:assert';
+
+/**
+ * Asserts that every CST node beneath (and including) this one does not have
+ * an invalid location, meaning a negative start index, end index, line number,
+ * or column number.
+ * 
+ * @param {import("../dist/index.mjs").Production} cst The concrete syntax tree
+ */
+function checkCSTForNegativeLocations(cst) {
+  const loc = cst.location;
+  notStrictEqual(loc.startIndex, -1, cst.type);
+  notStrictEqual(loc.endIndex, -1, cst.type);
+  notStrictEqual(loc.lineNumber, -1, cst.type);
+  notStrictEqual(loc.columnNumber, -1, cst.type);
+  for (const child of cst.children) {
+    checkCSTForNegativeLocations(child);
+  }
+}
 
 describe('Parser', () => {
   logger.level = LogLevel.error;
+
+  test('does not produce a CST with invalid locations from a SEQUENCE type', () => {
+    const problem = `
+    A {iso} DEFINITIONS ::= BEGIN
+    
+    -- Modification of SDSEContent from ITU-T Rec. X.525 to require no imports.
+    -- This was the production where I first noticed this issue.
+    SDSEContent ::= SEQUENCE {
+      sDSEType          BIT STRING,
+      subComplete       [0]  BOOLEAN DEFAULT FALSE,
+      attComplete       [1]  BOOLEAN OPTIONAL,
+      attributes        SET OF INTEGER,
+      attValIncomplete  SET OF OBJECT IDENTIFIER DEFAULT {},
+      ...}
+    
+    END
+    `;
+    let lexResults;
+    /** @type {import("../dist/index.mjs").ParserState} */
+    let parseResults;
+    assert.doesNotThrow(() => {
+      lexResults = Array.from(lex(problem));
+      parseResults = parse(problem, lexResults);
+    });
+    assertEqual(parseResults.error, undefined);
+    const modules = grok(problem, parseResults);
+    const mod = modules[0];
+    const prod = mod.assignments["SDSEContent"].production;
+    checkCSTForNegativeLocations(prod);
+  });
 
   test('does not throw or return an error when there is a trailing whitespace', () => {
     const problem = 'A {iso} DEFINITIONS ::= BEGIN B ::= NULL END ';
