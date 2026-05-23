@@ -63,4 +63,22 @@ export default class Production<Types extends ProductionType = ProductionType> {
   ) {
     this._location = loc;
   }
+
+  /**
+   * @summary Convert this CST node to JSON
+   * @description
+   * 
+   * The primary motivation for this function is so that the whole CST can be
+   * converted to JSON. Part of doing this requires _not_ serializing the
+   * `parent`, if present, because doing so would cause infinite loops.
+   * 
+   * @returns The JSON representation of this CST node
+   */
+  public toJSON(): any {
+    return {
+      type: this.type,
+      location: this.location,
+      children: this.children.map((c) => c.toJSON()),
+    };
+  }
 }
