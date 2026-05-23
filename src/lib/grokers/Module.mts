@@ -146,7 +146,7 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
     i++;
   }
 
-  return new Module(
+  const ret = new Module(
     name,
     oid,
     iri,
@@ -160,4 +160,6 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
     undefined,
     ctx.enumItems
   );
+  ret.production = cst;
+  return ret;
 }
