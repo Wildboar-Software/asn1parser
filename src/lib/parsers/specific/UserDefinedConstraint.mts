@@ -33,7 +33,7 @@ export default recursiveParser(
           ProductionType.UserDefinedConstraintParameter,
           parserFor.UserDefinedConstraintParameter
         )
-      ), // FIXME:
+      ),
       assert(
         literal(ProductionType.curlyClosing),
         anything,

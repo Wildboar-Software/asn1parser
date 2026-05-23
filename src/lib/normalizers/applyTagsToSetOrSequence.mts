@@ -12,7 +12,7 @@ import { type Assignment } from '../constructs/Assignment.mjs';
 import AssignmentType from '../constructs/AssignmentType.mjs';
 import type TypeAssignment from '../constructs/AssignmentTypes/TypeAssignment.mjs';
 
-// FIXME: I think you could make a more generic version: `applyTagToType()`
+// TODO: I think you could make a more generic version: `applyTagToType()`
 // The NamedType's identifier is not even used anywhere here...
 function applyTagToComponentType(
   ct: ComponentType,
@@ -135,7 +135,7 @@ function applyTagToComponentType(
   }
 }
 
-// FIXME: Use the iterateOver...() iterator.
+// TODO: Use the iterateOver...() iterator.
 /**
  * According to X.680, the decision of whether to auto tag must be made before
  * expansion of COMPONENT OF, but actual tagging must be done after.

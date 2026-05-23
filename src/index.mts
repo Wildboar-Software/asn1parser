@@ -144,7 +144,6 @@ export { default as parse } from './lib/parse.mjs';
 export { default as recursivelyResolve } from './lib/recursivelyResolve.mjs';
 export { default as replicateComponentsOf } from './lib/normalizers/replicateComponentsOf.mjs';
 export { default as resolve } from './lib/resolve.mjs';
-export { default as resolveAlternative } from './lib/resolveAlternative.mjs';
 export { default as specialCharacterToTokenMap } from './lib/maps/specialCharacterToTokenMap.mjs';
 export { default as typeToTagNumberMap } from './lib/maps/typeToTagNumberMap.mjs';
 export { default as unescapeCString } from './lib/unescapeCstring.mjs';

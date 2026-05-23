@@ -213,10 +213,7 @@ export default function translateDefinedSyntaxToDefaultSyntax(
         currentModule
       );
       if (results) {
-        Object.entries(results.fieldSettings).forEach((entry) => {
-          // FIXME: Object.assign()
-          settings[entry[0]] = entry[1];
-        });
+        Object.assign(settings, results.fieldSettings);
         t += tokensRead;
       }
       s++;

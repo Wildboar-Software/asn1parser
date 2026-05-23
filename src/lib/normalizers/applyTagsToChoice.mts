@@ -11,7 +11,7 @@ import type TypeAssignment from '../constructs/AssignmentTypes/TypeAssignment.mj
 import AssignmentType from '../constructs/AssignmentType.mjs';
 import recursivelyResolve from '../recursivelyResolve.mjs';
 
-// FIXME: I think you could make a more generic version: `applyTagToType()`
+// TODO: I think you could make a more generic version: `applyTagToType()`
 // The NamedType's identifier is not even used anywhere here...
 function applyTagToNamedType(
   nt: NamedType,
@@ -99,7 +99,7 @@ function applyTagToNamedType(
   }
 }
 
-// FIXME: Use the iterateOver...() iterator.
+// TODO: Use the iterateOver...() iterator.
 /**
  * @param type_
  * @param currentModule

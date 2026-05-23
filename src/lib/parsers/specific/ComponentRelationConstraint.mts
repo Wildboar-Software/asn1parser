@@ -19,7 +19,7 @@ export default recursiveParser(
       parserFor.DefinedObjectSet,
       literal(ProductionType.curlyClosing),
       literal(ProductionType.curlyOpening),
-      commaDelimitedList(ProductionType.AtNotation, parserFor.AtNotation), // FIXME:
+      commaDelimitedList(ProductionType.AtNotation, parserFor.AtNotation),
       assert(
         literal(ProductionType.curlyClosing),
         literal(ProductionType.curlyClosing),

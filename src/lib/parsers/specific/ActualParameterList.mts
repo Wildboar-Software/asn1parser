@@ -18,7 +18,7 @@ export default recursiveParser(
       commaDelimitedList(
         ProductionType.ActualParameterList,
         parserFor.ActualParameter
-      ), // FIXME:
+      ),
       literal(ProductionType.curlyClosing),
     ])
 );

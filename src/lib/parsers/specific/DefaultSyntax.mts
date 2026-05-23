@@ -15,7 +15,7 @@ export default recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.DefaultSyntax, [
       literal(ProductionType.curlyOpening),
-      commaDelimitedList(ProductionType.FieldSetting, parserFor.FieldSetting), // FIXME:
+      commaDelimitedList(ProductionType.FieldSetting, parserFor.FieldSetting),
       literal(ProductionType.curlyClosing),
     ])
 );

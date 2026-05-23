@@ -18,7 +18,7 @@ export default recursiveParser(
       whitespaceOptionalDelimitedList(
         ProductionType.TokenOrGroupSpec,
         parserFor.TokenOrGroupSpec
-      ), // FIXME:
+      ),
       literal(ProductionType.squareClosing),
     ])
 );
