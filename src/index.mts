@@ -151,6 +151,7 @@ export { default as unnest } from './lib/normalizers/unnest.mjs';
 export { default as valueTypeToTypeTypeMap } from './lib/maps/valueTypeToTypeTypeMap.mjs';
 export { default as typeTypeToValueTypeMap } from './lib/maps/typeTypeToValueTypeMap.mjs';
 
+export * as parserFor from './lib/parsers/index.mjs';
 export * as grokerFor from './lib/grokers/index.mjs';
 
 export { default as translateDefinedSyntaxToDefaultSyntax } from './lib/normalizers/translateDefinedSyntaxToDefaultSyntax.mjs';
