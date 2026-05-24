@@ -140,5 +140,3 @@ annotations.
 
 - [ ] Performance Enhancements
 - [ ] Make dependency on `dependency-graph` optional
-- [x] GitHub Actions
-- [x] Publish
