@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `RequiredToken ::= Literal | PrimitiveFieldName`
  */
-export default recursiveParser(
+export const RequiredToken: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.Literal, parserFor.PrimitiveFieldName],
       ProductionType.RequiredToken
     )
 );
+export default RequiredToken;

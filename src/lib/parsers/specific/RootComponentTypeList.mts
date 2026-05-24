@@ -6,7 +6,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `RootComponentTypeList ::= ComponentTypeList`
  */
-export default recursiveParser(
+export const RootComponentTypeList: Parser = recursiveParser(
   (): Parser =>
     aliasFor(ProductionType.RootComponentTypeList, parserFor.ComponentTypeList)
 );
+export default RootComponentTypeList;

@@ -13,7 +13,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `BitStringType ::= BIT STRING | BIT STRING "{" NamedBitList "}"`
  */
-export default recursiveParser(
+export const BitStringType: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.BitStringType, [
@@ -37,3 +37,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default BitStringType;

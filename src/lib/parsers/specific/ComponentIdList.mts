@@ -9,10 +9,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ComponentIdList ::= identifier "." +`
  */
-export default recursiveParser(
+export const ComponentIdList: Parser = recursiveParser(
   (): Parser =>
     periodDelimitedList(
       ProductionType.ComponentIdList,
       literal(ProductionType.identifier)
     )
 );
+export default ComponentIdList;

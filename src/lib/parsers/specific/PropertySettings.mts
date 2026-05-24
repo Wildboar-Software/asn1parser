@@ -12,7 +12,7 @@ import * as parserFor from './index.mjs';
 /**
  * `PropertySettings ::= SETTINGS simplestring`
  */
-export default recursiveParser(
+export const PropertySettings: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.PropertySettings, [
       literal(ProductionType._SETTINGS),
@@ -23,3 +23,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default PropertySettings;

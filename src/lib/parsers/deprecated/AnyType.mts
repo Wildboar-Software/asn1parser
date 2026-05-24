@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `AnyType ::= ANY | ANY DEFINED BY identifier`
  */
-export default recursiveParser(
+export const AnyType: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.AnyType, [
@@ -22,3 +22,4 @@ export default recursiveParser(
       literal(ProductionType._ANY, ProductionType.AnyType),
     ])
 );
+export default AnyType;

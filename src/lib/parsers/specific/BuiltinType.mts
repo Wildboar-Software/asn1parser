@@ -34,7 +34,7 @@ import AnyType from '../deprecated/AnyType.mjs';
  *      | TimeType
  *      | TimeOfDayType`
  */
-export default recursiveParser(
+export const BuiltinType: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -72,3 +72,4 @@ export default recursiveParser(
       ProductionType.BuiltinType
     )
 );
+export default BuiltinType;

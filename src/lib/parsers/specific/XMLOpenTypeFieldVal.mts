@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLOpenTypeFieldVal ::= XMLTypedValue | xmlhstring`
  */
-export default recursiveParser(
+export const XMLOpenTypeFieldVal: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.XMLTypedValue, literal(ProductionType.xmlhstring)],
       ProductionType.XMLOpenTypeFieldVal
     )
 );
+export default XMLOpenTypeFieldVal;

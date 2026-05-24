@@ -13,7 +13,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SequenceOfType ::= SEQUENCE OF Type | SEQUENCE OF NamedType`
  */
-export default recursiveParser(
+export const SequenceOfType: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.SequenceOfType, [
       literal(ProductionType._SEQUENCE),
@@ -25,3 +25,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default SequenceOfType;

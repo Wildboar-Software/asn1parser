@@ -10,11 +10,12 @@ import type ParseContext from '../../interfaces/ParseContext.mjs';
  * @param {ParseContext} ctx The parser state
  * @function
  */
-export default function onDidParseSymbol(ctx: ParseContext): void {
+export const onDidParseSymbol = function onDidParseSymbol(ctx: ParseContext): void {
   ctx.discoveredIdentifiers.set(
     ctx.text
       .slice(ctx.cst.location.startIndex, ctx.cst.location.endIndex)
       .replace(/\{.*\}/, ''),
     null // The assignment type of imports cannot be determined at parsing time.
   );
-}
+};
+export default onDidParseSymbol;

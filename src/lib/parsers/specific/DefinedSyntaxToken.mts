@@ -7,7 +7,7 @@ import * as optimizedParserFor from '../optimized/index.mjs';
 /**
  * `DefinedSyntaxToken ::= Literal | Setting`
  */
-export default recursiveParser(
+export const DefinedSyntaxToken: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -18,3 +18,4 @@ export default recursiveParser(
       ProductionType.DefinedSyntaxToken
     )
 );
+export default DefinedSyntaxToken;

@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `LowerEndValue ::= Value | MIN`
  */
-export default recursiveParser(
+export const LowerEndValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.Value, literal(ProductionType._MIN)],
       ProductionType.LowerEndValue
     )
 );
+export default LowerEndValue;

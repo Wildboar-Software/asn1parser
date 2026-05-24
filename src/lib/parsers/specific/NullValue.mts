@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `NullValue ::= NULL`
  */
-export default recursiveParser(
+export const NullValue: Parser = recursiveParser(
   (): Parser => literal(ProductionType._NULL, ProductionType.NullValue)
 );
+export default NullValue;

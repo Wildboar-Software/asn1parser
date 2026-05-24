@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ParameterizedValueSetTypeAssignment ::= typereference ParameterList Type "::=" ValueSet`
  */
-export default recursiveParser(
+export const ParameterizedValueSetTypeAssignment: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(
       ProductionType.ParameterizedValueSetTypeAssignment,
@@ -23,3 +23,4 @@ export default recursiveParser(
       ]
     )
 );
+export default ParameterizedValueSetTypeAssignment;

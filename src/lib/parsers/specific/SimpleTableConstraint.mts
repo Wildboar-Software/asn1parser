@@ -6,7 +6,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SimpleTableConstraint ::= ObjectSet`
  */
-export default recursiveParser(
+export const SimpleTableConstraint: Parser = recursiveParser(
   (): Parser =>
     aliasFor(ProductionType.SimpleTableConstraint, parserFor.ObjectSet)
 );
+export default SimpleTableConstraint;

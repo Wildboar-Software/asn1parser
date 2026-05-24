@@ -10,10 +10,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `NamedType ::= identifier Type`
  */
-export default recursiveParser(
+export const NamedType: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.NamedType, [
       literal(ProductionType.identifier),
       parserFor.Type,
     ])
 );
+export default NamedType;

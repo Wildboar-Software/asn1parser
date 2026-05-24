@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Imports ::= IMPORTS SymbolsImported ";" | empty`
  */
-export default recursiveParser(
+export const Imports: Parser = recursiveParser(
   (): Parser =>
     optional(
       whitespaceTolerantSequenceOf(ProductionType.Imports, [
@@ -26,3 +26,4 @@ export default recursiveParser(
       ])
     )
 );
+export default Imports;

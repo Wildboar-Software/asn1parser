@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Quadruple ::= "{" Group "," Plane "," Row "," Cell "}"`
  */
-export default recursiveParser(
+export const Quadruple: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.Quadruple, [
       literal(ProductionType.curlyOpening),
@@ -24,3 +24,4 @@ export default recursiveParser(
       literal(ProductionType.curlyClosing),
     ])
 );
+export default Quadruple;

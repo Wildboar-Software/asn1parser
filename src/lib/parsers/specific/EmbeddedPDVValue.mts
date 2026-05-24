@@ -6,7 +6,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EmbeddedPDVValue ::= SequenceValue`
  */
-export default recursiveParser(
+export const EmbeddedPDVValue: Parser = recursiveParser(
   (): Parser =>
     aliasFor(ProductionType.EmbeddedPDVValue, parserFor.SequenceValue)
 );
+export default EmbeddedPDVValue;

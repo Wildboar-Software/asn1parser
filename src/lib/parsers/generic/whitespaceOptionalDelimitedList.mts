@@ -17,7 +17,7 @@ import ProductionType from '../../ProductionType.mjs';
  *  be separated by whitespace.
  * @function
  */
-export default function (
+export const whitespaceOptionalDelimitedList = function (
   containingType: ProductionType,
   listItemParser: Parser
 ): Parser {
@@ -27,3 +27,5 @@ export default function (
     optional(whitespace)
   );
 }
+;
+export default whitespaceOptionalDelimitedList;

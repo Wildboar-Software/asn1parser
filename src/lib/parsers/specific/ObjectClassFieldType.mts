@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ObjectClassFieldType ::= DefinedObjectClass "." FieldName`
  */
-export default recursiveParser(
+export const ObjectClassFieldType: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ObjectClassFieldType, [
       parserFor.DefinedObjectClass,
@@ -23,3 +23,4 @@ export default recursiveParser(
       parserFor.FieldName,
     ])
 );
+export default ObjectClassFieldType;

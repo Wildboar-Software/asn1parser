@@ -7,7 +7,7 @@ import * as optimizedParserFor from '../optimized/index.mjs';
 /**
  * `ActualParameter ::= Type | Value | ValueSet | DefinedObjectClass | Object | ObjectSet`
  */
-export default recursiveParser(
+export const ActualParameter: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -22,3 +22,4 @@ export default recursiveParser(
       ProductionType.ActualParameter
     )
 );
+export default ActualParameter;

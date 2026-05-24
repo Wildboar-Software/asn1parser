@@ -18,7 +18,7 @@ import ProductionType from '../../ProductionType.mjs';
  *      | TimePointRange
  *      | RecurrenceRange`
  */
-export default recursiveParser(
+export const SubtypeElements: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -39,3 +39,4 @@ export default recursiveParser(
       ProductionType.SubtypeElements
     )
 );
+export default SubtypeElements;

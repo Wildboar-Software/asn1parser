@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `DefaultSyntax ::= "{" FieldSetting "," * "}"`
  */
-export default recursiveParser(
+export const DefaultSyntax: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.DefaultSyntax, [
       literal(ProductionType.curlyOpening),
@@ -19,3 +19,4 @@ export default recursiveParser(
       literal(ProductionType.curlyClosing),
     ])
 );
+export default DefaultSyntax;

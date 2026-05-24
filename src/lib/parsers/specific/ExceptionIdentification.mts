@@ -15,7 +15,7 @@ import updateCurrentType from '../../updateCurrentType.mjs';
 /**
  * `ExceptionIdentification ::= SignedNumber | DefinedValue | Type ":" Value`
  */
-export default recursiveParser(
+export const ExceptionIdentification: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       aliasFor(ProductionType.ExceptionIdentification, parserFor.SignedNumber),
@@ -27,3 +27,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default ExceptionIdentification;

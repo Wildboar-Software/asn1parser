@@ -7,7 +7,8 @@ import { aliasFor } from '../generic/index.mjs';
 /**
  * `IRIValue ::= """ FirstArcIdentifier SubsequentArcIdentifier """`
  */
-export default recursiveParser(
+export const IRIValue: Parser = recursiveParser(
   (): Parser =>
     aliasFor(ProductionType.IRIValue, literal(ProductionType.cstring))
 );
+export default IRIValue;

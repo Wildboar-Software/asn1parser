@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
  *      | objectfieldreference
  *      | objectsetfieldreference`
  */
-export default recursiveParser(
+export const PrimitiveFieldName: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -24,3 +24,4 @@ export default recursiveParser(
       ProductionType.PrimitiveFieldName
     )
 );
+export default PrimitiveFieldName;

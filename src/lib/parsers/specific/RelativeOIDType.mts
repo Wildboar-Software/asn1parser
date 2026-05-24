@@ -5,7 +5,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `RelativeOIDType ::= RELATIVE-OID`
  */
-export default recursiveParser(
+export const RelativeOIDType: Parser = recursiveParser(
   (): Parser =>
     literal(ProductionType._RELATIVE_OID, ProductionType.RelativeOIDType)
 );
+export default RelativeOIDType;

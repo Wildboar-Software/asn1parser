@@ -18,7 +18,7 @@ import ProductionType from '../../ProductionType.mjs';
  *  type `containingType` and whose root node's only child is `parser`'s CST.
  * @function
  */
-export default function (
+export const aliasFor = function (
   containingType: ProductionType,
   parser: Parser
 ): Parser {
@@ -48,3 +48,5 @@ export default function (
     }
   );
 }
+;
+export default aliasFor;

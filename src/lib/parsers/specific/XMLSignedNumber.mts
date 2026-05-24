@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLSignedNumber ::= number | "-" & number`
  */
-export default recursiveParser(
+export const XMLSignedNumber: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       sequenceOf(ProductionType.XMLSignedNumber, [
@@ -21,3 +21,4 @@ export default recursiveParser(
       aliasFor(ProductionType.XMLSignedNumber, literal(ProductionType.number)),
     ])
 );
+export default XMLSignedNumber;

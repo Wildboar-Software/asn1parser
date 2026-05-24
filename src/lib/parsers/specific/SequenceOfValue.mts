@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SequenceOfValue ::= "{" ValueList "}" | "{" NamedValueList "}" | "{" "}"`
  */
-export default recursiveParser(
+export const SequenceOfValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.SequenceOfValue, [
@@ -30,3 +30,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default SequenceOfValue;

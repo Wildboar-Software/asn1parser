@@ -5,4 +5,5 @@ import * as parserFor from '../specific/index.mjs';
 /**
  * `ValueConstraint ::= Constraint | empty`
  */
-export default recursiveParser((): Parser => optional(parserFor.Constraint));
+export const ValueConstraint: Parser = recursiveParser((): Parser => optional(parserFor.Constraint));
+export default ValueConstraint;

@@ -1,8 +1,9 @@
 import { choiceOf, literal } from '../generic/index.mjs';
+import type Parser from '../../Parser.mjs';
 import ProductionType from '../../ProductionType.mjs';
 import keywordsPermissibleAsLiterals from '../../keywordsPermissibleAsLiterals.mjs';
 
-export default choiceOf(
+export const word: Parser = choiceOf(
   [
     // literal(ProductionType.typereference), // Words may only contain uppercase letters.
     literal(ProductionType.objectclassreference),
@@ -17,3 +18,4 @@ export default choiceOf(
   ],
   ProductionType.word
 );
+export default word;

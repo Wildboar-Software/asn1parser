@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EnumerationItem ::= identifier | NamedNumber`
  */
-export default recursiveParser(
+export const EnumerationItem: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.NamedNumber, literal(ProductionType.identifier)],
       ProductionType.EnumerationItem
     )
 );
+export default EnumerationItem;

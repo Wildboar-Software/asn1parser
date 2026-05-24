@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TableRow ::= number`
  */
-export default recursiveParser(
+export const TableRow: Parser = recursiveParser(
   (): Parser => literal(ProductionType.number, ProductionType.TableRow)
 );
+export default TableRow;

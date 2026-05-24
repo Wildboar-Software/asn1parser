@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ExtensionAdditionList ::= ExtensionAddition | ExtensionAdditionList "," ExtensionAddition`
  */
-export default recursiveParser(
+export const ExtensionAdditionList: Parser = recursiveParser(
   (): Parser =>
     commaDelimitedList(
       ProductionType.ExtensionAdditionList,
       parserFor.ExtensionAddition
     )
 );
+export default ExtensionAdditionList;

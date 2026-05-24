@@ -13,7 +13,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `NamedBit ::= identifier "(" number ")" | identifier "(" DefinedValue ")"`
  */
-export default recursiveParser(
+export const NamedBit: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.NamedBit, [
       literal(ProductionType.identifier),
@@ -26,3 +26,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default NamedBit;

@@ -6,6 +6,7 @@ import ElementSetSpecs from '../optimized/ElementSetSpecs_Subtype.mjs';
 /**
  * `SubtypeConstraint ::= ElementSetSpecs`
  */
-export default recursiveParser(
+export const SubtypeConstraint: Parser = recursiveParser(
   (): Parser => aliasFor(ProductionType.SubtypeConstraint, ElementSetSpecs)
 );
+export default SubtypeConstraint;

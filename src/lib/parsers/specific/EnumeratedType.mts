@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EnumeratedType ::= ENUMERATED "{" Enumerations "}"`
  */
-export default recursiveParser(
+export const EnumeratedType: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.EnumeratedType, [
       literal(ProductionType._ENUMERATED),
@@ -28,3 +28,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default EnumeratedType;

@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ExternalValue ::= SequenceValue`
  */
-export default recursiveParser(
+export const ExternalValue: Parser = recursiveParser(
   (): Parser => aliasFor(ProductionType.ExternalValue, parserFor.SequenceValue)
 );
+export default ExternalValue;

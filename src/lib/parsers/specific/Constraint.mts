@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Constraint ::= "(" ConstraintSpec ExceptionSpec ")"`
  */
-export default recursiveParser(
+export const Constraint: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.Constraint, [
       literal(ProductionType.parenthesisOpening),
@@ -24,3 +24,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default Constraint;

@@ -1,7 +1,9 @@
 import { literal } from '../generic/index.mjs';
+import type Parser from '../../Parser.mjs';
 import ProductionType from '../../ProductionType.mjs';
 
-export default literal(
+export const valuereference: Parser = literal(
   ProductionType.identifier,
   ProductionType.valuereference
 );
+export default valuereference;

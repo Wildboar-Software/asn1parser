@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `NumberForm ::= number | DefinedValue`
  */
-export default recursiveParser(
+export const NumberForm: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [literal(ProductionType.number), parserFor.DefinedValue],
       ProductionType.NumberForm
     )
 );
+export default NumberForm;

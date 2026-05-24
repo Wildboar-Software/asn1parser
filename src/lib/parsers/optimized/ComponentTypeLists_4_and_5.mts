@@ -26,7 +26,7 @@ import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
  *
  * @constant {Parser}
  */
-export default new Parser(
+export const ComponentTypeLists_4_and_5: Parser = new Parser(
   (): string => 'ComponentTypeLists (Starting with ExtensionAndException)',
   (state: ParseContext): ParseContext => {
     const results: ParseContext[] = [];
@@ -130,3 +130,4 @@ export default new Parser(
     };
   }
 );
+export default ComponentTypeLists_4_and_5;

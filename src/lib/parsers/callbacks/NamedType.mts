@@ -65,7 +65,7 @@ import productionTypeToTypeTypeMap from '../../maps/productionTypeToTypeTypeMap.
  * @param {ParseContext} ctx The parser state
  * @function
  */
-export default function onDidParseNamedType(ctx: ParseContext): void {
+export const onDidParseNamedType = function onDidParseNamedType(ctx: ParseContext): void {
   const Type = ctx.cst.children[ctx.cst.children.length - 1];
   if (Type.children[0].type !== ProductionType.BuiltinType) {
     ctx.currentType = undefined;
@@ -87,4 +87,5 @@ export default function onDidParseNamedType(ctx: ParseContext): void {
     innerType = innerBuiltinType.children[0];
   }
   ctx.currentType = productionTypeToTypeTypeMap.get(innerType.type);
-}
+};
+export default onDidParseNamedType;

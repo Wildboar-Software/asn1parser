@@ -22,7 +22,7 @@ import ProductionType from '../../ProductionType.mjs';
  *     EncodingControlSections
  *     END`
  */
-export default recursiveParser(
+export const ModuleDefinition: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ModuleDefinition, [
       parserFor.ModuleIdentifier,
@@ -41,3 +41,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default ModuleDefinition;

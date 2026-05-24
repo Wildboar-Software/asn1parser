@@ -6,7 +6,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Enumeration ::= EnumerationItem | EnumerationItem "," Enumeration`
  */
-export default recursiveParser(
+export const Enumeration: Parser = recursiveParser(
   (): Parser =>
     commaDelimitedList(ProductionType.Enumeration, parserFor.EnumerationItem)
 );
+export default Enumeration;

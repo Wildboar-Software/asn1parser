@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ChoiceValue ::= identifier ":" Value`
  */
-export default recursiveParser(
+export const ChoiceValue: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ChoiceValue, [
       literal(ProductionType.identifier),
@@ -18,3 +18,4 @@ export default recursiveParser(
       parserFor.Value,
     ])
 );
+export default ChoiceValue;

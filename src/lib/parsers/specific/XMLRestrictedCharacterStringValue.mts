@@ -5,10 +5,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLRestrictedCharacterStringValue ::= xmlcstring`
  */
-export default recursiveParser(
+export const XMLRestrictedCharacterStringValue: Parser = recursiveParser(
   (): Parser =>
     literal(
       ProductionType.xmlcstring,
       ProductionType.XMLRestrictedCharacterStringValue
     )
 );
+export default XMLRestrictedCharacterStringValue;

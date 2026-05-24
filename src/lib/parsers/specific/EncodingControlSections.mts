@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EncodingControlSections ::= EncodingControlSection EncodingControlSections | empty`
  */
-export default recursiveParser(
+export const EncodingControlSections: Parser = recursiveParser(
   (): Parser =>
     optional(
       whitespaceDelimitedList(
@@ -19,3 +19,4 @@ export default recursiveParser(
       )
     )
 );
+export default EncodingControlSections;

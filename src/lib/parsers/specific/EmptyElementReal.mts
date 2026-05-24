@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EmptyElementReal ::= "<" & PLUS-INFINITY "/>" | "<" & MINUS-INFINITY "/>" | "<" & NOT-A-NUMBER "/>"`
  */
-export default recursiveParser(
+export const EmptyElementReal: Parser = recursiveParser(
   (): Parser =>
     sequenceOf(ProductionType.EmptyElementReal, [
       literal(ProductionType.lessThan),
@@ -26,3 +26,4 @@ export default recursiveParser(
       literal(ProductionType.greaterThan),
     ])
 );
+export default EmptyElementReal;

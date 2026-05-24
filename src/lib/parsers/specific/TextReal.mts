@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TextReal ::= "INF" | "-" & "INF" | "NaN"`
  */
-export default recursiveParser(
+export const TextReal: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -24,3 +24,4 @@ export default recursiveParser(
       ProductionType.TextReal
     )
 );
+export default TextReal;

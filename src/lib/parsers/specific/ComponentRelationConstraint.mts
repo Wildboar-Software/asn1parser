@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ComponentRelationConstraint ::= "{" DefinedObjectSet "}" "{" AtNotation "," + "}"`
  */
-export default recursiveParser(
+export const ComponentRelationConstraint: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ComponentRelationConstraint, [
       literal(ProductionType.curlyOpening),
@@ -27,3 +27,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default ComponentRelationConstraint;

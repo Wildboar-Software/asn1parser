@@ -6,7 +6,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `NamedNumberList ::= NamedNumber | NamedNumberList "," NamedNumber`
  */
-export default recursiveParser(
+export const NamedNumberList: Parser = recursiveParser(
   (): Parser =>
     commaDelimitedList(ProductionType.NamedNumberList, parserFor.NamedNumber)
 );
+export default NamedNumberList;

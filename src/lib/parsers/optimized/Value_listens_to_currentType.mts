@@ -48,7 +48,7 @@ import TypeType from '../../constructs/TypeType.mjs';
  *
  * @constant {Parser}
  */
-export default recursiveParser(
+export const Value_listens_to_currentType: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -251,3 +251,4 @@ export default recursiveParser(
       ProductionType.Value
     )
 );
+export default Value_listens_to_currentType;

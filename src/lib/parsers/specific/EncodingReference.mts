@@ -11,7 +11,7 @@ import * as parserFor from './index.mjs';
 /**
  * `EncodingReference ::= encodingreference ":" | empty`
  */
-export default recursiveParser(
+export const EncodingReference: Parser = recursiveParser(
   (): Parser =>
     optional(
       whitespaceTolerantSequenceOf(ProductionType.EncodingReference, [
@@ -20,3 +20,4 @@ export default recursiveParser(
       ])
     )
 );
+export default EncodingReference;

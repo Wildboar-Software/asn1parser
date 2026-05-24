@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ExtensionAdditions ::= "," ExtensionAdditionList | empty`
  */
-export default recursiveParser(
+export const ExtensionAdditions: Parser = recursiveParser(
   (): Parser =>
     optional(
       whitespaceTolerantSequenceOf(ProductionType.ExtensionAdditions, [
@@ -20,3 +20,4 @@ export default recursiveParser(
       ])
     )
 );
+export default ExtensionAdditions;

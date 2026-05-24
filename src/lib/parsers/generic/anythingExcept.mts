@@ -11,7 +11,7 @@ import anything from './anything.mjs';
  *  error.
  * @returns {Parser} The parser
  */
-export default function (exception: Parser): Parser {
+export const anythingExcept = function (exception: Parser): Parser {
   return new Parser(
     () => `Anything except ${exception.name()}`,
     (state: ParseContext): ParseContext => {
@@ -27,3 +27,5 @@ export default function (exception: Parser): Parser {
     }
   );
 }
+;
+export default anythingExcept;

@@ -8,10 +8,11 @@ import * as parserFor from '../specific/index.mjs';
 import type Parser from '../../Parser.mjs';
 import ProductionType from '../../ProductionType.mjs';
 
-export default recursiveParser(
+export const objectsetfieldreference: Parser = recursiveParser(
   (): Parser =>
     sequenceOf(ProductionType.objectsetfieldreference, [
       literal(ProductionType.ampersand),
       aliasFor(ProductionType.objectsetreference, parserFor.typereference),
     ])
 );
+export default objectsetfieldreference;

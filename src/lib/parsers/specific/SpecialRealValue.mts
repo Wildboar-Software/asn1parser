@@ -5,7 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SpecialRealValue ::= PLUS-INFINITY | MINUS-INFINITY | NOT-A-NUMBER`
  */
-export default recursiveParser(
+export const SpecialRealValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -16,3 +16,4 @@ export default recursiveParser(
       ProductionType.SpecialRealValue
     )
 );
+export default SpecialRealValue;

@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SimpleDefinedType ::= ExternalTypeReference | typereference`
  */
-export default recursiveParser(
+export const SimpleDefinedType: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.ExternalTypeReference, parserFor.typereference],
       ProductionType.SimpleDefinedType
     )
 );
+export default SimpleDefinedType;

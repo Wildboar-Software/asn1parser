@@ -1,6 +1,6 @@
 import optional from './optional.mjs';
 import whitespace from './whitespace.mjs';
-import Parser from '../../Parser.mjs';
+import type Parser from '../../Parser.mjs';
 import ProductionType from '../../ProductionType.mjs';
 import whitespaceIntolerantSequenceOf from './whitespaceIntolerantSequenceOf.mjs';
 
@@ -24,7 +24,7 @@ function spliceInWhitespace(parsers: Parser[]): Parser[] {
  *  in order and fail if any of them fail.
  * @function
  */
-export default function (
+export const whitespaceTolerantSequenceOf = function (
   containingType: ProductionType,
   parsers: Parser[]
 ): Parser {
@@ -33,3 +33,5 @@ export default function (
     spliceInWhitespace(parsers)
   );
 }
+;
+export default whitespaceTolerantSequenceOf;

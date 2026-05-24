@@ -6,10 +6,10 @@ import {
   recyclingSequenceOf,
 } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
-import Parser from '../../Parser.mjs';
+import type Parser from '../../Parser.mjs';
 import ProductionType from '../../ProductionType.mjs';
 
-export default recursiveParser(
+export const AlternativeTypeLists: Parser = recursiveParser(
   (): Parser =>
     recyclingSequenceOf(
       ProductionType.AlternativeTypeLists,
@@ -26,3 +26,4 @@ export default recursiveParser(
       ]
     )
 );
+export default AlternativeTypeLists;

@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLBooleanValue ::= EmptyElementBoolean | TextBoolean`
  */
-export default recursiveParser(
+export const XMLBooleanValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.EmptyElementBoolean, parserFor.TextBoolean],
       ProductionType.XMLBooleanValue
     )
 );
+export default XMLBooleanValue;

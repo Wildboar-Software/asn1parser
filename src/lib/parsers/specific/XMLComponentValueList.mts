@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLComponentValueList ::= XMLNamedValue | XMLComponentValueList XMLNamedValue`
  */
-export default recursiveParser(
+export const XMLComponentValueList: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       aliasFor(ProductionType.XMLComponentValueList, parserFor.XMLNamedValue),
@@ -21,3 +21,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default XMLComponentValueList;

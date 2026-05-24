@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `UnrestrictedCharacterStringType ::= CHARACTER STRING`
  */
-export default recursiveParser(
+export const UnrestrictedCharacterStringType: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(
       ProductionType.UnrestrictedCharacterStringType,
@@ -25,3 +25,4 @@ export default recursiveParser(
       ]
     )
 );
+export default UnrestrictedCharacterStringType;

@@ -24,7 +24,7 @@ import updateCurrentType from '../../updateCurrentType.mjs';
  *      | Type
  *      | DefinedObjectClass`
  */
-export default recursiveParser(
+export const UserDefinedConstraintParameter: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(
@@ -57,3 +57,4 @@ export default recursiveParser(
       aliasFor(ProductionType.UserDefinedConstraintParameter, parserFor.Type),
     ])
 );
+export default UserDefinedConstraintParameter;

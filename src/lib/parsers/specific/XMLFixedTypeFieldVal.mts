@@ -6,7 +6,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLFixedTypeFieldVal ::= XMLBuiltinValue`
  */
-export default recursiveParser(
+export const XMLFixedTypeFieldVal: Parser = recursiveParser(
   (): Parser =>
     aliasFor(ProductionType.XMLFixedTypeFieldVal, parserFor.XMLBuiltinValue)
 );
+export default XMLFixedTypeFieldVal;

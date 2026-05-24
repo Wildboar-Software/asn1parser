@@ -10,10 +10,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ExtensionEndMarker ::= "," "..."`
  */
-export default recursiveParser(
+export const ExtensionEndMarker: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ExtensionEndMarker, [
       literal(ProductionType.comma),
       parserFor.ellipsis,
     ])
 );
+export default ExtensionEndMarker;

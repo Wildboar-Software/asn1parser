@@ -9,10 +9,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ParameterizedObject ::= DefinedObject ActualParameterList`
  */
-export default recursiveParser(
+export const ParameterizedObject: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ParameterizedObject, [
       parserFor.DefinedObject,
       parserFor.ActualParameterList,
     ])
 );
+export default ParameterizedObject;

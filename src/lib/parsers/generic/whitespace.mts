@@ -17,7 +17,7 @@ import Production from '../../Production.mjs';
  *
  * @constant
  */
-export default new Parser(
+export const whitespace: Parser = new Parser(
   (): string => 'whitespace',
   (state: ParseContext): ParseContext => {
     let endIndex: number = state.index;
@@ -55,3 +55,4 @@ export default new Parser(
     }
   }
 );
+export default whitespace;

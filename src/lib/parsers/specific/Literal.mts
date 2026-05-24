@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Literal ::= word | ","`
  */
-export default recursiveParser(
+export const Literal: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.word, literal(ProductionType.comma)],
       ProductionType.Literal
     )
 );
+export default Literal;

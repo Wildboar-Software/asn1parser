@@ -6,7 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `GeneralConstraint ::= UserDefinedConstraint | TableConstraint | ContentsConstraint`
  */
-export default recursiveParser(
+export const GeneralConstraint: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -17,3 +17,4 @@ export default recursiveParser(
       ProductionType.GeneralConstraint
     )
 );
+export default GeneralConstraint;

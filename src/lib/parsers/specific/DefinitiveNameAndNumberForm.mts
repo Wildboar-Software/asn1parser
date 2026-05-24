@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `DefinitiveNameAndNumberForm ::= identifier "(" DefinitiveNumberForm ")"`
  */
-export default recursiveParser(
+export const DefinitiveNameAndNumberForm: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.DefinitiveNameAndNumberForm, [
       literal(ProductionType.identifier),
@@ -28,3 +28,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default DefinitiveNameAndNumberForm;

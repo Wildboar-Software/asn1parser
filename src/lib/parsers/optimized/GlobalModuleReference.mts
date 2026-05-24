@@ -30,7 +30,7 @@ import type ParseContext from '../../interfaces/ParseContext.mjs';
  * ```
  * @constant {Parser}
  */
-export default recursiveParser(
+export const GlobalModuleReference: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       /**
@@ -85,3 +85,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default GlobalModuleReference;

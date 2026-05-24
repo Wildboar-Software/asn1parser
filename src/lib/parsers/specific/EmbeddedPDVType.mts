@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EmbeddedPDVType ::= EMBEDDED PDV`
  */
-export default recursiveParser(
+export const EmbeddedPDVType: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.EmbeddedPDVType, [
       literal(ProductionType._EMBEDDED),
@@ -22,3 +22,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default EmbeddedPDVType;

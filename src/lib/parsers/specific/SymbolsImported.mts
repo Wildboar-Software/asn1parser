@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SymbolsImported ::= SymbolsFromModuleList | empty`
  */
-export default recursiveParser(
+export const SymbolsImported: Parser = recursiveParser(
   (): Parser =>
     aliasFor(
       ProductionType.SymbolsImported,
       optional(parserFor.SymbolsFromModuleList)
     )
 );
+export default SymbolsImported;

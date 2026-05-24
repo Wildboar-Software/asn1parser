@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLValueList ::= XMLValueOrEmpty | XMLValueOrEmpty XMLValueList`
  */
-export default recursiveParser(
+export const XMLValueList: Parser = recursiveParser(
   (): Parser =>
     whitespaceDelimitedList(
       ProductionType.XMLValueList,
       parserFor.XMLValueOrEmpty
     )
 );
+export default XMLValueList;

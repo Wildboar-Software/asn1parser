@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TableConstraint ::= SimpleTableConstraint | ComponentRelationConstraint`
  */
-export default recursiveParser(
+export const TableConstraint: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.ComponentRelationConstraint, parserFor.SimpleTableConstraint],
       ProductionType.TableConstraint
     )
 );
+export default TableConstraint;

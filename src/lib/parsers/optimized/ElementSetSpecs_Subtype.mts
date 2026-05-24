@@ -7,7 +7,7 @@ import {
   recyclingSequenceOf,
 } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
-import Parser from '../../Parser.mjs';
+import type Parser from '../../Parser.mjs';
 import ProductionType from '../../ProductionType.mjs';
 import ElementSetSpec from './ElementSetSpec_Subtype.mjs';
 
@@ -40,7 +40,7 @@ const AdditionalElementSetSpec = recursiveParser(
  *
  * @constant {Parser}
  */
-export default recursiveParser(
+export const ElementSetSpecs_Subtype: Parser = recursiveParser(
   (): Parser =>
     recyclingSequenceOf(
       ProductionType.ElementSetSpecs,
@@ -59,3 +59,4 @@ export default recursiveParser(
       ]
     )
 );
+export default ElementSetSpecs_Subtype;

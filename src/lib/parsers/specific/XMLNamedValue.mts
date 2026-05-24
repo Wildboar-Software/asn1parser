@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLNamedValue ::= "<" & identifier ">" XMLValue "</" & identifier ">"`
  */
-export default recursiveParser(
+export const XMLNamedValue: Parser = recursiveParser(
   (): Parser =>
     sequenceOf(ProductionType.XMLNamedValue, [
       literal(ProductionType.lessThan),
@@ -29,3 +29,4 @@ export default recursiveParser(
       literal(ProductionType.greaterThan),
     ])
 );
+export default XMLNamedValue;

@@ -14,7 +14,7 @@ import * as parserFor from '../specific/index.mjs';
 /**
  * `Exports ::= EXPORTS SymbolsExported ";" | EXPORTS ALL ";" | empty`
  */
-export default recursiveParser(
+export const Exports: Parser = recursiveParser(
   (): Parser =>
     optional(
       whitespaceTolerantSequenceOf(ProductionType.Exports, [
@@ -32,3 +32,4 @@ export default recursiveParser(
       ])
     )
 );
+export default Exports;

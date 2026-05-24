@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLTimeValue ::= xmltstring`
  */
-export default recursiveParser(
+export const XMLTimeValue: Parser = recursiveParser(
   (): Parser => literal(ProductionType.xmltstring, ProductionType.XMLTimeValue)
 );
+export default XMLTimeValue;

@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SelectionType ::= identifier "<" Type`
  */
-export default recursiveParser(
+export const SelectionType: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.SelectionType, [
       literal(ProductionType.identifier),
@@ -20,3 +20,4 @@ export default recursiveParser(
       assert(parserFor.Type, anything, '98394664-9B71-4015-85ED-0EA94A75963B'),
     ])
 );
+export default SelectionType;

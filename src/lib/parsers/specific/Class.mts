@@ -5,7 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Class ::= UNIVERSAL | APPLICATION | PRIVATE | empty`
  */
-export default recursiveParser(
+export const Class: Parser = recursiveParser(
   (): Parser =>
     optional(
       choiceOf(
@@ -18,3 +18,4 @@ export default recursiveParser(
       )
     )
 );
+export default Class;

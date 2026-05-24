@@ -9,7 +9,7 @@ import {
   recyclingSequenceOf,
 } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
-import Parser from '../../Parser.mjs';
+import type Parser from '../../Parser.mjs';
 import ProductionType from '../../ProductionType.mjs';
 import ElementSetSpec from '../optimized/ElementSetSpec_ObjectSet.mjs';
 
@@ -22,7 +22,7 @@ const AdditionalElementSetSpec = recursiveParser(
     aliasFor(ProductionType.AdditionalElementSetSpec, ElementSetSpec)
 );
 
-export default recursiveParser(
+export const ObjectSetSpec: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.ObjectSetSpec, [
@@ -49,3 +49,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default ObjectSetSpec;

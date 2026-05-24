@@ -14,7 +14,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `IntegerType ::= INTEGER | INTEGER "{" NamedNumberList "}"`
  */
-export default recursiveParser(
+export const IntegerType: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.IntegerType, [
@@ -34,3 +34,4 @@ export default recursiveParser(
       aliasFor(ProductionType.IntegerType, literal(ProductionType._INTEGER)),
     ])
 );
+export default IntegerType;

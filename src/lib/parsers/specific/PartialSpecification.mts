@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `PartialSpecification ::= "{" "..." "," TypeConstraints "}"`
  */
-export default recursiveParser(
+export const PartialSpecification: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.PartialSpecification, [
       literal(ProductionType.curlyOpening),
@@ -25,3 +25,4 @@ export default recursiveParser(
       literal(ProductionType.curlyClosing),
     ])
 );
+export default PartialSpecification;

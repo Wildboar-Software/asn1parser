@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ParameterList ::= "{" Parameter "," + "}"`
  */
-export default recursiveParser(
+export const ParameterList: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ParameterList, [
       literal(ProductionType.curlyOpening),
@@ -24,3 +24,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default ParameterList;

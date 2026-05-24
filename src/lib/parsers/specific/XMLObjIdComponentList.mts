@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLObjIdComponentList ::= XMLObjIdComponent | XMLObjIdComponent & "." & XMLObjIdComponentList`
  */
-export default recursiveParser(
+export const XMLObjIdComponentList: Parser = recursiveParser(
   (): Parser =>
     periodDelimitedList(
       ProductionType.XMLObjIdComponentList,
       parserFor.XMLObjIdComponent
     )
 );
+export default XMLObjIdComponentList;

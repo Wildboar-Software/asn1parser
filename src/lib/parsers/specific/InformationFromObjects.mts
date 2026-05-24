@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
  *      | ObjectFromObject
  *      | ObjectSetFromObjects`
  */
-export default recursiveParser(
+export const InformationFromObjects: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -24,3 +24,4 @@ export default recursiveParser(
       ProductionType.InformationFromObjects
     )
 );
+export default InformationFromObjects;

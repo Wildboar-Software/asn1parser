@@ -18,7 +18,7 @@ import ProductionType from '../../ProductionType.mjs';
  *      | VideotexString
  *      | VisibleString`
  */
-export default recursiveParser(
+export const RestrictedCharacterStringType: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -39,3 +39,4 @@ export default recursiveParser(
       ProductionType.RestrictedCharacterStringType
     )
 );
+export default RestrictedCharacterStringType;

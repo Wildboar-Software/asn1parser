@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLBitStringValue ::= XMLTypedValue | xmlbstring | XMLIdentifierList | empty`
  */
-export default recursiveParser(
+export const XMLBitStringValue: Parser = recursiveParser(
   (): Parser =>
     optional(
       choiceOf([
@@ -25,3 +25,4 @@ export default recursiveParser(
       ])
     )
 );
+export default XMLBitStringValue;

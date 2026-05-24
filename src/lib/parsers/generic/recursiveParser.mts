@@ -10,9 +10,11 @@ import type ParseContext from '../../interfaces/ParseContext.mjs';
  *  constituent parsers that compose its definition.
  * @function
  */
-export default function (parserGetter: () => Parser): Parser {
+export const recursiveParser = function (parserGetter: () => Parser): Parser {
   return new Parser(
     () => parserGetter().name(),
     (state: ParseContext): ParseContext => parserGetter().execute(state)
   );
 }
+;
+export default recursiveParser;

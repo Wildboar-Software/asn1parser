@@ -9,7 +9,7 @@ import ProductionType from '../../ProductionType.mjs';
  * `ObjectFromObject ::= ReferencedObjects "." FieldName`
  * `ReferencedObjects ::= DefinedObject | ParameterizedObject | DefinedObjectSet | ParameterizedObjectSet`
  */
-export default recursiveParser(
+export const Object: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -21,3 +21,4 @@ export default recursiveParser(
       ProductionType.Object
     )
 );
+export default Object;

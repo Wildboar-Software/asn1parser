@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `VersionNumber ::= empty | number ":"`
  */
-export default recursiveParser(
+export const VersionNumber: Parser = recursiveParser(
   (): Parser =>
     optional(
       whitespaceTolerantSequenceOf(ProductionType.VersionNumber, [
@@ -19,3 +19,4 @@ export default recursiveParser(
       ])
     )
 );
+export default VersionNumber;

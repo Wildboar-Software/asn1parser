@@ -7,10 +7,11 @@ import ProductionType from '../../ProductionType.mjs';
  * X.680 2015, Section 31.3.2. It "can consist of any sequence of ASN.1 lexical
  * items."
  */
-export default recursiveParser(
+export const EncodingInstruction: Parser = recursiveParser(
   (): Parser =>
     anythingUntil(
       ProductionType.EncodingInstruction,
       literal(ProductionType.squareClosing)
     )
 );
+export default EncodingInstruction;

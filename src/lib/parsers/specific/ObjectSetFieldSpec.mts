@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ObjectSetFieldSpec ::= objectsetfieldreference DefinedObjectClass ObjectSetOptionalitySpec ?`
  */
-export default recursiveParser(
+export const ObjectSetFieldSpec: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.ObjectSetFieldSpec, [
@@ -31,3 +31,4 @@ export default recursiveParser(
       // ]),
     ])
 );
+export default ObjectSetFieldSpec;

@@ -11,10 +11,11 @@ import {
  *      DefinitiveObjIdComponent
  *      | DefinitiveObjIdComponent DefinitiveObjIdComponentList`
  */
-export default recursiveParser(
+export const DefinitiveObjIdComponentList: Parser = recursiveParser(
   (): Parser =>
     whitespaceOptionalDelimitedList(
       ProductionType.DefinitiveObjIdComponentList,
       parserFor.DefinitiveObjIdComponent
     )
 );
+export default DefinitiveObjIdComponentList;

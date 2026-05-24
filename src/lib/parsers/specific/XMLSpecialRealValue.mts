@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLSpecialRealValue ::= EmptyElementReal | TextReal`
  */
-export default recursiveParser(
+export const XMLSpecialRealValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.EmptyElementReal, parserFor.TextReal],
       ProductionType.XMLSpecialRealValue
     )
 );
+export default XMLSpecialRealValue;

@@ -12,10 +12,11 @@ import ProductionType from '../../ProductionType.mjs';
  * the modulereference precedes a DefinitiveIdentification, or if it belongs to
  * another production, and hence, should remain unconsumed.
  */
-export default recursiveParser(
+export const DefinitiveIdentification: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [DefinitiveOIDandIRI, DefinitiveOID],
       ProductionType.DefinitiveIdentification
     )
 );
+export default DefinitiveIdentification;

@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ConstrainedType ::= Type Constraint | TypeWithConstraint`
  */
-export default recursiveParser(
+export const ConstrainedType: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       aliasFor(ProductionType.ConstrainedType, parserFor.TypeWithConstraint),
@@ -38,3 +38,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default ConstrainedType;

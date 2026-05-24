@@ -5,7 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `...`
  */
-export default recursiveParser(
+export const ellipsis: Parser = recursiveParser(
   (): Parser =>
     sequenceOf(ProductionType.ellipsis, [
       literal(ProductionType.period),
@@ -13,3 +13,4 @@ export default recursiveParser(
       literal(ProductionType.period),
     ])
 );
+export default ellipsis;

@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SymbolsFromModuleList ::= SymbolsFromModule | SymbolsFromModuleList SymbolsFromModule`
  */
-export default recursiveParser(
+export const SymbolsFromModuleList: Parser = recursiveParser(
   (): Parser =>
     whitespaceDelimitedList(
       ProductionType.SymbolsFromModuleList,
       parserFor.SymbolsFromModule
     )
 );
+export default SymbolsFromModuleList;

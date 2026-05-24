@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `RelativeOIDValue ::= "{" RelativeOIDComponentsList "}"`
  */
-export default recursiveParser(
+export const RelativeOIDValue: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.RelativeOIDValue, [
       literal(ProductionType.curlyOpening),
@@ -18,3 +18,4 @@ export default recursiveParser(
       literal(ProductionType.curlyClosing),
     ])
 );
+export default RelativeOIDValue;

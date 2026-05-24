@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `RootEnumeration ::= Enumeration`
  */
-export default recursiveParser(
+export const RootEnumeration: Parser = recursiveParser(
   (): Parser => aliasFor(ProductionType.RootEnumeration, parserFor.Enumeration)
 );
+export default RootEnumeration;

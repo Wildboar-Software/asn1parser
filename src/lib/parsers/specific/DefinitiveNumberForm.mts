@@ -5,7 +5,8 @@ import { literal, recursiveParser } from '../generic/index.mjs';
 /**
  * `DefinitiveNumberForm ::= number`
  */
-export default recursiveParser(
+export const DefinitiveNumberForm: Parser = recursiveParser(
   (): Parser =>
     literal(ProductionType.number, ProductionType.DefinitiveNumberForm)
 );
+export default DefinitiveNumberForm;

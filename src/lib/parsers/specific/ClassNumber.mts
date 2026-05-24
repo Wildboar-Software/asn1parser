@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ClassNumber ::= number | DefinedValue`
  */
-export default recursiveParser(
+export const ClassNumber: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [literal(ProductionType.number), parserFor.DefinedValue],
       ProductionType.ClassNumber
     )
 );
+export default ClassNumber;

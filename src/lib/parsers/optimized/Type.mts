@@ -31,7 +31,7 @@ const UnconstrainedType = recursiveParser(
  *
  * @constant {Parser}
  */
-export default recursiveParser(
+export const Type: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -72,3 +72,4 @@ export default recursiveParser(
       ProductionType.Type
     )
 );
+export default Type;

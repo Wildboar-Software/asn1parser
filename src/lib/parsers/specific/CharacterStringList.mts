@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `CharacterStringList ::= "{" CharSyms "}"`
  */
-export default recursiveParser(
+export const CharacterStringList: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.CharacterStringList, [
       literal(ProductionType.curlyOpening),
@@ -18,3 +18,4 @@ export default recursiveParser(
       literal(ProductionType.curlyClosing),
     ])
 );
+export default CharacterStringList;

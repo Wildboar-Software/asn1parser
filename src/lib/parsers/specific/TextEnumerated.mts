@@ -5,7 +5,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TextEnumerated ::= identifier`
  */
-export default recursiveParser(
+export const TextEnumerated: Parser = recursiveParser(
   (): Parser =>
     literal(ProductionType.identifier, ProductionType.TextEnumerated)
 );
+export default TextEnumerated;

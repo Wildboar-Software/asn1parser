@@ -8,8 +8,9 @@ import type ParseContext from '../../interfaces/ParseContext.mjs';
  * @param {ParseContext} ctx The parser state
  * @function
  */
-export default function onDidParseLiteral(ctx: ParseContext): void {
+export const onDidParseLiteral = function onDidParseLiteral(ctx: ParseContext): void {
   const loc = ctx.cst.location;
   const text = ctx.text.slice(loc.startIndex, loc.endIndex);
   ctx.justParsedPluralLiteral = text.charAt(text.length - 1) === 'S';
-}
+};
+export default onDidParseLiteral;

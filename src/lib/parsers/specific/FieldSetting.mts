@@ -9,10 +9,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `FieldSetting ::= PrimitiveFieldName Setting`
  */
-export default recursiveParser(
+export const FieldSetting: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.FieldSetting, [
       parserFor.PrimitiveFieldName,
       parserFor.Setting,
     ])
 );
+export default FieldSetting;

@@ -13,7 +13,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SetOfType ::= SET OF Type | SET OF NamedType`
  */
-export default recursiveParser(
+export const SetOfType: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.SetOfType, [
       literal(ProductionType._SET),
@@ -25,3 +25,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default SetOfType;

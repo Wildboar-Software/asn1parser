@@ -15,7 +15,7 @@ import ProductionType from '../../ProductionType.mjs';
  *      "<" & NonParameterizedTypeName ">" XMLValue "</" & NonParameterizedTypeName ">"
  *      | "<" & identifier ">" XMLValue "</" & identifier ">"`
  */
-export default recursiveParser(
+export const XMLDelimitedItem: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       sequenceOf(ProductionType.XMLDelimitedItem, [
@@ -34,3 +34,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default XMLDelimitedItem;

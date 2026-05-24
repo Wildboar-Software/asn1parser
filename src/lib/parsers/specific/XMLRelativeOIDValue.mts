@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLRelativeOIDValue ::= XMLRelativeOIDComponentList`
  */
-export default recursiveParser(
+export const XMLRelativeOIDValue: Parser = recursiveParser(
   (): Parser =>
     aliasFor(
       ProductionType.XMLRelativeOIDValue,
       parserFor.XMLRelativeOIDComponentList
     )
 );
+export default XMLRelativeOIDValue;

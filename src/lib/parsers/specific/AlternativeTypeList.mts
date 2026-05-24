@@ -6,7 +6,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `AlternativeTypeList ::= NamedType | AlternativeTypeList "," NamedType`
  */
-export default recursiveParser(
+export const AlternativeTypeList: Parser = recursiveParser(
   (): Parser =>
     commaDelimitedList(ProductionType.AlternativeTypeList, parserFor.NamedType)
 );
+export default AlternativeTypeList;

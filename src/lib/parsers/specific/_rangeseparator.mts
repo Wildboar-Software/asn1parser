@@ -5,10 +5,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `..`
  */
-export default recursiveParser(
+export const rangeseparator: Parser = recursiveParser(
   (): Parser =>
     sequenceOf(ProductionType.rangeseparator, [
       literal(ProductionType.period),
       literal(ProductionType.period),
     ])
 );
+export default rangeseparator;

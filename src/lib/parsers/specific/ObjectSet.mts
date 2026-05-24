@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ObjectSet ::= "{" ObjectSetSpec "}"`
  */
-export default recursiveParser(
+export const ObjectSet: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ObjectSet, [
       literal(ProductionType.curlyOpening),
@@ -18,3 +18,4 @@ export default recursiveParser(
       literal(ProductionType.curlyClosing),
     ])
 );
+export default ObjectSet;

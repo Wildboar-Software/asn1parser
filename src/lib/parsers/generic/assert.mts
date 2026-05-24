@@ -24,7 +24,7 @@ import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
  * @returns {Parser} The parser that will assert the `asserted` parser.
  * @function
  */
-export default function (
+export const assert = function (
   asserted: Parser,
   recovery: Parser,
   uuid: string
@@ -52,3 +52,5 @@ export default function (
     }
   );
 }
+;
+export default assert;

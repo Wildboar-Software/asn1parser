@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `RootAlternativeTypeList ::= AlternativeTypeList`
  */
-export default recursiveParser(
+export const RootAlternativeTypeList: Parser = recursiveParser(
   (): Parser =>
     aliasFor(
       ProductionType.RootAlternativeTypeList,
       parserFor.AlternativeTypeList
     )
 );
+export default RootAlternativeTypeList;

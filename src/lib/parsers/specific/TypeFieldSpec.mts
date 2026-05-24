@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TypeFieldSpec ::= typefieldreference TypeOptionalitySpec?`
  */
-export default recursiveParser(
+export const TypeFieldSpec: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.TypeFieldSpec, [
@@ -21,3 +21,4 @@ export default recursiveParser(
       aliasFor(ProductionType.TypeFieldSpec, parserFor.typefieldreference),
     ])
 );
+export default TypeFieldSpec;

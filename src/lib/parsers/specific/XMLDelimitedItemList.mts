@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLDelimitedItemList ::= XMLDelimitedItem | XMLDelimitedItem XMLDelimitedItemList`
  */
-export default recursiveParser(
+export const XMLDelimitedItemList: Parser = recursiveParser(
   (): Parser =>
     whitespaceDelimitedList(
       ProductionType.XMLDelimitedItemList,
       parserFor.XMLDelimitedItem
     )
 );
+export default XMLDelimitedItemList;

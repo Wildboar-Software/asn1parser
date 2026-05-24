@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `FullSpecification ::= "{" TypeConstraints "}"`
  */
-export default recursiveParser(
+export const FullSpecification: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.FullSpecification, [
       literal(ProductionType.curlyOpening),
@@ -18,3 +18,4 @@ export default recursiveParser(
       literal(ProductionType.curlyClosing),
     ])
 );
+export default FullSpecification;

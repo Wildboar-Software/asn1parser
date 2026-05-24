@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Cell ::= number`
  */
-export default recursiveParser(
+export const Cell: Parser = recursiveParser(
   (): Parser => literal(ProductionType.number, ProductionType.Cell)
 );
+export default Cell;

@@ -3,7 +3,8 @@ import * as parserFor from '../specific/index.mjs';
 import type Parser from '../../Parser.mjs';
 import ProductionType from '../../ProductionType.mjs';
 
-export default recursiveParser(
+export const objectsetreference: Parser = recursiveParser(
   (): Parser =>
     aliasFor(ProductionType.objectsetreference, parserFor.typereference)
 );
+export default objectsetreference;

@@ -16,10 +16,11 @@ import ComponentTypeLists_4_and_5 from '../optimized/ComponentTypeLists_4_and_5.
  *   | ExtensionAndException ExtensionAdditions ExensionEndMarker "," RootComponentTypeList
  *   | ExtensionAndException ExtensionAdditions OptionalExtensionMarker`
  */
-export default recursiveParser(
+export const ComponentTypeLists: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       ComponentTypeLists_1_2_and_3, // Custom parser for options 1, 2, and 3.
       ComponentTypeLists_4_and_5, // Custom parser for options 4 and 5.
     ])
 );
+export default ComponentTypeLists;

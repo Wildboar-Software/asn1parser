@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EncodingReferenceDefault ::= encodingreference INSTRUCTIONS | empty`
  */
-export default recursiveParser(
+export const EncodingReferenceDefault: Parser = recursiveParser(
   (): Parser =>
     optional(
       whitespaceTolerantSequenceOf(ProductionType.EncodingReferenceDefault, [
@@ -25,3 +25,4 @@ export default recursiveParser(
       ])
     )
 );
+export default EncodingReferenceDefault;

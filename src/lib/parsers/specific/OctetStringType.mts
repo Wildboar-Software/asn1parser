@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `OctetStringType ::= OCTET STRING`
  */
-export default recursiveParser(
+export const OctetStringType: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.OctetStringType, [
       literal(ProductionType._OCTET),
@@ -22,3 +22,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default OctetStringType;

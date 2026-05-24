@@ -13,7 +13,7 @@ import anythingExcept from './anythingExcept.mjs';
  *  error.
  * @returns {Parser} The parser that will read any tokens until an exception.
  */
-export default function (
+export const anythingUntil = function (
   containingType: ProductionType,
   terminator: Parser
 ): Parser {
@@ -47,3 +47,5 @@ export default function (
     }
   );
 }
+;
+export default anythingUntil;

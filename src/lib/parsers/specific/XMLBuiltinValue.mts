@@ -28,7 +28,7 @@ import ProductionType from '../../ProductionType.mjs';
  *      | XMLPrefixedValue
  *      | XMLTimeValue`
  */
-export default recursiveParser(
+export const XMLBuiltinValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -58,3 +58,4 @@ export default recursiveParser(
       ProductionType.XMLBuiltinValue
     )
 );
+export default XMLBuiltinValue;

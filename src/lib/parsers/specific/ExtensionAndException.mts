@@ -9,10 +9,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ExtensionAndException ::= "..." | "..." ExceptionSpec`
  */
-export default recursiveParser(
+export const ExtensionAndException: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ExtensionAndException, [
       parserFor.ellipsis,
       parserFor.ExceptionSpec, // ExceptionSpec is optional anyway.
     ])
 );
+export default ExtensionAndException;

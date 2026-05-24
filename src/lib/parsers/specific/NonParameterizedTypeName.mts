@@ -6,7 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `NonParameterizedTypeName ::= ExternalTypeReference | typereference | xmlasn1typename`
  */
-export default recursiveParser(
+export const NonParameterizedTypeName: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -17,3 +17,4 @@ export default recursiveParser(
       ProductionType.NonParameterizedTypeName
     )
 );
+export default NonParameterizedTypeName;

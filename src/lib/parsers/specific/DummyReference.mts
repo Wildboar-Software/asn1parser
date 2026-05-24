@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `DummyReference ::= Reference`
  */
-export default recursiveParser(
+export const DummyReference: Parser = recursiveParser(
   (): Parser => aliasFor(ProductionType.DummyReference, parserFor.Reference)
 );
+export default DummyReference;

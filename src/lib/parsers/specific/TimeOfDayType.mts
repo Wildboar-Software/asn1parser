@@ -5,7 +5,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TimeOfDayType ::= TIME-OF-DAY`
  */
-export default recursiveParser(
+export const TimeOfDayType: Parser = recursiveParser(
   (): Parser =>
     literal(ProductionType._TIME_OF_DAY, ProductionType.TimeOfDayType)
 );
+export default TimeOfDayType;

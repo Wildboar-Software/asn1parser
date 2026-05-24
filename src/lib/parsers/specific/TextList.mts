@@ -5,10 +5,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TextList ::= identifier | TextList "," identifier`
  */
-export default recursiveParser(
+export const TextList: Parser = recursiveParser(
   (): Parser =>
     commaDelimitedList(
       ProductionType.TextList,
       literal(ProductionType.identifier)
     )
 );
+export default TextList;

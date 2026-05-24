@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `AbsoluteReference ::= "@" ModuleIdentifier "." ItemSpec`
  */
-export default recursiveParser(
+export const AbsoluteReference: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.AbsoluteReference, [
       literal(ProductionType.atSign),
@@ -19,3 +19,4 @@ export default recursiveParser(
       parserFor.ItemSpec,
     ])
 );
+export default AbsoluteReference;

@@ -5,7 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TextBoolean ::= extended-true | extended-false`
  */
-export default recursiveParser(
+export const TextBoolean: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -15,3 +15,4 @@ export default recursiveParser(
       ProductionType.TextBoolean
     )
 );
+export default TextBoolean;

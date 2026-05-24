@@ -5,4 +5,5 @@ import SymbolList from './SymbolList.mjs';
 /**
  * `SymbolsExported ::= SymbolList | empty`
  */
-export default recursiveParser((): Parser => optional(SymbolList));
+export const SymbolsExported: Parser = recursiveParser((): Parser => optional(SymbolList));
+export default SymbolsExported;

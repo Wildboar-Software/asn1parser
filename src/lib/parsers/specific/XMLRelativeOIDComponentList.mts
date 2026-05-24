@@ -8,10 +8,11 @@ import ProductionType from '../../ProductionType.mjs';
  *      XMLRelativeOIDComponent
  *      | XMLRelativeOIDComponent & "." & XMLRelativeOIDComponentList`
  */
-export default recursiveParser(
+export const XMLRelativeOIDComponentList: Parser = recursiveParser(
   (): Parser =>
     periodDelimitedList(
       ProductionType.XMLRelativeOIDComponentList,
       parserFor.XMLRelativeOIDComponent
     )
 );
+export default XMLRelativeOIDComponentList;

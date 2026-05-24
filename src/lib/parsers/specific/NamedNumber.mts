@@ -13,7 +13,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `NamedNumber ::= identifier "(" SignedNumber ")" | identifier "(" DefinedValue ")"`
  */
-export default recursiveParser(
+export const NamedNumber: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.NamedNumber, [
       literal(ProductionType.identifier),
@@ -26,3 +26,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default NamedNumber;

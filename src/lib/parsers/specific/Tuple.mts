@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Tuple ::= "{" TableColumn "," TableRow "}"`
  */
-export default recursiveParser(
+export const Tuple: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.Tuple, [
       literal(ProductionType.curlyOpening),
@@ -20,3 +20,4 @@ export default recursiveParser(
       literal(ProductionType.curlyClosing),
     ])
 );
+export default Tuple;

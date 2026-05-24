@@ -6,7 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Value ::= BuiltinValue | ReferencedValue | ObjectClassFieldValue`
  */
-export default recursiveParser(
+export const Value: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -17,3 +17,4 @@ export default recursiveParser(
       ProductionType.Value
     )
 );
+export default Value;

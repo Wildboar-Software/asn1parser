@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EmptyElementList ::= "<" & identifier "/>" | EmptyElementList "<" & identifier "/>"`
  */
-export default recursiveParser(
+export const EmptyElementList: Parser = recursiveParser(
   (): Parser =>
     repeatable(
       ProductionType.EmptyElementList,
@@ -25,3 +25,4 @@ export default recursiveParser(
       ])
     )
 );
+export default EmptyElementList;

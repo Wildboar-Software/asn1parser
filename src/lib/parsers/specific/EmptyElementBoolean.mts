@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EmptyElementBoolean ::= "<" & "true" "/>" | "<" & "false" "/>"`
  */
-export default recursiveParser(
+export const EmptyElementBoolean: Parser = recursiveParser(
   (): Parser =>
     sequenceOf(ProductionType.EmptyElementBoolean, [
       literal(ProductionType.lessThan),
@@ -22,3 +22,4 @@ export default recursiveParser(
       literal(ProductionType.greaterThan),
     ])
 );
+export default EmptyElementBoolean;

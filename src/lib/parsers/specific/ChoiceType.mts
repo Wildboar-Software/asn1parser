@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ChoiceType ::= CHOICE "{" AlternativeTypeLists "}"`
  */
-export default recursiveParser(
+export const ChoiceType: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ChoiceType, [
       literal(ProductionType._CHOICE),
@@ -28,3 +28,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default ChoiceType;

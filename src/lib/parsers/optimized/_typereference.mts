@@ -11,7 +11,7 @@ import Production from '../../Production.mjs';
  * contains capital letters.
  * @constant {Parser}
  */
-export default new Parser(
+export const typereference: Parser = new Parser(
   (): string => 'typereference',
   (state: ParseContext): ParseContext => {
     const currentToken: Production = state.tokens[state.index];
@@ -32,3 +32,4 @@ export default new Parser(
     }
   }
 );
+export default typereference;

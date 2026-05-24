@@ -24,7 +24,7 @@ const literalShibboleths: Set<ProductionType> = new Set<ProductionType>([
  *
  * @constant {Parser}
  */
-export default new Parser(
+export const Literal: Parser = new Parser(
   (): string => 'Literal',
   (state: ParseContext): ParseContext => {
     const literalComma: ParseContext = literal(
@@ -93,3 +93,4 @@ export default new Parser(
     return literalWord;
   }
 );
+export default Literal;

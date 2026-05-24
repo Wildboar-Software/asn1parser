@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ExternalTypeReference ::= modulereference "." typereference`
  */
-export default recursiveParser(
+export const ExternalTypeReference: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ExternalObjectSetReference, [
       parserFor.modulereference,
@@ -18,3 +18,4 @@ export default recursiveParser(
       parserFor.typereference,
     ])
 );
+export default ExternalTypeReference;

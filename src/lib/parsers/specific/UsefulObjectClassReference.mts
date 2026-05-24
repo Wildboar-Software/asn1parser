@@ -5,7 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `UsefulObjectClassReference ::= TYPE-IDENTIFIER | ABSTRACT-SYNTAX`
  */
-export default recursiveParser(
+export const UsefulObjectClassReference: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -15,3 +15,4 @@ export default recursiveParser(
       ProductionType.UsefulObjectClassReference
     )
 );
+export default UsefulObjectClassReference;

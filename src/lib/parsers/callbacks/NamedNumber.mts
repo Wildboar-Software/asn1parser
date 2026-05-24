@@ -8,7 +8,7 @@ import type ParseContext from '../../interfaces/ParseContext.mjs';
  * @param {ParseContext} ctx The parser state
  * @function
  */
-export default function onDidParseNamedNumber(ctx: ParseContext): void {
+export const onDidParseNamedNumber = function onDidParseNamedNumber(ctx: ParseContext): void {
   const id = ctx.cst.children[0];
   if (!id) {
     return;
@@ -16,4 +16,5 @@ export default function onDidParseNamedNumber(ctx: ParseContext): void {
   ctx.definedEnumItems.add(
     ctx.text.slice(id.location.startIndex, id.location.endIndex)
   );
-}
+};
+export default onDidParseNamedNumber;

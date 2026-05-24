@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLIdentifierList ::= EmptyElementList | TextList`
  */
-export default recursiveParser(
+export const XMLIdentifierList: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.EmptyElementList, parserFor.TextList],
       ProductionType.XMLIdentifierList
     )
 );
+export default XMLIdentifierList;

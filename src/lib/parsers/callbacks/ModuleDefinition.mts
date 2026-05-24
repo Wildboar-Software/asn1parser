@@ -7,7 +7,7 @@ import type ParseContext from '../../interfaces/ParseContext.mjs';
  * @param {ParseContext} ctx The parser state
  * @function
  */
-export default function onDidParseModuleDefinition(ctx: ParseContext): void {
+export const onDidParseModuleDefinition = function onDidParseModuleDefinition(ctx: ParseContext): void {
   /**
    * It is not explicitly forbidden in the ASN.1 specifications for the
    * module name to be identical to an assigned identifier, but I figured it
@@ -30,4 +30,5 @@ export default function onDidParseModuleDefinition(ctx: ParseContext): void {
   ctx.definedEnumItems.clear();
   ctx.definedSyntaxTokens.clear();
   ctx.discoveredIdentifiers.clear();
-}
+};
+export default onDidParseModuleDefinition;

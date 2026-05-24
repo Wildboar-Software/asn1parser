@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `PropertySettingsList ::= PropertyAndSettingPair | PropertySettingsList PropertyAndSettingPair`
  */
-export default recursiveParser(
+export const PropertySettingsList: Parser = recursiveParser(
   (): Parser =>
     whitespaceDelimitedList(
       ProductionType.PropertySettingsList,
       parserFor.PropertyAndSettingPair
     )
 );
+export default PropertySettingsList;

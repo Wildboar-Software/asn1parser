@@ -6,7 +6,7 @@ import {
   whitespaceTolerantSequenceOf,
 } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
-import Parser from '../../Parser.mjs';
+import type Parser from '../../Parser.mjs';
 import ProductionType from '../../ProductionType.mjs';
 
 /**
@@ -19,7 +19,7 @@ import ProductionType from '../../ProductionType.mjs';
  * result in parser under-reads.
  * @constant {Parser}
  */
-export default recursiveParser(
+export const ObjectClassFieldTypeWithOptionalConstraints: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -38,3 +38,4 @@ export default recursiveParser(
       ProductionType.Type
     )
 );
+export default ObjectClassFieldTypeWithOptionalConstraints;

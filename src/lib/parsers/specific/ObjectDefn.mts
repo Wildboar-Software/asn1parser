@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
  * `Setting ::= Type | Value | ValueSet | Object | ObjectSet`
  * `FieldSetting ::= PrimitiveFieldName Setting`
  */
-export default recursiveParser(
+export const ObjectDefn: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -28,3 +28,4 @@ export default recursiveParser(
       ProductionType.ObjectDefn
     )
 );
+export default ObjectDefn;

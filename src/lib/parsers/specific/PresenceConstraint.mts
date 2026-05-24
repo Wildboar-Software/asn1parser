@@ -5,7 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `PresenceConstraint ::= PRESENT | ABSENT | OPTIONAL | empty`
  */
-export default recursiveParser(
+export const PresenceConstraint: Parser = recursiveParser(
   (): Parser =>
     optional(
       choiceOf(
@@ -18,3 +18,4 @@ export default recursiveParser(
       )
     )
 );
+export default PresenceConstraint;

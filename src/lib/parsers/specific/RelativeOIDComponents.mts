@@ -6,7 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `RelativeOIDComponents ::= NumberForm | NameAndNumberForm | DefinedValue`
  */
-export default recursiveParser(
+export const RelativeOIDComponents: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -17,3 +17,4 @@ export default recursiveParser(
       ProductionType.RelativeOIDComponents
     )
 );
+export default RelativeOIDComponents;

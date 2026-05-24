@@ -5,7 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ComponentId ::= identifier | number | "*"`
  */
-export default recursiveParser(
+export const ComponentId: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       literal(ProductionType.identifier),
@@ -13,3 +13,4 @@ export default recursiveParser(
       literal(ProductionType.asterisk),
     ])
 );
+export default ComponentId;

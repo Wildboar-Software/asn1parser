@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `UnrestrictedCharacterStringValue ::= SequenceValue`
  */
-export default recursiveParser(
+export const UnrestrictedCharacterStringValue: Parser = recursiveParser(
   (): Parser =>
     aliasFor(
       ProductionType.UnrestrictedCharacterStringValue,
       parserFor.SequenceValue
     )
 );
+export default UnrestrictedCharacterStringValue;

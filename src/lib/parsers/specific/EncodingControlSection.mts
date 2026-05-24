@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EncodingControlSection ::= ENCODING-CONTROL encodingreference EncodingInstructionAssignmentList`
  */
-export default recursiveParser(
+export const EncodingControlSection: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.EncodingControlSection, [
       literal(ProductionType._ENCODING_CONTROL),
@@ -23,3 +23,4 @@ export default recursiveParser(
       parserFor.EncodingInstructionAssignmentList,
     ])
 );
+export default EncodingControlSection;

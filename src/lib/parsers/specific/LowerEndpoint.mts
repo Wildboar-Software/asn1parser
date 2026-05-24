@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `LowerEndpoint ::= LowerEndValue | LowerEndValue "<"`
  */
-export default recursiveParser(
+export const LowerEndpoint: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.LowerEndpoint, [
@@ -22,3 +22,4 @@ export default recursiveParser(
       aliasFor(ProductionType.LowerEndpoint, parserFor.LowerEndValue),
     ])
 );
+export default LowerEndpoint;

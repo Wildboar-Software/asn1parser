@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Governor ::= Type | DefinedObjectClass`
  */
-export default recursiveParser(
+export const Governor: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.Type, parserFor.DefinedObjectClass],
       ProductionType.Governor
     )
 );
+export default Governor;

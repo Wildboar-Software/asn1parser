@@ -17,7 +17,7 @@ import ProductionType from '../../ProductionType.mjs';
  * whitespace indicated by the UUID FC0C0C67-3CEE-466A-95BF-67BFE2274183 is not
  * consumed illegitimately.
  */
-export default recursiveParser(
+export const ModuleIdentifier: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       sequenceOf(ProductionType.ModuleIdentifier, [
@@ -28,3 +28,4 @@ export default recursiveParser(
       sequenceOf(ProductionType.ModuleIdentifier, [parserFor.modulereference]),
     ])
 );
+export default ModuleIdentifier;

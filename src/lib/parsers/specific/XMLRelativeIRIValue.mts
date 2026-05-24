@@ -9,10 +9,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLRelativeIRIValue ::= FirstRelativeArcIdentifier SubsequentArcIdentifier`
  */
-export default recursiveParser(
+export const XMLRelativeIRIValue: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.XMLRelativeIRIValue, [
       parserFor.FirstRelativeArcIdentifier,
       parserFor.SubsequentArcIdentifier,
     ])
 );
+export default XMLRelativeIRIValue;

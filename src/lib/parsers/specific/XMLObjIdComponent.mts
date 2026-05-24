@@ -6,7 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLObjIdComponent ::= NameForm | XMLNumberForm | XMLNameAndNumberForm`
  */
-export default recursiveParser(
+export const XMLObjIdComponent: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -17,3 +17,4 @@ export default recursiveParser(
       ProductionType.XMLObjIdComponent
     )
 );
+export default XMLObjIdComponent;

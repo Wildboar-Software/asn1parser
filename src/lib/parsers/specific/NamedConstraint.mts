@@ -10,10 +10,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `NamedConstraint ::= identifier ComponentConstraint`
  */
-export default recursiveParser(
+export const NamedConstraint: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.NamedConstraint, [
       literal(ProductionType.identifier),
       parserFor.ComponentConstraint,
     ])
 );
+export default NamedConstraint;

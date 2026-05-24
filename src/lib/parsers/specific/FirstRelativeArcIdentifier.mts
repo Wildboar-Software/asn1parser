@@ -6,7 +6,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `FirstRelativeArcIdentifier ::= ArcIdentifier`
  */
-export default recursiveParser(
+export const FirstRelativeArcIdentifier: Parser = recursiveParser(
   (): Parser =>
     aliasFor(ProductionType.FirstRelativeArcIdentifier, parserFor.ArcIdentifier)
 );
+export default FirstRelativeArcIdentifier;

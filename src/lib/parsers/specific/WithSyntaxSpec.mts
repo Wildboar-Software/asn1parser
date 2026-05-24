@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `WithSyntaxSpec ::= WITH SYNTAX SyntaxList`
  */
-export default recursiveParser(
+export const WithSyntaxSpec: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.WithSyntaxSpec, [
       literal(ProductionType._WITH),
@@ -28,3 +28,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default WithSyntaxSpec;

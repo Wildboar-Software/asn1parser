@@ -5,6 +5,7 @@ import { literal, recursiveParser } from '../generic/index.mjs';
 /**
  * `DateTimeType ::= DATE-TIME`
  */
-export default recursiveParser(
+export const DateTimeType: Parser = recursiveParser(
   (): Parser => literal(ProductionType._DATE_TIME, ProductionType.DateTimeType)
 );
+export default DateTimeType;

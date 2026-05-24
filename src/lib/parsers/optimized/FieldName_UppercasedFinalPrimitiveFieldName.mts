@@ -15,7 +15,7 @@ import type ParseContext from '../../interfaces/ParseContext.mjs';
  * or information object set.
  * @constant {Parser}
  */
-export default new Parser(
+export const FieldName_UppercasedFinalPrimitiveFieldName: Parser = new Parser(
   () => 'FieldName with uppercased final PrimitiveFieldName',
   (state: ParseContext): ParseContext => {
     const fn = parserFor.FieldName.execute(state);
@@ -43,3 +43,4 @@ export default new Parser(
     }
   }
 );
+export default FieldName_UppercasedFinalPrimitiveFieldName;

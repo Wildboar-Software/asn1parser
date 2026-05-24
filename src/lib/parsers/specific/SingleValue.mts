@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SingleValue ::= Value`
  */
-export default recursiveParser(
+export const SingleValue: Parser = recursiveParser(
   (): Parser => aliasFor(ProductionType.SingleValue, parserFor.Value)
 );
+export default SingleValue;

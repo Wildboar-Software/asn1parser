@@ -9,10 +9,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `RelativeOIDComponentsList ::= RelativeOIDComponents | RelativeOIDComponents RelativeOIDComponentsList`
  */
-export default recursiveParser(
+export const RelativeOIDComponentsList: Parser = recursiveParser(
   (): Parser =>
     whitespaceOptionalDelimitedList(
       ProductionType.RelativeOIDComponentsList,
       parserFor.RelativeOIDComponents
     )
 );
+export default RelativeOIDComponentsList;

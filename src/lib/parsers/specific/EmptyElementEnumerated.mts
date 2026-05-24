@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EmptyElementEnumerated ::= "<" & identifier "/>"`
  */
-export default recursiveParser(
+export const EmptyElementEnumerated: Parser = recursiveParser(
   (): Parser =>
     sequenceOf(ProductionType.EmptyElementEnumerated, [
       literal(ProductionType.lessThan),
@@ -21,3 +21,4 @@ export default recursiveParser(
       literal(ProductionType.greaterThan),
     ])
 );
+export default EmptyElementEnumerated;

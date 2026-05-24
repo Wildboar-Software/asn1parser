@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ObjectIdentifierValue ::= "{" ObjIdComponentsList "}" | "{" DefinedValue ObjIdComponentsList "}"`
  */
-export default recursiveParser(
+export const ObjectIdentifierValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.ObjectIdentifierValue, [
@@ -27,3 +27,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default ObjectIdentifierValue;

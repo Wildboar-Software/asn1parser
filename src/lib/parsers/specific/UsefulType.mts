@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
  * `UTCTime`, `GeneralizedTime`, and `ObjectDescriptor`. This is largely the
  * product of a historical accident.
  */
-export default recursiveParser(
+export const UsefulType: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -29,3 +29,4 @@ export default recursiveParser(
       ProductionType.UsefulType
     )
 );
+export default UsefulType;

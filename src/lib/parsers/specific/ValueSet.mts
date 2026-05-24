@@ -10,7 +10,7 @@ import ElementSetSpecs from '../optimized/ElementSetSpecs_Subtype.mjs';
 /**
  * `ValueSet ::= "{" ElementSetSpecs "}"`
  */
-export default recursiveParser(
+export const ValueSet: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ValueSet, [
       literal(ProductionType.curlyOpening),
@@ -18,3 +18,4 @@ export default recursiveParser(
       literal(ProductionType.curlyClosing),
     ])
 );
+export default ValueSet;

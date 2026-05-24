@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TimeType ::= TIME`
  */
-export default recursiveParser(
+export const TimeType: Parser = recursiveParser(
   (): Parser => literal(ProductionType._TIME, ProductionType.TimeType)
 );
+export default TimeType;

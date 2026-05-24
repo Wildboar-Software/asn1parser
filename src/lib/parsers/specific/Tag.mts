@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Tag ::= "[" EncodingReference Class ClassNumber "]"`
  */
-export default recursiveParser(
+export const Tag: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.Tag, [
       literal(ProductionType.squareOpening),
@@ -26,3 +26,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default Tag;

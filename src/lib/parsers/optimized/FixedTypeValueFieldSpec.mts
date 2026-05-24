@@ -20,7 +20,7 @@ import productionTypeToTypeTypeMap from '../../maps/productionTypeToTypeTypeMap.
  * ```
  * @constant {Parser}
  */
-export default new Parser(
+export const FixedTypeValueFieldSpec: Parser = new Parser(
   () => 'FixedTypeValueFieldSpec',
   (state: ParseContext): ParseContext => {
     const vfr: ParseContext = parserFor.valuefieldreference.execute(state);
@@ -125,3 +125,4 @@ export default new Parser(
     };
   }
 );
+export default FixedTypeValueFieldSpec;

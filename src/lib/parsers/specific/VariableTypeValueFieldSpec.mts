@@ -11,7 +11,7 @@ import FieldName from '../optimized/FieldName_UppercasedFinalPrimitiveFieldName.
 /**
  * `VariableTypeValueFieldSpec ::= valuefieldreference FieldName ValueOptionalitySpec ?`
  */
-export default recursiveParser(
+export const VariableTypeValueFieldSpec: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.VariableTypeValueFieldSpec, [
@@ -41,3 +41,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default VariableTypeValueFieldSpec;

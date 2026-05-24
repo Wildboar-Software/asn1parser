@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ObjectAssignment ::= objectreference DefinedObjectClass "::=" Object`
  */
-export default recursiveParser(
+export const ObjectAssignment: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ObjectAssignment, [
       parserFor.objectreference,
@@ -19,3 +19,4 @@ export default recursiveParser(
       parserFor.Object,
     ])
 );
+export default ObjectAssignment;

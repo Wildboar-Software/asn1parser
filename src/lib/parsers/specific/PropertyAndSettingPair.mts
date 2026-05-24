@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `PropertyAndSettingPair ::= PropertyName "=" SettingName`
  */
-export default recursiveParser(
+export const PropertyAndSettingPair: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.PropertyAndSettingPair, [
       parserFor.PropertyName,
@@ -18,3 +18,4 @@ export default recursiveParser(
       parserFor.SettingName,
     ])
 );
+export default PropertyAndSettingPair;

@@ -38,10 +38,11 @@ const PluralSettingParser = recursiveParser(
     )
 );
 
-export default new Parser(
+export const Setting: Parser = new Parser(
   (): string => 'Setting',
   (state: ParseContext): ParseContext =>
     state.justParsedPluralLiteral
       ? PluralSettingParser.execute(state)
       : SingularSettingParser.execute(state)
 );
+export default Setting;

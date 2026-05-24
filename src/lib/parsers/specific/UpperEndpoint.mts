@@ -14,7 +14,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `UpperEndpoint ::= UpperEndValue | "<" UpperEndValue`
  */
-export default recursiveParser(
+export const UpperEndpoint: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.UpperEndpoint, [
@@ -28,3 +28,4 @@ export default recursiveParser(
       aliasFor(ProductionType.UpperEndpoint, parserFor.UpperEndValue),
     ])
 );
+export default UpperEndpoint;

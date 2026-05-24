@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ContentsConstraint ::= CONTAINING Type | ENCODED BY Value | CONTAINING Type ENCODED BY Value`
  */
-export default recursiveParser(
+export const ContentsConstraint: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.ContentsConstraint, [
@@ -49,3 +49,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default ContentsConstraint;

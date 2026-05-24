@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ItemId ::= ItemSpec`
  */
-export default recursiveParser(
+export const ItemId: Parser = recursiveParser(
   (): Parser => aliasFor(ProductionType.ItemId, parserFor.ItemSpec)
 );
+export default ItemId;

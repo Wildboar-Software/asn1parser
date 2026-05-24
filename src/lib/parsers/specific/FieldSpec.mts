@@ -19,7 +19,7 @@ import ProductionType from '../../ProductionType.mjs';
  *      | ObjectFieldSpec
  *      | ObjectSetFieldSpec`
  */
-export default recursiveParser(
+export const FieldSpec: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -88,3 +88,4 @@ export default recursiveParser(
       ProductionType.FieldSpec
     )
 );
+export default FieldSpec;

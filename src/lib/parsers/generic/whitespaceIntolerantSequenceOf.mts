@@ -18,7 +18,7 @@ import ProductionType from '../../ProductionType.mjs';
  *  in order and fail if any of them fail.
  * @function
  */
-export default function (
+export const whitespaceIntolerantSequenceOf = function (
   containingType: ProductionType,
   parsers: Parser[]
 ): Parser {
@@ -64,3 +64,5 @@ export default function (
     }
   );
 }
+;
+export default whitespaceIntolerantSequenceOf;

@@ -26,7 +26,7 @@ import Value from './Value_listens_to_currentType.mjs';
  * ```
  * @constant {Parser}
  */
-export default new Parser(
+export const ComponentType_NamedType: Parser = new Parser(
   (): string => 'ComponentType starting with a NamedType',
   (state: ParseContext): ParseContext => {
     const results: ParseContext[] = [];
@@ -104,3 +104,4 @@ export default new Parser(
     };
   }
 );
+export default ComponentType_NamedType;

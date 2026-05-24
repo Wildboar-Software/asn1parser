@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLNumericRealValue ::= realnumber | "-" & realnumber`
  */
-export default recursiveParser(
+export const XMLNumericRealValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       sequenceOf(ProductionType.XMLNumericRealValue, [
@@ -26,3 +26,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default XMLNumericRealValue;

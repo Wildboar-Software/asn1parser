@@ -25,7 +25,7 @@ import whitespace from './whitespace.mjs';
  *  `listItemParser` with delimiters parseable by `listItemParser`.
  * @function
  */
-export default function (
+export const whitespaceTolerantList = function (
   containingType: ProductionType,
   listItemParser: Parser,
   delimiterParser: Parser
@@ -109,3 +109,5 @@ export default function (
     }
   );
 }
+;
+export default whitespaceTolerantList;

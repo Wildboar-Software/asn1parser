@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `RealType ::= REAL`
  */
-export default recursiveParser(
+export const RealType: Parser = recursiveParser(
   (): Parser => literal(ProductionType._REAL, ProductionType.RealType)
 );
+export default RealType;

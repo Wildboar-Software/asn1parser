@@ -7,10 +7,11 @@ import recursiveParser from '../generic/recursiveParser.mjs';
 /**
  * `IntersectionMark ::= "^" | INTERSECTION`
  */
-export default recursiveParser(
+export const IntersectionMark: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [literal(ProductionType.caret), literal(ProductionType._INTERSECTION)],
       ProductionType.IntersectionMark
     )
 );
+export default IntersectionMark;

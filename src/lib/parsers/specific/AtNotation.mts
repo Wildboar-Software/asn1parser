@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `AtNotation ::= "@" ComponentIdList | "@." Level ComponentIdList`
  */
-export default recursiveParser(
+export const AtNotation: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.AtNotation, [
@@ -26,3 +26,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default AtNotation;

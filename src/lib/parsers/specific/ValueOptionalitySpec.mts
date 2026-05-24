@@ -13,7 +13,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ValueOptionalitySpec ::= OPTIONAL | DEFAULT Value`
  */
-export default recursiveParser(
+export const ValueOptionalitySpec: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       aliasFor(
@@ -33,3 +33,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default ValueOptionalitySpec;

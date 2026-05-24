@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
  * only used by `BuiltinValue`, and `BuiltinValue` already has alternatives that
  * cover those of `FixedTypeFieldVal`.
  */
-export default recursiveParser(
+export const FixedTypeFieldVal: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -20,3 +20,4 @@ export default recursiveParser(
       ProductionType.FixedTypeFieldVal
     )
 );
+export default FixedTypeFieldVal;

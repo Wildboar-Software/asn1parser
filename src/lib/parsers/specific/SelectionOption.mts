@@ -18,7 +18,7 @@ import * as parserFor from '../specific/index.mjs';
  *     | WITH "SUCCESSORS"
  *     | WITH "DESCENDANTS"`
  */
-export default recursiveParser(
+export const SelectionOption: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.SelectionOption, [
       literal(ProductionType._WITH),
@@ -32,3 +32,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default SelectionOption;

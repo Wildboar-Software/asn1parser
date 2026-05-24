@@ -11,7 +11,7 @@ import FieldName from '../optimized/FieldName_UppercasedFinalPrimitiveFieldName.
 /**
  * `VariableTypeValueSetFieldSpec ::= valuesetfieldreference FieldName ValueSetOptionalitySpec?`
  */
-export default recursiveParser(
+export const VariableTypeValueSetFieldSpec: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(
@@ -47,3 +47,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default VariableTypeValueSetFieldSpec;

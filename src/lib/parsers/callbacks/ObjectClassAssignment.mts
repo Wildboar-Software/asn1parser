@@ -154,7 +154,7 @@ const nonLiteralTokens: Set<string> = new Set<string>(['&', '[', ']', ',']);
  * @param {ParseContext} ctx The parser state
  * @function
  */
-export default function onDidParseObjectClassAssignment(
+export const onDidParseObjectClassAssignment = function onDidParseObjectClassAssignment(
   ctx: ParseContext
 ): void {
   const objectclassreference = ctx.cst.children.find(
@@ -200,4 +200,5 @@ export default function onDidParseObjectClassAssignment(
     .forEach((token: string): void => {
       ctx.definedSyntaxTokens.add(token);
     });
-}
+};
+export default onDidParseObjectClassAssignment;

@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TextInteger ::= identifier`
  */
-export default recursiveParser(
+export const TextInteger: Parser = recursiveParser(
   (): Parser => literal(ProductionType.identifier, ProductionType.TextInteger)
 );
+export default TextInteger;

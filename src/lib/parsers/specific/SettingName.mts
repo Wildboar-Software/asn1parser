@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SettingName ::= psname`
  */
-export default recursiveParser(
+export const SettingName: Parser = recursiveParser(
   (): Parser => literal(ProductionType.psname, ProductionType.SettingName)
 );
+export default SettingName;

@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ExceptionSpec ::= "!" ExceptionIdentification | empty`
  */
-export default recursiveParser(
+export const ExceptionSpec: Parser = recursiveParser(
   (): Parser =>
     optional(
       whitespaceTolerantSequenceOf(ProductionType.ExceptionSpec, [
@@ -25,3 +25,4 @@ export default recursiveParser(
       ])
     )
 );
+export default ExceptionSpec;

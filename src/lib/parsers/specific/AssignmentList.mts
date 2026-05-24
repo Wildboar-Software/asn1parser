@@ -6,7 +6,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `AssignmentList ::= Assignment | AssignmentList Assignment`
  */
-export default recursiveParser(
+export const AssignmentList: Parser = recursiveParser(
   (): Parser =>
     whitespaceDelimitedList(ProductionType.AssignmentList, parserFor.Assignment)
 );
+export default AssignmentList;

@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ContainedSubtype ::= Includes Type`
  */
-export default recursiveParser(
+export const ContainedSubtype: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ContainedSubtype, [
       // parserFor.Includes, // Includes is just an optional INCLUDES, which makes no sense.
@@ -18,3 +18,4 @@ export default recursiveParser(
       parserFor.Type,
     ])
 );
+export default ContainedSubtype;

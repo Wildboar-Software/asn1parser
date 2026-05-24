@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Parameter ::= ParamGovernor ":" DummyReference | DummyReference`
  */
-export default recursiveParser(
+export const Parameter: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.Parameter, [
@@ -23,3 +23,4 @@ export default recursiveParser(
       aliasFor(ProductionType.Parameter, parserFor.DummyReference),
     ])
 );
+export default Parameter;

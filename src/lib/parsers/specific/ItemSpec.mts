@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ItemSpec ::= typereference | ItemId "." ComponentId`
  */
-export default recursiveParser(
+export const ItemSpec: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.ItemSpec, [
@@ -23,3 +23,4 @@ export default recursiveParser(
       aliasFor(ProductionType.ItemSpec, parserFor.typereference),
     ])
 );
+export default ItemSpec;

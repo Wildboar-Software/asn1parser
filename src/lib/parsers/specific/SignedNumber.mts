@@ -10,10 +10,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SignedNumber ::= number | "-" number`
  */
-export default recursiveParser(
+export const SignedNumber: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.SignedNumber, [
       optional(literal(ProductionType.hyphen)),
       literal(ProductionType.number),
     ])
 );
+export default SignedNumber;

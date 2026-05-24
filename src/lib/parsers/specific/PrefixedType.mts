@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `PrefixedType ::= TaggedType | EncodingPrefixedType`
  */
-export default recursiveParser(
+export const PrefixedType: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.TaggedType, parserFor.EncodingPrefixedType],
       ProductionType.PrefixedType
     )
 );
+export default PrefixedType;

@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `CharSyms ::= CharsDefn | CharSyms "," CharsDefn`
  */
-export default recursiveParser(
+export const CharSyms: Parser = recursiveParser(
   (): Parser => commaDelimitedList(ProductionType.CharSyms, parserFor.CharsDefn)
 );
+export default CharSyms;

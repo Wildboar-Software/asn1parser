@@ -13,7 +13,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `OctetStringValue ::= bstring | hstring | CONTAINING Value`
  */
-export default recursiveParser(
+export const OctetStringValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       literal(ProductionType.bstring, ProductionType.OctetStringValue),
@@ -28,3 +28,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default OctetStringValue;

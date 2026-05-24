@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `OptionalGroup ::= "[" TokenOrGroupSpec empty + "]"`
  */
-export default recursiveParser(
+export const OptionalGroup: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.OptionalGroup, [
       literal(ProductionType.squareOpening),
@@ -22,3 +22,4 @@ export default recursiveParser(
       literal(ProductionType.squareClosing),
     ])
 );
+export default OptionalGroup;

@@ -27,7 +27,7 @@ import ProductionType from '../../ProductionType.mjs';
  *  `listItemParser` with delimiters parseable by `listItemParser`.
  * @function
  */
-export default function (
+export const whitespaceIntolerantList = function (
   containingType: ProductionType,
   listItemParser: Parser,
   delimiterParser: Parser
@@ -83,3 +83,5 @@ export default function (
     }
   );
 }
+;
+export default whitespaceIntolerantList;

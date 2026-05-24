@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `InstanceOfValue ::= Value`
  */
-export default recursiveParser(
+export const InstanceOfValue: Parser = recursiveParser(
   (): Parser => aliasFor(ProductionType.InstanceOfValue, parserFor.Value)
 );
+export default InstanceOfValue;

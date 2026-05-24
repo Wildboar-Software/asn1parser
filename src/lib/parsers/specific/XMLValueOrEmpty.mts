@@ -16,7 +16,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLValueOrEmpty ::= XMLValue | "<" & NonParameterizedTypeName "/>"`
  */
-export default recursiveParser(
+export const XMLValueOrEmpty: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       sequenceOf(ProductionType.XMLValueOrEmpty, [
@@ -41,3 +41,4 @@ export default recursiveParser(
       aliasFor(ProductionType.XMLValueOrEmpty, parserFor.XMLValue),
     ])
 );
+export default XMLValueOrEmpty;

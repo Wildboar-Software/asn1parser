@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `DefinitiveOID ::= "{" DefinitiveObjIdComponentList "}"`
  */
-export default recursiveParser(
+export const DefinitiveOID: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.DefinitiveOID, [
       literal(ProductionType.curlyOpening),
@@ -24,3 +24,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default DefinitiveOID;

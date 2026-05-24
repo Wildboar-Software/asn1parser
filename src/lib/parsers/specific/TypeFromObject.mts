@@ -11,7 +11,7 @@ import FieldName from '../optimized/FieldName_UppercasedFinalPrimitiveFieldName.
 /**
  * `TypeFromObject ::= ReferencedObjects "." FieldName`
  */
-export default recursiveParser(
+export const TypeFromObject: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.TypeFromObject, [
       parserFor.ReferencedObjects,
@@ -19,3 +19,4 @@ export default recursiveParser(
       FieldName,
     ])
 );
+export default TypeFromObject;

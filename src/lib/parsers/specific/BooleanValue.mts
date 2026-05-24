@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `BooleanValue ::= TRUE | FALSE`
  */
-export default recursiveParser(
+export const BooleanValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [literal(ProductionType._TRUE), literal(ProductionType._FALSE)],
       ProductionType.BooleanValue
     )
 );
+export default BooleanValue;

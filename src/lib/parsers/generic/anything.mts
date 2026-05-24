@@ -6,7 +6,7 @@ import Production from '../../Production.mjs';
  * @summary A `Parser` that will parse one token of any type.
  * @constant
  */
-export default new Parser(
+export const anything: Parser = new Parser(
   () => 'Anything',
   (state: ParseContext): ParseContext => {
     const currentToken: Production = state.tokens[state.index];
@@ -20,3 +20,4 @@ export default new Parser(
     };
   }
 );
+export default anything;

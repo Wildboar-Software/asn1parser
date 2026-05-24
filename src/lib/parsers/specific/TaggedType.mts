@@ -14,7 +14,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TaggedType ::= Tag Type | Tag IMPLICIT Type | Tag EXPLICIT Type`
  */
-export default recursiveParser(
+export const TaggedType: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.TaggedType, [
       parserFor.Tag,
@@ -27,3 +27,4 @@ export default recursiveParser(
       assert(parserFor.Type, anything, '65400B3E-ED44-4112-9C14-6B6BC7C5BC3F'),
     ])
 );
+export default TaggedType;

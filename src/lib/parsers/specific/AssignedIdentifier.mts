@@ -11,10 +11,11 @@ import ProductionType from '../../ProductionType.mjs';
  * the modulereference precedes an AssignedIdentifier, or if it belongs to
  * another production, and hence, should remain unconsumed.
  */
-export default recursiveParser(
+export const AssignedIdentifier: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.ObjectIdentifierValue, parserFor.DefinedValue],
       ProductionType.AssignedIdentifier
     )
 );
+export default AssignedIdentifier;

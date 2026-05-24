@@ -6,7 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Setting ::= Type | Value | ValueSet | Object | ObjectSet`
  */
-export default recursiveParser(
+export const Setting: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -19,3 +19,4 @@ export default recursiveParser(
       ProductionType.Setting
     )
 );
+export default Setting;

@@ -8,6 +8,7 @@ import type ParseContext from '../../interfaces/ParseContext.mjs';
  * @param {ParseContext} ctx The parser state
  * @function
  */
-export default function onDidParseValue(ctx: ParseContext): void {
+export const onDidParseValue = function onDidParseValue(ctx: ParseContext): void {
   ctx.currentType = undefined;
-}
+};
+export default onDidParseValue;

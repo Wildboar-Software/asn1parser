@@ -5,6 +5,7 @@ import { literal, recursiveParser } from '../generic/index.mjs';
 /**
  * `NameForm ::= identifier`
  */
-export default recursiveParser(
+export const NameForm: Parser = recursiveParser(
   (): Parser => literal(ProductionType.identifier, ProductionType.NameForm)
 );
+export default NameForm;

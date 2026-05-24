@@ -16,7 +16,7 @@ import ProductionType from '../../ProductionType.mjs';
  *     | AUTOMATIC TAGS
  *     | empty`
  */
-export default recursiveParser(
+export const TagDefault: Parser = recursiveParser(
   (): Parser =>
     optional(
       whitespaceTolerantSequenceOf(ProductionType.TagDefault, [
@@ -33,3 +33,4 @@ export default recursiveParser(
       ])
     )
 );
+export default TagDefault;

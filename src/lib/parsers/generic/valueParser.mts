@@ -1,6 +1,6 @@
 import { choiceOf, aliasFor } from '../generic/index.mjs';
 import ProductionType from '../../ProductionType.mjs';
-import Parser from '../../Parser.mjs';
+import type Parser from '../../Parser.mjs';
 import typeTypeToValueParserMap from '../../maps/typeTypeToValueParserMap.mjs';
 import * as parserFor from '../specific/index.mjs';
 import TypeType from '../../constructs/TypeType.mjs';
@@ -33,7 +33,7 @@ import TypeType from '../../constructs/TypeType.mjs';
  *  parsers to parse a `Value`.
  * @function
  */
-export default function (typeType: TypeType): Parser {
+export const valueParser = function (typeType: TypeType): Parser {
   const typeSpecificParser = typeTypeToValueParserMap.get(typeType);
   return typeSpecificParser
     ? choiceOf(
@@ -49,3 +49,5 @@ export default function (typeType: TypeType): Parser {
         ProductionType.Value
       );
 }
+;
+export default valueParser;

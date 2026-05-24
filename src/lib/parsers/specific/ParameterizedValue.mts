@@ -9,10 +9,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ParameterizedValue ::= SimpleDefinedValue ActualParameterList`
  */
-export default recursiveParser(
+export const ParameterizedValue: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ParameterizedValue, [
       parserFor.SimpleDefinedValue,
       parserFor.ActualParameterList,
     ])
 );
+export default ParameterizedValue;

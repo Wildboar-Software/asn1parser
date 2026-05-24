@@ -21,7 +21,7 @@ import ProductionType from '../../ProductionType.mjs';
  * @returns A Parser that will not re-parse sequences that have already been
  *  parsed successfully.
  */
-export default function (
+export const recyclingSequenceOf = function (
   containingType: ProductionType,
   ...parserSets: Parser[][]
 ): Parser {
@@ -68,3 +68,5 @@ export default function (
     }
   );
 }
+;
+export default recyclingSequenceOf;

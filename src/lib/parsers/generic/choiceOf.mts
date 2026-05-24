@@ -21,7 +21,7 @@ import ProductionType from '../../ProductionType.mjs';
  *  return the first successful alternative.
  * @function
  */
-export default function (
+export const choiceOf = function (
   alts: Parser[],
   containingType?: ProductionType
 ): Parser {
@@ -71,3 +71,5 @@ export default function (
     }
   );
 }
+;
+export default choiceOf;

@@ -126,7 +126,8 @@ You can check if this module has any problems with JSR by running
 
 None of the code in this repository was written AI / LLMs, except a few tests
 that were previously written run using Jest were converted to using the
-built-in NodeJS test runner.
+built-in NodeJS test runner, and Cursor was used to add some missing type
+annotations.
 
 ## See Also
 

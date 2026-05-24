@@ -16,7 +16,7 @@ import ProductionType from '../../ProductionType.mjs';
  * except the lexical items END and ENCODING-CONTROL, which will not appear in
  * an "EncodingInstructionAssignmentList"."
  */
-export default recursiveParser(
+export const EncodingInstructionAssignmentList: Parser = recursiveParser(
   (): Parser =>
     anythingUntil(
       ProductionType.EncodingInstructionAssignmentList,
@@ -26,3 +26,4 @@ export default recursiveParser(
       ])
     )
 );
+export default EncodingInstructionAssignmentList;

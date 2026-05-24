@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ModuleBody ::= Exports Imports AssignmentList | empty`
  */
-export default recursiveParser(
+export const ModuleBody: Parser = recursiveParser(
   (): Parser =>
     optional(
       whitespaceTolerantSequenceOf(ProductionType.ModuleBody, [
@@ -20,3 +20,4 @@ export default recursiveParser(
       ])
     )
 );
+export default ModuleBody;

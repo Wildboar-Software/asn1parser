@@ -13,7 +13,7 @@ import updateCurrentType from '../../updateCurrentType.mjs';
 /**
  * `OpenTypeFieldVal ::= Type ":" Value`
  */
-export default recursiveParser(
+export const OpenTypeFieldVal: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.OpenTypeFieldVal, [
       doif(parserFor.Type, updateCurrentType),
@@ -21,3 +21,4 @@ export default recursiveParser(
       Value,
     ])
 );
+export default OpenTypeFieldVal;

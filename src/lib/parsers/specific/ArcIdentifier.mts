@@ -7,7 +7,7 @@ import recursiveParser from '../generic/recursiveParser.mjs';
 /**
  * `ArcIdentifier ::= integerUnicodeLabel | non-integerUnicodeLabel`
  */
-export default recursiveParser(
+export const ArcIdentifier: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -20,3 +20,4 @@ export default recursiveParser(
       ProductionType.ArcIdentifier
     )
 );
+export default ArcIdentifier;

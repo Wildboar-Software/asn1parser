@@ -27,7 +27,7 @@ const shibboleths: Set<ProductionType> = new Set<ProductionType>([
  *
  * @constant {Parser}
  */
-export default recursiveParser(
+export const ParamGovernor: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -106,3 +106,4 @@ export default recursiveParser(
       ProductionType.ParamGovernor
     )
 );
+export default ParamGovernor;

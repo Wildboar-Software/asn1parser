@@ -15,7 +15,7 @@ import ProductionType from '../../ProductionType.mjs';
  *  type indicated by `type` and optionally encloses it in a parent production.
  * @function
  */
-export default function (
+export const literal = function (
   type: ProductionType,
   containingType?: ProductionType
 ): Parser {
@@ -48,3 +48,5 @@ export default function (
     }
   );
 }
+;
+export default literal;

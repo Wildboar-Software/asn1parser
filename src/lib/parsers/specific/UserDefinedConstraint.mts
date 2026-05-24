@@ -14,7 +14,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `UserDefinedConstraint ::= CONSTRAINED BY "{" UserDefinedConstraintParameter "," * "}"`
  */
-export default recursiveParser(
+export const UserDefinedConstraint: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.UserDefinedConstraint, [
       literal(ProductionType._CONSTRAINED),
@@ -41,3 +41,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default UserDefinedConstraint;

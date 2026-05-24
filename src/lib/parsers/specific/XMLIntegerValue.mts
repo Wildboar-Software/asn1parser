@@ -6,7 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLIntegerValue ::= XMLSignedNumber | EmptyElementInteger | TextInteger`
  */
-export default recursiveParser(
+export const XMLIntegerValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -17,3 +17,4 @@ export default recursiveParser(
       ProductionType.XMLIntegerValue
     )
 );
+export default XMLIntegerValue;

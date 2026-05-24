@@ -27,9 +27,11 @@ import ProductionType from '../../ProductionType.mjs';
  *  whose list items can be parsed with `listItemParser`.
  * @function
  */
-export default function (
+export const whitespaceDelimitedList = function (
   containingType: ProductionType,
   listItemParser: Parser
 ): Parser {
   return whitespaceIntolerantList(containingType, listItemParser, whitespace);
 }
+;
+export default whitespaceDelimitedList;

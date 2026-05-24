@@ -6,7 +6,7 @@ import {
   whitespaceTolerantSequenceOf,
 } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
-import Parser from '../../Parser.mjs';
+import type Parser from '../../Parser.mjs';
 import ProductionType from '../../ProductionType.mjs';
 
 /**
@@ -28,7 +28,7 @@ import ProductionType from '../../ProductionType.mjs';
  *
  * @constant {Parser}
  */
-export default recursiveParser(
+export const SizeConstraintConstraint: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.Constraint, [
       literal(ProductionType.parenthesisOpening),
@@ -41,3 +41,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default SizeConstraintConstraint;

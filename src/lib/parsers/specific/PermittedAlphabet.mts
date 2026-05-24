@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `PermittedAlphabet ::= FROM Constraint`
  */
-export default recursiveParser(
+export const PermittedAlphabet: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.PermittedAlphabet, [
       literal(ProductionType._FROM),
@@ -23,3 +23,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default PermittedAlphabet;

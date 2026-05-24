@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ComponentTypeList ::= ComponentType | ComponentTypeList "," ComponentType`
  */
-export default recursiveParser(
+export const ComponentTypeList: Parser = recursiveParser(
   (): Parser =>
     commaDelimitedList(
       ProductionType.ComponentTypeList,
       parserFor.ComponentType
     )
 );
+export default ComponentTypeList;

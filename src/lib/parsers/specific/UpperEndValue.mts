@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `UpperEndValue ::= Value | MAX`
  */
-export default recursiveParser(
+export const UpperEndValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.Value, literal(ProductionType._MAX)],
       ProductionType.UpperEndValue
     )
 );
+export default UpperEndValue;

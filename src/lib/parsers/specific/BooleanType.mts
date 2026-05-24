@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `BooleanType ::= BOOLEAN`
  */
-export default recursiveParser(
+export const BooleanType: Parser = recursiveParser(
   (): Parser => literal(ProductionType._BOOLEAN, ProductionType.BooleanType)
 );
+export default BooleanType;

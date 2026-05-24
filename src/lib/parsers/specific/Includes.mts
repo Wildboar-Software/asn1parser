@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Includes ::= INCLUDES | empty`
  */
-export default recursiveParser(
+export const Includes: Parser = recursiveParser(
   (): Parser => optional(literal(ProductionType._INCLUDES))
 );
+export default Includes;

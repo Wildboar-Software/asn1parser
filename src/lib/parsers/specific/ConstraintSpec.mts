@@ -13,7 +13,7 @@ import ProductionType from '../../ProductionType.mjs';
  * `ContentsConstraint ::= CONTAINING Type | ENCODED BY Value | CONTAINING Type ENCODED BY Value`
  * `SubtypeConstraint ::= ElementSetSpecs`
  */
-export default recursiveParser(
+export const ConstraintSpec: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -23,3 +23,4 @@ export default recursiveParser(
       ProductionType.ConstraintSpec
     )
 );
+export default ConstraintSpec;

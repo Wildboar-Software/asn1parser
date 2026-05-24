@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SetValue ::= "{" ComponentValueList "}" | "{" "}"`
  */
-export default recursiveParser(
+export const SetValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.SetValue, [
@@ -25,3 +25,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default SetValue;

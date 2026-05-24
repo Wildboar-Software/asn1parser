@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ValueList ::= Value | ValueList "," Value`
  */
-export default recursiveParser(
+export const ValueList: Parser = recursiveParser(
   (): Parser => commaDelimitedList(ProductionType.ValueList, parserFor.Value)
 );
+export default ValueList;

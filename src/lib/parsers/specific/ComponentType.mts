@@ -22,7 +22,7 @@ import ComponentType_NamedType from '../optimized/ComponentType_NamedType.mjs';
  *      | NamedType DEFAULT Value
  *      | COMPONENTS OF Type`
  */
-export default recursiveParser(
+export const ComponentType: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.ComponentType, [
@@ -37,3 +37,4 @@ export default recursiveParser(
       ComponentType_NamedType,
     ])
 );
+export default ComponentType;

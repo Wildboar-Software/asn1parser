@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLOctetStringValue ::= XMLTypedValue | xmlhstring`
  */
-export default recursiveParser(
+export const XMLOctetStringValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.XMLTypedValue, literal(ProductionType.xmlhstring)],
       ProductionType.XMLOctetStringValue
     )
 );
+export default XMLOctetStringValue;

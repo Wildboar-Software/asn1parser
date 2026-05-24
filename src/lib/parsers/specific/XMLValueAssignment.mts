@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLValueAssignment ::= valuereference "::=" XMLTypedValue`
  */
-export default recursiveParser(
+export const XMLValueAssignment: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.XMLValueAssignment, [
       parserFor.valuereference,
@@ -18,3 +18,4 @@ export default recursiveParser(
       parserFor.XMLTypedValue,
     ])
 );
+export default XMLValueAssignment;

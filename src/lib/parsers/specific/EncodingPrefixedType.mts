@@ -9,10 +9,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EncodingPrefixedType ::= EncodingPrefix Type`
  */
-export default recursiveParser(
+export const EncodingPrefixedType: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.EncodingPrefixedType, [
       parserFor.EncodingPrefix,
       parserFor.Type,
     ])
 );
+export default EncodingPrefixedType;

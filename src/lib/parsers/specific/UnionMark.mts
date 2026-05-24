@@ -7,10 +7,11 @@ import recursiveParser from '../generic/recursiveParser.mjs';
 /**
  * `UnionMark ::= "|" | UNION`
  */
-export default recursiveParser(
+export const UnionMark: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [literal(ProductionType.verticalBar), literal(ProductionType._UNION)],
       ProductionType.UnionMark
     )
 );
+export default UnionMark;

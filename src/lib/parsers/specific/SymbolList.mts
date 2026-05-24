@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SymbolList ::= Symbol | SymbolList "," Symbol`
  */
-export default recursiveParser(
+export const SymbolList: Parser = recursiveParser(
   (): Parser => commaDelimitedList(ProductionType.SymbolList, parserFor.Symbol)
 );
+export default SymbolList;

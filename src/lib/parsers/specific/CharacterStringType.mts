@@ -6,7 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `CharacterStringType ::= RestrictedCharacterStringType | UnrestrictedCharacterStringType`
  */
-export default recursiveParser(
+export const CharacterStringType: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -16,3 +16,4 @@ export default recursiveParser(
       ProductionType.CharacterStringType
     )
 );
+export default CharacterStringType;

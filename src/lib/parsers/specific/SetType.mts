@@ -16,7 +16,7 @@ import ProductionType from '../../ProductionType.mjs';
  *      | SET "{" ExtensionAndException OptionalExtensionMarker "}"
  *      | SET "{" ComponentTypeLists "}"`
  */
-export default recursiveParser(
+export const SetType: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.SetType, [
@@ -43,3 +43,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default SetType;

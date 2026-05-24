@@ -6,7 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLSetOfValue ::= XMLValueList | XMLDelimitedItemList | empty`
  */
-export default recursiveParser(
+export const XMLSetOfValue: Parser = recursiveParser(
   (): Parser =>
     optional(
       choiceOf(
@@ -15,3 +15,4 @@ export default recursiveParser(
       )
     )
 );
+export default XMLSetOfValue;

@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `DefinedObject ::= ExternalObjectReference | objectreference`
  */
-export default recursiveParser(
+export const DefinedObject: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.ExternalObjectReference, parserFor.objectreference],
       ProductionType.DefinedObject
     )
 );
+export default DefinedObject;

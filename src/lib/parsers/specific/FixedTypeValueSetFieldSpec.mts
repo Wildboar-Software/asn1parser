@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `FixedTypeValueSetFieldSpec ::= valuesetfieldreference Type ValueSetOptionalitySpec ?`
  */
-export default recursiveParser(
+export const FixedTypeValueSetFieldSpec: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.FixedTypeValueSetFieldSpec, [
@@ -24,3 +24,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default FixedTypeValueSetFieldSpec;

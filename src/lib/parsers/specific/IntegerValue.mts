@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `IntegerValue ::= SignedNumber | identifier`
  */
-export default recursiveParser(
+export const IntegerValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -25,3 +25,4 @@ export default recursiveParser(
       ProductionType.IntegerValue
     )
 );
+export default IntegerValue;

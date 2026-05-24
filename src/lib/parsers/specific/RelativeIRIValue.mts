@@ -10,7 +10,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `RelativeIRIValue ::= """ FirstRelativeArcIdentifier SubsequentArcIdentifier """`
  */
-export default recursiveParser(
+export const RelativeIRIValue: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.RelativeIRIValue, [
       literal(ProductionType.quotationMark),
@@ -19,3 +19,4 @@ export default recursiveParser(
       literal(ProductionType.quotationMark),
     ])
 );
+export default RelativeIRIValue;

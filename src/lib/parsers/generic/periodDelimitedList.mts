@@ -1,4 +1,4 @@
-import Parser from '../../Parser.mjs';
+import type Parser from '../../Parser.mjs';
 import ProductionType from '../../ProductionType.mjs';
 import literal from './literal.mjs';
 import whitespaceTolerantList from './whitespaceTolerantList.mjs';
@@ -29,7 +29,7 @@ import whitespaceTolerantList from './whitespaceTolerantList.mjs';
  *  list items can be parsed with `listItemParser`.
  * @function
  */
-export default function (
+export const periodDelimitedList = function (
   containingType: ProductionType,
   listItemParser: Parser
 ): Parser {
@@ -39,3 +39,5 @@ export default function (
     literal(ProductionType.period)
   );
 }
+;
+export default periodDelimitedList;

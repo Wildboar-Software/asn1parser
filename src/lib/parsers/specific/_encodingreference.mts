@@ -7,10 +7,11 @@ import { aliasFor, literal, recursiveParser } from '../generic/index.mjs';
  * for a "typereference" in 12.2, except that no lower-case letters shall be
  * included.
  */
-export default recursiveParser(
+export const encodingreference: Parser = recursiveParser(
   (): Parser =>
     aliasFor(
       ProductionType.encodingreference,
       literal(ProductionType.objectclassreference)
     )
 );
+export default encodingreference;

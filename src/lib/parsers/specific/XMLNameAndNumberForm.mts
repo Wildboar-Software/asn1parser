@@ -6,7 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLNameAndNumberForm ::= identifier & "(" & XMLNumberForm & ")"`
  */
-export default recursiveParser(
+export const XMLNameAndNumberForm: Parser = recursiveParser(
   (): Parser =>
     sequenceOf(ProductionType.XMLNameAndNumberForm, [
       literal(ProductionType.identifier),
@@ -15,3 +15,4 @@ export default recursiveParser(
       literal(ProductionType.parenthesisClosing),
     ])
 );
+export default XMLNameAndNumberForm;

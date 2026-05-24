@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ExtensionAddition ::= ComponentType | ExtensionAdditionGroup`
  */
-export default recursiveParser(
+export const ExtensionAddition: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.ComponentType, parserFor.ExtensionAdditionGroup],
       ProductionType.ExtensionAddition
     )
 );
+export default ExtensionAddition;

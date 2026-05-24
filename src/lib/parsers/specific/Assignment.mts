@@ -22,7 +22,7 @@ import ProductionType from '../../ProductionType.mjs';
  *      | ObjectSetAssignment
  *      | ParameterizedAssignment`
  */
-export default recursiveParser(
+export const Assignment: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -82,3 +82,4 @@ export default recursiveParser(
       ProductionType.Assignment
     )
 );
+export default Assignment;

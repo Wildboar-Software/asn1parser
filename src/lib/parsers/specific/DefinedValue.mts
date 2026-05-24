@@ -6,7 +6,7 @@ import * as parserFor from '../specific/index.mjs';
 /**
  * `DefinedValue ::= ExternalValueReference | valuereference | ParameterizedValue`
  */
-export default recursiveParser(
+export const DefinedValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -17,3 +17,4 @@ export default recursiveParser(
       ProductionType.DefinedValue
     )
 );
+export default DefinedValue;

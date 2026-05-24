@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLValue ::= XMLBuiltinValue | XMLObjectClassFieldValue`
  */
-export default recursiveParser(
+export const XMLValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.XMLBuiltinValue, parserFor.XMLObjectClassFieldValue],
       ProductionType.XMLValue
     )
 );
+export default XMLValue;

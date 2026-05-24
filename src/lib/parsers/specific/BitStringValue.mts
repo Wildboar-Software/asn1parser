@@ -13,7 +13,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `BitStringValue ::= bstring | hstring | "{" IdentifierList "}" | "{" "}" | CONTAINING Value`
  */
-export default recursiveParser(
+export const BitStringValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       literal(ProductionType.bstring, ProductionType.BitStringValue),
@@ -44,3 +44,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default BitStringValue;

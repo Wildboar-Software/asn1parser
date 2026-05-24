@@ -10,10 +10,11 @@ import * as parserFor from './index.mjs';
 /**
  * `FirstArcIdentifier ::= "/" ArcIdentifier`
  */
-export default recursiveParser(
+export const FirstArcIdentifier: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.FirstArcIdentifier, [
       literal(ProductionType.forwardSlash),
       parserFor.ArcIdentifier,
     ])
 );
+export default FirstArcIdentifier;

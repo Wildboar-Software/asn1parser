@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `MultipleTypeConstraints ::= FullSpecification | PartialSpecification`
  */
-export default recursiveParser(
+export const MultipleTypeConstraints: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.FullSpecification, parserFor.PartialSpecification],
       ProductionType.MultipleTypeConstraints
     )
 );
+export default MultipleTypeConstraints;

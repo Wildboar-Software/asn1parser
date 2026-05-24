@@ -6,9 +6,10 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLSetValue ::= XMLComponentValueList | empty`
  */
-export default recursiveParser(
+export const XMLSetValue: Parser = recursiveParser(
   (): Parser =>
     optional(
       aliasFor(ProductionType.XMLSetValue, parserFor.XMLComponentValueList)
     )
 );
+export default XMLSetValue;

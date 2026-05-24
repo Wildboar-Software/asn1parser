@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ExternalType ::= EXTERNAL`
  */
-export default recursiveParser(
+export const ExternalType: Parser = recursiveParser(
   (): Parser => literal(ProductionType._EXTERNAL, ProductionType.ExternalType)
 );
+export default ExternalType;

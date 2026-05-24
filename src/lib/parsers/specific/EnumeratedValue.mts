@@ -5,7 +5,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `EnumeratedValue ::= identifier`
  */
-export default recursiveParser(
+export const EnumeratedValue: Parser = recursiveParser(
   (): Parser =>
     literal(ProductionType.identifier, ProductionType.EnumeratedValue)
 );
+export default EnumeratedValue;

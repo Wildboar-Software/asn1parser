@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `DummyGovernor ::= DummyReference`
  */
-export default recursiveParser(
+export const DummyGovernor: Parser = recursiveParser(
   (): Parser => aliasFor(ProductionType.DummyGovernor, parserFor.DummyReference)
 );
+export default DummyGovernor;

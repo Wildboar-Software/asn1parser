@@ -13,7 +13,7 @@ import updateCurrentType from '../../updateCurrentType.mjs';
 /**
  * `ValueAssignment ::= valuereference Type "::=" Value`
  */
-export default recursiveParser(
+export const ValueAssignment: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ValueAssignment, [
       parserFor.valuereference,
@@ -22,3 +22,4 @@ export default recursiveParser(
       Value,
     ])
 );
+export default ValueAssignment;

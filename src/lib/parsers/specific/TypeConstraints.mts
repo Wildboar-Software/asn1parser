@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TypeConstraints ::= NamedConstraint | NamedConstraint "," TypeConstraints`
  */
-export default recursiveParser(
+export const TypeConstraints: Parser = recursiveParser(
   (): Parser =>
     commaDelimitedList(
       ProductionType.TypeConstraints,
       parserFor.NamedConstraint
     )
 );
+export default TypeConstraints;

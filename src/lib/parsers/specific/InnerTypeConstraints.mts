@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `InnerTypeConstraints ::= WITH COMPONENT SingleTypeConstraint | WITH COMPONENTS MultipleTypeConstraints`
  */
-export default recursiveParser(
+export const InnerTypeConstraints: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.InnerTypeConstraints, [
@@ -35,3 +35,4 @@ export default recursiveParser(
       ]),
     ])
 );
+export default InnerTypeConstraints;

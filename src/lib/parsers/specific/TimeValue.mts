@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TimeValue ::= tstring`
  */
-export default recursiveParser(
+export const TimeValue: Parser = recursiveParser(
   (): Parser => literal(ProductionType.tstring, ProductionType.TimeValue)
 );
+export default TimeValue;

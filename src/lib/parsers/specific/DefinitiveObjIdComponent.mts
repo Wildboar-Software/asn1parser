@@ -9,7 +9,7 @@ import { choiceOf, recursiveParser } from '../generic/index.mjs';
  *     | DefinitiveNumberForm
  *     | DefinitiveNameAndNumberForm`
  */
-export default recursiveParser(
+export const DefinitiveObjIdComponent: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -20,3 +20,4 @@ export default recursiveParser(
       ProductionType.DefinitiveObjIdComponent
     )
 );
+export default DefinitiveObjIdComponent;

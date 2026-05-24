@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLRelativeOIDComponent ::= XMLNumberForm | XMLNameAndNumberForm`
  */
-export default recursiveParser(
+export const XMLRelativeOIDComponent: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.XMLNumberForm, parserFor.XMLNameAndNumberForm],
       ProductionType.XMLRelativeOIDComponent
     )
 );
+export default XMLRelativeOIDComponent;

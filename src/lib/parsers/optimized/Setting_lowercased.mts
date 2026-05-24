@@ -22,7 +22,8 @@ import ProductionType from '../../ProductionType.mjs';
  *
  * @constant {Parser}
  */
-export default recursiveParser(
+export const Setting_lowercased: Parser = recursiveParser(
   (): Parser =>
     choiceOf([parserFor.Value, parserFor.Object], ProductionType.Setting)
 );
+export default Setting_lowercased;

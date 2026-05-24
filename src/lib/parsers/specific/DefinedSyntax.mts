@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `DefinedSyntax ::= "{" DefinedSyntaxToken empty * "}"`
  */
-export default recursiveParser(
+export const DefinedSyntax: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.DefinedSyntax, [
       literal(ProductionType.curlyOpening),
@@ -25,3 +25,4 @@ export default recursiveParser(
       literal(ProductionType.curlyClosing),
     ])
 );
+export default DefinedSyntax;

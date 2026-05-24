@@ -5,7 +5,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLEmbeddedPDVValue ::= XMLSequenceValue`
  */
-export default recursiveParser(
+export const XMLEmbeddedPDVValue: Parser = recursiveParser(
   (): Parser =>
     literal(ProductionType.XMLSequenceValue, ProductionType.XMLEmbeddedPDVValue)
 );
+export default XMLEmbeddedPDVValue;

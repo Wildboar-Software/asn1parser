@@ -147,7 +147,7 @@ const Exclusions = recursiveParser(
  * `ElementSetSpec ::= Unions | ALL Exclusions`
  * @constant {Parser}
  */
-const ElementSetSpec = recursiveParser(
+export const ElementSetSpec: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       sequenceOf(ProductionType.ElementSetSpec, [

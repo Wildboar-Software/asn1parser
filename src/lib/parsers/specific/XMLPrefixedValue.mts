@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLPrefixedValue ::= XMLValue`
  */
-export default recursiveParser(
+export const XMLPrefixedValue: Parser = recursiveParser(
   (): Parser => aliasFor(ProductionType.XMLPrefixedValue, parserFor.XMLValue)
 );
+export default XMLPrefixedValue;

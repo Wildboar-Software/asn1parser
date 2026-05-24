@@ -11,7 +11,7 @@ import recursiveParser from '../generic/recursiveParser.mjs';
 /**
  * `SubsequentArcIdentifier ::= "/" ArcIdentifier SubsequentArcIdentifier | empty`
  */
-export default recursiveParser(
+export const SubsequentArcIdentifier: Parser = recursiveParser(
   (): Parser =>
     repeatable(
       ProductionType.SubsequentArcIdentifier,
@@ -23,3 +23,4 @@ export default recursiveParser(
       ])
     )
 );
+export default SubsequentArcIdentifier;

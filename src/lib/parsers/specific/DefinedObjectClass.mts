@@ -6,7 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `DefinedObjectClass ::= ExternalObjectClassReference | objectclassreference | UsefulObjectClassReference`
  */
-export default recursiveParser(
+export const DefinedObjectClass: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -17,3 +17,4 @@ export default recursiveParser(
       ProductionType.DefinedObjectClass
     )
 );
+export default DefinedObjectClass;

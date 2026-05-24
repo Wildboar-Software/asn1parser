@@ -37,7 +37,7 @@ function findRef(
  * @param {ParseContext} ctx The parser state
  * @function
  */
-export default function onDidParseAssignment(ctx: ParseContext): void {
+export const onDidParseAssignment = function onDidParseAssignment(ctx: ParseContext): void {
   if (ctx.cst.children.length !== 1) {
     throw new Error(ctx.cst.children.length.toString());
   }
@@ -130,4 +130,5 @@ export default function onDidParseAssignment(ctx: ParseContext): void {
     );
   }
   ctx.currentType = undefined;
-}
+};
+export default onDidParseAssignment;

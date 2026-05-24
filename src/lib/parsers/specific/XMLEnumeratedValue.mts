@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLEnumeratedValue ::= EmptyElementEnumerated | TextEnumerated`
  */
-export default recursiveParser(
+export const XMLEnumeratedValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.EmptyElementEnumerated, parserFor.TextEnumerated],
       ProductionType.XMLEnumeratedValue
     )
 );
+export default XMLEnumeratedValue;

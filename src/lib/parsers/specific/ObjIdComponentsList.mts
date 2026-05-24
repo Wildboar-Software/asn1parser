@@ -9,10 +9,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ObjIdComponentsList ::= ObjIdComponents | ObjIdComponents ObjIdComponentsList`
  */
-export default recursiveParser(
+export const ObjIdComponentsList: Parser = recursiveParser(
   (): Parser =>
     whitespaceOptionalDelimitedList(
       ProductionType.ObjIdComponentsList,
       parserFor.ObjIdComponents
     )
 );
+export default ObjIdComponentsList;

@@ -16,7 +16,7 @@ import ProductionType from '../../ProductionType.mjs';
  * @returns {Parser} The `Parser` that will parse any number of items parseable
  *  by the `parser`.
  */
-export default function (
+export const repeatable = function (
   containingType: ProductionType,
   parser: Parser
 ): Parser {
@@ -57,3 +57,5 @@ export default function (
     }
   );
 }
+;
+export default repeatable;

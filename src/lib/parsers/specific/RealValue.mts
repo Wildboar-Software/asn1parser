@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `RealValue ::= NumericRealValue | SpecialRealValue`
  */
-export default recursiveParser(
+export const RealValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.NumericRealValue, parserFor.SpecialRealValue],
       ProductionType.RealValue
     )
 );
+export default RealValue;

@@ -21,7 +21,7 @@ import ProductionType from '../../ProductionType.mjs';
  *      | SEQUENCE Constraint OF NamedType
  *      | SEQUENCE SizeConstraint OF NamedType`
  */
-export default recursiveParser(
+export const TypeWithConstraint: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.TypeWithConstraint, [
       choiceOf([
@@ -51,3 +51,4 @@ export default recursiveParser(
       ),
     ])
 );
+export default TypeWithConstraint;

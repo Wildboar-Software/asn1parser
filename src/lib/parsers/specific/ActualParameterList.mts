@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ActualParameterList ::= "{" ActualParameter "," + "}"`
  */
-export default recursiveParser(
+export const ActualParameterList: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ActualParameterList, [
       literal(ProductionType.curlyOpening),
@@ -22,3 +22,4 @@ export default recursiveParser(
       literal(ProductionType.curlyClosing),
     ])
 );
+export default ActualParameterList;

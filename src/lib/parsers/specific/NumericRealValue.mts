@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `NumericRealValue ::= realnumber | "-" realnumber | SequenceValue`
  */
-export default recursiveParser(
+export const NumericRealValue: Parser = recursiveParser(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.NumericRealValue, [
@@ -25,3 +25,4 @@ export default recursiveParser(
       parserFor.SequenceValue,
     ])
 );
+export default NumericRealValue;

@@ -1,4 +1,4 @@
-import Parser from '../../Parser.mjs';
+import type Parser from '../../Parser.mjs';
 import OptionalParser from '../../OptionalParser.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
 import { default as Production } from '../../Production.mjs';
@@ -15,7 +15,7 @@ import { default as Production } from '../../Production.mjs';
  * @returns {Parser} A `Parser` that will always succeed.
  * @function
  */
-export default function (parser: Parser): Parser {
+export const optional = function (parser: Parser): Parser {
   return new OptionalParser(
     () => `Optional ${parser.name()}`,
     (state: ParseContext): ParseContext => {
@@ -38,3 +38,5 @@ export default function (parser: Parser): Parser {
     }
   );
 }
+;
+export default optional;

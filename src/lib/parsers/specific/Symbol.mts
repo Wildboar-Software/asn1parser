@@ -14,10 +14,11 @@ import recursiveParser from '../generic/recursiveParser.mjs';
  *
  * `ParameterizedReference ::= Reference | Reference "{"  "}"`
  */
-export default recursiveParser(
+export const Symbol: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.ParameterizedReference, parserFor.Reference],
       ProductionType.Symbol
     )
 );
+export default Symbol;

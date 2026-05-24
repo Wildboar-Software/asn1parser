@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `XMLNumberForm ::= number`
  */
-export default recursiveParser(
+export const XMLNumberForm: Parser = recursiveParser(
   (): Parser => literal(ProductionType.number, ProductionType.XMLNumberForm)
 );
+export default XMLNumberForm;

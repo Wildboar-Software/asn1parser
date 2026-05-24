@@ -8,7 +8,7 @@ import {
   whitespaceTolerantSequenceOf,
 } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
-import Parser from '../../Parser.mjs';
+import type Parser from '../../Parser.mjs';
 import ProductionType from '../../ProductionType.mjs';
 
 /**
@@ -92,7 +92,7 @@ const UpperEndpoint = recursiveParser(
  *
  * @constant {Parser}
  */
-export default recursiveParser(
+export const ValueRange: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ValueRange, [
       LowerEndpoint,
@@ -100,3 +100,4 @@ export default recursiveParser(
       UpperEndpoint,
     ])
 );
+export default ValueRange;

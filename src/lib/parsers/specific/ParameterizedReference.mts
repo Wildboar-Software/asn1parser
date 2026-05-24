@@ -20,7 +20,7 @@ import ProductionType from '../../ProductionType.mjs';
  *     Reference
  *     | Reference "{"  "}"`
  */
-export default recursiveParser(
+export const ParameterizedReference: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ParameterizedReference, [
       choiceOf(
@@ -36,3 +36,4 @@ export default recursiveParser(
       literal(ProductionType.curlyClosing),
     ])
 );
+export default ParameterizedReference;

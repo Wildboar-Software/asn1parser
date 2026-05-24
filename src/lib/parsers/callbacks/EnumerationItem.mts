@@ -9,7 +9,7 @@ import ProductionType from '../../ProductionType.mjs';
  * @param {ParseContext} ctx The parser state
  * @function
  */
-export default function onDidParseEnumerationItem(ctx: ParseContext): void {
+export const onDidParseEnumerationItem = function onDidParseEnumerationItem(ctx: ParseContext): void {
   const alt = ctx.cst.children[0];
   if (!alt) {
     return;
@@ -20,4 +20,5 @@ export default function onDidParseEnumerationItem(ctx: ParseContext): void {
       ctx.text.slice(alt.location.startIndex, alt.location.endIndex)
     );
   }
-}
+};
+export default onDidParseEnumerationItem;

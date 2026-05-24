@@ -6,7 +6,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `NamedBitList ::= NamedBit | NamedBitList "," NamedBit`
  */
-export default recursiveParser(
+export const NamedBitList: Parser = recursiveParser(
   (): Parser =>
     commaDelimitedList(ProductionType.NamedBitList, parserFor.NamedBit)
 );
+export default NamedBitList;

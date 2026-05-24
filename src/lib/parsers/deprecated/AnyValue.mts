@@ -9,10 +9,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `AnyValue ::= Type Value`
  */
-export default recursiveParser(
+export const AnyValue: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.AnyValue, [
       parserFor.Type,
       parserFor.Value,
     ])
 );
+export default AnyValue;

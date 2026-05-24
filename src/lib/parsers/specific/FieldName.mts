@@ -6,7 +6,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `FieldName ::= PrimitiveFieldName "." +`
  */
-export default recursiveParser(
+export const FieldName: Parser = recursiveParser(
   (): Parser =>
     periodDelimitedList(ProductionType.FieldName, parserFor.PrimitiveFieldName)
 );
+export default FieldName;

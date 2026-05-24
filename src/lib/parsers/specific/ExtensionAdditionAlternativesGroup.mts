@@ -12,7 +12,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `ExtensionAdditionAlternativesGroup ::= "[[" VersionNumber AlternativeTypeList "]]"`
  */
-export default recursiveParser(
+export const ExtensionAdditionAlternativesGroup: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(
       ProductionType.ExtensionAdditionAlternativesGroup,
@@ -42,3 +42,4 @@ export default recursiveParser(
       ]
     )
 );
+export default ExtensionAdditionAlternativesGroup;

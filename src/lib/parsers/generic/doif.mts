@@ -17,7 +17,7 @@ import Parser from '../../Parser.mjs';
  * @returns {Parser} A `Parser` that will call the callback when the
  *  parameter `Parser` succeeds.
  */
-export default function (
+export const doif = function (
   parser: Parser,
   callback: (state: ParseContext) => void
 ): Parser {
@@ -32,3 +32,5 @@ export default function (
     }
   );
 }
+;
+export default doif;

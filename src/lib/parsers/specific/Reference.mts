@@ -13,7 +13,7 @@ import recursiveParser from '../generic/recursiveParser.mjs';
  *     | objectreference
  *     | objectsetreference`
  */
-export default recursiveParser(
+export const Reference: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
@@ -26,3 +26,4 @@ export default recursiveParser(
       ProductionType.Reference
     )
 );
+export default Reference;

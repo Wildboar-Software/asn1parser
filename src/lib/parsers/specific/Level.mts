@@ -11,7 +11,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Level ::= "." Level | empty`
  */
-export default recursiveParser(
+export const Level: Parser = recursiveParser(
   (): Parser =>
     optional(
       whitespaceTolerantSequenceOf(ProductionType.Level, [
@@ -20,3 +20,4 @@ export default recursiveParser(
       ])
     )
 );
+export default Level;

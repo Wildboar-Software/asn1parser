@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Group ::= number`
  */
-export default recursiveParser(
+export const Group: Parser = recursiveParser(
   (): Parser => literal(ProductionType.number, ProductionType.Group)
 );
+export default Group;

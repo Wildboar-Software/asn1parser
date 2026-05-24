@@ -6,10 +6,11 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `TokenOrGroupSpec ::= RequiredToken | OptionalGroup`
  */
-export default recursiveParser(
+export const TokenOrGroupSpec: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [parserFor.RequiredToken, parserFor.OptionalGroup],
       ProductionType.TokenOrGroupSpec
     )
 );
+export default TokenOrGroupSpec;

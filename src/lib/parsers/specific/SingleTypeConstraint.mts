@@ -6,7 +6,8 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `SingleTypeConstraint ::= Constraint`
  */
-export default recursiveParser(
+export const SingleTypeConstraint: Parser = recursiveParser(
   (): Parser =>
     aliasFor(ProductionType.SingleTypeConstraint, parserFor.Constraint)
 );
+export default SingleTypeConstraint;

@@ -6,6 +6,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `DurationRange ::= ValueRange`
  */
-export default recursiveParser(
+export const DurationRange: Parser = recursiveParser(
   (): Parser => aliasFor(ProductionType.DurationRange, parserFor.ValueRange)
 );
+export default DurationRange;

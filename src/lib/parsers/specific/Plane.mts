@@ -5,6 +5,7 @@ import ProductionType from '../../ProductionType.mjs';
 /**
  * `Plane ::= number`
  */
-export default recursiveParser(
+export const Plane: Parser = recursiveParser(
   (): Parser => literal(ProductionType.number, ProductionType.Plane)
 );
+export default Plane;
