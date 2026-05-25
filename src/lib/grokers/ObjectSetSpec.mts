@@ -43,5 +43,6 @@ export default function grok(cst: Production | undefined, ctx: GrokContext): Obj
       ? grokElementSetSpec(AdditionalElementSetSpec.children[0], ctx)
       : undefined,
     explicitlyExtensible: extensible,
+    production: cst,
   };
 }

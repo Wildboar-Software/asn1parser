@@ -32,5 +32,6 @@ export default function grok(cst: Production, ctx: GrokContext): Tuple {
       text.slice(TableRow.location.startIndex, TableRow.location.endIndex),
       10
     ),
+    production: cst,
   };
 }

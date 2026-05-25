@@ -14,5 +14,6 @@ export default function grok(
   return {
     type: grokType(Type_, ctx),
     value: grokValue(Value_, ctx),
+    production: cst,
   };
 }

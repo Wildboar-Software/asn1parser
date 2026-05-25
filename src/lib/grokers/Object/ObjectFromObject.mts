@@ -43,5 +43,6 @@ export default function grok(
       .map((pfn: Production): string =>
         text.slice(pfn.location.startIndex, pfn.location.endIndex)
       ),
+    production: cst,
   };
 }

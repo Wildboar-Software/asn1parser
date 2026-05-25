@@ -61,5 +61,6 @@ export default function grok(
   return {
     fieldSpecs,
     syntax,
+    production: cst,
   };
 }

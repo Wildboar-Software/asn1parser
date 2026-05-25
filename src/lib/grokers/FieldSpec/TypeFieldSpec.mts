@@ -29,5 +29,6 @@ export default function grok(cst: Production, ctx: GrokContext): TypeFieldSpec {
             ctx
           )
         : undefined,
+    production: cst,
   };
 }

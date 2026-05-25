@@ -22,6 +22,7 @@ export default function grokOctetStringValue(
           .replace(/'/g, '')
           .replace(/\s+/g, '')
           .replace('B', ''),
+        production: cst,
       };
     }
     case ProductionType.hstring: {
@@ -31,11 +32,13 @@ export default function grokOctetStringValue(
           .replace(/'/g, '')
           .replace(/\s+/g, '')
           .replace('H', ''),
+        production: cst,
       };
     }
     case ProductionType._CONTAINING: {
       return {
         containing: grokValue(cst.children[cst.children.length - 1], ctx),
+        production: cst,
       };
     }
     default: {

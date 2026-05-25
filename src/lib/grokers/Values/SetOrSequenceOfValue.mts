@@ -48,6 +48,7 @@ export default function grokSetOrSequenceOfValue(
             namedValue.children[namedValue.children.length - 1],
             ctx
           ),
+          production: cst,
         };
       });
   } else {

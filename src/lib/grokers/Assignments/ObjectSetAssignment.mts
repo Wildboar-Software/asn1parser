@@ -66,5 +66,6 @@ export default function grok(
     objectSetSpec: grokObjectSet(ObjectSet, ctx),
     parameters,
     dependencies: {},
+    production: cst,
   };
 }

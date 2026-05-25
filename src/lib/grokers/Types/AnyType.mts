@@ -23,5 +23,6 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
               last.location.endIndex
             ),
           },
+    production: cst,
   };
 }

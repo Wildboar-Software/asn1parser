@@ -24,5 +24,6 @@ export default function grok(
       ctx
     ),
     fieldName: grokFieldName(FieldName, ctx),
+    production: cst,
   };
 }

@@ -69,6 +69,7 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
         namedBitList,
         selfContained,
       },
+      production: cst,
     };
   } else {
     return {
@@ -77,6 +78,7 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
       type: {
         selfContained,
       },
+      production: cst,
     };
   }
 }

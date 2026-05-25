@@ -38,6 +38,7 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
       type: {
         selfContained: true,
       },
+      production: cst,
     };
   }
 

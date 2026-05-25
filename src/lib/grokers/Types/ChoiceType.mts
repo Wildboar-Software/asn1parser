@@ -86,6 +86,7 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
         explicitlyExtensible: false,
         rootAlternativeTypeList,
       },
+      production: cst,
     };
   } else {
     const AlternativeTypeListsComponents: Production[] =

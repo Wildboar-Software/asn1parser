@@ -68,5 +68,6 @@ export default function grok(
     value: grokValue(Value, ctx),
     parameters,
     dependencies: {},
+    production: cst,
   };
 }

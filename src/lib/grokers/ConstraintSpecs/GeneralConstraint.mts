@@ -30,6 +30,7 @@ export default function grok(
         .map((udcp: Production): string =>
           text.slice(udcp.location.startIndex, udcp.location.endIndex)
         ),
+      production: cst,
     };
   } else if (alt.type === ProductionType.TableConstraint) {
     const subalt = alt.children[0];
@@ -55,6 +56,7 @@ export default function grok(
               prod.type === ProductionType.AtNotation
           )
           .map((a) => text.slice(a.location.startIndex, a.location.endIndex)),
+        production: cst,
       };
     } else {
       throw new Error();
@@ -69,6 +71,7 @@ export default function grok(
     return {
       containing: grokType(Type, ctx),
       encodedBy: grokValue(Value, ctx),
+      production: cst,
     };
   } else {
     throw new Error();

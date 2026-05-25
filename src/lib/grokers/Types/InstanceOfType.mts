@@ -30,5 +30,6 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
     type: {
       definedObjectClass: grokDefined(components[2], ctx),
     },
+    production: cst,
   };
 }

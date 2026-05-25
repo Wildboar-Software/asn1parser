@@ -59,5 +59,6 @@ export default function grok(
     objectClass: grokObjectClass(cst.children[cst.children.length - 1], ctx),
     parameters,
     dependencies: {},
+    production: cst,
   };
 }

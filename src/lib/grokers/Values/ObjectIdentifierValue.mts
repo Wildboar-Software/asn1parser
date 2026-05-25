@@ -66,5 +66,6 @@ export default function grokObjectIdentifierValue(
     text: ctx.text.slice(cst.location.startIndex, cst.location.endIndex),
     prefix,
     components,
+    production: cst,
   };
 }

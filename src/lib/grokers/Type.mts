@@ -18,6 +18,7 @@ import grokConstrainedType from './Types/ConstrainedType.mjs';
 import grokSelectionType from './Types/SelectionType.mjs';
 import grokTypeFromObject from './Types/TypeFromObject.mjs';
 import grokValueSetFromObjects from './Types/ValueSetFromObjects.mjs';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
 
 // Type ::=
 //     BuiltinType
@@ -67,6 +68,10 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
     return grokConstrainedType(subtypeAST, ctx);
   }
   const subsubtypeAST: Production = subtypeAST.children[0];
+    const grokedThing = {
+      production: subsubtypeAST,
+      productionType: subsubtypeAST.type,
+    } satisfies GrokedThing;
   switch (subsubtypeAST.type) {
     case ProductionType.BitStringType: {
       return grokBitStringType(subsubtypeAST, ctx);
@@ -85,6 +90,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.CharacterStringType: {
@@ -100,6 +106,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
             subsubtypeAST.location.startIndex,
             subsubtypeAST.location.endIndex
           ),
+          ...grokedThing,
         };
       } else {
         const cc: Production = c.children[0];
@@ -126,6 +133,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
             subsubtypeAST.location.startIndex,
             subsubtypeAST.location.endIndex
           ),
+          ...grokedThing,
         };
       }
     }
@@ -143,6 +151,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.DateTimeType: {
@@ -156,6 +165,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.DurationType: {
@@ -169,6 +179,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.EmbeddedPDVType: {
@@ -182,6 +193,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.EnumeratedType: {
@@ -198,6 +210,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.InstanceOfType: {
@@ -217,6 +230,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.NullType: {
@@ -230,6 +244,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.ObjectClassFieldType: {
@@ -246,6 +261,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.OctetStringType: {
@@ -259,6 +275,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.RealType: {
@@ -272,6 +289,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.RelativeIRIType: {
@@ -285,6 +303,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.RelativeOIDType: {
@@ -298,6 +317,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.SetOfType:
@@ -323,6 +343,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.TimeOfDayType: {
@@ -336,6 +357,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
     case ProductionType.DefinedType: {
@@ -346,6 +368,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
         ),
         typeType: TypeType.DefinedType,
         type: grokDefined(subsubtypeAST, ctx),
+        ...grokedThing,
       };
     }
     case ProductionType.UsefulType: {
@@ -361,6 +384,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
               subsubtypeAST.location.startIndex,
               subsubtypeAST.location.endIndex
             ),
+            ...grokedThing,
           };
         }
         case ProductionType._UTCTime: {
@@ -374,6 +398,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
               subsubtypeAST.location.startIndex,
               subsubtypeAST.location.endIndex
             ),
+            ...grokedThing,
           };
         }
         case ProductionType._GeneralizedTime: {
@@ -387,6 +412,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
               subsubtypeAST.location.startIndex,
               subsubtypeAST.location.endIndex
             ),
+            ...grokedThing,
           };
         }
         default: {
@@ -440,6 +466,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           subsubtypeAST.location.startIndex,
           subsubtypeAST.location.endIndex
         ),
+        ...grokedThing,
       };
     }
   }

@@ -33,5 +33,6 @@ export default function grok(
       ? grokElementSetSpec(AdditionalElementSetSpec.children[0], ctx)
       : undefined,
     explicitlyExtensible,
+    production: cst,
   };
 }

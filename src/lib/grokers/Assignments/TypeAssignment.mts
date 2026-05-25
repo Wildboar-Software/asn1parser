@@ -57,5 +57,6 @@ export default function grokTypeAssignment(
     type: grokType(Type, ctx),
     parameters,
     dependencies: {},
+    production: cst,
   };
 }

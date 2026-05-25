@@ -25,5 +25,6 @@ export default function grok(cst: Production, ctx: GrokContext): Constraint {
       ExceptionSpec && ExceptionSpec.children.length > 0
         ? grokExceptionSpec(ExceptionSpec, ctx)
         : undefined,
+    production: cst,
   };
 }

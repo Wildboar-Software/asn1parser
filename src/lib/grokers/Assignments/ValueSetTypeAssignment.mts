@@ -65,5 +65,6 @@ export default function grok(
     valueSet: grokValueSet(ValueSet, ctx),
     parameters,
     dependencies: {},
+    production: cst,
   };
 }

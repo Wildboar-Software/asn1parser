@@ -30,5 +30,6 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
         )
         .split('.'),
     },
+    production: cst
   };
 }

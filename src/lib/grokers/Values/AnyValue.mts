@@ -11,5 +11,6 @@ export default function grok(cst: Production, ctx: GrokContext): AnyValue {
   return {
     type: grokType(cst.children[0], ctx),
     value: grokValue(cst.children[cst.children.length - 1], ctx),
+    production: cst,
   };
 }

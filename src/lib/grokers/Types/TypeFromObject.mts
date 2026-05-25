@@ -9,5 +9,6 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
     text: ctx.text.slice(cst.location.startIndex, cst.location.endIndex),
     typeType: TypeType.TypeFromObject,
     type: grokSomethingFromObject(cst, ctx),
+    production: cst
   };
 }

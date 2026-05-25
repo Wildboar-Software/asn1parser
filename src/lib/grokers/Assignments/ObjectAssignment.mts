@@ -66,5 +66,6 @@ export default function grok(
     object: Object_,
     parameters,
     dependencies: {},
+    production: cst,
   };
 }

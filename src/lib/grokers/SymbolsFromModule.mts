@@ -67,5 +67,7 @@ export default function grokSymbolsFromModule(
       : undefined,
     symbolList: symbolMap,
     selectionOption: __SelectionOption,
+    production: cst,
+    productionType: cst.type,
   };
 }

@@ -153,5 +153,6 @@ export default function grok(cst: Production, ctx: GrokContext): Parameter {
     }
   }
   applyAssignmentType(ret);
+  ret.production = cst;
   return ret;
 }

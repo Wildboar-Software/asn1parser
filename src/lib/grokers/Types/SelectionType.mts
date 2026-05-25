@@ -18,5 +18,6 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
       ),
       type: grokType(cst.children[cst.children.length - 1], ctx),
     },
+    production: cst,
   };
 }

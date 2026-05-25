@@ -30,7 +30,8 @@ export default function grokObjIdComponents(
       `Did not expect ${cst.children.length} subproductions in ObjIdComponents.`
     );
   }
-  switch (cst.children[0].type) {
+  const innercst = cst.children[0];
+  switch (innercst.type) {
     case ProductionType.NameForm: {
         const name = text.slice(
           cst.children[0].location.startIndex,
@@ -39,6 +40,7 @@ export default function grokObjIdComponents(
       return {
         text: name,
         name,
+        production: innercst,
       };
     }
     case ProductionType.NumberForm: {
@@ -58,6 +60,7 @@ export default function grokObjIdComponents(
         return {
           text: numstr,
           number: num,
+          production: innercst,
         };
       }
     }
@@ -79,6 +82,7 @@ export default function grokObjIdComponents(
           ),
           name: identifier,
           number: grokDefinedValue(NumberForm.children[0], ctx),
+          production: innercst,
         };
       } else {
         // Assume it is a number
@@ -99,6 +103,7 @@ export default function grokObjIdComponents(
           ),
           name: identifier,
           number: num,
+          production: innercst,
         };
       }
       break;

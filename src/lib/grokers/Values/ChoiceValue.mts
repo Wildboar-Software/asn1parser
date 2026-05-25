@@ -21,5 +21,6 @@ export default function grokChoiceValue(
       identifier.location.endIndex
     ),
     value: grokValue(value, ctx),
+    production: cst,
   };
 }

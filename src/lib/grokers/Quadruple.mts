@@ -41,5 +41,6 @@ export default function grok(cst: Production, ctx: GrokContext): Quadruple {
       text.slice(Cell.location.startIndex, Cell.location.endIndex),
       10
     ),
+    production: cst,
   };
 }
