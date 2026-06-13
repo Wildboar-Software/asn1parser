@@ -47,14 +47,19 @@ export default function grokSymbolsFromModule(
     }
   })();
 
-  const symbolMap: { [identifier: string]: any } = {};
+  const duplicateSymbols: Production[] = [];
+  const symbolMap: SymbolsFromModule["symbolList"] = {};
   SymbolList.children
     .filter((child: Production) => child.type === ProductionType.Symbol)
-    .map((child: Production): string =>
-      text.slice(child.location.startIndex, child.location.endIndex)
-    )
-    .forEach((symbol: string): void => {
-      symbolMap[symbol.replace(/\{.*\}/g, '')] = null;
+    .forEach((child: Production): void => {
+      const symtext = text
+        .slice(child.location.startIndex, child.location.endIndex)
+        .replace(/\{.*\}/g, '');
+      if (symtext in symbolMap) {
+        duplicateSymbols.push(child);
+      } else {
+        symbolMap[symtext] = child;
+      }
     });
 
   return {
@@ -69,5 +74,6 @@ export default function grokSymbolsFromModule(
     selectionOption: __SelectionOption,
     production: cst,
     productionType: cst.type,
+    duplicateSymbols,
   };
 }

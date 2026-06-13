@@ -33,6 +33,10 @@ export default interface SymbolsFromModule extends GrokedThing {
    * The symbols are the keys of this property, and their productions in the
    * Concrete Syntax Tree (CST), if known, are the values. The values are
    * `null` if the production in the Concrete Syntax Tree (CST) is not known.
+   * 
+   * If the symbol is parameterized, and therefore ends with `{}`, these are
+   * removed. So, for instance, an import of `Attribute{}` will be indexed as
+   * `Attribute`.
    */
   symbolList: Record<string, Production | null>;
 
@@ -58,4 +62,20 @@ export default interface SymbolsFromModule extends GrokedThing {
    * > the longer object identifier).
    */
   selectionOption?: SelectionOption;
+
+  /**
+   * CST nodes for imported symbols, in the order that they were imported, that
+   * were duplicate, excluding the first such occurrence of these symbols. This
+   * can be used to display errors ("red squiggles") in a user interface.
+   * 
+   * For example, groking this import statement: 
+   * 
+   * ```asn1
+   * a, b, a, a, c FROM LettersModule
+   * ```
+   * 
+   * will yield two CST nodes in `duplicateSymbols`, each corresponding to the
+   * latter two `a`s.
+   */
+  duplicateSymbols: Production[];
 }

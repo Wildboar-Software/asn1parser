@@ -98,6 +98,7 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
 
   i += 2; // Skip ::= and BEGIN.
 
+  const duplicateAssignments: Production[] = [];
   if (components[i].type === ProductionType.ModuleBody) {
     components[i].children.forEach((child: Production): void => {
       switch (child.type) {
@@ -130,11 +131,10 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
             .forEach((assignment: Production): void => {
               const a: Assignment = grokAssignment(assignment, ctx);
               if (a.identifier in assignments) {
-                throw new Error(
-                  `Duplicate assigned identifier '${a.identifier}'.`
-                );
+                a.production && duplicateAssignments.push(a.production);
+              } else {
+                assignments[a.identifier] = a;
               }
-              assignments[a.identifier] = a;
             });
           break;
         }
@@ -161,5 +161,6 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
     ctx.enumItems
   );
   ret.production = cst;
+  ret.duplicateAssignments = duplicateAssignments;
   return ret;
 }
