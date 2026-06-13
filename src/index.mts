@@ -1,21 +1,29 @@
 export type { ActualParameter } from './lib/constructs/ActualParameter.mjs';
 export type { Assignment } from './lib/constructs/Assignment.mjs';
+export type { AssignedIdentifier } from './lib/constructs/AssignedIdentifier.mjs';
 export { default as AssignmentType } from './lib/constructs/AssignmentType.mjs';
 export type { CharacterStringList } from './lib/constructs/CharacterStringList.mjs';
 export type { CharsDefn } from './lib/constructs/CharsDefn.mjs';
 export type { ComponentType } from './lib/constructs/ComponentType.mjs';
 export type { default as Constraint } from './lib/constructs/Constraint.mjs';
+export type { ConstraintSpec } from './lib/constructs/ConstraintSpec.mjs';
 export type { default as Defined } from './lib/constructs/Defined.mjs';
 export type { DefinitiveObjIdComponent } from './lib/constructs/DefinitiveObjIdComponent.mjs';
 export type { ElementSetSpec } from './lib/constructs/ElementSetSpec.mjs';
+export type { ElementSetSpec_ObjectSet } from './lib/constructs/ElementSetSpec_ObjectSet.mjs';
+export type { ElementSetSpec_Subtype } from './lib/constructs/ElementSetSpec_Subtype.mjs';
+export type { default as ElementSetSpecs } from './lib/constructs/ElementSetSpecs.mjs';
 export type { default as EnumerationItem } from './lib/constructs/EnumerationItem.mjs';
 export type { ExceptionIdentification } from './lib/constructs/ExceptionIdentification.mjs';
+export type { Exports } from './lib/constructs/Exports.mjs';
 export type { FieldName } from './lib/constructs/FieldName.mjs';
 export type { FieldSpec } from './lib/constructs/FieldSpec.mjs';
 export { default as FieldSpecType } from './lib/constructs/FieldSpecType.mjs';
+export type { Imports } from './lib/constructs/Imports.mjs';
 export type { default as Module } from './lib/constructs/Module.mjs';
 export type { NameAndOrNumber } from './lib/constructs/NameAndOrNumber.mjs';
 export type { default as NameAndOrNumberForm } from './lib/constructs/NameAndOrNumberForm.mjs';
+export type { default as NamedNumber } from './lib/constructs/NamedNumber.mjs';
 export type { default as NamedType } from './lib/constructs/NamedType.mjs';
 export type { ObjIdComponents } from './lib/constructs/ObjIdComponents.mjs';
 export type { ObjectSet } from './lib/constructs/ObjectSet.mjs';
@@ -28,12 +36,15 @@ export { default as SelectionOption } from './lib/constructs/SelectionOption.mjs
 export type { SomethingFromObject } from './lib/constructs/SomethingFromObject.mjs';
 export type { default as SymbolsFromModule } from './lib/constructs/SymbolsFromModule.mjs';
 export type { default as Tag } from './lib/constructs/Tag.mjs';
+export type { default as Tagging } from './lib/constructs/Tagging.mjs';
 export { default as TaggingMode } from './lib/constructs/TaggingMode.mjs';
+export type { TokenOrGroupSpec } from './lib/constructs/TokenOrGroupSpec.mjs';
 export type { default as Tuple } from './lib/constructs/Tuple.mjs';
 export type { Type } from './lib/constructs/Type.mjs';
 export { default as TypeType } from './lib/constructs/TypeType.mjs';
 export type { Value } from './lib/constructs/Value.mjs';
 export { default as ValueAssignmentType } from './lib/constructs/ValueAssignmentType.mjs';
+export type { ValueSet } from './lib/constructs/ValueSet.mjs';
 export type { ValueSetType } from './lib/constructs/ValueSetType.mjs';
 export { default as ValueType } from './lib/constructs/ValueType.mjs';
 
@@ -151,7 +162,16 @@ export { default as unnest } from './lib/normalizers/unnest.mjs';
 export { default as valueTypeToTypeTypeMap } from './lib/maps/valueTypeToTypeTypeMap.mjs';
 export { default as typeTypeToValueTypeMap } from './lib/maps/typeTypeToValueTypeMap.mjs';
 
+/**
+ * All of the individual production parsers fall under this object. This is
+ * named so that its usage can read like `parserFor.TypeAssignment`.
+ */
 export * as parserFor from './lib/parsers/index.mjs';
+
+/**
+ * All of the individual grokers fall under this object. This is
+ * named so that its usage can read like `grokerFor.TypeAssignment`.
+ */
 export * as grokerFor from './lib/grokers/index.mjs';
 
 export { default as translateDefinedSyntaxToDefaultSyntax } from './lib/normalizers/translateDefinedSyntaxToDefaultSyntax.mjs';
@@ -166,3 +186,5 @@ export { default as normalizeValueSetTypeAssignment } from './lib/normalizers/As
 export { keywordsForbiddenAsLiterals } from './lib/keywordsForbiddenAsLiterals.mjs';
 export { keywordsPermissibleAsLiterals } from './lib/keywordsPermissibleAsLiterals.mjs';
 export { builtinRootArcNamesToNumber } from './lib/builtinRootArcNamesRootNumber.mjs';
+
+export { createGrokContext } from "./lib/createGrokContext.mjs";

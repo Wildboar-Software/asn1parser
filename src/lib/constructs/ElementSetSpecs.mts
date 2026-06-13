@@ -14,5 +14,10 @@ export default interface ElementSetSpecs<ElementType> extends GrokedThing {
   productionType: NonTerminalProductionType.ElementSetSpecs;
   rootElementSetSpec: ElementSetSpec<ElementType>;
   additionalElementSetSpec?: ElementSetSpec<ElementType>;
+
+  /**
+   * Whether the set was explicitly extensible from the use of the ellipsis
+   * (`...`).
+   */
   explicitlyExtensible: boolean;
 }

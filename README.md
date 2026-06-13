@@ -91,6 +91,23 @@ test('the README example works', () => {
 });
 ```
 
+### Parsing and Groking Individual Productions
+
+You don't have to parse or grok entire files at a time. You can parse
+individual productions, too! All of the "sub-parsers" and grokers are
+exported via `parserFor` and `grokerFor`.
+
+```typescript
+import { strictEqual as assertEquals } from 'node:assert';
+import { grokerFor, parserFor } from '@wildboar/asn1-parser';
+
+const text = "MyType ::= INTEGER";
+const ps = parserFor.TypeAssignment.start(tokens, text);
+const ctx = createGrokContext(text, ps.definedEnumItems);
+const ta = grokerFor.TypeAssignment(ps.cst, ctx);
+assertEquals(ta.identifier, "MyType");
+```
+
 ## Module System and Environment
 
 This module is published as an ESM module exclusively. If you are still using
