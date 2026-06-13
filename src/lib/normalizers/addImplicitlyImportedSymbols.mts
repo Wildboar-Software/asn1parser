@@ -32,6 +32,7 @@ export default function addImplicitlyImportedSymbols(mod: Module): void {
           identifier: moduleName,
           assignedIdentifier: undefined,
           symbolList: {},
+          duplicateSymbols: [],
         };
       }
       mod.imports.modules[moduleName].symbolList[dep.reference] = dep.production ?? null;

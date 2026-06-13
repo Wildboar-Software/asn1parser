@@ -133,9 +133,9 @@ describe('Groking', () => {
   test('can detect duplicate assigned identifiers', () => {
     const text =
       'A {iso(1)} DEFINITIONS ::= BEGIN Typeyboi ::= ANY Typeyboi ::= ANY END';
-    assert.throws(() => {
-      grok(text);
-    });
+    const modules = grok(text);
+    assertEqual(modules.length, 1);
+    assertEqual(modules[0].duplicateAssignments.length, 1);
   });
 
   test('can detect duplicate parameters', () => {
