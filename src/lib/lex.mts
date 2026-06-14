@@ -4,6 +4,7 @@ import keywordToTokenMap from './maps/keywordToTokenMap.mjs';
 import specialCharacterToTokenMap from './maps/specialCharacterToTokenMap.mjs';
 import newlineWhitespaceCharacters from './newlineWhitespaceCharacters.mjs';
 import nonNewlineWhitespaceCharacters from './nonNewlineWhitespaceCharacters.mjs';
+import type Location from './interfaces/Location.mjs';
 
 /**
  * Carriage return.
@@ -43,7 +44,8 @@ function isIdentifierCharacter(characterCode: number): boolean {
  * @generator
  */
 export default function* lex(
-  str: string
+  str: string,
+  startloc?: Location,
 ): IterableIterator<Production<TerminalProductionType>> {
   if (!str || str.length === 0) {
     return;
@@ -55,8 +57,13 @@ export default function* lex(
   let i: number = 0;
   let loops: number = 0;
 
-  let lineNumber: number = 1;
-  let lineStartIndex: number = 0;
+  let lineNumber: number = startloc?.lineNumber ?? 1;
+  let lineStartIndex: number = startloc
+    ? (startloc.startIndex - (startloc.columnNumber - 1))
+    : 0;
+  if (lineStartIndex < 0) {
+    lineStartIndex = 1;
+  }
 
   // Used in detecting the end of single-line comments.
   function isAtStartOfNewlineSequence(): boolean {
@@ -350,9 +357,10 @@ export default function* lex(
      * for every character.
      */
     if (i === tokenEndIndex && tokenEndIndex > tokenStartIndex) {
+      const base =  startloc?.startIndex ?? 0;
       yield new Production(tokenType, [], {
-        startIndex: tokenStartIndex,
-        endIndex: tokenEndIndex,
+        startIndex: tokenStartIndex + base,
+        endIndex: tokenEndIndex + base,
         lineNumber,
         columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
       });

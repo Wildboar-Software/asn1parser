@@ -38,7 +38,8 @@ export default function correct(modules: Module[]): void {
             builtinType &&
             !isTypeCompatibleWithValue(builtinType, assn.value)
           ) {
-            const lexemes = Array.from(lex(assn.value.text)).filter((l) => l.type !== LexicalProductionType.comment);
+            const lexemes = Array.from(lex(assn.value.text, assn.value.production?.location))
+              .filter((l) => l.type !== LexicalProductionType.comment);
             const parsing = valueParser(builtinType.typeType).start(
               lexemes,
               assn.value.text
@@ -79,7 +80,8 @@ export default function correct(modules: Module[]): void {
               );
               const v = component.default;
               if (v && v.text && t && !isTypeCompatibleWithValue(t, v)) {
-                const lexemes = Array.from(lex(v.text)).filter((l) => l.type !== LexicalProductionType.comment);
+                const lexemes = Array.from(lex(v.text, v.production?.location))
+                  .filter((l) => l.type !== LexicalProductionType.comment);
                 const parsing = valueParser(t.typeType).start(lexemes, v.text);
                 if (
                   !parsing.error &&
@@ -118,7 +120,8 @@ export default function correct(modules: Module[]): void {
                     chosenValue.value
                   )
                 ) {
-                  const lexemes = Array.from(lex(chosenValue.value.text)).filter((l) => l.type !== LexicalProductionType.comment);
+                  const lexemes = Array.from(lex(chosenValue.value.text, chosenValue.value.production?.location))
+                    .filter((l) => l.type !== LexicalProductionType.comment);
                   const parsing = valueParser(chosenBuiltinType.typeType).start(
                     lexemes,
                     chosenValue.value.text
@@ -166,7 +169,8 @@ export default function correct(modules: Module[]): void {
                     !('componentsOf' in ct) &&
                     !isTypeCompatibleWithValue(ct.namedType.type, cv.value)
                   ) {
-                    const lexemes = Array.from(lex(cv.value.text)).filter((l) => l.type !== LexicalProductionType.comment);
+                    const lexemes = Array.from(lex(cv.value.text, cv.value.production?.location))
+                      .filter((l) => l.type !== LexicalProductionType.comment);
                     const componentBuiltinType = getBuiltinType(
                       ct.namedType.type,
                       module,
