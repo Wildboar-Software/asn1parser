@@ -5,6 +5,7 @@ import { type Object_ } from '../constructs/AssignmentTypes/ObjectAssignment/Obj
 import grokDefined from './Defined.mjs';
 import grokObjectDefn from './Object/ObjectDefn.mjs';
 import grokObjectFromObject from './Object/ObjectFromObject.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 // Object ::=
 //     DefinedObject
@@ -30,8 +31,10 @@ export default function grok(cst: Production, ctx: GrokContext): Object_ {
       return grokObjectFromObject(cst.children[0], ctx);
     }
     default: {
-      throw new Error(
-        `Unrecognized Object alternative '${cst.children[0].type}'.`
+      throw new ASN1SyntaxError(
+        cst,
+        `Unrecognized Object alternative '${cst.children[0].type}'.`,
+        ctx.currentModule.name,
       );
     }
   }

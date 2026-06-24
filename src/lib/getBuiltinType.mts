@@ -2,6 +2,7 @@ import AssignmentType from './constructs/AssignmentType.mjs';
 import type Module from './constructs/Module.mjs';
 import { type Type } from './constructs/Type.mjs';
 import TypeType from './constructs/TypeType.mjs';
+import ASN1SemanticError from './errors/ASN1SemanticError.mjs';
 import getUnprefixedType from './getUnprefixedType.mjs';
 import recursivelyResolve from './recursivelyResolve.mjs';
 
@@ -40,7 +41,14 @@ export default function getBuiltinType(
       return undefined;
     }
     if (ta.assignmentType !== AssignmentType.TypeAssignment) {
-      throw new Error();
+      const ident = innerUnresolvedType.type.module
+        ? `${innerUnresolvedType.type.module}.${innerUnresolvedType.type.reference}`
+        : innerUnresolvedType.type.reference;
+      throw new ASN1SemanticError(
+        `Identifier '${ident}' did not resolve to a type assignment`,
+        (t as any).production,
+        currentModule.name,
+      );
     }
     innerUnresolvedType = getUnprefixedType(ta.type);
   }

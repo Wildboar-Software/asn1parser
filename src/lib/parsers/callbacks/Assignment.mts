@@ -2,6 +2,7 @@ import type Production from '../../Production.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
 import ProductionType from '../../ProductionType.mjs';
 import AssignmentType from '../../constructs/AssignmentType.mjs';
+import ASN1ParserExpectationError from '../../errors/ASN1ParserExpectationError.mjs';
 
 function findRef(
   prods: Production[],
@@ -39,7 +40,10 @@ function findRef(
  */
 export const onDidParseAssignment = function onDidParseAssignment(ctx: ParseContext): void {
   if (ctx.cst.children.length !== 1) {
-    throw new Error(ctx.cst.children.length.toString());
+    throw new ASN1ParserExpectationError(
+      `Assignment production had an invalid number (${ctx.cst.children.length}) of child CST nodes`,
+      ctx.cst,
+    );
   }
   const alt = ctx.cst.children[0];
   let ref: Production | undefined;
@@ -75,10 +79,13 @@ export const onDidParseAssignment = function onDidParseAssignment(ctx: ParseCont
     }
     case ProductionType.ParameterizedAssignment: {
       if (alt.children.length !== 1) {
-        throw new Error(alt.children.length.toString());
+        throw new ASN1ParserExpectationError(
+          "Unexpected ParameterizedAssignment grammar",
+          alt,
+        );
       }
       const subalt = alt.children[0];
-      switch (subalt.type as string) {
+      switch (subalt.type) {
         case ProductionType.ParameterizedTypeAssignment: {
           ref =
             findRef(subalt.children, ProductionType.typereference) ??
@@ -110,13 +117,19 @@ export const onDidParseAssignment = function onDidParseAssignment(ctx: ParseCont
           break;
         }
         default: {
-          throw new Error(subalt.type);
+          throw new ASN1ParserExpectationError(
+            "Unexpected ParameterizedAssignment alternative: " + subalt.type,
+            subalt,
+          );
         }
       }
       break;
     }
     default: {
-      throw new Error(alt.type);
+      throw new ASN1ParserExpectationError(
+        "Unexpected Assignment alternative: " + alt.type,
+        alt,
+      );
     }
   }
   if (ref) {

@@ -2,6 +2,7 @@ import type Production from '../../Production.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
 import ProductionType from '../../ProductionType.mjs';
 import split from '../../split.mjs';
+import ASN1ParserExpectationError from '../../errors/ASN1ParserExpectationError.mjs';
 
 // WithSyntaxSpec ::=
 //     WITH SYNTAX SyntaxList
@@ -165,7 +166,10 @@ export const onDidParseObjectClassAssignment = function onDidParseObjectClassAss
     (child: Production): boolean => child.type === ProductionType.ObjectClass
   );
   if (!objectclassreference || !ObjectClass || !ObjectClass.children[0]) {
-    throw new Error();
+    throw new ASN1ParserExpectationError(
+      "Unexpected ObjectClassAssignment structure",
+      ctx.cst,
+    );
   }
   if (ObjectClass.children[0].type !== ProductionType.ObjectClassDefn) {
     return;
@@ -180,7 +184,10 @@ export const onDidParseObjectClassAssignment = function onDidParseObjectClassAss
   const SyntaxList =
     WithSyntaxSpec.children[WithSyntaxSpec.children.length - 1];
   if (!SyntaxList || SyntaxList.type !== ProductionType.SyntaxList) {
-    throw new Error();
+    throw new ASN1ParserExpectationError(
+      "Unexpected WithSyntaxSpec structure",
+      WithSyntaxSpec,
+    );
   }
   const TokenOrGroupSpec = SyntaxList.children.find(
     (child: Production): boolean =>

@@ -4,6 +4,7 @@ import ProductionType from '../../ProductionType.mjs';
 import { type ObjectDefn } from '../../constructs/AssignmentTypes/ObjectAssignment/ObjectDefn.mjs';
 import grokDefaultSyntax from './ObjectDefn/DefaultSyntax.mjs';
 import grokDefinedSyntax from './ObjectDefn/DefinedSyntax.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 
 // ObjectDefn ::=
 //     DefaultSyntax
@@ -42,8 +43,10 @@ export default function grok(cst: Production, ctx: GrokContext): ObjectDefn {
   } else if (cst.children[0].type === ProductionType.DefinedSyntax) {
     return grokDefinedSyntax(cst.children[0], ctx);
   } else {
-    throw new Error(
-      `Unrecognized ObjectDefn alternative '${cst.children[0].type}'.`
+    throw new ASN1SyntaxError(
+      cst,
+      "Unrecognized variant for ObjectDefn: " + cst.children[0].type,
+      ctx.currentModule.name,
     );
   }
 }

@@ -3,6 +3,7 @@ import type Production from '../../Production.mjs';
 import { type SetOrSequenceOfValue } from '../../constructs/Values/SetOrSequenceOfValue.mjs';
 import grokValue from '../Value.mjs';
 import ProductionType from '../../ProductionType.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 
 // SequenceOfValue ::=
 //     "{" ValueList "}"
@@ -52,8 +53,10 @@ export default function grokSetOrSequenceOfValue(
         };
       });
   } else {
-    throw new Error(
-      `Unrecognized alternative for SequenceOfValue '${determinant.type}'.`
+    throw new ASN1SyntaxError(
+      cst,
+      `Unrecognized alternative for SequenceOfValue '${determinant.type}'.`,
+      ctx.currentModule.name,
     );
   }
 }

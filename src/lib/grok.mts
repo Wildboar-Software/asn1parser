@@ -6,6 +6,7 @@ import grokModule from './grokers/Module.mjs';
 import consoleLogger from './loggers/console.mjs';
 import parse from './parse.mjs';
 import type ParseContext from './interfaces/ParseContext.mjs';
+import ASN1ParserExpectationError from './errors/ASN1ParserExpectationError.mjs';
 
 /**
  * @summary Convert an ASN.1 concrete syntax tree into abstract syntax trees.
@@ -53,8 +54,9 @@ export default function grok(
         (child: Production): boolean => child.type === ProductionType.modules
       );
       if (!modules) {
-        throw new Error(
-          'Could not find modules Production in document Production.'
+        throw new ASN1ParserExpectationError(
+          'Could not find modules Production in document Production.',
+          parsed.cst,
         );
       }
       ret = modules.children
@@ -79,8 +81,9 @@ export default function grok(
       break;
     }
     default: {
-      throw new Error(
-        `Could not grok AST starting whose root is a '${parsed.cst.type}'.`
+      throw new ASN1ParserExpectationError(
+        `Could not grok AST starting whose root is a '${parsed.cst.type}'.`,
+        parsed.cst,
       );
     }
   }

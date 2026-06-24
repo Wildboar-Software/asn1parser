@@ -4,6 +4,7 @@ import ProductionType from '../ProductionType.mjs';
 import { type AssignedIdentifier } from '../constructs/AssignedIdentifier.mjs';
 import grokDefined from './Defined.mjs';
 import grokObjectIdentifierValue from './Values/ObjectIdentifierValue.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 // AssignedIdentifier ::=
 //     ObjectIdentifierValue
@@ -25,8 +26,10 @@ export default function grok(
       return grokDefined(cst.children[0], ctx);
     }
     default: {
-      throw new Error(
-        `Unrecognized alternative of AssignedIdentifier '${cst.children[0].type}'.`
+      throw new ASN1SyntaxError(
+        cst.children[0],
+        `Unrecognized alternative of AssignedIdentifier '${cst.children[0].type}'.`,
+        ctx.currentModule.name,
       );
     }
   }

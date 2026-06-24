@@ -3,6 +3,7 @@ import type Production from '../../../Production.mjs';
 import ProductionType from '../../../ProductionType.mjs';
 import { type DefaultSyntax } from '../../../constructs/AssignmentTypes/ObjectAssignment/ObjectDefn/DefaultSyntax.mjs';
 import grokSetting from '../Setting.mjs';
+import ASN1SyntaxError from '../../../errors/ASN1SyntaxError.mjs';
 
 // DefaultSyntax ::=
 //     "{" FieldSetting "," * "}"
@@ -30,7 +31,11 @@ export default function grok(cst: Production, ctx: GrokContext): DefaultSyntax {
     (child: Production): boolean => child.type === ProductionType.FieldSetting
   );
   if (!fieldSettings) {
-    throw new Error("Missing FieldSetting in DefaultSyntax");
+    throw new ASN1SyntaxError(
+      cst,
+      "Missing FieldSetting CST child node",
+      ctx.currentModule.name,
+    );
   }
   const fieldProductions: {
     [PrimitiveFieldName: string]: Production;

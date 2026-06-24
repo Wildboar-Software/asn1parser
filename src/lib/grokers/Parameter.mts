@@ -5,11 +5,14 @@ import grokDefined from './Defined.mjs';
 import grokType from './Type.mjs';
 import type Parameter from '../constructs/Parameter.mjs';
 import AssignmentType from '../constructs/AssignmentType.mjs';
+import type GrokedThing from '../interfaces/GrokedThing.mjs';
 
+// TODO: Move to a utils function
 function isUpperCase(charCode: number): boolean {
   return charCode >= 0x41 && charCode <= 0x5a;
 }
 
+// TODO: Move to a utils function
 function isAType(str: string): boolean {
   return (
     str.length !== 0 &&
@@ -18,6 +21,7 @@ function isAType(str: string): boolean {
   );
 }
 
+// TODO: Move to a utils function
 function isAClass(str: string): boolean {
   return str.length !== 0 && str.toUpperCase() === str;
 }
@@ -99,15 +103,24 @@ function applyAssignmentType(parameter: Parameter): void {
 
 export default function grok(cst: Production, ctx: GrokContext): Parameter {
   const text: string = ctx.text;
+
+  const commonFields = {
+    production: cst,
+    productionType: cst.type,
+    text: text.slice(cst.location.startIndex, cst.location.endIndex),
+  } satisfies GrokedThing;
+
+  const base: number = ctx.textStartsAtOffset ?? 0;
   if (cst.children.length === 1) {
     // It must have been DummyReference.
     const DummyReference: Production = cst.children[0];
     const Reference: Production = DummyReference.children[0];
     const ret: Parameter = {
       dummyReference: text.slice(
-        Reference.location.startIndex,
-        Reference.location.endIndex
+        Reference.location.startIndex - base,
+        Reference.location.endIndex - base,
       ),
+      ...commonFields,
     };
     applyAssignmentType(ret);
     return ret;
@@ -124,13 +137,14 @@ export default function grok(cst: Production, ctx: GrokContext): Parameter {
     const DummyGovernor: Production = Governor_Or_DummyGovernor;
     ret = {
       paramGovernor: text.slice(
-        DummyGovernor.location.startIndex,
-        DummyGovernor.location.endIndex
+        DummyGovernor.location.startIndex - base,
+        DummyGovernor.location.endIndex - base,
       ),
       dummyReference: text.slice(
-        Reference.location.startIndex,
-        Reference.location.endIndex
+        Reference.location.startIndex - base,
+        Reference.location.endIndex - base,
       ),
+      ...commonFields,
     };
   } else {
     const Governor: Production = Governor_Or_DummyGovernor;
@@ -138,21 +152,22 @@ export default function grok(cst: Production, ctx: GrokContext): Parameter {
       ret = {
         paramGovernor: grokDefined(Governor.children[0], ctx),
         dummyReference: text.slice(
-          Reference.location.startIndex,
-          Reference.location.endIndex
+          Reference.location.startIndex - base,
+          Reference.location.endIndex - base,
         ),
+        ...commonFields,
       };
     } else {
       ret = {
         paramGovernor: grokType(Governor.children[0], ctx),
         dummyReference: text.slice(
-          Reference.location.startIndex,
-          Reference.location.endIndex
+          Reference.location.startIndex - base,
+          Reference.location.endIndex - base,
         ),
+        ...commonFields,
       };
     }
   }
   applyAssignmentType(ret);
-  ret.production = cst;
   return ret;
 }

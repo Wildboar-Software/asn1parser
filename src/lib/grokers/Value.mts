@@ -61,9 +61,10 @@ import type GrokedThing from '../interfaces/GrokedThing.mjs';
 export default function grokValue(cst: Production, ctx: GrokContext): Value {
   const subtypeAST: Production = cst.children[0]; // Either BuiltinValue, ReferencedValue, ObjectClassFieldValue.
   const subsubtypeAST: Production = subtypeAST.children[0];
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text = ctx.text.slice(
-    subsubtypeAST.location.startIndex,
-    subsubtypeAST.location.endIndex
+    subsubtypeAST.location.startIndex - base,
+    subsubtypeAST.location.endIndex - base,
   );
   const grokedThing = {
     text,

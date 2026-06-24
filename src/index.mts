@@ -188,3 +188,6 @@ export { keywordsPermissibleAsLiterals } from './lib/keywordsPermissibleAsLitera
 export { builtinRootArcNamesToNumber } from './lib/builtinRootArcNamesRootNumber.mjs';
 
 export { createGrokContext } from "./lib/createGrokContext.mjs";
+export { ASN1SyntaxError } from "./lib/errors/ASN1SyntaxError.mjs";
+export { ASN1ParserExpectationError } from "./lib/errors/ASN1ParserExpectationError.mjs";
+export { ASN1SemanticError } from "./lib/errors/ASN1SemanticError.mjs";

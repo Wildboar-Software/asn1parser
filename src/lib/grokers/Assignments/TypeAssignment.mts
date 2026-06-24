@@ -7,6 +7,8 @@ import grokType from '../Type.mjs';
 import grokParameter from '../Parameter.mjs';
 import type Parameter from '../../constructs/Parameter.mjs';
 import hasDuplicates from '../../hasDuplicates.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
+import ASN1SemanticError from '../../errors/ASN1SemanticError.mjs';
 
 export default function grokTypeAssignment(
   cst: Production,
@@ -26,7 +28,7 @@ export default function grokTypeAssignment(
     (child: Production): boolean => child.type === ProductionType.assignment
   );
   if (!assignmentOperator) {
-    throw new Error('No assignment operator found.');
+    throw new ASN1SyntaxError(cst, 'No assignment operator found.');
   }
   const parameters = ParameterList?.children
     .filter(
@@ -39,8 +41,11 @@ export default function grokTypeAssignment(
     .map((param: Production): Parameter => grokParameter(param, ctx));
 
   if (parameters && hasDuplicates(parameters.map((p) => p.dummyReference))) {
-    throw new Error(
-      `Duplicate parameters detected in TypeAssignment '${identifier}'.`
+    throw new ASN1SemanticError(
+      `Duplicate parameters detected in TypeAssignment '${identifier}'.`,
+      cst,
+      ctx.currentModule.name,
+      identifier,
     );
   }
   return {

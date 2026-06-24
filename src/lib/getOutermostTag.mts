@@ -10,6 +10,7 @@ import typeToTagNumberMap from './maps/typeToTagNumberMap.mjs';
 import TypeType from './constructs/TypeType.mjs';
 import type ObjectAssignment from './constructs/AssignmentTypes/ObjectAssignment.mjs';
 import type ObjectSetAssignment from './constructs/AssignmentTypes/ObjectSetAssignment.mjs';
+import ASN1SemanticError from './errors/ASN1SemanticError.mjs';
 
 /**
  * @summary Determine the outermost tag of a given type.
@@ -31,8 +32,10 @@ export default function getOutermostTag(
   recursionCount: number
 ): Tagging | undefined {
   if (recursionCount > 20) {
-    throw new Error(
-      `Recursion exceeded in trying to get outermost tag for type '${type_.typeType}'.`
+    throw new ASN1SemanticError(
+      `Recursion exceeded in trying to get outermost tag for type '${type_.typeType}'.`,
+      (type_ as any).production,
+      currentModule.name,
     );
   }
   if (type_.tagging) {
@@ -54,8 +57,10 @@ export default function getOutermostTag(
         return type_.tagging;
       }
       if (a.assignmentType !== AssignmentType.TypeAssignment) {
-        throw new Error(
-          `Defined type '${type_.type.reference}' did not refer to a type assignment.`
+        throw new ASN1SemanticError(
+          `Defined type '${type_.type.reference}' did not refer to a type assignment.`,
+          type_.type.production ?? type_.production,
+          currentModule.name,
         );
       }
       return getOutermostTag(
@@ -125,8 +130,10 @@ export default function getOutermostTag(
         a.assignmentType !== AssignmentType.ObjectAssignment &&
         a.assignmentType !== AssignmentType.ObjectSetAssignment
       ) {
-        throw new Error(
-          `'${type_.type.referencedObjects}' did not refer to an object or object set.`
+        throw new ASN1SemanticError(
+          `'${type_.type.referencedObjects}' did not refer to an object or object set.`,
+          type_.production,
+          currentModule.name,
         );
       }
       const oa: ObjectAssignment | ObjectSetAssignment = a;

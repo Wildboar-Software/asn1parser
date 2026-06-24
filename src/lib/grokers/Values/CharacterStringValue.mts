@@ -7,6 +7,7 @@ import grokTuple from '../Tuple.mjs';
 import grokQuadruple from '../Quadruple.mjs';
 import grokDefined from '../Defined.mjs';
 import unescapeCstring from '../../unescapeCstring.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 
 // CharacterStringValue ::=
 //     RestrictedCharacterStringValue
@@ -78,17 +79,21 @@ export default function grok(
                 return grokDefined(cd.children[0], ctx);
               }
               default: {
-                throw new Error(
-                  `Unrecognized CharsDefn alternative '${cd.children[0].type}'.`
+                throw new ASN1SyntaxError(
+                  cst.children[0],
+                  `Unrecognized CharsDefn alternative '${cd.children[0].type}'.`,
+                  ctx.currentModule.name,
                 );
               }
             }
           });
       }
       default: {
-        throw new Error(
+        throw new ASN1SyntaxError(
+          RestrictedCharacterStringValue.children[0],
           'Unrecognized RestrictedCharacterStringValue alternative ' +
-            `'${RestrictedCharacterStringValue.children[0].type}'.`
+            `'${RestrictedCharacterStringValue.children[0].type}'.`,
+          ctx.currentModule.name,
         );
       }
     }

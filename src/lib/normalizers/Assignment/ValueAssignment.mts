@@ -7,6 +7,7 @@ import unnestType from '../../normalizers/unnest.mjs';
 import TypeType from '../../constructs/TypeType.mjs';
 import removeItemDependencies from '../removeItemDependencies.mjs';
 import AssignmentType from '../../constructs/AssignmentType.mjs';
+import ASN1SemanticError from '../../errors/ASN1SemanticError.mjs';
 
 function uppercaseInitial(str: string): string {
   return `${str.slice(0, 1).toUpperCase()}${str.slice(1)}`;
@@ -71,7 +72,11 @@ export default function normalize(
     return;
   }
   if (ta.assignmentType !== AssignmentType.TypeAssignment) {
-    throw new Error(ta.assignmentType);
+    throw new ASN1SemanticError(
+      `Reference ${unprefixedType.type.reference} did not resolve to a type assignment.`,
+      unprefixedType.type.production,
+      currentModule.name,
+    );
   }
   identifyDependencies(ta.type, assignment, currentModule, modulesInScope);
   Object.values(ta.dependencies).forEach((dep) =>

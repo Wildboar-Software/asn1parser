@@ -7,6 +7,8 @@ import grokValue from '../Value.mjs';
 import grokValueSet from '../ValueSet.mjs';
 import grokObject from '../Object.mjs';
 import grokObjectSet from '../ObjectSet.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
+import ASN1ParserExpectationError from '../../errors/ASN1ParserExpectationError.mjs';
 
 /**
  * `Setting ::= Type | Value | ValueSet | Object | ObjectSet`
@@ -15,7 +17,11 @@ import grokObjectSet from '../ObjectSet.mjs';
  */
 export default function grok(cst: Production, ctx: GrokContext): Setting {
   if (cst.children.length !== 1) {
-    throw new Error(cst.children.length.toString());
+    throw new ASN1ParserExpectationError(
+      "Setting CST node had an unexpected number of child nodes: " + cst.children.length.toString(),
+      cst,
+      ctx.currentModule.name,
+    );
   }
   const text: string = ctx.text.slice(
     cst.location.startIndex,
@@ -64,7 +70,11 @@ export default function grok(cst: Production, ctx: GrokContext): Setting {
       };
     }
     default: {
-      throw new Error(alt.type);
+      throw new ASN1SyntaxError(
+        alt,
+        "Unrecognized variant for Setting: " + alt.type,
+        ctx.currentModule.name,
+      );
     }
   }
 }

@@ -35,6 +35,7 @@ export default function grokExports(
     production: cst,
     exportedSymbols: {},
   };
+  const base: number = ctx.textStartsAtOffset ?? 0;
   cst.children
     .slice(1, -1)
     .filter(
@@ -47,7 +48,11 @@ export default function grokExports(
         child.type !== ProductionType.comma
     )
     .forEach((symbol: Production): void => {
-      ret.exportedSymbols[text.slice(symbol.location.startIndex, symbol.location.endIndex)] = symbol;
+      const identifier = text.slice(
+        symbol.location.startIndex - base,
+        symbol.location.endIndex - base,
+      );
+      ret.exportedSymbols[identifier] = symbol;
     });
 
   return ret;

@@ -9,6 +9,7 @@ import grokTypeAssignment from './Assignments/TypeAssignment.mjs';
 import grokObjectAssignment from './Assignments/ObjectAssignment.mjs';
 import grokObjectSetAssignment from './Assignments/ObjectSetAssignment.mjs';
 import grokObjectClassAssignment from './Assignments/ObjectClassAssignment.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 export default function grokAssignment(
   cst: Production,
@@ -59,12 +60,20 @@ export default function grokAssignment(
             return AssignmentType.ParameterizedObjectSetAssignment;
           }
           default: {
-            throw new Error('Unrecognized AssignmentType.');
+            throw new ASN1SyntaxError(
+              cst.children[0].children[0],
+              `Unrecognized parameterized AssignmentType '${cst.children[0].children[0].type}'.`,
+              ctx.currentModule.name,
+            );
           }
         }
       }
       default: {
-        throw new Error('Unrecognized AssignmentType.');
+        throw new ASN1SyntaxError(
+          cst.children[0],
+          `Unrecognized AssignmentType '${cst.children[0].type}'.`,
+          ctx.currentModule.name,
+        );
       }
     }
   })();
@@ -137,7 +146,11 @@ export default function grokAssignment(
           child.type === ProductionType.valuereference
       );
       if (!reference) {
-        throw new Error('No refererence defined.');
+        throw new ASN1SyntaxError(
+          assignment,
+          `No valuereference found in XMLValueAssignment.`,
+          ctx.currentModule.name,
+        );
       }
       const assignmentOperator: Production | undefined =
         assignment.children.find(
@@ -145,28 +158,37 @@ export default function grokAssignment(
             child.type === ProductionType.assignment
         );
       if (!assignmentOperator) {
-        throw new Error('No assignment operator found.');
+        throw new ASN1SyntaxError(
+          assignment,
+          `No assignment operator found in XMLValueAssignment.`,
+          ctx.currentModule.name,
+        );
       }
+      const base: number = ctx.textStartsAtOffset ?? 0;
       return {
         identifier: text.slice(
-          reference.location.startIndex,
-          reference.location.endIndex
+          reference.location.startIndex - base,
+          reference.location.endIndex - base,
         ),
         assignmentType: assignmentType,
         leftHandSide: text.slice(
-          cst.location.startIndex,
-          assignmentOperator.location.startIndex
+          cst.location.startIndex - base,
+          assignmentOperator.location.startIndex - base,
         ),
         rightHandSide: text.slice(
-          assignmentOperator.location.endIndex,
-          cst.location.endIndex
+          assignmentOperator.location.endIndex - base,
+          cst.location.endIndex - base,
         ),
         dependencies: {},
         production: assignment,
       };
     }
     default: {
-      throw new Error(`Unrecognized AssignmentType '${assignmentType}'.`);
+      throw new ASN1SyntaxError(
+        assignment,
+        `Unrecognized AssignmentType '${assignmentType}'.`,
+        ctx.currentModule.name,
+      );
     }
   }
 }

@@ -6,6 +6,7 @@ import { type ObjectSetElements } from '../constructs/ObjectSetElements.mjs';
 import grokObject from './Object.mjs';
 import grokDefined from './Defined.mjs';
 import grokSomethingFromObject from './SomethingFromObject.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 // ElementSetSpec ::=
 //     Unions
@@ -67,7 +68,11 @@ function grokElement(cst: Production, ctx: GrokContext): ObjectSetElements {
       return grokDefined(cst, ctx);
     }
     default: {
-      throw new Error(cst.type);
+      throw new ASN1SyntaxError(
+        cst,
+        `Unrecognized alternative of ObjectSetElements '${cst.type}'.`,
+        ctx.currentModule.name,
+      );
     }
   }
 }

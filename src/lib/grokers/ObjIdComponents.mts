@@ -3,6 +3,7 @@ import type Production from '../Production.mjs';
 import { type ObjIdComponents } from '../constructs/ObjIdComponents.mjs';
 import ProductionType from '../ProductionType.mjs';
 import grokDefinedValue from './Defined.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 // ObjIdComponents ::=
 //     NameForm
@@ -26,8 +27,10 @@ export default function grokObjIdComponents(
 ): ObjIdComponents {
   const text: string = ctx.text;
   if (cst.children.length !== 1) {
-    throw new Error(
-      `Did not expect ${cst.children.length} subproductions in ObjIdComponents.`
+    throw new ASN1SyntaxError(
+      cst,
+      `Did not expect ${cst.children.length} subproductions in ObjIdComponents.`,
+      ctx.currentModule.name,
     );
   }
   const innercst = cst.children[0];
@@ -55,7 +58,11 @@ export default function grokObjIdComponents(
         // Assume it is a number
         const num: number = Number.parseInt(numstr, 10);
         if (Number.isNaN(num) || !Number.isInteger(num)) {
-          throw new Error('Non-integral NumberForm');
+          throw new ASN1SyntaxError(
+            NumberForm.children[0],
+            'Non-integral NumberForm',
+            ctx.currentModule.name,
+          );
         }
         return {
           text: numstr,
@@ -94,7 +101,11 @@ export default function grokObjIdComponents(
           10
         );
         if (Number.isNaN(num) || !Number.isInteger(num)) {
-          throw new Error('Non-integral NumberForm');
+          throw new ASN1SyntaxError(
+            NumberForm.children[0],
+            'Non-integral NumberForm',
+            ctx.currentModule.name,
+          );
         }
         return {
           text: text.slice(
@@ -112,8 +123,10 @@ export default function grokObjIdComponents(
       return grokDefinedValue(cst.children[0], ctx);
     }
     default: {
-      throw new Error(
-        `Unrecognized ObjIdComponents alternative ${cst.children[0].type}.`
+      throw new ASN1SyntaxError(
+        cst,
+        `Unrecognized ObjIdComponents alternative ${cst.children[0].type}.`,
+        ctx.currentModule.name,
       );
     }
   }

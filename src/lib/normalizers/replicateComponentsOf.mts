@@ -7,6 +7,7 @@ import automaticTaggingInEffectForSetOrSequence from '../automaticTaggingInEffec
 import applyTagsToSetOrSequence from './applyTagsToSetOrSequence.mjs';
 import AssignmentType from '../constructs/AssignmentType.mjs';
 import recursivelyResolve from '../recursivelyResolve.mjs';
+import ASN1SemanticError from '../errors/ASN1SemanticError.mjs';
 
 /**
  * @summary Replace `COMPONENTS OF` components with the components to which they
@@ -49,8 +50,10 @@ function replicateComponentsOfIntoComponentTypeList(
           continue;
         }
         if (a.assignmentType !== AssignmentType.TypeAssignment) {
-          throw new Error(
-            `COMPONENTS OF was used to replicate non-type '${c.componentsOf.type.reference}'.`
+          throw new ASN1SemanticError(
+            `COMPONENTS OF was used to replicate non-type '${c.componentsOf.type.reference}'.`,
+            c.componentsOf.type.production,
+            currentModule.name,
           );
         }
         // TODO: Support replicating components from tagged types, defined types, etc.
@@ -59,19 +62,29 @@ function replicateComponentsOfIntoComponentTypeList(
           a.type.typeType !== TypeType.SequenceType &&
           a.type.typeType !== TypeType.SetType
         ) {
-          throw new Error(
-            `COMPONENTS OF was used to replicate an incompatible type: ${a.type.typeType}.`
+          throw new ASN1SemanticError(
+            `COMPONENTS OF was used to replicate an incompatible type: ${a.type.typeType}.`,
+            c.componentsOf.type.production,
+            currentModule.name,
           );
         }
         const ss: SetOrSequenceType = a.type.type;
         if (!a.module) {
-          throw new Error(`Type Assignment '${a.identifier}' had no module.`);
+          throw new ASN1SemanticError(
+            `Type Assignment '${a.identifier}' had no module.`,
+            c.componentsOf.type.production,
+            currentModule.name,
+          );
         }
         const referentModule: Module | undefined = modulesInScope.find(
           (mod: Module): boolean => mod.name === a.module?.name
         );
         if (!referentModule) {
-          throw new Error(`Could not find module named '${a.module?.name}'.`);
+          throw new ASN1SemanticError(
+            `Could not find module named '${a.module?.name}'.`,
+            c.componentsOf.type.production,
+            currentModule.name,
+          );
         }
         const automaticTaggingInEffect: boolean =
           automaticTaggingInEffectForSetOrSequence(ss, referentModule);

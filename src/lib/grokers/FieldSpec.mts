@@ -9,6 +9,7 @@ import grokFixedTypeValueSetFieldSpec from './FieldSpec/FixedTypeValueSetFieldSp
 import grokVariableTypeValueSetFieldSpec from './FieldSpec/VariableTypeValueSetFieldSpec.mjs';
 import grokObjectFieldSpec from './FieldSpec/ObjectFieldSpec.mjs';
 import grokObjectSetFieldSpec from './FieldSpec/ObjectSetFieldSpec.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 // FieldSpec ::=
 //     TypeFieldSpec
@@ -64,8 +65,10 @@ export default function grok(cst: Production, ctx: GrokContext): FieldSpec {
       return fs;
     }
     default: {
-      throw new Error(
-        `Unrecognized FieldSpec alternative '${cst.children[0].type}'.`
+      throw new ASN1SyntaxError(
+        cst,
+        `Unrecognized FieldSpec alternative '${cst.children[0].type}'.`,
+        ctx.currentModule.name,
       );
     }
   }

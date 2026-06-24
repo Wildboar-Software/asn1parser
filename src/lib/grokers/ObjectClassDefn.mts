@@ -34,6 +34,7 @@ export default function grok(
         )
     : undefined;
 
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const fieldSpecs: {
     [reference: string]: FieldSpec;
   } = {};
@@ -45,8 +46,8 @@ export default function grok(
     .forEach((fs: Production): void => {
       const identifier: Production = fs.children[0].children[0];
       const key: string = text.slice(
-        identifier.location.startIndex,
-        identifier.location.endIndex
+        identifier.location.startIndex - base,
+        identifier.location.endIndex - base
       );
       fieldSpecs[key] = grokFieldSpec(fs, ctx);
     });

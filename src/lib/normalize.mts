@@ -13,6 +13,7 @@ import consoleLogger from './loggers/console.mjs';
 import type Logger from './interfaces/Logger.mjs';
 import addImplicitlyImportedSymbols from './normalizers/addImplicitlyImportedSymbols.mjs';
 import getDuplicates from './getDuplicates.mjs';
+import ASN1SemanticError from './errors/ASN1SemanticError.mjs';
 
 /**
  * @summary Normalize the abstract syntax trees of ASN.1 modules.
@@ -36,7 +37,7 @@ export default function normalize(
 ): Module[] {
     const duplicates = Array.from(getDuplicates(modules.map((mod) => mod.name)));
     if (duplicates.length > 0) {
-        throw new Error(`Duplicated modules: ${duplicates.join(", ")}`);
+        throw new ASN1SemanticError(`Duplicated modules: ${duplicates.join(", ")}`);
     }
   modules.forEach((currentModule: Module): void => {
     Object.values(currentModule.assignments).forEach(

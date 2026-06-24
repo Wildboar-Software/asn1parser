@@ -13,6 +13,7 @@ import settingGroker from '../grokers/Object/Setting.mjs';
 import type GrokContext from '../interfaces/GrokContext.mjs';
 import ValueType from '../constructs/ValueType.mjs';
 import { LexicalProductionType } from "../ProductionType.mjs";
+import ASN1ParserExpectationError from '../errors/ASN1ParserExpectationError.mjs';
 
 function isUpperCase(charCode: number): boolean {
   return charCode >= 0x41 && charCode <= 0x5a;
@@ -113,17 +114,27 @@ export default function translateDefinedSyntaxToDefaultSyntax(
                 break;
               }
               case AssignmentType.ObjectSetAssignment: {
-                console.error(obj);
-                throw new Error(`6578ad9d-c5f5-4225-a7ff-7f47874e3e99 in ${currentModule.name}`); // I don't know what to do in this case.
+                // I don't know what to do in this case.
+                throw new ASN1ParserExpectationError(
+                  `Failed to translate defined syntax in ${currentModule.name} using ObjectSetAssignment reference ${token} to default syntax: 6578ad9d-c5f5-4225-a7ff-7f47874e3e99`,
+                  obj.production,
+                  currentModule.name,
+                );
               }
               default: {
-                console.error(obj);
-                throw new Error(`c18376de-8938-4842-8efc-2aa3d074b711 in ${currentModule.name}`);
+                throw new ASN1ParserExpectationError(
+                  `Failed to translate defined syntax in ${currentModule.name} using reference ${token} to default syntax: points to a ${assignment.assignmentType}`,
+                  obj.production,
+                  currentModule.name,
+                );
               }
             }
           } else {
-            console.error(obj);
-            throw new Error(`01f8ac49-728d-4c20-913c-a8e5dfe73acf in ${currentModule.name}`);
+            throw new ASN1ParserExpectationError(
+              `Failed to translate defined syntax in ${currentModule.name} using reference ${token} to default syntax: 01f8ac49-728d-4c20-913c-a8e5dfe73acf`,
+              obj.production,
+              currentModule.name,
+            );
           }
         } else if (token.text) {
           const upperCasedFieldName = isUpperCase(expected.charCodeAt(1));
@@ -221,8 +232,11 @@ export default function translateDefinedSyntaxToDefaultSyntax(
     } else if (typeof expected === 'undefined') {
       break; // If we are at the end of the syntax list.
     } else {
-      console.error(obj);
-      throw new Error(`823ccda4-063c-4db1-ab5f-5d5a5f9b0491 in ${currentModule.name}`);
+      throw new ASN1ParserExpectationError(
+        "Encountered some unexpected state while trying to translate defined syntax to default syntax",
+        obj.production,
+        currentModule.name,
+      );
     }
     s++;
     t++;

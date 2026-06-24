@@ -5,6 +5,7 @@ import { type DefinedSyntax } from '../../../constructs/AssignmentTypes/ObjectAs
 import { type Setting } from '../../../constructs/AssignmentTypes/ObjectAssignment/Setting.mjs';
 import { type Literal } from '../../../constructs/AssignmentTypes/ObjectAssignment/Literal.mjs';
 import grokSetting from '../Setting.mjs';
+import ASN1ParserExpectationError from '../../../errors/ASN1ParserExpectationError.mjs';
 
 // DefinedSyntax ::=
 //     "{" DefinedSyntaxToken empty * "}"
@@ -37,7 +38,11 @@ export default function grok(cst: Production, ctx: GrokContext): DefinedSyntax {
     )
     .map((dst: Production): Literal | Setting => {
       if (dst.children.length !== 1) {
-        throw new Error();
+        throw new ASN1ParserExpectationError(
+          "DefinedSyntaxToken CST node had an unexpected number of child nodes",
+          dst,
+          ctx.currentModule.name,
+        );
       }
       const alt: Production = dst.children[0];
       if (alt.type === ProductionType.Literal) {
@@ -45,7 +50,11 @@ export default function grok(cst: Production, ctx: GrokContext): DefinedSyntax {
       } else if (alt.type === ProductionType.Setting) {
         return grokSetting(alt, ctx);
       } else {
-        throw new Error(alt.type);
+        throw new ASN1ParserExpectationError(
+          "DefinedSyntaxToken CST node had an unexpected variant: " + alt.type,
+          alt,
+          ctx.currentModule.name,
+        );
       }
     });
   return {

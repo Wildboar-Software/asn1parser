@@ -108,6 +108,52 @@ const ta = grokerFor.TypeAssignment(ps.cst, ctx);
 assertEquals(ta.identifier, "MyType");
 ```
 
+If you are re-parsing a substring of the entire ASN.1 file:
+
+- Supply a `Location` object to the `startloc` parameter of
+  `lex(text, startloc)`, which will add that location's
+  `startIndex` to the start and end offsets of all lexical
+  tokens (`Production`s). It will also adjust the line and
+  column number. That way, the offsets for those tokens
+  correctly point to their offsets in the original text, not
+  the substring you re-lexed.
+- In the `GrokContext`, set `textStartsAtOffset` to the same
+  `startIndex` of the `Location` you used for `startloc` in
+  `lex()`. This is needed because the groking functions take
+  the substring, not the whole string, so you have to "undo"
+  the offset correction you did in `lex()`.
+
+Sorry this API is so dumb. I have never written a lexer / parser before this,
+and I originally had no intention or even thoughts about this being able to
+support parsing substrings of ASN.1. This is so janky because I had to not
+break compatibility.
+
+I would also caution you that substring parsing is not very deeply tested.
+
+### Error Handling
+
+In addition to the built-in error subclasses, `Error` and `SyntaxError`, this
+package also throws three custom error classes:
+
+- `ASN1SyntaxError`: thrown when there is an objective syntax error
+- `ASN1SemanticError`: thrown when there is a semantic error, such as a
+  mismatching type and value, or a type reference referring to an object
+  class assignment instead of a type assignment.
+- `ASN1ParserExpectationError`: thrown when the lexer / parser / groker
+  encounters some unexpected state. Think of it as an assertion failure.
+  If this happens, it might be a bug. Please let me know about it!
+
+Each of these can be associated with a `Production` via their `production`
+field. Since the `Production` has a `location` field, you can use this to
+ascribe a location in the document to the error. `ASN1SemanticError` and
+`ASN1ParserExpectationError` can also have associated module names and
+assignment identifiers.
+
+### XML Value Assignments
+
+This module theoretically supports reading XML value assignments, but this was
+never tested at all. It is very plausible that it works poorly, if at all.
+
 ## Module System and Environment
 
 This module is published as an ESM module exclusively. If you are still using
@@ -157,3 +203,5 @@ annotations.
 
 - [ ] Performance Enhancements
 - [ ] Make dependency on `dependency-graph` optional
+- [x] Fix parsing of `RealValue` Sequence
+- [x] New ASN1ParsingError type that contains the problematic production

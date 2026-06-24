@@ -17,6 +17,7 @@ export default function grokSetOrSequenceValue(
   ctx: GrokContext
 ): SetOrSequenceValue {
   const text: string = ctx.text;
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const ComponentValueList: Production | undefined = cst.children.find(
     (child: Production): boolean =>
       child.type === ProductionType.ComponentValueList
@@ -30,8 +31,8 @@ export default function grokSetOrSequenceValue(
     )
     .map((namedValue: Production) => {
       const name: string = text.slice(
-        namedValue.children[0].location.startIndex,
-        namedValue.children[0].location.endIndex
+        namedValue.children[0].location.startIndex - base,
+        namedValue.children[0].location.endIndex - base
       );
       return {
         identifier: name,
@@ -41,7 +42,10 @@ export default function grokSetOrSequenceValue(
         ),
         production: namedValue,
         productionType: namedValue.type,
-        text: text.slice(namedValue.location.startIndex, namedValue.location.endIndex),
+        text: text.slice(
+          namedValue.location.startIndex - base,
+          namedValue.location.endIndex - base
+        ),
       };
     });
 }

@@ -6,6 +6,7 @@ import grokType from '../Type.mjs';
 import grokValue from '../Value.mjs';
 import grokObjectSet from '../ObjectSet.mjs';
 import grokDefined from '../Defined.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 
 /**
  * `GeneralConstraint ::= UserDefinedConstraint | TableConstraint | ContentsConstraint`
@@ -45,8 +46,19 @@ export default function grok(
       const at: Production | undefined = crc.children.find(
         (prod: Production): boolean => prod.type === ProductionType.AtNotation
       );
-      if (!dos || !at) {
-        throw new Error();
+      if (!dos) {
+        throw new ASN1SyntaxError(
+          crc,
+          "Missing DefinedObjectSet CST node immediately under a ComponentRelationConstraint CST node",
+          ctx.currentModule.name,
+        );
+      }
+      if (!at) {
+        throw new ASN1SyntaxError(
+          crc,
+          "Missing AtNotation CST node immediately under a ComponentRelationConstraint CST node",
+          ctx.currentModule.name,
+        );
       }
       return {
         definedObjectSet: grokDefined(dos, ctx),
@@ -59,7 +71,10 @@ export default function grok(
         production: cst,
       };
     } else {
-      throw new Error();
+      throw new ASN1SyntaxError(
+        subalt,
+        "Unrecognized variant for TableConstraint: " + subalt.type,
+      );
     }
   } else if (alt.type === ProductionType.ContentsConstraint) {
     const Type: Production | undefined = alt.children.find(
@@ -74,6 +89,10 @@ export default function grok(
       production: cst,
     };
   } else {
-    throw new Error();
+    throw new ASN1SyntaxError(
+      alt,
+      "Unrecognized variant for GeneralConstraint: " + alt.type,
+      ctx.currentModule.name,
+    );
   }
 }

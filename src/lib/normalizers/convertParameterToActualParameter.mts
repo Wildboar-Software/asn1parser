@@ -5,6 +5,7 @@ import type Parameter from '../constructs/Parameter.mjs';
 import TypeType from '../constructs/TypeType.mjs';
 import ValueType from '../constructs/ValueType.mjs';
 import { NonTerminalProductionType } from '../ProductionType.mjs';
+import ASN1ParserExpectationError from '../errors/ASN1ParserExpectationError.mjs';
 
 // Assignment ::=
 //     TypeAssignment
@@ -117,7 +118,11 @@ export default function convertParameterToActualParameter(
       };
     }
     default: {
-      throw new Error(param.assignmentType);
+      throw new ASN1ParserExpectationError(
+        `Unrecognized assignment type ${param.assignmentType}.`,
+        param.production,
+        currentModule.name,
+      );
     }
   }
 }

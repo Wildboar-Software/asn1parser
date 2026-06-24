@@ -8,6 +8,8 @@ import grokValueSet from '../ValueSet.mjs';
 import grokParameter from '../Parameter.mjs';
 import type Parameter from '../../constructs/Parameter.mjs';
 import hasDuplicates from '../../hasDuplicates.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
+import ASN1SemanticError from '../../errors/ASN1SemanticError.mjs';
 
 // ValueSetTypeAssignment ::= typereference Type "::=" ValueSet
 // ValueSet ::= "{" ElementSetSpecs "}"
@@ -33,7 +35,7 @@ export default function grok(
     (child: Production): boolean => child.type === ProductionType.assignment
   );
   if (!assignmentOperator) {
-    throw new Error('No assignment operator found.');
+    throw new ASN1SyntaxError(cst, 'No assignment operator found.');
   }
   const parameters = ParameterList?.children
     .filter(
@@ -46,8 +48,11 @@ export default function grok(
     .map((param: Production): Parameter => grokParameter(param, ctx));
 
   if (parameters && hasDuplicates(parameters.map((p) => p.dummyReference))) {
-    throw new Error(
-      `Duplicate parameters detected in ValueSetTypeAssignment '${identifier}'.`
+    throw new ASN1SemanticError(
+      `Duplicate parameters detected in ValueSetTypeAssignment '${identifier}'.`,
+      cst,
+      ctx.currentModule.name,
+      identifier,
     );
   }
   return {

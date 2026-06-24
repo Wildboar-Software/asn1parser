@@ -7,6 +7,7 @@ import translateDefinedSyntaxToDefaultSyntax from '../translateDefinedSyntaxToDe
 import unnestType, { unnestObject } from '../../normalizers/unnest.mjs';
 import TypeType from '../../constructs/TypeType.mjs';
 import removeItemDependencies from '../removeItemDependencies.mjs';
+import ASN1SemanticError from '../../errors/ASN1SemanticError.mjs';
 
 export default function normalize(
   assignment: ObjectAssignment,
@@ -23,10 +24,18 @@ export default function normalize(
       objectClassAssignment.assignmentType !==
       AssignmentType.ObjectClassAssignment
     ) {
-      throw new Error();
+      throw new ASN1SemanticError(
+        `Reference ${assignment.definedObjectClass.reference} did not resolve to an object class assignment.`,
+        assignment.definedObjectClass.production,
+        currentModule.name,
+      );
     }
     if ('reference' in objectClassAssignment.objectClass) {
-      throw new Error();
+      throw new ASN1SemanticError(
+        `Reference ${assignment.definedObjectClass.reference} could not be fully resolved.`,
+        assignment.definedObjectClass.production,
+        currentModule.name,
+      );
     }
 
     /**

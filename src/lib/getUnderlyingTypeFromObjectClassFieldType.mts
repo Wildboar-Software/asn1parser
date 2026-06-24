@@ -9,6 +9,7 @@ import type ObjectClassAssignment from './constructs/AssignmentTypes/ObjectClass
 import { type FieldName } from './constructs/FieldName.mjs';
 import FieldSpecType from './constructs/FieldSpecType.mjs';
 import getUnderlyingType from './getUnderlyingType.mjs';
+import ASN1SemanticError from './errors/ASN1SemanticError.mjs';
 
 /**
  * @summary Get the underlying type of an `ObjectClassFieldType`
@@ -42,8 +43,10 @@ export default function getUnderlyingTypeFromObjectClassFieldType(
     return undefined;
   }
   if (a.assignmentType !== AssignmentType.ObjectClassAssignment) {
-    throw new Error(
-      'ObjectClassFieldType referred to a non-object class assignment.'
+    throw new ASN1SemanticError(
+      'ObjectClassFieldType referred to a non-object class assignment.',
+      definedObjectClass.production,
+      currentModule.name,
     );
   }
   const oca: ObjectClassAssignment = a;
@@ -53,8 +56,10 @@ export default function getUnderlyingTypeFromObjectClassFieldType(
       oca.identifier === 'ABSTRACT-SYNTAX'
     ) {
       if (fieldName.length !== 1) {
-        throw new Error(
-          `Invalid FieldName '${fieldName.join('.')}' in '${oca.identifier}'.`
+        throw new ASN1SemanticError(
+          `Invalid FieldName '${fieldName.join('.')}' in '${oca.identifier}'.`,
+          definedObjectClass.production, // Not exactly correct.
+          currentModule.name,
         );
       }
       switch (fieldName[0]) {
@@ -81,8 +86,10 @@ export default function getUnderlyingTypeFromObjectClassFieldType(
             },
           };
         default: {
-          throw new Error(
-            `Invalid FieldName '${fieldName[0]}' in '${oca.identifier}'.`
+          throw new ASN1SemanticError(
+            `Invalid FieldName '${fieldName[0]}' in '${oca.identifier}'.`,
+            definedObjectClass.production, // Not exactly correct.
+            currentModule.name,
           );
         }
       }
@@ -123,10 +130,12 @@ export default function getUnderlyingTypeFromObjectClassFieldType(
       recursionCount + 1
     );
   } else {
-    throw new Error(
+    throw new ASN1SemanticError(
       `Non-terminal PrimitiveFieldName '${fieldName[0]}' ` +
         'did not refer to an object or object set. ' +
-        `Instead, it refered to a ${fs.specType}.`
+        `Instead, it refered to a ${fs.specType}.`,
+      definedObjectClass.production, // Not exactly correct.
+      currentModule.name,
     );
   }
 }

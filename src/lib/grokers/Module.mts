@@ -10,6 +10,7 @@ import grokAssignment from './Assignment.mjs';
 import { type Assignment } from '../constructs/Assignment.mjs';
 import type { Exports } from '../constructs/Exports.mjs';
 import type { Imports } from '../constructs/Imports.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 /**
  * `ModuleDefinition ::=
@@ -31,7 +32,11 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
   );
 
   if (components.length < 5) {
-    throw new Error('Invalid Module.');
+    throw new ASN1SyntaxError(
+      cst,
+      'Invalid Module.',
+      ctx.currentModule.name,
+    );
   }
   const ModuleIdentifier: Production = components[0];
   const modulereference: Production = ModuleIdentifier.children[0];
@@ -41,9 +46,10 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
         child.type === ProductionType.DefinitiveIdentification
     );
 
+  const base = ctx.textStartsAtOffset ?? 0;
   const name: string = text.slice(
-    modulereference.location.startIndex,
-    modulereference.location.endIndex
+    modulereference.location.startIndex - base,
+    modulereference.location.endIndex - base,
   );
   let encodingReference: string | undefined = undefined;
   let taggingMode: TaggingMode = TaggingMode.EXPLICIT;
@@ -61,8 +67,8 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
   if (components[i].type === ProductionType.EncodingReferenceDefault) {
     if (components[i].location.startIndex !== components[i].location.endIndex) {
       encodingReference = text.slice(
-        components[i].location.startIndex,
-        components[i].location.endIndex
+        components[i].location.startIndex - base,
+        components[i].location.endIndex - base,
       );
     }
     i++;
@@ -70,8 +76,8 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
 
   if (components[i].type === ProductionType.TagDefault) {
     const tagDefault: string = text.slice(
-      components[i].location.startIndex,
-      components[i].location.endIndex
+      components[i].location.startIndex - base,
+      components[i].location.endIndex - base,
     );
     if (tagDefault.length === 0) {
       taggingMode = TaggingMode.EXPLICIT;
@@ -82,7 +88,11 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
     } else if (tagDefault.indexOf('AUTO') !== -1) {
       taggingMode = TaggingMode.AUTOMATIC;
     } else {
-      throw new Error('Unrecognized Tagging Mode.');
+      throw new ASN1SyntaxError(
+        components[i],
+        `Unrecognized Tagging Mode: '${tagDefault}'.`,
+        ctx.currentModule.name,
+      );
     }
     i++;
   }

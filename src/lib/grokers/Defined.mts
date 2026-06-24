@@ -5,6 +5,7 @@ import type Defined from '../constructs/Defined.mjs';
 import { type ActualParameter } from '../constructs/ActualParameter.mjs';
 import grokActualParameter from './ActualParameter.mjs';
 import type SymbolsFromModule from '../constructs/SymbolsFromModule.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 // DefinedValue ::=
 //     ExternalValueReference
@@ -140,9 +141,10 @@ export default function grok(cst: Production, ctx: GrokContext): Defined {
     case ProductionType.objectclassreference:
     case ProductionType.objectsetreference:
     case ProductionType.UsefulObjectClassReference: {
+      const base: number = ctx.textStartsAtOffset ?? 0;
       const reference: string = text.slice(
-        cst.children[0].location.startIndex,
-        cst.children[0].location.endIndex
+        cst.children[0].location.startIndex - base,
+        cst.children[0].location.endIndex - base,
       );
       return {
         reference,
@@ -165,8 +167,10 @@ export default function grok(cst: Production, ctx: GrokContext): Defined {
       const ActualParameterList: Production =
         Parameterized.children[Parameterized.children.length - 1];
       if (!SimpleDefined || !ActualParameterList) {
-        throw new Error(
-          'Undefined SimpleDefined* or ActualParameterList in Defined* Parameterized* alternative.'
+        throw new ASN1SyntaxError(
+          Parameterized,
+          'Malformed Parameterized Defined* CST grammar',
+          ctx.currentModule.name,
         );
       }
       const sd: string[] = text
@@ -186,7 +190,11 @@ export default function grok(cst: Production, ctx: GrokContext): Defined {
               child.type === ProductionType.ActualParameterList
           );
       if (!parametersList) {
-        throw new Error('No ActualParameterList within ActualParameterList.');
+        throw new ASN1SyntaxError(
+          ActualParameterList,
+          'No ActualParameterList within ActualParameterList.',
+          ctx.currentModule.name,
+        );
       }
       const parameters: ActualParameter[] = parametersList.children
         .filter(
@@ -210,8 +218,10 @@ export default function grok(cst: Production, ctx: GrokContext): Defined {
       };
     }
     default: {
-      throw new Error(
-        `Unrecognized Defined* subtype '${cst.children[0].type}'.`
+      throw new ASN1SyntaxError(
+        cst,
+        `Unrecognized Defined* subtype '${cst.children[0].type}'.`,
+        ctx.currentModule.name,
       );
     }
   }

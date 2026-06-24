@@ -37,11 +37,12 @@ export default function grok(cst: Production, ctx: GrokContext): ComponentType {
       ? cst.children[cst.children.length - 1]
       : undefined;
 
+  const base: number = ctx.textStartsAtOffset ?? 0;
   return {
     namedType: {
       identifier: text.slice(
-        NamedType_identifier.location.startIndex,
-        NamedType_identifier.location.endIndex
+        NamedType_identifier.location.startIndex - base,
+        NamedType_identifier.location.endIndex - base,
       ),
       type: grokType(NamedType_type, ctx),
     },
@@ -49,6 +50,9 @@ export default function grok(cst: Production, ctx: GrokContext): ComponentType {
     default: default_ ? grokValue(default_, ctx) : undefined,
     production: cst,
     productionType: cst.type,
-    text: text.slice(cst.location.startIndex, cst.location.endIndex),
+    text: text.slice(
+      cst.location.startIndex - base,
+      cst.location.endIndex - base,
+    ),
   };
 }

@@ -27,6 +27,8 @@ import type {
   Setting,
 } from '../constructs/AssignmentTypes/ObjectAssignment/Setting.mjs';
 import { LexicalProductionType } from "../ProductionType.mjs";
+import ASN1ParserExpectationError from '../errors/ASN1ParserExpectationError.mjs';
+import ASN1SemanticError from '../errors/ASN1SemanticError.mjs';
 
 function deleteKeys(s: Partial<Setting>): void {
   if ('value' in s) {
@@ -71,7 +73,12 @@ function unconfuseSettingsGivenObjectClassAssignment(
 ): void {
   if ('reference' in oca.objectClass) {
     // It was supposed to have been recursively resolved already.
-    throw new Error();
+    throw new ASN1ParserExpectationError(
+      "Resolution expected already",
+      oca.production,
+      currentModule.name,
+      oca.identifier, 
+    );
   }
   const specs = oca.objectClass.fieldSpecs;
   Object.entries(object.fieldSettings).forEach(([name, setting]) => {
@@ -244,13 +251,20 @@ export default function unconfuseSettings(
     return;
   }
   if (oca.assignmentType !== AssignmentType.ObjectClassAssignment) {
-    console.error(oa);
-    console.error(oca);
-    throw new Error('6e08241e-2394-4088-9ba2-4b31e922283b');
+    throw new ASN1SemanticError(
+      "Defined object class did not refer to an object class assignment",
+      oa.production,
+      currentModule.name,
+      oa.identifier,
+    );
   }
   if ('reference' in oca.objectClass) {
-    console.error(oca.objectClass);
-    throw new Error('dcc5fda1-40e2-4cfb-8c7e-109f473a1782');
+    throw new ASN1SemanticError(
+      "Defined object class was not fully resolved",
+      oa.production,
+      currentModule.name,
+      oa.identifier,
+    );
   }
   const obj = oa.object;
   if ('reference' in obj || 'referencedObjects' in obj) {
@@ -267,10 +281,11 @@ export default function unconfuseSettings(
             currentModule
           );
           if (!defaultSyntax) {
-            console.error(obj);
-            console.error(oca.objectClass.syntax);
-            throw new Error(
-              `Incorrect syntax for object of class ${oca.identifier} in module ${currentModule.name}.`
+            throw new ASN1SemanticError(
+              `Incorrect syntax for object of class ${oca.identifier} in module ${currentModule.name}.`,
+              obj.production ?? oa.production,
+              currentModule.name,
+              oa.identifier,
             );
           }
           return defaultSyntax;

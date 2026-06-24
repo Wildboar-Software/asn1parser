@@ -9,6 +9,7 @@ import type ValueAssignment from './constructs/AssignmentTypes/ValueAssignment.m
 import type ObjectAssignment from './constructs/AssignmentTypes/ObjectAssignment.mjs';
 import type ObjectClassAssignment from './constructs/AssignmentTypes/ObjectClassAssignment.mjs';
 import ValueType from './constructs/ValueType.mjs';
+import ASN1SemanticError from './errors/ASN1SemanticError.mjs';
 
 /**
  * @summary Resolve the assignment to which a reference refers.
@@ -87,7 +88,9 @@ export default function recursivelyResolve(
     }
     i++;
   }
-  throw new Error(
-    `Recursion exceeded when trying to deeply resolve '${def.reference}'.`
+  throw new ASN1SemanticError(
+    `Recursion exceeded when trying to deeply resolve '${def.reference}'.`,
+    def.production,
+    currentModule.name,
   );
 }

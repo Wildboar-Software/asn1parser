@@ -15,12 +15,16 @@ import { type FieldName } from '../constructs/FieldName.mjs';
 
 export default function grok(cst: Production, ctx: GrokContext): FieldName {
   const text: string = ctx.text;
+  const base: number = ctx.textStartsAtOffset ?? 0;
   return cst.children
     .filter(
       (child: Production): boolean =>
         child.type === ProductionType.PrimitiveFieldName
     )
     .map((pfn: Production): string =>
-      text.slice(pfn.location.startIndex, pfn.location.endIndex).trim()
+      text.slice(
+        pfn.location.startIndex - base,
+        pfn.location.endIndex - base,
+      ).trim()
     );
 }

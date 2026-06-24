@@ -62,10 +62,11 @@ export default function grokSymbolsFromModule(
       }
     });
 
+  const base: number = ctx.textStartsAtOffset ?? 0;
   return {
     identifier: text.slice(
-      modulereference.location.startIndex,
-      modulereference.location.endIndex
+      modulereference.location.startIndex - base,
+      modulereference.location.endIndex - base,
     ),
     assignedIdentifier: AssignedIdentifier
       ? grokAssignedIdentifier(AssignedIdentifier, ctx)

@@ -15,6 +15,7 @@ import type ObjectClassAssignment from '../constructs/AssignmentTypes/ObjectClas
 import type ObjectSetAssignment from '../constructs/AssignmentTypes/ObjectSetAssignment.mjs';
 import { type Object_ } from '../constructs/AssignmentTypes/ObjectAssignment/Object.mjs';
 import FieldSpecType from '../constructs/FieldSpecType.mjs';
+import ASN1ParserExpectationError from '../errors/ASN1ParserExpectationError.mjs';
 
 /**
  * @summary Unnest a `BIT STRING` type with a named bit list
@@ -33,8 +34,10 @@ function unnestBitStringType(
   parameters?: Parameter[]
 ): void {
   if (type_.typeType !== TypeType.BitStringType) {
-    throw new Error(
-      `Call to ${unnestBitStringType.name}() using type ${type_.typeType}.`
+    throw new ASN1ParserExpectationError(
+      `Call to ${unnestBitStringType.name}() using type ${type_.typeType}.`,
+      (type_ as any).production,
+      currentModule.name,
     );
   }
   if (!type_.type.namedBitList) {
@@ -101,8 +104,10 @@ function unnestIntegerType(
   parameters?: Parameter[]
 ): void {
   if (type_.typeType !== TypeType.IntegerType) {
-    throw new Error(
-      `Call to ${unnestIntegerType.name}() using type ${type_.typeType}.`
+    throw new ASN1ParserExpectationError(
+      `Call to ${unnestIntegerType.name}() using type ${type_.typeType}.`,
+      (type_ as any).production,
+      currentModule.name,
     );
   }
   if (!type_.type.namedNumberList) {
@@ -169,8 +174,10 @@ function unnestEnumeratedType(
   parameters?: Parameter[]
 ): void {
   if (type_.typeType !== TypeType.EnumeratedType) {
-    throw new Error(
-      `Call to ${unnestEnumeratedType.name}() using type ${type_.typeType}.`
+    throw new ASN1ParserExpectationError(
+      `Call to ${unnestEnumeratedType.name}() using type ${type_.typeType}.`,
+      (type_ as any).production,
+      currentModule.name,
     );
   }
 
@@ -240,8 +247,10 @@ function unnestSetOrSequenceType(
     type_.typeType !== TypeType.SetType &&
     type_.typeType !== TypeType.SequenceType
   ) {
-    throw new Error(
-      `Call to unnestSetOrSequenceType() using type ${type_.typeType}.`
+    throw new ASN1ParserExpectationError(
+      `Call to unnestSetOrSequenceType() using type ${type_.typeType}.`,
+      (type_ as any).production,
+      currentModule.name,
     );
   }
   (type_.type.rootComponentTypeList1 || [])
@@ -355,7 +364,11 @@ function unnestChoiceType(
   parameters?: Parameter[]
 ): void {
   if (type_.typeType !== TypeType.ChoiceType) {
-    throw new Error(`Call to unnestChoiceType() using type ${type_.typeType}.`);
+    throw new ASN1ParserExpectationError(
+      `Call to unnestChoiceType() using type ${type_.typeType}.`,
+      (type_ as any).production,
+      currentModule.name,
+    );
   }
   type_.type.rootAlternativeTypeList.forEach((nt: NamedType): void => {
     // eslint-disable-next-line
@@ -457,8 +470,10 @@ function unnestSetOrSequenceOfType(
     type_.typeType !== TypeType.SetOfType &&
     type_.typeType !== TypeType.SequenceOfType
   ) {
-    throw new Error(
-      `Call to unnestSetOrSequenceOfType() using type ${type_.typeType}.`
+    throw new ASN1ParserExpectationError(
+      `Call to unnestSetOrSequenceOfType() using type ${type_.typeType}.`,
+      (type_ as any).production,
+      currentModule.name,
     );
   }
   const t = 'identifier' in type_.type.of ? type_.type.of.type : type_.type.of;
@@ -527,8 +542,10 @@ export default function unnestType(
   parameters?: Parameter[]
 ): void {
   if (path.length > 20) {
-    throw new Error(
-      `Unnesting exceeded recursion limits. Path started with '${path[0]}'.`
+    throw new ASN1ParserExpectationError(
+      `Unnesting exceeded recursion limits. Path started with '${path[0]}'.`,
+      (type_ as any).production,
+      currentModule.name,
     );
   }
   switch (type_.typeType) {

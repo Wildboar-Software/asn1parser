@@ -8,6 +8,7 @@ import grokObject from './Object.mjs';
 import grokObjectSet from './ObjectSet.mjs';
 import grokType from './Type.mjs';
 import grokValue from './Value.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 // ActualParameter ::=
 //     Type
@@ -44,8 +45,10 @@ export default function grok(
       return grokObjectSet(cst.children[0], ctx);
     }
     default: {
-      throw new Error(
-        `Unrecognized alternative of ActualParameter '${cst.children[0].type}'.`
+      throw new ASN1SyntaxError(
+        cst.children[0],
+        `Unrecognized alternative of ActualParameter '${cst.children[0].type}'.`,
+        ctx.currentModule.name,
       );
     }
   }

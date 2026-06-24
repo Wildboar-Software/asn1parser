@@ -7,6 +7,8 @@ import grokDefined from '../Defined.mjs';
 import grokExceptionSpec from '../ExceptionSpec.mjs';
 import { type ExceptionIdentification } from '../../constructs/ExceptionIdentification.mjs';
 import { type Type } from '../../constructs/Type.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
+import ASN1SemanticError from '../../errors/ASN1SemanticError.mjs';
 
 // EnumeratedType ::=
 //     ENUMERATED "{" Enumerations "}"
@@ -95,13 +97,17 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
         if (namedNumberComponents[2].type === ProductionType.SignedNumber) {
           const numericNumber: number = Number.parseInt(numberString, 10);
           if (!Number.isSafeInteger(numericNumber)) {
-            throw new Error(
-              `Could not safely convert '${numberString}' to an unsigned number.`
+            throw new ASN1SyntaxError(
+              namedNumberComponents[2],
+              `Could not safely convert '${numberString}' to an unsigned number.`,
+              ctx.currentModule.name,
             );
           }
           if (encounteredNumbers.has(numericNumber)) {
-            throw new Error(
-              `Duplicate number ${numericNumber} in EnumeratedType.`
+            throw new ASN1SemanticError(
+              `Duplicate number ${numericNumber} in EnumeratedType.`,
+              namedNumberComponents[2],
+              ctx.currentModule.name,
             );
           }
           encounteredNumbers.add(numericNumber);
@@ -187,13 +193,17 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
             if (namedNumberComponents[2].type === ProductionType.SignedNumber) {
               const numericNumber: number = Number.parseInt(numberString, 10);
               if (!Number.isSafeInteger(numericNumber)) {
-                throw new Error(
-                  `Could not safely convert '${numberString}' to an unsigned number.`
+                throw new ASN1SyntaxError(
+                  namedNumberComponents[2],
+                  `Could not safely convert '${numberString}' to an unsigned number.`,
+                  ctx.currentModule.name,
                 );
               }
               if (encounteredNumbers.has(numericNumber)) {
-                throw new Error(
-                  `Duplicate number ${numericNumber} in EnumeratedType.`
+                throw new ASN1SemanticError(
+                  `Duplicate number ${numericNumber} in EnumeratedType.`,
+                  namedNumberComponents[2],
+                  ctx.currentModule.name,
                 );
               }
               encounteredNumbers.add(numericNumber);

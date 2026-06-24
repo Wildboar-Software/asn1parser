@@ -3,6 +3,7 @@ import Parser from '../../Parser.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
 import Production from '../../Production.mjs';
 import ProductionType from '../../ProductionType.mjs';
+import ASN1ParserExpectationError from '../../errors/ASN1ParserExpectationError.mjs';
 
 /**
  * @summary Efficiently parse sequences with optional trailing components.
@@ -34,7 +35,7 @@ export const recyclingSequenceOf = function (
         sequenceOf(containingType, ps)
       );
       if (sequenceParsers.length === 0) {
-        throw new Error();
+        throw new ASN1ParserExpectationError("No parsers passed into recyclingSequenceOf");
       }
 
       // At least the first one must parse successfully.

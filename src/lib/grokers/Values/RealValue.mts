@@ -4,6 +4,7 @@ import { type RealValue } from '../../constructs/Values/RealValue.mjs';
 import ProductionType from '../../ProductionType.mjs';
 import grokSetOrSequenceValue from './SetOrSequenceValue.mjs';
 import { type IntegerValue } from '../../constructs/Values/IntegerValue.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 
 // RealValue ::=
 //     NumericRealValue
@@ -31,13 +32,17 @@ export default function grokRealValue(
 ): RealValue {
   const text: string = ctx.text;
   if (cst.children.length !== 1) {
-    throw new Error(
-      `Encountered RealValue composed of ${cst.children.length} Productions.`
+    throw new ASN1SyntaxError(
+      cst,
+      `Encountered RealValue composed of ${cst.children.length} Productions.`,
+      ctx.currentModule.name,
     );
   }
   if (cst.children[0].children.length < 1) {
-    throw new Error(
-      'Encountered RealValue child production composed of zero productions.'
+    throw new ASN1SyntaxError(
+      cst,
+      'Encountered RealValue child production composed of zero productions.',
+      ctx.currentModule.name,
     );
   }
   if (cst.children[0].type === ProductionType.NumericRealValue) {
@@ -55,7 +60,11 @@ export default function grokRealValue(
         .replace(/\s+/gu, '');
       const num: number = Number.parseFloat(numStr);
       if (Number.isNaN(num) || !Number.isFinite(num)) {
-        throw new Error(`Incorrectly groked RealValue '${numStr}'.`);
+        throw new ASN1SyntaxError(
+          cst,
+          `Incorrectly groked RealValue '${numStr}'.`,
+          ctx.currentModule.name,
+        );
       }
       return num;
     } else if (
@@ -94,7 +103,11 @@ export default function grokRealValue(
         base,
       };
     } else {
-      throw new Error('Unrecognized NumericRealValue child production.');
+      throw new ASN1SyntaxError(
+        cst,
+        `Unrecognized NumericRealValue child production ${NumericRealValue.children[0].type}.`,
+        ctx.currentModule.name,
+      );
     }
   } else if (cst.children[0].type === ProductionType.SpecialRealValue) {
     const SpecialRealValue: Production = cst.children[0];
@@ -109,9 +122,17 @@ export default function grokRealValue(
     ) {
       return NaN;
     } else {
-      throw new Error('Unrecognized SpecialRealValue child production.');
+      throw new ASN1SyntaxError(
+        SpecialRealValue,
+        `Unrecognized SpecialRealValue child production ${SpecialRealValue.children[0].type}.`,
+        ctx.currentModule.name,
+      );
     }
   } else {
-    throw new Error('Unrecognized RealValue child production.');
+    throw new ASN1SyntaxError(
+      cst,
+      `Unrecognized RealValue child production ${cst.children[0].type}.`,
+      ctx.currentModule.name,
+    );
   }
 }

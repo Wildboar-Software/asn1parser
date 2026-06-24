@@ -3,6 +3,7 @@ import type Production from '../../Production.mjs';
 import type OctetStringValue from '../../constructs/Values/OctetStringValue.mjs';
 import grokValue from '../Value.mjs';
 import ProductionType from '../../ProductionType.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 
 // OctetStringValue ::=
 //     bstring
@@ -42,8 +43,10 @@ export default function grokOctetStringValue(
       };
     }
     default: {
-      throw new Error(
-        `Unrecognized OctetStringValue alternative '${cst.children[0].type}'.`
+      throw new ASN1SyntaxError(
+        cst,
+        `Unrecognized OctetStringValue alternative '${cst.children[0].type}'.`,
+        ctx.currentModule.name,
       );
     }
   }

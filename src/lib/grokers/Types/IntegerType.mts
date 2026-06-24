@@ -5,6 +5,7 @@ import TypeType from '../../constructs/TypeType.mjs';
 import grokDefined from '../Defined.mjs';
 import type NamedNumber from '../../constructs/NamedNumber.mjs';
 import { type Type } from '../../constructs/Type.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 
 // IntegerType ::=
 //     INTEGER
@@ -63,7 +64,11 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
       if (nnComponents[2].type === ProductionType.SignedNumber) {
         const value: number = Number.parseInt(valueString, 10);
         if (!Number.isSafeInteger(value)) {
-          throw new Error(`Unable to parse INTEGER from '${valueString}'.`);
+          throw new ASN1SyntaxError(
+            nnComponents[2],
+            `Could not safely convert '${valueString}' to an native Javascript integer`,
+            ctx.currentModule.name,
+          );
         }
         return {
           identifier,

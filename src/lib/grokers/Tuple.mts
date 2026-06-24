@@ -20,16 +20,20 @@ export default function grok(cst: Production, ctx: GrokContext): Tuple {
   const TableColumn: Production = components[0];
   const TableRow: Production = components[1];
 
+  const base: number = ctx.textStartsAtOffset ?? 0;
   return {
     column: Number.parseInt(
       text.slice(
-        TableColumn.location.startIndex,
-        TableColumn.location.endIndex
+        TableColumn.location.startIndex - base,
+        TableColumn.location.endIndex - base,
       ),
       10
     ),
     row: Number.parseInt(
-      text.slice(TableRow.location.startIndex, TableRow.location.endIndex),
+      text.slice(
+        TableRow.location.startIndex - base,
+        TableRow.location.endIndex - base,
+      ),
       10
     ),
     production: cst,

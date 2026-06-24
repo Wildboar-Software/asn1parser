@@ -9,6 +9,7 @@ import getUnderlyingTypeFromObjectClassFieldType from './getUnderlyingTypeFromOb
 import type SelectionType from './constructs/Types/SelectionType.mjs';
 import type ChoiceType from './constructs/Types/ChoiceType.mjs';
 import type NamedType from './constructs/NamedType.mjs';
+import ASN1SemanticError from './errors/ASN1SemanticError.mjs';
 
 /**
  * @summary Get the underlying type of a given `Type`
@@ -41,14 +42,18 @@ export default function getUnderlyingType(
           return undefined;
         }
         if (a.assignmentType !== AssignmentType.TypeAssignment) {
-          throw new Error(
-            `SelectionType pointed to '${t.type.type.reference}', which is not a type.`
+          throw new ASN1SemanticError(
+            `SelectionType pointed to '${t.type.type.reference}', which is not a type.`,
+            type_.production,
+            currentModule.name,
           );
         }
         const ta: TypeAssignment = a;
         if (ta.type.typeType !== TypeType.ChoiceType) {
-          throw new Error(
-            `SelectionType pointed to '${t.type.type.reference}', which is not a CHOICE type.`
+          throw new ASN1SemanticError(
+            `SelectionType pointed to '${t.type.type.reference}', which is not a CHOICE type.`,
+            type_.production,
+            currentModule.name,
           );
         }
         choiceType = ta.type.type;
@@ -56,7 +61,11 @@ export default function getUnderlyingType(
         // It must already be a CHOICE.
         choiceType = t.type.type;
       } else {
-        throw new Error("SelectionType's Type, is not a CHOICE type.");
+        throw new ASN1SemanticError(
+          "SelectionType's Type, is not a CHOICE type.",
+          type_.production,
+          currentModule.name,
+        );
       }
 
       let choice: NamedType | undefined =
@@ -86,16 +95,20 @@ export default function getUnderlyingType(
             }
           }
         } else {
-          throw new Error(
-            `SelectionType identifier '${t.identifier}' did not refer to a valid alternative.`
+          throw new ASN1SemanticError(
+            `SelectionType identifier '${t.identifier}' did not refer to a valid alternative.`,
+            choiceType.production ?? type_.production,
+            currentModule.name,
           );
         }
       }
 
       if (!choice) {
-        throw new Error(
-          `SelectionType identifier '${t.identifier}' did not refer to a valid alternative.`
-        );
+          throw new ASN1SemanticError(
+            `SelectionType identifier '${t.identifier}' did not refer to a valid alternative.`,
+            choiceType.production ?? type_.production,
+            currentModule.name,
+          );
       }
 
       return getUnderlyingType(

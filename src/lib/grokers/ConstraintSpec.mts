@@ -4,6 +4,7 @@ import ProductionType from '../ProductionType.mjs';
 import { type ConstraintSpec } from '../constructs/ConstraintSpec.mjs';
 import grokSubtypeConstraint from './ConstraintSpecs/SubtypeConstraint.mjs';
 import grokGeneralConstraint from './ConstraintSpecs/GeneralConstraint.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 /**
  * `ConstraintSpec ::= SubtypeConstraint | GeneralConstraint`
@@ -18,6 +19,10 @@ export default function grok(
   } else if (alt.type === ProductionType.GeneralConstraint) {
     return grokGeneralConstraint(alt, ctx);
   } else {
-    throw new Error();
+    throw new ASN1SyntaxError(
+      cst,
+      `Unrecognized alternative of ConstraintSpec '${alt.type}'.`,
+      ctx.currentModule.name,
+    );
   }
 }

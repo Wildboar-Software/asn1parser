@@ -24,21 +24,22 @@ export default function grok(cst: Production, ctx: GrokContext): Quadruple {
   const Row: Production = components[2];
   const Cell: Production = components[3];
 
+  const base: number = ctx.textStartsAtOffset ?? 0;
   return {
     group: Number.parseInt(
-      text.slice(Group.location.startIndex, Group.location.endIndex),
+      text.slice(Group.location.startIndex - base, Group.location.endIndex - base),
       10
     ),
     plane: Number.parseInt(
-      text.slice(Plane.location.startIndex, Plane.location.endIndex),
+      text.slice(Plane.location.startIndex - base, Plane.location.endIndex - base),
       10
     ),
     row: Number.parseInt(
-      text.slice(Row.location.startIndex, Row.location.endIndex),
+      text.slice(Row.location.startIndex - base, Row.location.endIndex - base),
       10
     ),
     cell: Number.parseInt(
-      text.slice(Cell.location.startIndex, Cell.location.endIndex),
+      text.slice(Cell.location.startIndex - base, Cell.location.endIndex - base),
       10
     ),
     production: cst,

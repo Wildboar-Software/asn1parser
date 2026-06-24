@@ -19,6 +19,7 @@ import grokSelectionType from './Types/SelectionType.mjs';
 import grokTypeFromObject from './Types/TypeFromObject.mjs';
 import grokValueSetFromObjects from './Types/ValueSetFromObjects.mjs';
 import type GrokedThing from '../interfaces/GrokedThing.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 // Type ::=
 //     BuiltinType
@@ -72,6 +73,11 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
       production: subsubtypeAST,
       productionType: subsubtypeAST.type,
     } satisfies GrokedThing;
+  const base = ctx.textStartsAtOffset ?? 0;
+  const subsubtext = text.slice(
+    subsubtypeAST.location.startIndex - base,
+    subsubtypeAST.location.endIndex - base,
+  );
   switch (subsubtypeAST.type) {
     case ProductionType.BitStringType: {
       return grokBitStringType(subsubtypeAST, ctx);
@@ -81,15 +87,9 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
     }
     case ProductionType.BooleanType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.BooleanType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
@@ -97,24 +97,15 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
       const c: Production = subsubtypeAST.children[0];
       if (c.type === ProductionType.UnrestrictedCharacterStringType) {
         return {
-          text: text.slice(
-            subsubtypeAST.location.startIndex,
-            subsubtypeAST.location.endIndex
-          ),
+          text: subsubtext,
           typeType: TypeType.UnrestrictedCharacterStringType,
-          type: text.slice(
-            subsubtypeAST.location.startIndex,
-            subsubtypeAST.location.endIndex
-          ),
+          type: subsubtext,
           ...grokedThing,
         };
       } else {
         const cc: Production = c.children[0];
         return {
-          text: text.slice(
-            subsubtypeAST.location.startIndex,
-            subsubtypeAST.location.endIndex
-          ),
+          text: subsubtext,
           typeType: cc.type as unknown as
             | TypeType.BMPString
             | TypeType.GeneralString
@@ -129,10 +120,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
             | TypeType.UTF8String
             | TypeType.VideotexString
             | TypeType.VisibleString,
-          type: text.slice(
-            subsubtypeAST.location.startIndex,
-            subsubtypeAST.location.endIndex
-          ),
+          type: subsubtext,
           ...grokedThing,
         };
       }
@@ -142,57 +130,33 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
     }
     case ProductionType.DateType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.DateType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
     case ProductionType.DateTimeType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.DateTimeType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
     case ProductionType.DurationType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.DurationType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
     case ProductionType.EmbeddedPDVType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.EmbeddedPDVType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
@@ -201,15 +165,9 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
     }
     case ProductionType.ExternalType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.ExternalType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
@@ -221,29 +179,17 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
     }
     case ProductionType.IRIType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.IRIType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
     case ProductionType.NullType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.NullType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
@@ -252,71 +198,41 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
     }
     case ProductionType.ObjectIdentifierType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.ObjectIdentifierType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
     case ProductionType.OctetStringType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.OctetStringType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
     case ProductionType.RealType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.RealType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
     case ProductionType.RelativeIRIType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.RelativeIRIType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
     case ProductionType.RelativeOIDType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.RelativeOIDType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
@@ -334,38 +250,23 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
     }
     case ProductionType.TimeType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.TimeType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
     case ProductionType.TimeOfDayType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.TimeOfDayType,
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }
     case ProductionType.DefinedType: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: TypeType.DefinedType,
         type: grokDefined(subsubtypeAST, ctx),
         ...grokedThing,
@@ -375,49 +276,33 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
       switch (subsubtypeAST.children[0].type) {
         case ProductionType._ObjectDescriptor: {
           return {
-            text: text.slice(
-              subsubtypeAST.location.startIndex,
-              subsubtypeAST.location.endIndex
-            ),
+            text: subsubtext,
             typeType: TypeType.ObjectDescriptor,
-            type: text.slice(
-              subsubtypeAST.location.startIndex,
-              subsubtypeAST.location.endIndex
-            ),
+            type: subsubtext,
             ...grokedThing,
           };
         }
         case ProductionType._UTCTime: {
           return {
-            text: text.slice(
-              subsubtypeAST.location.startIndex,
-              subsubtypeAST.location.endIndex
-            ),
+            text: subsubtext,
             typeType: TypeType.UTCTime,
-            type: text.slice(
-              subsubtypeAST.location.startIndex,
-              subsubtypeAST.location.endIndex
-            ),
+            type: subsubtext,
             ...grokedThing,
           };
         }
         case ProductionType._GeneralizedTime: {
           return {
-            text: text.slice(
-              subsubtypeAST.location.startIndex,
-              subsubtypeAST.location.endIndex
-            ),
+            text: subsubtext,
             typeType: TypeType.GeneralizedTime,
-            type: text.slice(
-              subsubtypeAST.location.startIndex,
-              subsubtypeAST.location.endIndex
-            ),
+            type: subsubtext,
             ...grokedThing,
           };
         }
         default: {
-          throw new Error(
-            `Unrecognized child production of UsefulType '${subsubtypeAST.children[0].type}'.`
+          throw new ASN1SyntaxError(
+            subsubtypeAST,
+            `Unrecognized child production of UsefulType '${subsubtypeAST.children[0].type}'.`,
+            ctx.currentModule.name,
           );
         }
       }
@@ -433,10 +318,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
     }
     default: {
       return {
-        text: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        text: subsubtext,
         typeType: subsubtypeAST.type as unknown as
           | TypeType.ObjectDescriptor
           | TypeType.UTF8String
@@ -462,10 +344,7 @@ export default function grokType(cst: Production, ctx: GrokContext): Type {
           | TypeType.IRIType
           | TypeType.RelativeIRIType
           | TypeType.RelativeOIDType, // Mea culpa
-        type: text.slice(
-          subsubtypeAST.location.startIndex,
-          subsubtypeAST.location.endIndex
-        ),
+        type: subsubtext,
         ...grokedThing,
       };
     }

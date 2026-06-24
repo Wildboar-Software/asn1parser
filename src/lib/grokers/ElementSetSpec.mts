@@ -49,13 +49,17 @@ export default function grok(
   ctx: GrokContext
 ): ElementSetSpec<string> {
   const text: string = ctx.text;
+  const base: number = ctx.textStartsAtOffset ?? 0;
   if (cst.children[0].type === ProductionType._ALL) {
     const Exclusions = cst.children[cst.children.length - 1];
     const excludedElements =
       Exclusions.children[Exclusions.children.length - 1];
     const xeLoc = excludedElements.location;
     return {
-      allExcept: text.slice(xeLoc.startIndex, xeLoc.endIndex),
+      allExcept: text.slice(
+        xeLoc.startIndex - base,
+        xeLoc.endIndex - base,
+      ),
     };
   }
   const Unions: Production = cst.children[0];
@@ -75,8 +79,8 @@ export default function grok(
             if (ie.children.length === 1) {
               return {
                 elements: text.slice(
-                  ie.location.startIndex,
-                  ie.location.endIndex
+                  ie.location.startIndex - base,
+                  ie.location.endIndex - base,
                 ),
               };
             } else {
@@ -87,12 +91,12 @@ export default function grok(
                 Exclusions.children[Exclusions.children.length - 1];
               return {
                 elements: text.slice(
-                  Elements.location.startIndex,
-                  Elements.location.endIndex
+                  Elements.location.startIndex - base,
+                  Elements.location.endIndex - base,
                 ),
                 exclusions: text.slice(
-                  excludedElements.location.startIndex,
-                  excludedElements.location.endIndex
+                  excludedElements.location.startIndex - base,
+                  excludedElements.location.endIndex - base,
                 ),
               };
             }

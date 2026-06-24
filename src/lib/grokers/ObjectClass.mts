@@ -4,6 +4,7 @@ import ProductionType from '../ProductionType.mjs';
 import { type ObjectClass } from '../constructs/AssignmentTypes/ObjectClassAssignment/ObjectClass.mjs';
 import grokDefined from './Defined.mjs';
 import grokObjectClassDefn from './ObjectClassDefn.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 // ObjectClass ::=
 //     DefinedObjectClass
@@ -22,8 +23,10 @@ export default function grok(cst: Production, ctx: GrokContext): ObjectClass {
       return grokObjectClassDefn(cst.children[0], ctx);
     }
     default: {
-      throw new Error(
-        `Unrecognized ObjectClass alternative '${cst.children[0].type}'.`
+      throw new ASN1SyntaxError(
+        cst,
+        `Unrecognized ObjectClass alternative '${cst.children[0].type}'.`,
+        ctx.currentModule.name,
       );
     }
   }

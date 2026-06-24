@@ -3,6 +3,7 @@ import type Production from '../../Production.mjs';
 import type BitStringValue from '../../constructs/Values/BitStringValue.mjs';
 import ProductionType from '../../ProductionType.mjs';
 import grokValue from '../Value.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 
 // BitStringValue ::=
 //     bstring
@@ -80,8 +81,10 @@ export default function grokBitStringValue(
       };
     }
     default: {
-      throw new Error(
-        `Unrecognized BitStringValue alternative '${cst.children[0].type}'.`
+      throw new ASN1SyntaxError(
+        cst.children[0],
+        `Unrecognized BitStringValue alternative '${cst.children[0].type}'.`,
+        ctx.currentModule.name,
       );
     }
   }

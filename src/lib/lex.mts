@@ -5,6 +5,8 @@ import specialCharacterToTokenMap from './maps/specialCharacterToTokenMap.mjs';
 import newlineWhitespaceCharacters from './newlineWhitespaceCharacters.mjs';
 import nonNewlineWhitespaceCharacters from './nonNewlineWhitespaceCharacters.mjs';
 import type Location from './interfaces/Location.mjs';
+import ASN1SyntaxError from './errors/ASN1SyntaxError.mjs';
+import ASN1ParserExpectationError from './errors/ASN1ParserExpectationError.mjs';
 
 /**
  * Carriage return.
@@ -102,6 +104,7 @@ export default function* lex(
               break;
             }
             case '"': {
+              // TODO: Does this handle double doubles ""?
               tokenType = ProductionType.cstring;
               let indexOfNextDoubleQuote: number = str.indexOf('"', i + 1);
               while (str[indexOfNextDoubleQuote + 1] === '"') {
@@ -115,14 +118,26 @@ export default function* lex(
             }
             case "'": {
               const indexOfNextSingleQuote: number = str.indexOf("'", i + 1);
+              const base =  startloc?.startIndex ?? 0;
+              let errloc: Location = {
+                startIndex: tokenStartIndex + base,
+                endIndex: str.length + base,
+                lineNumber,
+                columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+              };
               if (
                 indexOfNextSingleQuote === -1 ||
                 indexOfNextSingleQuote === str.length - 1
               ) {
-                throw new Error(
+                throw new ASN1SyntaxError(
+                  new Production(ProductionType.SYNTAX_ERROR, [], errloc),
                   `Unterminated single-quoted token at index ${i}.`
                 );
               }
+              errloc = {
+                ...errloc,
+                endIndex: indexOfNextSingleQuote + 1,
+              };
               switch (str[indexOfNextSingleQuote + 1]) {
                 case 'B': {
                   tokenType = ProductionType.bstring;
@@ -132,7 +147,10 @@ export default function* lex(
                     indexOfNextSingleQuote
                   );
                   if (!/^[01 \t\r\n\f\v]*$/g.test(innards)) {
-                    throw new Error(`Invalid bstring: '${innards}'B.`);
+                    throw new ASN1SyntaxError(
+                      new Production(ProductionType.SYNTAX_ERROR, [], errloc),
+                      `Invalid bstring: '${innards}'B.`,
+                    );
                   }
                   break;
                 }
@@ -144,12 +162,16 @@ export default function* lex(
                     indexOfNextSingleQuote
                   );
                   if (!/^[0-9A-F \t\r\n\f\v]*$/g.test(innards)) {
-                    throw new Error(`Invalid hstring: '${innards}'H.`);
+                    throw new ASN1SyntaxError(
+                      new Production(ProductionType.SYNTAX_ERROR, [], errloc),
+                      `Invalid hstring: '${innards}'H.`,
+                    );
                   }
                   break;
                 }
                 default: {
-                  throw new Error(
+                  throw new ASN1SyntaxError(
+                    new Production(ProductionType.SYNTAX_ERROR, [], errloc),
                     `Unrecognized single-quoted token at index ${i}.`
                   );
                 }
@@ -248,7 +270,16 @@ export default function* lex(
           ) {
             tokenEndIndex = i + 2;
           } else if (atTheEnd) {
-            throw new Error('Unterminated comment.');
+            const base =  startloc?.startIndex ?? 0;
+            throw new ASN1SyntaxError(
+              new Production(ProductionType.SYNTAX_ERROR, [], {
+                startIndex: tokenStartIndex + base,
+                endIndex: str.length + base,
+                lineNumber,
+                columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+              }),
+              'Unterminated comment.',
+            );
           }
           break;
         }
@@ -281,11 +312,16 @@ export default function* lex(
           ) {
             tokenEndIndex = i;
             if (str.charCodeAt(tokenEndIndex - 1) === 0x2d) {
-              throw new Error(
-                `Identifier '${str.slice(
-                  tokenStartIndex,
-                  tokenEndIndex
-                )}' may not end with a hyphen.`
+              const ident = str.slice(tokenStartIndex, tokenEndIndex);
+              const base =  startloc?.startIndex ?? 0;
+              throw new ASN1SyntaxError(
+                new Production(ProductionType.SYNTAX_ERROR, [], {
+                  startIndex: tokenStartIndex + base,
+                  endIndex: tokenEndIndex + base,
+                  lineNumber,
+                  columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+                }),
+                `Identifier '${ident}' may not end with a hyphen.`,
               );
             }
           }
@@ -309,11 +345,16 @@ export default function* lex(
           ) {
             tokenEndIndex = i;
             if (str.charCodeAt(tokenEndIndex - 1) === 0x2d) {
-              throw new Error(
-                `Identifier '${str.slice(
-                  tokenStartIndex,
-                  tokenEndIndex
-                )}' may not end with a hyphen.`
+              const ident = str.slice(tokenStartIndex, tokenEndIndex);
+              const base =  startloc?.startIndex ?? 0;
+              throw new ASN1SyntaxError(
+                new Production(ProductionType.SYNTAX_ERROR, [], {
+                  startIndex: tokenStartIndex + base,
+                  endIndex: tokenEndIndex + base,
+                  lineNumber,
+                  columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+                }),
+                `Identifier '${ident}' may not end with a hyphen.`,
               );
             }
           }
@@ -375,9 +416,18 @@ export default function* lex(
     }
 
     // There should never be more loops than there are characters in `str`,
-    // but we double it here, just in case I am forgetting something.
-    if (loops > str.length * 2) {
-      throw new Error('Lexer caught in infinite loop.');
+    // but we x4 it here, just in case I am forgetting something.
+    if (loops > str.length * 4) {
+      const base =  startloc?.startIndex ?? 0;
+      throw new ASN1ParserExpectationError(
+        'Lexer caught in infinite loop.',
+        new Production(ProductionType.SYNTAX_ERROR, [], {
+          startIndex: tokenStartIndex + base,
+          endIndex: tokenEndIndex + base,
+          lineNumber,
+          columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+        }),
+      );
     }
     loops++;
   }

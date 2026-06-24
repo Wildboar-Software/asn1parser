@@ -5,6 +5,7 @@ import { type ExceptionIdentification } from '../constructs/ExceptionIdentificat
 import grokDefined from './Defined.mjs';
 import grokType from './Type.mjs';
 import grokValue from './Value.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 // ExceptionSpec ::=
 //     "!" ExceptionIdentification
@@ -24,16 +25,19 @@ export default function grok(
     return undefined;
   }
   const xid: Production = cst.children[cst.children.length - 1];
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const valueString: string = text.slice(
-    xid.location.startIndex,
-    xid.location.endIndex
+    xid.location.startIndex - base,
+    xid.location.endIndex - base,
   );
   switch (xid.children[0].type) {
     case ProductionType.SignedNumber: {
       const value: number = Number.parseInt(valueString, 10);
       if (!Number.isSafeInteger(value)) {
-        throw new Error(
-          `Could not convert ExceptionIdentification '${valueString}' to a signed integer.`
+        throw new ASN1SyntaxError(
+          cst,
+          `Could not convert ExceptionIdentification '${valueString}' to a signed integer.`,
+          ctx.currentModule.name,
         );
       }
       return value;
@@ -47,8 +51,10 @@ export default function grok(
       return [grokType(Type, ctx), grokValue(Value, ctx)];
     }
     default: {
-      throw new Error(
-        `Unrecognized subtype of ExceptionIdentification '${xid.children[0].type}'.`
+      throw new ASN1SyntaxError(
+        xid.children[0],
+        `Unrecognized subtype of ExceptionIdentification '${xid.children[0].type}'.`,
+        ctx.currentModule.name,
       );
     }
   }
