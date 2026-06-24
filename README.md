@@ -203,5 +203,3 @@ annotations.
 
 - [ ] Performance Enhancements
 - [ ] Make dependency on `dependency-graph` optional
-- [x] Fix parsing of `RealValue` Sequence
-- [x] New ASN1ParsingError type that contains the problematic production
