@@ -4,7 +4,7 @@ import { assertEquals, assert } from "jsr:@std/assert";
 
 Deno.test('this module can be imported and used by Deno', () => {
   const text = 'A {iso} DEFINITIONS ::= BEGIN B ::= NULL END';
-  const lexResults = Array.from(lex(text));
+  const lexResults = Array.from(lex(text, undefined));
   const parseResults = parse(text, lexResults);
   const modules = grok(text, parseResults);
   const normalizedModules = normalize(modules);
