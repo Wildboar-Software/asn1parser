@@ -8,7 +8,8 @@ import {
   correct,
   AssignmentType,
   TypeType,
-  Production, 
+  Production,
+  ValueType, 
 } from '../dist/index.mjs';
 import { default as logger } from '../dist/lib/loggers/console.mjs';
 import * as fs from 'node:fs';
@@ -429,6 +430,40 @@ describe('Groker', () => {
 
 describe('Normalizer', () => {
   logger.level = LogLevel.error;
+
+  test('does not fail to parse a RealValue that uses the SequenceValue alternative', () => {
+    const text = 'A {iso} DEFINITIONS ::= BEGIN asdf REAL ::= { mantissa 1, base 2, exponent 3 } END';
+    let lexResults;
+    /** @type {import("../src/lib/interfaces/ParseContext.mjs").default} */
+    let parseResults;
+    let grokResults;
+    assert.doesNotThrow(() => {
+      lexResults = Array.from(lex(text));
+      parseResults = parse(text, lexResults);
+    });
+    assertEqual(parseResults.error, undefined);
+    assertEqual(Object.keys(parseResults.syntaxErrors).length, 0);
+    assert.doesNotThrow(() => {
+      grokResults = grok(text, parseResults);
+    });
+    assert.notStrictEqual(grokResults[0].assignments.asdf, undefined);
+    assertEqual(
+      grokResults[0].assignments.asdf.type.typeType,
+      TypeType.RealType
+    );
+    assert.doesNotThrow(() => {
+      correct(grokResults);
+    });
+    const assn = grokResults[0].assignments.asdf;
+    assertEqual(assn.assignmentType, AssignmentType.ValueAssignment);
+    assertEqual(assn.type.typeType, TypeType.RealType);
+    assertEqual(assn.value.valueType, ValueType.RealValue);
+    assert.deepEqual(assn.value.value, {
+      mantissa: 1,
+      base: 2,
+      exponent: 3,
+    });
+  });
 
   test('unnests SEQUENCE within a SEQUENCE OF', () => {
     const text = `A {iso} DEFINITIONS ::= BEGIN

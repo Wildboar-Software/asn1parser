@@ -49,6 +49,17 @@ export default function isTypeCompatibleWithValue(t: Type, v: Value): boolean {
   if (t.typeType === TypeType.PrefixedType) {
     return isTypeCompatibleWithValue(t.type, v);
   }
+  // Not doing this. We want the top-level CST production type to be RealValue.
+  // if (
+  //   t.typeType === TypeType.RealType
+  //   && v.valueType === ValueType.SequenceValue
+  //   && (v.value.length === 3)
+  //   && v.value.some((c) => c.identifier === "mantissa")
+  //   && v.value.some((c) => c.identifier === "exponent")
+  //   && v.value.some((c) => c.identifier === "base")
+  // ) {
+  //   return true;
+  // }
   const tt = valueTypeToTypeTypeMap.get(v.valueType);
   // It is better to default to `true` if we cannot determine the value's
   // type, since we should assume most of the ASN.1 is correct.

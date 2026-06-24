@@ -1,4 +1,5 @@
 import {
+  aliasFor,
   choiceOf,
   literal,
   optional,
@@ -22,7 +23,7 @@ export const NumericRealValue: Parser = recursiveParser(
           literal(ProductionType.number),
         ]),
       ]),
-      parserFor.SequenceValue,
+      aliasFor(ProductionType.NumericRealValue, parserFor.SequenceValue),
     ])
 );
 export default NumericRealValue;

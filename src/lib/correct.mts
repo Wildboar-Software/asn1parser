@@ -16,6 +16,7 @@ import iterateOverAlternatives from './iterateOverAlternatives.mjs';
 import getBuiltinType from './getBuiltinType.mjs';
 import getDuplicates from './getDuplicates.mjs';
 import { LexicalProductionType } from "./ProductionType.mjs";
+import ASN1SemanticError from './errors/ASN1SemanticError.mjs';
 
 /**
  * Correct errors made during parsing.
@@ -25,7 +26,7 @@ import { LexicalProductionType } from "./ProductionType.mjs";
 export default function correct(modules: Module[]): void {
     const duplicates = Array.from(getDuplicates(modules.map((mod) => mod.name)));
     if (duplicates.length > 0) {
-        throw new Error(`Duplicated modules: ${duplicates.join(", ")}`);
+        throw new ASN1SemanticError(`Duplicated module names: ${duplicates.join(", ")}`);
     }
   modules.forEach((module) =>
     Object.values(module.assignments).forEach((assn) => {
@@ -53,6 +54,7 @@ export default function correct(modules: Module[]): void {
                 text: assn.value.text,
                 currentModule: module,
                 enumItems: parsing.definedEnumItems,
+                textStartsAtOffset: assn.value.production?.location.startIndex,
               };
               assn.value = valueGroker(parsing.cst, newCtx);
             }

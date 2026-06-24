@@ -22,4 +22,10 @@ export default interface GrokContext extends Context {
    * @deprecated
    */
   enumItems: Set<string>;
+
+  /**
+   * @summary If the groking takes place over a subset of the text, this is
+   *  offset where the subset begins.
+   */
+  textStartsAtOffset?: number;
 }
