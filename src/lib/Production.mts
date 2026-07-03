@@ -57,8 +57,30 @@ export default class Production<Types extends ProductionType = ProductionType> {
    * @constructor
    */
   constructor(
+    /**
+     * @summary The type of this production, which could be as narrow as a
+     *  single lexeme, such as `comma`, or which could be as broad as a `ModuleBody`.
+     * @public
+     * @readonly
+     */
     readonly type: Types,
+    /**
+     * @summary Subordinate nodes in the Concrete Syntax Tree (CST)
+     * @description
+     * 
+     * This should be empty for productions returned from lexing. It is
+     * otherwise only used for parsing.
+     * 
+     * @public
+     * @readonly
+     */
     readonly children: Production[] = [],
+
+    /**
+     * @summary The location of this production within the processed text.
+     * @public
+     * @readonly
+     */
     loc?: Location
   ) {
     this._location = loc;
@@ -80,5 +102,14 @@ export default class Production<Types extends ProductionType = ProductionType> {
       location: this.location,
       children: this.children.map((c) => c.toJSON()),
     };
+  }
+
+  /**
+   * @summary Get the length, in characters, of this production.
+   * @returns The length, in characters, of this production.
+   */
+  public getLength(): number {
+    const loc = this.location;
+    return Math.max(loc.endIndex - loc.startIndex, 0);
   }
 }
