@@ -94,6 +94,7 @@ export default function correct(modules: Module[]): void {
                     text: v.text,
                     currentModule: module,
                     enumItems: parsing.definedEnumItems,
+                    textStartsAtOffset: v.production?.location.startIndex,
                   };
                   component.default = valueGroker(parsing.cst, newCtx);
                 }
@@ -137,6 +138,7 @@ export default function correct(modules: Module[]): void {
                       text: chosenValue.value.text,
                       currentModule: module,
                       enumItems: parsing.definedEnumItems,
+                      textStartsAtOffset: chosenValue.value.production?.location.startIndex,
                     };
                     v.value.value = valueGroker(parsing.cst, newCtx);
                   }
@@ -191,6 +193,7 @@ export default function correct(modules: Module[]): void {
                           text: cv.value.text,
                           currentModule: module,
                           enumItems: parsing.definedEnumItems,
+                          textStartsAtOffset: cv.value.production?.location.startIndex,
                         };
                         cv.value = valueGroker(parsing.cst, newCtx);
                       }
