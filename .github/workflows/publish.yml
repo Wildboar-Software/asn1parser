@@ -1,19 +1,20 @@
 # Taken from https://jsr.io/docs/publishing-packages#publishing-from-github-actions
-# .github/workflows/publish.yml
-
-name: Publish
+# And also: https://docs.npmjs.com/trusted-publishers#step-2-configure-your-cicd-workflow
+name: Publish to NPM and JSR
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types:
+    - published
+
+permissions:
+  contents: read
+  # The OIDC ID token is used for authentication with JSR and NPM.
+  id-token: write
 
 jobs:
-  publish:
+  publish-jsr:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write # The OIDC ID token is used for authentication with JSR.
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -25,3 +26,25 @@ jobs:
         run: deno install --frozen
       - name: Publish to JSR
         run: npx jsr publish
+  publish-npm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '26.x'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false  # never use caching in release builds
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
+      # Separately tested on every commit.
+      - name: Run Tests
+        run: npm run node-test
+      # This works with no credentials because I have configured trusted
+      # publishers in npmjs.com under this package's settings.
+      - name: Publish to NPM
+        run: npm publish --provenance

@@ -203,7 +203,6 @@ annotations.
 
 - [ ] Performance Enhancements
 - [ ] Make dependency on `dependency-graph` optional
-- [x] ~~Add `AGENTS.md`~~ (Nothing to add above my existing documentation.)
 - [ ] Could the lexer take a `TNext` to change behavior, such as by returning a syntax error?
 - [ ] Line numbers and column numbers seem to be off when there is a leading comment.
-- [ ] NPM provenance
+- [x] NPM provenance
