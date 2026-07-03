@@ -48,7 +48,7 @@ function isIdentifierCharacter(characterCode: number): boolean {
 export default function* lex(
   str: string,
   startloc?: Location,
-): IterableIterator<Production<TerminalProductionType>> {
+): IterableIterator<Production<TerminalProductionType>, void> {
   if (!str || str.length === 0) {
     return;
   }
