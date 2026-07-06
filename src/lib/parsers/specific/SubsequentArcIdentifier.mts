@@ -1,5 +1,5 @@
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import literal from '../generic/literal.mjs';
 import repeatable from '../generic/repeatable.mjs';
 import ArcIdentifier from './ArcIdentifier.mjs';

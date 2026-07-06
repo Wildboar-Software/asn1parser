@@ -1,7 +1,7 @@
 import type ParseContext from './interfaces/ParseContext.mjs';
 import Production from './Production.mjs';
 import consoleLogger from './loggers/console.mjs';
-import ProductionType from './ProductionType.mjs';
+import { ProductionType } from './ProductionType.mjs';
 import onDidParseAssignment from './parsers/callbacks/Assignment.mjs';
 import onDidParseObjectClassAssignment from './parsers/callbacks/ObjectClassAssignment.mjs';
 import onDidParseSymbol from './parsers/callbacks/Symbol.mjs';

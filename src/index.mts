@@ -129,7 +129,26 @@ export type { default as ParseContext } from './lib/interfaces/ParseContext.mjs'
 export type { default as GrokContext } from './lib/interfaces/GrokContext.mjs';
 export type { default as Location } from './lib/interfaces/Location.mjs';
 export { default as Production } from './lib/Production.mjs';
-export { default as ProductionType } from './lib/ProductionType.mjs';
+export {
+    ProductionType,
+    KeywordProductionType,
+    NonTerminalProductionType,
+    TerminalProductionType,
+    ControlProductionType,
+    ConvenienceProductionType,
+    DefinedKeywordProductionType,
+    DefinedLexicalProductionType,
+    InferredButUndefinedBooleanProductionType,
+    InferredButUndefinedSpecialCharacterProductionType,
+    LexicalProductionType,
+    RemovedKeywordProductionType,
+    RemovedLexicalProductionType,
+    RemovedLiteralProductionType,
+    RemovedNonTerminalProductionType,
+    RemovedProductionType,
+    UnlistedProductionType,
+    WhitespaceProductionType,
+} from './lib/ProductionType.mjs';
 export { default as applyModuleIdentifierToAssignment } from './lib/normalizers/applyModuleIdentifierToAssignments.mjs';
 export { default as applyTagsToChoice } from './lib/normalizers/applyTagsToChoice.mjs';
 export { default as applyTagsToSetOrSequence } from './lib/normalizers/applyTagsToSetOrSequence.mjs';

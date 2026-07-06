@@ -1,6 +1,6 @@
 import type GrokContext from './interfaces/GrokContext.mjs';
 import Production from './Production.mjs';
-import ProductionType from './ProductionType.mjs';
+import { ProductionType } from './ProductionType.mjs';
 import type Module from './constructs/Module.mjs';
 import grokModule from './grokers/Module.mjs';
 import consoleLogger from './loggers/console.mjs';

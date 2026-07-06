@@ -1,7 +1,7 @@
 import { aliasFor, literal } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
 import Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
 // import { strict as assert } from 'assert';
 

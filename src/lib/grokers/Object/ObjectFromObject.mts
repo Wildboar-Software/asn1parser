@@ -1,6 +1,6 @@
 import type GrokContext from '../../interfaces/GrokContext.mjs';
 import type Production from '../../Production.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import type ObjectFromObject from '../../constructs/AssignmentTypes/ObjectAssignment/ObjectFromObject.mjs';
 import grokReferencedObjects from '../Defined.mjs';
 

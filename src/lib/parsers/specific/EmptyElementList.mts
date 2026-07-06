@@ -7,7 +7,7 @@ import {
   whitespace,
 } from '../generic/index.mjs';
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * `EmptyElementList ::= "<" & identifier "/>" | EmptyElementList "<" & identifier "/>"`

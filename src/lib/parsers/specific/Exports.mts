@@ -7,7 +7,7 @@ import {
   whitespaceTolerantSequenceOf,
 } from '../generic/index.mjs';
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import SymbolsExported from './SymbolsExported.mjs';
 import * as parserFor from '../specific/index.mjs';
 

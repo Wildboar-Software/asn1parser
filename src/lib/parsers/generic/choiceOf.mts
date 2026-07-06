@@ -1,7 +1,7 @@
 import Parser from '../../Parser.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
 import Production from '../../Production.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * @summary Produce a `Parser` that attempts multiple alternatives.

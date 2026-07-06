@@ -1,5 +1,5 @@
 import Production from './Production.mjs';
-import ProductionType from './ProductionType.mjs';
+import { ProductionType } from './ProductionType.mjs';
 import parseFile from './parsers/file.mjs';
 import type ParseContext from './interfaces/ParseContext.mjs';
 import lex from './lex.mjs';

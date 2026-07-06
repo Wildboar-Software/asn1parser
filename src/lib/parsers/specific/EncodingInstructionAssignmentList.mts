@@ -5,7 +5,7 @@ import {
   recursiveParser,
 } from '../generic/index.mjs';
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * From ITU X.680-2015, Section 54.4:

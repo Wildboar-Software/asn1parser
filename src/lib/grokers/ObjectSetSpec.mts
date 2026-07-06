@@ -1,6 +1,6 @@
 import type GrokContext from '../interfaces/GrokContext.mjs';
 import type Production from '../Production.mjs';
-import ProductionType, { NonTerminalProductionType } from '../ProductionType.mjs';
+import { ProductionType, NonTerminalProductionType } from '../ProductionType.mjs';
 import type ObjectSetSpec from '../constructs/ObjectSetSpec.mjs';
 import grokElementSetSpec from './ElementSetSpec_ObjectSet.mjs';
 

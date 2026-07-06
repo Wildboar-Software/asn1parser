@@ -2,7 +2,7 @@ import whitespaceIntolerantList from './whitespaceIntolerantList.mjs';
 import type Parser from '../../Parser.mjs';
 import optional from './optional.mjs';
 import whitespace from './whitespace.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * @summary Parse any number of list items optionally separated by whitespace.

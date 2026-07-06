@@ -1,7 +1,7 @@
 import choiceOf from '../generic/choiceOf.mjs';
 import * as parserFor from '../specific/index.mjs';
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import recursiveParser from '../generic/recursiveParser.mjs';
 
 /**

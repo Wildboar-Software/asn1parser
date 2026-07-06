@@ -4,7 +4,7 @@ import type ObjectIdentifierValue from '../../constructs/Values/ObjectIdentifier
 import grokDefinedValue from '../Defined.mjs';
 import grokObjIdComponents from '../ObjIdComponents.mjs';
 import { type ObjIdComponents } from '../../constructs/ObjIdComponents.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * NOTE: Notice that DefinedValue is an optional suffix of ObjectIdentifierValue,

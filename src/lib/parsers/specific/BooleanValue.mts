@@ -1,7 +1,7 @@
 import { literal, choiceOf } from '../generic/index.mjs';
 import type Parser from '../../Parser.mjs';
 import recursiveParser from '../generic/recursiveParser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * `BooleanValue ::= TRUE | FALSE`

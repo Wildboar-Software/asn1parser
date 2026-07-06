@@ -5,7 +5,7 @@ import {
   sequenceOf,
 } from '../generic/index.mjs';
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * `TextReal ::= "INF" | "-" & "INF" | "NaN"`

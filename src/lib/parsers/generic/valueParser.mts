@@ -1,5 +1,5 @@
 import { choiceOf, aliasFor } from '../generic/index.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import type Parser from '../../Parser.mjs';
 import typeTypeToValueParserMap from '../../maps/typeTypeToValueParserMap.mjs';
 import * as parserFor from '../specific/index.mjs';

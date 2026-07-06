@@ -878,7 +878,7 @@ export enum NonTerminalProductionType {
  * @enum
  * @see https://github.com/microsoft/TypeScript/issues/17592#issuecomment-449440944
  */
-type ProductionType =
+export type ProductionType =
   | LexicalProductionType
   | KeywordProductionType
   | RemovedProductionType
@@ -899,7 +899,7 @@ type ProductionType =
  * @enum
  * @see https://github.com/microsoft/TypeScript/issues/17592#issuecomment-449440944
  */
-const ProductionType = {
+export const ProductionType = {
   ...LexicalProductionType,
   ...KeywordProductionType,
   ...RemovedProductionType,
@@ -911,5 +911,3 @@ const ProductionType = {
   ...ControlProductionType,
   ...NonTerminalProductionType,
 } as const;
-
-export default ProductionType;

@@ -1,7 +1,7 @@
 import type GrokContext from '../interfaces/GrokContext.mjs';
 import grokElementSetSpecs from './ElementSetSpecs.mjs';
 import type Production from '../Production.mjs';
-import ProductionType from '../ProductionType.mjs';
+import { ProductionType } from '../ProductionType.mjs';
 import { type ValueSet } from '../constructs/ValueSet.mjs';
 
 // ValueSet ::= "{" ElementSetSpecs "}"

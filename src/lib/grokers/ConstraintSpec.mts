@@ -1,6 +1,6 @@
 import type GrokContext from '../interfaces/GrokContext.mjs';
 import type Production from '../Production.mjs';
-import ProductionType from '../ProductionType.mjs';
+import { ProductionType } from '../ProductionType.mjs';
 import { type ConstraintSpec } from '../constructs/ConstraintSpec.mjs';
 import grokSubtypeConstraint from './ConstraintSpecs/SubtypeConstraint.mjs';
 import grokGeneralConstraint from './ConstraintSpecs/GeneralConstraint.mjs';

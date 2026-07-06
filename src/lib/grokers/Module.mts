@@ -1,6 +1,6 @@
 import type GrokContext from '../interfaces/GrokContext.mjs';
 import type Production from '../Production.mjs';
-import ProductionType from '../ProductionType.mjs';
+import { ProductionType } from '../ProductionType.mjs';
 import Module from '../constructs/Module.mjs';
 import TaggingMode from '../constructs/TaggingMode.mjs';
 import grokDefinitiveIdentification from './DefinitiveIdentification.mjs';
@@ -54,7 +54,11 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
   let encodingReference: string | undefined = undefined;
   let taggingMode: TaggingMode = TaggingMode.EXPLICIT;
   let extensibilityImplied: boolean = false; // Defaults to false;
-  let imports: Imports = { production: undefined, modules: {} };
+  let imports: Imports = {
+    production: undefined,
+    modules: {},
+    modulesInOriginalOrder: [],
+  };
   let _exports: Exports | undefined;
   const assignments: { [identifier: string]: Assignment } = {};
 

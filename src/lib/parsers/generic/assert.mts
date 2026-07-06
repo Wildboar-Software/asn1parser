@@ -1,7 +1,7 @@
 import Parser from '../../Parser.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
 import anythingUntil from './anythingUntil.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 
 /**

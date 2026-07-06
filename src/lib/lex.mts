@@ -1,5 +1,5 @@
 import Production from './Production.mjs';
-import ProductionType, { TerminalProductionType } from './ProductionType.mjs';
+import { ProductionType, TerminalProductionType } from './ProductionType.mjs';
 import keywordToTokenMap from './maps/keywordToTokenMap.mjs';
 import specialCharacterToTokenMap from './maps/specialCharacterToTokenMap.mjs';
 import newlineWhitespaceCharacters from './newlineWhitespaceCharacters.mjs';

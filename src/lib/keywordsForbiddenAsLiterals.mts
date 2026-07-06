@@ -1,4 +1,4 @@
-import ProductionType from './ProductionType.mjs';
+import { ProductionType } from './ProductionType.mjs';
 
 /**
  * Keywords that MUST NOT be used as `Literal` `word`s in an object's defined syntax.

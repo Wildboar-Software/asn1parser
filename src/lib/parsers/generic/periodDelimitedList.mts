@@ -1,5 +1,5 @@
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import literal from './literal.mjs';
 import whitespaceTolerantList from './whitespaceTolerantList.mjs';
 

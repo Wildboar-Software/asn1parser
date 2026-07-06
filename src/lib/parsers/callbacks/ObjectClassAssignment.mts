@@ -1,6 +1,6 @@
 import type Production from '../../Production.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import split from '../../split.mjs';
 import ASN1ParserExpectationError from '../../errors/ASN1ParserExpectationError.mjs';
 

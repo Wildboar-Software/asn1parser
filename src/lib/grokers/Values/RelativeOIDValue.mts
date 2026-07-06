@@ -3,7 +3,7 @@ import type Production from '../../Production.mjs';
 import { type RelativeOIDValue } from '../../constructs/Values/RelativeOIDValue.mjs';
 import grokObjIdComponents from '../ObjIdComponents.mjs';
 import { type ObjIdComponents } from '../../constructs/ObjIdComponents.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 // RelativeOIDValue ::=
 //     "{" RelativeOIDComponentsList "}"

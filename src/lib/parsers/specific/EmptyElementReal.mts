@@ -7,7 +7,7 @@ import {
   whitespace,
 } from '../generic/index.mjs';
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * `EmptyElementReal ::= "<" & PLUS-INFINITY "/>" | "<" & MINUS-INFINITY "/>" | "<" & NOT-A-NUMBER "/>"`

@@ -1,5 +1,5 @@
 import type Production from "./Production.mjs";
-import ProductionType from './ProductionType.mjs';
+import { ProductionType } from './ProductionType.mjs';
 
 /**
  * @summary Doubly-link the concrete syntax tree (CST)

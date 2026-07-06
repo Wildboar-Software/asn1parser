@@ -1,7 +1,7 @@
 import optional from './optional.mjs';
 import whitespace from './whitespace.mjs';
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import whitespaceIntolerantSequenceOf from './whitespaceIntolerantSequenceOf.mjs';
 
 function spliceInWhitespace(parsers: Parser[]): Parser[] {

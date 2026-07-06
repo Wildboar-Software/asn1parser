@@ -5,7 +5,7 @@ import {
   whitespaceTolerantSequenceOf,
 } from '../generic/index.mjs';
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * `VersionNumber ::= empty | number ":"`

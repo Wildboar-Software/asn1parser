@@ -1,7 +1,7 @@
 import type GrokContext from '../../interfaces/GrokContext.mjs';
 import type Production from '../../Production.mjs';
 import { type CharacterStringValue } from '../../constructs/Values/CharacterStringValue.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import grokSetOrSequenceValue from './SetOrSequenceValue.mjs';
 import grokTuple from '../Tuple.mjs';
 import grokQuadruple from '../Quadruple.mjs';

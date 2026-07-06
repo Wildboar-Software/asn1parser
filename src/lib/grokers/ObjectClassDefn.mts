@@ -1,6 +1,6 @@
 import type GrokContext from '../interfaces/GrokContext.mjs';
 import type Production from '../Production.mjs';
-import ProductionType from '../ProductionType.mjs';
+import { ProductionType } from '../ProductionType.mjs';
 import type ObjectClassDefn from '../constructs/AssignmentTypes/ObjectClassAssignment/ObjectClassDefn.mjs';
 import grokFieldSpec from './FieldSpec.mjs';
 import { type FieldSpec } from '../constructs/FieldSpec.mjs';

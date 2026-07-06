@@ -1,5 +1,5 @@
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import { literal, recursiveParser } from '../generic/index.mjs';
 
 /**

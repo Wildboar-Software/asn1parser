@@ -1,7 +1,7 @@
 import type GrokContext from '../interfaces/GrokContext.mjs';
 import type SymbolsFromModule from '../constructs/SymbolsFromModule.mjs';
 import type Production from '../Production.mjs';
-import ProductionType from '../ProductionType.mjs';
+import { ProductionType } from '../ProductionType.mjs';
 import SelectionOption from '../constructs/SelectionOption.mjs';
 import grokAssignedIdentifier from './AssignedIdentifier.mjs';
 

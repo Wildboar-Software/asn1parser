@@ -2,7 +2,7 @@ import { choiceOf, recursiveParser } from '../generic/index.mjs';
 import DefinitiveOID from './DefinitiveOID.mjs';
 import DefinitiveOIDandIRI from './DefinitiveOIDandIRI.mjs';
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * `DefinitiveIdentification ::= DefinitiveOID | DefinitiveOIDandIRI | empty`

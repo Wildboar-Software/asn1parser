@@ -1,7 +1,7 @@
 import type GrokContext from '../../interfaces/GrokContext.mjs';
 import type Production from '../../Production.mjs';
 import type BitStringValue from '../../constructs/Values/BitStringValue.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import grokValue from '../Value.mjs';
 import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 

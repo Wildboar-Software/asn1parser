@@ -1,5 +1,5 @@
 import type ParseContext from '../../interfaces/ParseContext.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import productionTypeToTypeTypeMap from '../../maps/productionTypeToTypeTypeMap.mjs';
 
 // NamedType ::= identifier Type

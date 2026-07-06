@@ -1,6 +1,6 @@
 import { choiceOf, literal, recursiveParser } from '../generic/index.mjs';
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * `SpecialRealValue ::= PLUS-INFINITY | MINUS-INFINITY | NOT-A-NUMBER`

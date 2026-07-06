@@ -4,7 +4,7 @@ import {
   whitespaceTolerantSequenceOf,
 } from '../generic/index.mjs';
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import ElementSetSpecs from '../optimized/ElementSetSpecs_Subtype.mjs';
 
 /**

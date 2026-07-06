@@ -2,7 +2,7 @@ import { literal, whitespace } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
 import Parser from '../../Parser.mjs';
 import Production from '../../Production.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
 import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 import Value from './Value_listens_to_currentType.mjs';

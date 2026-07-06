@@ -1,4 +1,4 @@
-import ProductionType from './ProductionType.mjs';
+import { ProductionType } from './ProductionType.mjs';
 import type ParseContext from './interfaces/ParseContext.mjs';
 import productionTypeToTypeTypeMap from './maps/productionTypeToTypeTypeMap.mjs';
 

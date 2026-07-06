@@ -1,4 +1,4 @@
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import type Parser from '../../Parser.mjs';
 import { literal, sequenceOf } from '../generic/index.mjs';
 

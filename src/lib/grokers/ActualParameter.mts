@@ -1,6 +1,6 @@
 import type GrokContext from '../interfaces/GrokContext.mjs';
 import type Production from '../Production.mjs';
-import ProductionType from '../ProductionType.mjs';
+import { ProductionType } from '../ProductionType.mjs';
 import { type ActualParameter } from '../constructs/ActualParameter.mjs';
 import grokDefined from './Defined.mjs';
 import grokValueSet from './ValueSet.mjs';

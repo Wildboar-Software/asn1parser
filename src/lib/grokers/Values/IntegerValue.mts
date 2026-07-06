@@ -1,7 +1,7 @@
 import type GrokContext from '../../interfaces/GrokContext.mjs';
 import type Production from '../../Production.mjs';
 import { type IntegerValue } from '../../constructs/Values/IntegerValue.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 
 // IntegerValue ::=

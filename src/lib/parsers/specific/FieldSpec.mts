@@ -7,7 +7,7 @@ import {
 import * as parserFor from '../specific/index.mjs';
 import * as optimizedParserFor from '../optimized/index.mjs';
 import type Parser from '../../Parser.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * `FieldSpec ::=

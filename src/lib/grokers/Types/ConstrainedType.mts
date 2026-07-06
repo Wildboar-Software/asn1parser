@@ -1,6 +1,6 @@
 import type GrokContext from '../../interfaces/GrokContext.mjs';
 import type Production from '../../Production.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 import { type Type } from '../../constructs/Type.mjs';
 import grokSetOrSequenceOfType from './SetOrSequenceOfType.mjs';
 import grokType from '../Type.mjs';

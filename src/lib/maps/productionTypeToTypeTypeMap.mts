@@ -1,4 +1,4 @@
-import ProductionType from '../ProductionType.mjs';
+import { ProductionType } from '../ProductionType.mjs';
 import TypeType from '../constructs/TypeType.mjs';
 
 /**

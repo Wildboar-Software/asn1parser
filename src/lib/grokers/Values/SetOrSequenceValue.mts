@@ -2,7 +2,7 @@ import type GrokContext from '../../interfaces/GrokContext.mjs';
 import type Production from '../../Production.mjs';
 import { type SetOrSequenceValue } from '../../constructs/Values/SetOrSequenceValue.mjs';
 import grokValue from '../Value.mjs';
-import ProductionType from '../../ProductionType.mjs';
+import { ProductionType } from '../../ProductionType.mjs';
 
 // SequenceValue ::=
 //     "{" ComponentValueList "}"

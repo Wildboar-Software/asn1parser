@@ -1,6 +1,6 @@
 import type GrokContext from '../interfaces/GrokContext.mjs';
 import type Production from '../Production.mjs';
-import ProductionType from '../ProductionType.mjs';
+import { ProductionType } from '../ProductionType.mjs';
 import type SymbolsFromModule from '../constructs/SymbolsFromModule.mjs';
 import grokSymbolsFromModule from './SymbolsFromModule.mjs';
 import type { Imports } from '../constructs/Imports.mjs';
@@ -33,11 +33,14 @@ export default function grokImports(
   cst: Production,
   ctx: GrokContext
 ): Imports {
+  const ret: Imports = {
+    production: cst,
+    modules: {},
+    modulesInOriginalOrder: [],
+  };
   if (cst.children.length === 0) {
-    return { production: cst, modules: {} };
+    return ret;
   }
-
-  const ret: Imports = { production: cst, modules: {} };
   const SymbolsImported: Production = cst.children
     .slice(1, -1)
     .filter(
@@ -45,7 +48,7 @@ export default function grokImports(
     )[0];
 
   if (SymbolsImported.children.length === 0) {
-    return { production: cst, modules: {} };
+    return ret;
   }
 
   const SymbolsFromModuleList: Production = SymbolsImported.children[0];
@@ -58,6 +61,7 @@ export default function grokImports(
         symbolsFromModule,
         ctx
       );
+      ret.modulesInOriginalOrder.push(sfm);
       ret.modules[sfm.identifier] = sfm;
     });
 

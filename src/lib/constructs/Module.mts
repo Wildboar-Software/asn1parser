@@ -5,7 +5,7 @@ import type { Exports } from './Exports.mjs';
 import type { Imports } from './Imports.mjs';
 import type GrokedThing from '../interfaces/GrokedThing.mjs';
 import type Production from '../Production.mjs';
-import type ProductionType from '../ProductionType.mjs';
+import type { ProductionType } from '../ProductionType.mjs';
 
 /**
  * ASN.1 module
