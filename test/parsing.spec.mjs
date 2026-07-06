@@ -1,4 +1,4 @@
-import { lex, LogLevel, parse, ProductionType } from '../dist/index.mjs';
+import { AssignmentType, grok, lex, LogLevel, parse, ProductionType, ValueType } from '../dist/index.mjs';
 import find from '../dist/lib/find.mjs';
 import { default as logger } from '../dist/lib/loggers/console.mjs';
 import { describe, test } from 'node:test';
@@ -161,5 +161,34 @@ describe('Parser error detection', () => {
     assert(ObjectSetAssignment);
     assert(ObjectFromObject);
     assert(ObjectSetFromObjects);
+  });
+
+  test('discerns between DefinedValue and NameForm as a prefix in an O', () => {
+    {
+      const text = `A {iso} DEFINITIONS ::= BEGIN
+        id-asdf OBJECT IDENTIFIER ::= { iso org(2) asdfcorp(8) }
+      END`;
+      const modules = grok(text);
+      const mod = modules[0];
+      const id_asdf = mod.assignments["id-asdf"];
+      assert(id_asdf.assignmentType === AssignmentType.ValueAssignment);
+      const value = id_asdf.value;
+      assert(value.valueType === ValueType.ObjectIdentifierValue);
+      const oid = value.value;
+      assert(!oid.prefix);
+    }
+    {
+      const text = `A {iso} DEFINITIONS ::= BEGIN
+        id-asdf OBJECT IDENTIFIER ::= { youso org(2) asdfcorp(8) }
+      END`;
+      const modules = grok(text);
+      const mod = modules[0];
+      const id_asdf = mod.assignments["id-asdf"];
+      assert(id_asdf.assignmentType === AssignmentType.ValueAssignment);
+      const value = id_asdf.value;
+      assert(value.valueType === ValueType.ObjectIdentifierValue);
+      const oid = value.value;
+      assert(oid.prefix.reference, "youso");
+    }
   });
 });
