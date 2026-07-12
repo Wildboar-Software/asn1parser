@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, test } from 'node:test';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import { strict as assert, strictEqual as assertEqual, notStrictEqual } from 'node:assert';
+import { strict as assert, strictEqual as assertEqual, notStrictEqual, strictEqual } from 'node:assert';
 
 /**
  * Asserts that every CST node beneath (and including) this one does not have
@@ -40,6 +40,23 @@ function checkCSTForNegativeLocations(cst) {
 
 describe('Parser', () => {
   logger.level = LogLevel.error;
+
+  test('does not read out of bounds when there is a terminal unfinished InstanceOfType', () => {
+    const problem = `
+    A {iso} DEFINITIONS ::= BEGIN
+    Boop ::= INSTANCE OF
+    END
+    `;
+    let lexResults;
+    /** @type {import("../dist/index.mjs").ParserState} */
+    let parseResults;
+    assert.doesNotThrow(() => {
+      lexResults = Array.from(lex(problem));
+      parseResults = parse(problem, lexResults);
+    });
+    assertEqual(parseResults.error, undefined);
+    strictEqual(Object.keys(parseResults.syntaxErrors).length, 1);
+  });
 
   test('does not produce a CST with invalid locations from a SEQUENCE type', () => {
     const problem = `
