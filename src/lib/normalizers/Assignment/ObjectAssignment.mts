@@ -51,7 +51,7 @@ export default function normalize(
           currentModule
         );
         if (defaultSyntax) {
-          assignment.object = defaultSyntax;
+          assignment.defaultSyntax = defaultSyntax;
         }
       }
     }
