@@ -142,13 +142,14 @@ export default function grokModule(cst: Production, ctx: GrokContext): Module {
               (grandchild: Production): boolean =>
                 grandchild.type === ProductionType.Assignment
             )
-            .forEach((assignment: Production): void => {
+            .forEach((assignment: Production, i): void => {
               const a: Assignment = grokAssignment(assignment, ctx);
               if (a.identifier in assignments) {
                 a.production && duplicateAssignments.push(a.production);
               } else {
                 assignments[a.identifier] = a;
               }
+              a.originalIndex = i;
             });
           break;
         }
