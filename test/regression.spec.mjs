@@ -421,6 +421,187 @@ describe('Groker', () => {
     );
   });
 
+  test('groks a SEQUENCE or SET that starts with an extension marker', () => {
+    const cases = [
+      [
+        'SEQUENCE { ..., field INTEGER }',
+        TypeType.SequenceType,
+        {
+          root1: undefined,
+          extAdds: ['field'],
+          root2: undefined,
+        },
+      ],
+      [
+        'SEQUENCE {..., field INTEGER}',
+        TypeType.SequenceType,
+        {
+          root1: undefined,
+          extAdds: ['field'],
+          root2: undefined,
+        },
+      ],
+      [
+        'SEQUENCE { ..., field INTEGER OPTIONAL }',
+        TypeType.SequenceType,
+        {
+          root1: undefined,
+          extAdds: ['field'],
+          root2: undefined,
+        },
+      ],
+      [
+        'SEQUENCE { ..., field INTEGER DEFAULT 5 }',
+        TypeType.SequenceType,
+        {
+          root1: undefined,
+          extAdds: ['field'],
+          root2: undefined,
+        },
+      ],
+      [
+        'SEQUENCE { ...!1, field INTEGER }',
+        TypeType.SequenceType,
+        {
+          root1: undefined,
+          extAdds: ['field'],
+          root2: undefined,
+          exception: 1,
+        },
+      ],
+      [
+        'SEQUENCE { ..., field INTEGER, ... }',
+        TypeType.SequenceType,
+        {
+          root1: undefined,
+          extAdds: ['field'],
+          root2: undefined,
+        },
+      ],
+      [
+        'SEQUENCE { ..., field INTEGER, ..., extra BOOLEAN }',
+        TypeType.SequenceType,
+        {
+          root1: undefined,
+          extAdds: ['field'],
+          root2: ['extra'],
+        },
+      ],
+      [
+        'SEQUENCE { ..., [[ field INTEGER ]] }',
+        TypeType.SequenceType,
+        {
+          root1: undefined,
+          extAdds: [undefined],
+          root2: undefined,
+          group: { versionNumber: undefined, identifiers: ['field'] },
+        },
+      ],
+      [
+        'SEQUENCE { ..., [[ 2: field INTEGER ]] }',
+        TypeType.SequenceType,
+        {
+          root1: undefined,
+          extAdds: [undefined],
+          root2: undefined,
+          group: { versionNumber: 2, identifiers: ['field'] },
+        },
+      ],
+      [
+        'SET { ..., field INTEGER }',
+        TypeType.SetType,
+        {
+          root1: undefined,
+          extAdds: ['field'],
+          root2: undefined,
+        },
+      ],
+      [
+        'SEQUENCE { field INTEGER, ..., extra BOOLEAN }',
+        TypeType.SequenceType,
+        {
+          root1: ['field'],
+          extAdds: ['extra'],
+          root2: undefined,
+        },
+      ],
+      [
+        'SEQUENCE { field INTEGER, ..., extra BOOLEAN, ..., trailing NULL }',
+        TypeType.SequenceType,
+        {
+          root1: ['field'],
+          extAdds: ['extra'],
+          root2: ['trailing'],
+        },
+      ],
+      [
+        'SEQUENCE { field INTEGER, ...!1 }',
+        TypeType.SequenceType,
+        {
+          root1: ['field'],
+          extAdds: undefined,
+          root2: undefined,
+          exception: 1,
+        },
+      ],
+    ];
+
+    for (const [inner, typeType, expected] of cases) {
+      const text = `A {iso} DEFINITIONS ::= BEGIN Typey ::= ${inner} END`;
+      const parseResults = parse(text, Array.from(lex(text)));
+      assertEqual(
+        parseResults.error,
+        undefined,
+        `parse error for ${inner}`
+      );
+      assertEqual(
+        Object.keys(parseResults.syntaxErrors).length,
+        0,
+        `syntax errors for ${inner}: ${Object.values(parseResults.syntaxErrors)
+          .map((e) => e.message)
+          .join(', ')}`
+      );
+      const grokResults = grok(text, parseResults);
+      const assignment = grokResults[0].assignments.Typey;
+      assertEqual(assignment.type.typeType, typeType, inner);
+      /** @type {import("../dist/index.mjs").SetOrSequenceType} */
+      const seq = assignment.type.type;
+      assertEqual(seq.explicitlyExtensible, true, inner);
+      assert.deepStrictEqual(
+        seq.rootComponentTypeList1?.map((c) => c.namedType?.identifier),
+        expected.root1,
+        `root1 for ${inner}`
+      );
+      assert.deepStrictEqual(
+        seq.rootComponentTypeList2?.map((c) => c.namedType?.identifier),
+        expected.root2,
+        `root2 for ${inner}`
+      );
+      assert.deepStrictEqual(
+        seq.extensionAdditionList?.map((c) => c.namedType?.identifier),
+        expected.extAdds,
+        `extAdds for ${inner}`
+      );
+      if (expected.exception !== undefined) {
+        assertEqual(seq.exception, expected.exception, `exception for ${inner}`);
+      }
+      if (expected.group) {
+        const group = seq.extensionAdditionList[0];
+        assertEqual(
+          group.versionNumber,
+          expected.group.versionNumber,
+          `versionNumber for ${inner}`
+        );
+        assert.deepStrictEqual(
+          group.componentTypeList.map((c) => c.namedType.identifier),
+          expected.group.identifiers,
+          `group identifiers for ${inner}`
+        );
+      }
+    }
+  });
+
+
   test('parses a Module with an import that is missing an AssignedIdentifier', () => {
     const text = `A {iso} DEFINITIONS ::= BEGIN
                 IMPORTS Transfer-syntax-name FROM ISO8823-PRESENTATION;

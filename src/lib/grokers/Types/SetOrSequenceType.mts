@@ -112,43 +112,54 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
       (child: Production): boolean => child.type !== ProductionType.whitespace
     );
 
+  // Locate RootComponentTypeList productions by type rather than by
+  // hardcoded child indices. A SEQUENCE / SET may start with "..."
+  // (ExtensionAndException), in which case there is no first root list
+  // and later children such as ExtensionEndMarker may be absent.
+  const rootComponentTypeLists: Production[] =
+    ComponentTypeListsComponents.filter(
+      (child: Production): boolean =>
+        child.type === ProductionType.RootComponentTypeList
+    );
+  const startsWithExtensionAndException: boolean =
+    ComponentTypeListsComponents[0]?.type ===
+    ProductionType.ExtensionAndException;
+
   let RootComponentTypeList1: Production | undefined = undefined;
   let RootComponentTypeList2: Production | undefined = undefined;
-  let ExtensionAndException: Production | undefined = undefined;
-  let ExtensionAdditions: Production | undefined = undefined;
-  let exception: ExceptionIdentification | undefined = undefined;
-  const extensible: boolean = ComponentTypeListsComponents.length > 1;
-
-  if (
-    ComponentTypeListsComponents[0].type ===
-    ProductionType.ExtensionAndException
-  ) {
+  if (startsWithExtensionAndException) {
     // 	| ExtensionAndException ExtensionAdditions ExensionEndMarker "," RootComponentTypeList
     // 	| ExtensionAndException ExtensionAdditions OptionalExtensionMarker
-    ExtensionAndException = ComponentTypeListsComponents[0];
-    ExtensionAdditions = ComponentTypeListsComponents[1];
-    if (
-      ComponentTypeListsComponents[2].type === ProductionType.ExtensionEndMarker
-    ) {
-      RootComponentTypeList2 =
-        ComponentTypeListsComponents[ComponentTypeListsComponents.length - 1];
-    }
-
-    // ExtensionAndException ::= "..." | "..." ExceptionSpec
-    if (ExtensionAndException.children.length > 1) {
-      const ExceptionSpec: Production =
-        ExtensionAndException.children[
-          ExtensionAndException.children.length - 1
-        ];
-      if (ExceptionSpec.children.length > 0) {
-        exception = grokExceptionSpec(ExceptionSpec, ctx);
-      }
-    }
+    RootComponentTypeList2 = rootComponentTypeLists[0];
   } else {
-    RootComponentTypeList1 = ComponentTypeListsComponents[0];
-    ExtensionAndException = ComponentTypeListsComponents[0];
-    ExtensionAdditions = ComponentTypeListsComponents[3];
-    RootComponentTypeList2 = ComponentTypeListsComponents[6];
+    RootComponentTypeList1 = rootComponentTypeLists[0];
+    RootComponentTypeList2 = rootComponentTypeLists[1];
+  }
+
+  const ExtensionAndException: Production | undefined =
+    ComponentTypeListsComponents.find(
+      (child: Production): boolean =>
+        child.type === ProductionType.ExtensionAndException
+    );
+  const ExtensionAdditions: Production | undefined =
+    ComponentTypeListsComponents.find(
+      (child: Production): boolean =>
+        child.type === ProductionType.ExtensionAdditions
+    );
+
+  let exception: ExceptionIdentification | undefined = undefined;
+  const extensible: boolean = ExtensionAndException !== undefined;
+
+  // ExtensionAndException ::= "..." | "..." ExceptionSpec
+  if (ExtensionAndException && ExtensionAndException.children.length > 1) {
+    const ExceptionSpec: Production =
+      ExtensionAndException.children[ExtensionAndException.children.length - 1];
+    if (
+      ExceptionSpec.type === ProductionType.ExceptionSpec &&
+      ExceptionSpec.children.length > 0
+    ) {
+      exception = grokExceptionSpec(ExceptionSpec, ctx);
+    }
   }
 
   const rootComponentTypes1: ComponentType[] | undefined =
@@ -171,49 +182,65 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
           .map((ct: Production) => grokComponentType(ct, ctx))
       : undefined;
 
-  const extensionAdditions =
-    ExtensionAdditions && ExtensionAdditions.children.length > 0
-      ? ExtensionAdditions.children[
-          ExtensionAdditions.children.length - 1
-        ].children // ExtensionAdditionList
-          .filter(
-            (child: Production): boolean =>
-              child.type === ProductionType.ExtensionAddition
-          )
-          .map((ea: Production) => {
-            if (ea.children[0].type === ProductionType.ComponentType) {
-              return grokComponentType(ea.children[0], ctx);
-            } else {
-              // ExtensionAdditionGroup ::= "[[" VersionNumber ComponentTypeList "]]"
-              const VersionNumber: Production = ea.children[0].children[3];
-              const ComponentTypeList: Production = ea.children[0].children[5];
+  const ExtensionAdditionList: Production | undefined =
+    ExtensionAdditions?.children.find(
+      (child: Production): boolean =>
+        child.type === ProductionType.ExtensionAdditionList
+    );
 
-              const versionNumber: number | undefined =
-                VersionNumber.children.length > 0
-                  ? Number.parseInt(
-                      text.slice(
-                        VersionNumber.children[0].location.startIndex,
-                        VersionNumber.children[0].location.endIndex
-                      ),
-                      10
-                    )
-                  : undefined;
+  const extensionAdditions = ExtensionAdditionList
+    ? ExtensionAdditionList.children
+        .filter(
+          (child: Production): boolean =>
+            child.type === ProductionType.ExtensionAddition
+        )
+        .map((ea: Production) => {
+          if (ea.children[0].type === ProductionType.ComponentType) {
+            return grokComponentType(ea.children[0], ctx);
+          } else {
+            // ExtensionAdditionGroup ::= "[[" VersionNumber ComponentTypeList "]]"
+            const groupComponents: Production[] =
+              ea.children[0].children.filter(
+                (child: Production): boolean =>
+                  child.type !== ProductionType.whitespace
+              );
+            const VersionNumber: Production | undefined = groupComponents.find(
+              (child: Production): boolean =>
+                child.type === ProductionType.VersionNumber
+            );
+            const ComponentTypeList: Production | undefined =
+              groupComponents.find(
+                (child: Production): boolean =>
+                  child.type === ProductionType.ComponentTypeList
+              );
 
-              const componentTypeList: ComponentType[] =
-                ComponentTypeList.children
+            const versionNumber: number | undefined =
+              VersionNumber && VersionNumber.children.length > 0
+                ? Number.parseInt(
+                    text.slice(
+                      VersionNumber.children[0].location.startIndex,
+                      VersionNumber.children[0].location.endIndex
+                    ),
+                    10
+                  )
+                : undefined;
+
+            const componentTypeList: ComponentType[] = ComponentTypeList
+              ? ComponentTypeList.children
                   .filter(
                     (child: Production): boolean =>
                       child.type === ProductionType.ComponentType
                   )
-                  .map((ct: Production) => grokComponentType(ct, ctx));
+                  .map((ct: Production) => grokComponentType(ct, ctx))
+              : [];
 
-              return {
-                versionNumber,
-                componentTypeList,
-              };
-            }
-          })
-      : undefined;
+            return {
+              versionNumber,
+              componentTypeList,
+            };
+          }
+        })
+    : undefined;
 
   const rootComponentTypes: ComponentType[] = (
     rootComponentTypes1 || []
