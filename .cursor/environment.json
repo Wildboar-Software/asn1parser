@@ -1,0 +1,4 @@
+{
+  "name": "asn1parser",
+  "install": "bash ./.cursor/install.sh"
+}
