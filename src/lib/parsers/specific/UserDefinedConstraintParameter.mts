@@ -20,9 +20,19 @@ import updateCurrentType from '../../updateCurrentType.mjs';
  * `UserDefinedConstraintParameter ::=
  *      Governor ":" Value
  *      | Governor ":" Object
- *      | DefinedObjectSet
  *      | Type
- *      | DefinedObjectClass`
+ *      | DefinedObjectClass
+ *      | DefinedObjectSet`
+ *
+ * `Type` is attempted before `DefinedObjectSet` and `DefinedObjectClass`.
+ * Those latter productions are prefixes of `ParameterizedType`
+ * (`SimpleDefinedType ActualParameterList`), which is a `Type`. If the shorter
+ * productions are tried first, `CAMEL-AChBillingChargingCharacteristics {bound}`
+ * is accepted as a bare reference and `{bound}` is left unconsumed, so the
+ * enclosing `UserDefinedConstraint` fails looking for `}`.
+ *
+ * `Governor ":" Value` / `Governor ":" Object` must still precede `Type`, so
+ * that `INTEGER: 5` is not accepted as a `Type` that leaves `: 5` behind.
  */
 export const UserDefinedConstraintParameter: Parser = recursiveParser(
   (): Parser =>
@@ -42,9 +52,13 @@ export const UserDefinedConstraintParameter: Parser = recursiveParser(
         ProductionType.UserDefinedConstraintParameter,
         [parserFor.Governor, literal(ProductionType.colon), parserFor.Object]
       ),
+      aliasFor(ProductionType.UserDefinedConstraintParameter, parserFor.Type),
       /**
-       * You parse the `DefinedObjectClass` before `DefinedObjectSet` because
-       * `DefinedObjectClass` is a narrower subset of `DefinedObjectSet`.
+       * `DefinedObjectClass` is a narrower subset of `DefinedObjectSet` (an
+       * `objectclassreference` is a restricted `typereference` /
+       * `objectsetreference`), so it is tried first among the remaining
+       * reference productions. `TYPE-IDENTIFIER` and `ABSTRACT-SYNTAX` are
+       * reserved words that `Type` will not accept as a `typereference`.
        */
       aliasFor(
         ProductionType.UserDefinedConstraintParameter,
@@ -54,7 +68,6 @@ export const UserDefinedConstraintParameter: Parser = recursiveParser(
         ProductionType.UserDefinedConstraintParameter,
         parserFor.DefinedObjectSet
       ),
-      aliasFor(ProductionType.UserDefinedConstraintParameter, parserFor.Type),
     ])
 );
 export default UserDefinedConstraintParameter;
