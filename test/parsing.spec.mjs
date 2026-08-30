@@ -1,4 +1,4 @@
-import { AssignmentType, grok, lex, LogLevel, parse, ProductionType, ValueType } from '../dist/index.mjs';
+import { AssignmentType, grok, lex, LogLevel, parse, ProductionType, TypeType, ValueType } from '../dist/index.mjs';
 import find from '../dist/lib/find.mjs';
 import { default as logger } from '../dist/lib/loggers/console.mjs';
 import { describe, test } from 'node:test';
@@ -91,6 +91,107 @@ describe('Parsing', () => {
             END`;
     const p = parse(text, Array.from(lex(text)));
     assertEqual(p.error, undefined);
+  });
+
+  /**
+   * UserDefinedConstraintParameter must try Type (which includes
+   * ParameterizedType) before DefinedObjectSet / DefinedObjectClass. Those
+   * shorter productions otherwise consume a typereference and leave the
+   * ActualParameterList unparsed, so CONSTRAINED BY fails looking for `}`.
+   */
+  test('parses a parameterized DefinedType inside CONSTRAINED BY', () => {
+    function findAll(type, prod, acc = []) {
+      if (prod.type === type) {
+        acc.push(prod);
+      }
+      for (const child of prod.children) {
+        findAll(type, child, acc);
+      }
+      return acc;
+    }
+
+    const testcases = [
+      `A {iso} DEFINITIONS ::= BEGIN
+T ::= INTEGER (CONSTRAINED BY { U {x} })
+END`,
+      `A {iso} DEFINITIONS ::= BEGIN
+T ::= INTEGER (CONSTRAINED BY { U {X} })
+END`,
+      `A {iso} DEFINITIONS ::= BEGIN
+T ::= INTEGER (CONSTRAINED BY { FOO-BAR {x} })
+END`,
+      `A {iso} DEFINITIONS ::= BEGIN
+AChBillingChargingCharacteristics {PARAMETERS-BOUND : bound} ::= OCTET STRING (SIZE
+	(bound.&minAChBillingChargingLength .. bound.&maxAChBillingChargingLength))
+	(CONSTRAINED BY {-- shall be the result of the BER-encoded value of the type --
+	CAMEL-AChBillingChargingCharacteristics {bound} })
+END`,
+    ];
+    for (const text of testcases) {
+      const p = parse(text, Array.from(lex(text)));
+      assertEqual(p.error, undefined);
+      assertEqual(Object.keys(p.syntaxErrors).length, 0);
+      assert(
+        findAll(ProductionType.UserDefinedConstraint, p.cst).some((udc) =>
+          findAll(ProductionType.ParameterizedType, udc).length > 0
+        ),
+        `expected ParameterizedType inside UserDefinedConstraint in: ${text}`
+      );
+    }
+
+    const modules = grok(`A {iso} DEFINITIONS ::= BEGIN
+T ::= INTEGER (CONSTRAINED BY { U {x} })
+END`);
+    const t = modules[0].assignments.T;
+    assert(t.assignmentType === AssignmentType.TypeAssignment);
+    assertEqual(t.type.typeType, TypeType.IntegerType);
+    assertEqual(t.type.constraints.length, 1);
+    const spec = t.type.constraints[0].spec;
+    assert('constrainedBy' in spec);
+    assertEqual(spec.constrainedBy.length, 1);
+    assertEqual(spec.constrainedBy[0].replace(/\s+/g, ' ').trim(), 'U {x}');
+
+    const camelModules = grok(`A {iso} DEFINITIONS ::= BEGIN
+AChBillingChargingCharacteristics {PARAMETERS-BOUND : bound} ::= OCTET STRING (SIZE
+	(bound.&minAChBillingChargingLength .. bound.&maxAChBillingChargingLength))
+	(CONSTRAINED BY {-- shall be the result of the BER-encoded value of the type --
+	CAMEL-AChBillingChargingCharacteristics {bound} })
+END`);
+    const ach =
+      camelModules[0].assignments.AChBillingChargingCharacteristics;
+    assert(ach.assignmentType === AssignmentType.TypeAssignment);
+    assertEqual(ach.type.typeType, TypeType.OctetStringType);
+    assertEqual(ach.type.constraints.length, 2);
+    const udcSpec = ach.type.constraints[1].spec;
+    assert('constrainedBy' in udcSpec);
+    assertEqual(udcSpec.constrainedBy.length, 1);
+    assert(
+      /CAMEL-AChBillingChargingCharacteristics\s*\{\s*bound\s*\}/.test(
+        udcSpec.constrainedBy[0]
+      )
+    );
+  });
+
+  test('still parses CONSTRAINED BY parameters that are not parameterized types', () => {
+    const testcases = [
+      'A {iso} DEFINITIONS ::= BEGIN T ::= INTEGER (CONSTRAINED BY { U }) END',
+      'A {iso} DEFINITIONS ::= BEGIN T ::= INTEGER (CONSTRAINED BY { INTEGER: 5 }) END',
+      'A {iso} DEFINITIONS ::= BEGIN T ::= INTEGER (CONSTRAINED BY { TYPE-IDENTIFIER }) END',
+      'A {iso} DEFINITIONS ::= BEGIN T ::= INTEGER (CONSTRAINED BY { -- comment only -- }) END',
+    ];
+    for (const text of testcases) {
+      const p = parse(text, Array.from(lex(text)));
+      assertEqual(p.error, undefined);
+      assertEqual(Object.keys(p.syntaxErrors).length, 0, text);
+    }
+
+    const modules = grok(
+      'A {iso} DEFINITIONS ::= BEGIN T ::= INTEGER (CONSTRAINED BY { INTEGER: 5 }) END'
+    );
+    const spec = modules[0].assignments.T.type.constraints[0].spec;
+    assert('constrainedBy' in spec);
+    assertEqual(spec.constrainedBy.length, 1);
+    assertEqual(spec.constrainedBy[0].replace(/\s+/g, ' ').trim(), 'INTEGER: 5');
   });
 });
 
