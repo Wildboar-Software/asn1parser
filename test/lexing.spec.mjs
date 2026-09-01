@@ -294,6 +294,39 @@ describe('Lexing', () => {
     );
   });
 
+  test('does not close a line comment by overlapping the opener', () => {
+    const text = '--- INTEGER';
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.comment);
+    assertEqual(
+      text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex),
+      text,
+    );
+  });
+
+  test('closes a line comment at the next non-overlapping --', () => {
+    const text = '---- INTEGER';
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens[0].type, ProductionType.comment);
+    assertEqual(
+      text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex),
+      '----',
+    );
+    assertEqual(tokens[tokens.length - 1].type, ProductionType._INTEGER);
+  });
+
+  test('still closes a line comment at a later -- on the same line', () => {
+    const text = '-- comment -- INTEGER';
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens[0].type, ProductionType.comment);
+    assertEqual(
+      text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex),
+      '-- comment --',
+    );
+    assertEqual(tokens[tokens.length - 1].type, ProductionType._INTEGER);
+  });
+
   for (const [text, pt] of testcases) {
     test(`single-lexeme text '${text}' works and does not read out-of-bounds or loop infinitely (${pt})`, () => {
       let lexResults;

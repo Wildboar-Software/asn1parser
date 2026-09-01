@@ -327,7 +327,11 @@ export default function* lex(
           if (str[tokenStartIndex] === '-') {
             if (atTheEnd) {
               tokenEndIndex = i;
-            } else if (str.startsWith('--', i)) {
+            } else if (
+              // Do not match `--` against the opener (`---` is not closed).
+              i >= tokenStartIndex + 2 &&
+              str.startsWith('--', i)
+            ) {
               tokenEndIndex = i + 2;
             } else if (isAtStartOfNewlineSequence()) {
               tokenEndIndex = i;
