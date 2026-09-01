@@ -34,12 +34,42 @@ function isIdentifierCharacter(characterCode: number): boolean {
 }
 
 /**
+ * @summary Compute the one-indexed column number of a substring index.
+ * @description
+ * `startloc` is the location of `str[0]`. Until a newline is seen,
+ * `lineStartIndex` is `0` and `columnOfLineStart` is `startloc.columnNumber`,
+ * so index `0` reports that column. After a newline, `lineStartIndex` is the
+ * first character of the new line in `str` and `columnOfLineStart` is `1`.
+ *
+ * @param {number} index The substring-relative index of the character.
+ * @param {number} lineStartIndex The substring-relative index of the first
+ *  character of the current line that appears in `str` (`0` before any
+ *  newline).
+ * @param {number} columnOfLineStart The one-indexed column of the character
+ *  at `lineStartIndex`.
+ * @returns {number} The one-indexed column number of `index`.
+ * @author Cursor Grok 4.6
+ */
+function columnNumberAt(
+  index: number,
+  lineStartIndex: number,
+  columnOfLineStart: number,
+): number {
+  return columnOfLineStart + (index - lineStartIndex);
+}
+
+/**
  * @summary Convert ASN.1 into a sequence of lexical tokens.
  * @description
  * This function takes a `string` containing raw ASN.1 text. This text does not
  * have to contain entire modules. Any section of ASN.1 will be valid.
  *
  * @param {string} str The raw ASN.1 text that is to be lexed.
+ * @param {Location} [startloc] The location of `str[0]` in the original
+ *  document. Used when `str` is a substring being re-lexed (as in `correct()`):
+ *  `startloc.startIndex` is added to every token's `startIndex` and
+ *  `endIndex`, and the character at index `0` is at `startloc.lineNumber` /
+ *  `startloc.columnNumber`.
  * @yields {Production<TerminalProductionType>} Lexical tokens.
  * @returns An `IterableIterator` that yields lexical tokens.
  * @function
@@ -59,13 +89,17 @@ export default function* lex(
   let i: number = 0;
   let loops: number = 0;
 
+  /**
+   * `startloc` is the location of `str[0]`. Offsets in `str` are relative to
+   * that character: add `base` to get original-document indices, and the
+   * first token is on `lineNumber` at `columnOfLineStart`.
+   */
+  const base: number = startloc?.startIndex ?? 0;
   let lineNumber: number = startloc?.lineNumber ?? 1;
-  let lineStartIndex: number = startloc
-    ? (startloc.startIndex - (startloc.columnNumber - 1))
-    : 0;
-  if (lineStartIndex < 0) {
-    lineStartIndex = 1;
-  }
+  let lineStartIndex: number = 0;
+  let columnOfLineStart: number = startloc?.columnNumber ?? 1;
+  let tokenStartLineNumber: number = lineNumber;
+  let tokenStartColumnNumber: number = columnOfLineStart;
 
   // Used in detecting the end of single-line comments.
   function isAtStartOfNewlineSequence(): boolean {
@@ -118,12 +152,11 @@ export default function* lex(
             }
             case "'": {
               const indexOfNextSingleQuote: number = str.indexOf("'", i + 1);
-              const base =  startloc?.startIndex ?? 0;
               let errloc: Location = {
                 startIndex: tokenStartIndex + base,
                 endIndex: str.length + base,
-                lineNumber,
-                columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+                lineNumber: tokenStartLineNumber,
+                columnNumber: tokenStartColumnNumber,
               };
               if (
                 indexOfNextSingleQuote === -1 ||
@@ -270,13 +303,12 @@ export default function* lex(
           ) {
             tokenEndIndex = i + 2;
           } else if (atTheEnd) {
-            const base =  startloc?.startIndex ?? 0;
             throw new ASN1SyntaxError(
               new Production(ProductionType.SYNTAX_ERROR, [], {
                 startIndex: tokenStartIndex + base,
                 endIndex: str.length + base,
-                lineNumber,
-                columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+                lineNumber: tokenStartLineNumber,
+                columnNumber: tokenStartColumnNumber,
               }),
               'Unterminated comment.',
             );
@@ -313,13 +345,12 @@ export default function* lex(
             tokenEndIndex = i;
             if (str.charCodeAt(tokenEndIndex - 1) === 0x2d) {
               const ident = str.slice(tokenStartIndex, tokenEndIndex);
-              const base =  startloc?.startIndex ?? 0;
               throw new ASN1SyntaxError(
                 new Production(ProductionType.SYNTAX_ERROR, [], {
                   startIndex: tokenStartIndex + base,
                   endIndex: tokenEndIndex + base,
-                  lineNumber,
-                  columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+                  lineNumber: tokenStartLineNumber,
+                  columnNumber: tokenStartColumnNumber,
                 }),
                 `Identifier '${ident}' may not end with a hyphen.`,
               );
@@ -346,13 +377,12 @@ export default function* lex(
             tokenEndIndex = i;
             if (str.charCodeAt(tokenEndIndex - 1) === 0x2d) {
               const ident = str.slice(tokenStartIndex, tokenEndIndex);
-              const base =  startloc?.startIndex ?? 0;
               throw new ASN1SyntaxError(
                 new Production(ProductionType.SYNTAX_ERROR, [], {
                   startIndex: tokenStartIndex + base,
                   endIndex: tokenEndIndex + base,
-                  lineNumber,
-                  columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+                  lineNumber: tokenStartLineNumber,
+                  columnNumber: tokenStartColumnNumber,
                 }),
                 `Identifier '${ident}' may not end with a hyphen.`,
               );
@@ -392,40 +422,43 @@ export default function* lex(
     /**
      * The condition (i === tokenEndIndex) forces this to loop through every
      * character in the text, even if the location of the end of the token
-     * is known.
-     *
-     * This allows thingsThatMustBeDoneForEveryCharacter() to be executed
-     * for every character.
+     * is known. Each increment of `i` updates line tracking, so comments
+     * and strings that contain newlines do not need a second scan.
      */
     if (i === tokenEndIndex && tokenEndIndex > tokenStartIndex) {
-      const base =  startloc?.startIndex ?? 0;
       yield new Production(tokenType, [], {
         startIndex: tokenStartIndex + base,
         endIndex: tokenEndIndex + base,
-        lineNumber,
-        columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+        lineNumber: tokenStartLineNumber,
+        columnNumber: tokenStartColumnNumber,
       });
-      if (tokenType === ProductionType.newlineWhitespace) {
-        lineNumber++;
-        lineStartIndex = i;
-      }
       tokenStartIndex = tokenEndIndex;
       tokenType = ProductionType.empty;
+      tokenStartLineNumber = lineNumber;
+      tokenStartColumnNumber = columnNumberAt(
+        tokenStartIndex,
+        lineStartIndex,
+        columnOfLineStart,
+      );
     } else {
-      i++; // TODO: Why is this only done in the "else" case?
+      if (isAtStartOfNewlineSequence()) {
+        lineNumber++;
+        lineStartIndex = i + (str.startsWith('\r\n', i) ? 2 : 1);
+        columnOfLineStart = 1;
+      }
+      i++;
     }
 
     // There should never be more loops than there are characters in `str`,
     // but we x4 it here, just in case I am forgetting something.
     if (loops > str.length * 4) {
-      const base =  startloc?.startIndex ?? 0;
       throw new ASN1ParserExpectationError(
         'Lexer caught in infinite loop.',
         new Production(ProductionType.SYNTAX_ERROR, [], {
           startIndex: tokenStartIndex + base,
           endIndex: tokenEndIndex + base,
-          lineNumber,
-          columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+          lineNumber: tokenStartLineNumber,
+          columnNumber: tokenStartColumnNumber,
         }),
       );
     }
