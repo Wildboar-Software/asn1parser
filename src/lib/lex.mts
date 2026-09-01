@@ -138,13 +138,28 @@ export default function* lex(
               break;
             }
             case '"': {
-              // TODO: Does this handle double doubles ""?
+              // `""` embeds a quotation mark. `indexOf === -1` must break:
+              // otherwise `str[-1 + 1]` is the opener `"` and this loops forever.
               tokenType = ProductionType.cstring;
               let indexOfNextDoubleQuote: number = str.indexOf('"', i + 1);
-              while (str[indexOfNextDoubleQuote + 1] === '"') {
+              while (
+                indexOfNextDoubleQuote !== -1 &&
+                str[indexOfNextDoubleQuote + 1] === '"'
+              ) {
                 indexOfNextDoubleQuote = str.indexOf(
                   '"',
                   indexOfNextDoubleQuote + 2
+                );
+              }
+              if (indexOfNextDoubleQuote === -1) {
+                throw new ASN1SyntaxError(
+                  new Production(ProductionType.SYNTAX_ERROR, [], {
+                    startIndex: tokenStartIndex + base,
+                    endIndex: str.length + base,
+                    lineNumber: tokenStartLineNumber,
+                    columnNumber: tokenStartColumnNumber,
+                  }),
+                  `Unterminated cstring at index ${i}.`,
                 );
               }
               tokenEndIndex = indexOfNextDoubleQuote + 1;

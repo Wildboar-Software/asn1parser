@@ -1,4 +1,4 @@
-import { grok, lex, LogLevel, parse, ProductionType } from '../dist/index.mjs';
+import { ASN1SyntaxError, grok, lex, LogLevel, parse, ProductionType } from '../dist/index.mjs';
 import { default as logger } from '../dist/lib/loggers/console.mjs';
 import { describe, test } from 'node:test';
 import { strict as assert, strictEqual as assertEqual } from 'node:assert';
@@ -128,6 +128,50 @@ function findLexeme(tokens, text, type, slice, startloc) {
 
 describe('Lexing', () => {
   logger.level = LogLevel.error;
+
+  test('lexes an empty cstring', () => {
+    const tokens = Array.from(lex('""'));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.cstring);
+    assertEqual(tokens[0].location.startIndex, 0);
+    assertEqual(tokens[0].location.endIndex, 2);
+  });
+
+  test('lexes a cstring that embeds a quotation mark as ""', () => {
+    const text = '"hello""world"';
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.cstring);
+    assertEqual(tokens[0].location.startIndex, 0);
+    assertEqual(tokens[0].location.endIndex, text.length);
+  });
+
+  test('throws on an unterminated cstring instead of hanging', { timeout: 2000 }, () => {
+    assert.throws(
+      () => Array.from(lex('"hello')),
+      (error) =>
+        error instanceof ASN1SyntaxError &&
+        error.message.includes('Unterminated cstring'),
+    );
+  });
+
+  test('throws on an unterminated cstring that is not at index 0', { timeout: 2000 }, () => {
+    assert.throws(
+      () => Array.from(lex('INTEGER "hello')),
+      (error) =>
+        error instanceof ASN1SyntaxError &&
+        error.message.includes('Unterminated cstring'),
+    );
+  });
+
+  test('throws on a cstring that ends with an unmatched escaped quote', { timeout: 2000 }, () => {
+    assert.throws(
+      () => Array.from(lex('"hello""')),
+      (error) =>
+        error instanceof ASN1SyntaxError &&
+        error.message.includes('Unterminated cstring'),
+    );
+  });
 
   for (const [text, pt] of testcases) {
     test(`single-lexeme text '${text}' works and does not read out-of-bounds or loop infinitely (${pt})`, () => {
