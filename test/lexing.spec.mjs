@@ -266,6 +266,29 @@ describe('Lexeme line and column numbers', () => {
     assertEqual(tokens[0].location.startIndex, startIndex);
   });
 
+  test('treats startloc as the location of index 0 even when the substring later contains a newline', () => {
+    // Mirrors correct(): re-lex a value substring whose production location
+    // is not column 1 of the original file.
+    const original = '    { a 1,\n      b 2 }';
+    const startIndex = original.indexOf('{');
+    const substring = original.slice(startIndex);
+    const startloc = {
+      startIndex,
+      endIndex: original.length,
+      lineNumber: 7,
+      columnNumber: 5,
+    };
+    const tokens = Array.from(lex(substring, startloc));
+    assertLexemeLocations(substring, tokens, startloc);
+    const open = findLexeme(tokens, substring, ProductionType.curlyOpening, '{', startloc);
+    assertEqual(open.location.startIndex, startIndex);
+    assertEqual(open.location.lineNumber, 7);
+    assertEqual(open.location.columnNumber, 5);
+    const b = findLexeme(tokens, substring, ProductionType.identifier, 'b', startloc);
+    assertEqual(b.location.lineNumber, 8);
+    assertEqual(b.location.columnNumber, 7);
+  });
+
   test('reports groked assignment locations correctly after a leading multi-line comment', () => {
     const text = `/* copyright
  * notice

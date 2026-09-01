@@ -34,21 +34,28 @@ function isIdentifierCharacter(characterCode: number): boolean {
 }
 
 /**
- * @summary Compute a one-indexed column number from substring-relative indices.
+ * @summary Compute the one-indexed column number of a substring index.
  * @description
- * `lineStartIndex` is the index of the first character of the current line in
- * the same coordinate system as `index`. It may be negative when `lex()` is
- * given a `startloc` whose column is greater than 1, meaning the current line
- * began before the substring being lexed.
+ * `startloc` is the location of `str[0]`. Until a newline is seen,
+ * `lineStartIndex` is `0` and `columnOfLineStart` is `startloc.columnNumber`,
+ * so index `0` reports that column. After a newline, `lineStartIndex` is the
+ * first character of the new line in `str` and `columnOfLineStart` is `1`.
  *
  * @param {number} index The substring-relative index of the character.
  * @param {number} lineStartIndex The substring-relative index of the first
- *  character of the current line.
+ *  character of the current line that appears in `str` (`0` before any
+ *  newline).
+ * @param {number} columnOfLineStart The one-indexed column of the character
+ *  at `lineStartIndex`.
  * @returns {number} The one-indexed column number of `index`.
  * @author Cursor Grok 4.6
  */
-function columnNumberAt(index: number, lineStartIndex: number): number {
-  return index - lineStartIndex + 1;
+function columnNumberAt(
+  index: number,
+  lineStartIndex: number,
+  columnOfLineStart: number,
+): number {
+  return columnOfLineStart + (index - lineStartIndex);
 }
 
 /**
@@ -97,9 +104,11 @@ function newlineSequenceLength(str: string, index: number): number {
  * @param {number} toIndex Exclusive end index of the range already yielded.
  * @param {number} lineNumber The one-indexed line number at `fromIndex`.
  * @param {number} lineStartIndex The substring-relative index of the first
- *  character of the line that contains `fromIndex`.
- * @returns {{ lineNumber: number, lineStartIndex: number }} Line tracking for
- *  the character at `toIndex`.
+ *  character of the current line that appears in `str`.
+ * @param {number} columnOfLineStart The one-indexed column of the character
+ *  at `lineStartIndex`. After a newline this becomes `1`.
+ * @returns {{ lineNumber: number, lineStartIndex: number, columnOfLineStart: number }}
+ *  Line tracking for the character at `toIndex`.
  * @author Cursor Grok 4.6
  */
 function advanceLineTrackingAfterRange(
@@ -108,19 +117,25 @@ function advanceLineTrackingAfterRange(
   toIndex: number,
   lineNumber: number,
   lineStartIndex: number,
-): { lineNumber: number; lineStartIndex: number } {
+  columnOfLineStart: number,
+): {
+  lineNumber: number;
+  lineStartIndex: number;
+  columnOfLineStart: number;
+} {
   let i: number = fromIndex;
   while (i < toIndex) {
     if (isNewlineSequenceStart(str, i)) {
       const length: number = newlineSequenceLength(str, i);
       lineNumber++;
       lineStartIndex = i + length;
+      columnOfLineStart = 1;
       i += length;
       continue;
     }
     i++;
   }
-  return { lineNumber, lineStartIndex };
+  return { lineNumber, lineStartIndex, columnOfLineStart };
 }
 
 /**
@@ -130,6 +145,11 @@ function advanceLineTrackingAfterRange(
  * have to contain entire modules. Any section of ASN.1 will be valid.
  *
  * @param {string} str The raw ASN.1 text that is to be lexed.
+ * @param {Location} [startloc] The location of `str[0]` in the original
+ *  document. Used when `str` is a substring being re-lexed (as in `correct()`):
+ *  `startloc.startIndex` is added to every token's `startIndex` and
+ *  `endIndex`, and the character at index `0` is at `startloc.lineNumber` /
+ *  `startloc.columnNumber`.
  * @yields {Production<TerminalProductionType>} Lexical tokens.
  * @returns An `IterableIterator` that yields lexical tokens.
  * @function
@@ -149,15 +169,15 @@ export default function* lex(
   let i: number = 0;
   let loops: number = 0;
 
-  let lineNumber: number = startloc?.lineNumber ?? 1;
   /**
-   * Substring-relative index of the first character of the current line.
-   * This may be negative when `startloc.columnNumber` is greater than 1,
-   * because the current line then began before the substring being lexed.
+   * `startloc` is the location of `str[0]`. Offsets in `str` are relative to
+   * that character: add `base` to get original-document indices, and the
+   * first token is on `lineNumber` at `columnOfLineStart`.
    */
-  let lineStartIndex: number = startloc ? 1 - startloc.columnNumber : 0;
-
   const base: number = startloc?.startIndex ?? 0;
+  let lineNumber: number = startloc?.lineNumber ?? 1;
+  let lineStartIndex: number = 0;
+  let columnOfLineStart: number = startloc?.columnNumber ?? 1;
 
   // Used in detecting the end of single-line comments.
   function isAtStartOfNewlineSequence(): boolean {
@@ -211,7 +231,7 @@ export default function* lex(
                 startIndex: tokenStartIndex + base,
                 endIndex: str.length + base,
                 lineNumber,
-                columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex),
+                columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex, columnOfLineStart),
               };
               if (
                 indexOfNextSingleQuote === -1 ||
@@ -363,7 +383,7 @@ export default function* lex(
                 startIndex: tokenStartIndex + base,
                 endIndex: str.length + base,
                 lineNumber,
-                columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex),
+                columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex, columnOfLineStart),
               }),
               'Unterminated comment.',
             );
@@ -405,7 +425,7 @@ export default function* lex(
                   startIndex: tokenStartIndex + base,
                   endIndex: tokenEndIndex + base,
                   lineNumber,
-                  columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex),
+                  columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex, columnOfLineStart),
                 }),
                 `Identifier '${ident}' may not end with a hyphen.`,
               );
@@ -437,7 +457,7 @@ export default function* lex(
                   startIndex: tokenStartIndex + base,
                   endIndex: tokenEndIndex + base,
                   lineNumber,
-                  columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex),
+                  columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex, columnOfLineStart),
                 }),
                 `Identifier '${ident}' may not end with a hyphen.`,
               );
@@ -486,15 +506,17 @@ export default function* lex(
         startIndex: tokenStartIndex + base,
         endIndex: tokenEndIndex + base,
         lineNumber,
-        columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex),
+        columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex, columnOfLineStart),
       });
-      ({ lineNumber, lineStartIndex } = advanceLineTrackingAfterRange(
-        str,
-        tokenStartIndex,
-        tokenEndIndex,
-        lineNumber,
-        lineStartIndex,
-      ));
+      ({ lineNumber, lineStartIndex, columnOfLineStart } =
+        advanceLineTrackingAfterRange(
+          str,
+          tokenStartIndex,
+          tokenEndIndex,
+          lineNumber,
+          lineStartIndex,
+          columnOfLineStart,
+        ));
       tokenStartIndex = tokenEndIndex;
       tokenType = ProductionType.empty;
     } else {
@@ -510,7 +532,7 @@ export default function* lex(
           startIndex: tokenStartIndex + base,
           endIndex: tokenEndIndex + base,
           lineNumber,
-          columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex),
+          columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex, columnOfLineStart),
         }),
       );
     }
