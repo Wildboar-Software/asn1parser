@@ -34,6 +34,96 @@ function isIdentifierCharacter(characterCode: number): boolean {
 }
 
 /**
+ * @summary Compute a one-indexed column number from substring-relative indices.
+ * @description
+ * `lineStartIndex` is the index of the first character of the current line in
+ * the same coordinate system as `index`. It may be negative when `lex()` is
+ * given a `startloc` whose column is greater than 1, meaning the current line
+ * began before the substring being lexed.
+ *
+ * @param {number} index The substring-relative index of the character.
+ * @param {number} lineStartIndex The substring-relative index of the first
+ *  character of the current line.
+ * @returns {number} The one-indexed column number of `index`.
+ * @author Cursor Grok 4.6
+ */
+function columnNumberAt(index: number, lineStartIndex: number): number {
+  return index - lineStartIndex + 1;
+}
+
+/**
+ * @summary Whether `index` is the first character of a newline sequence.
+ * @description
+ * Carriage return followed by line feed is treated as a single newline, so the
+ * line feed that follows a carriage return is not a new newline start.
+ *
+ * @param {string} str The text being scanned.
+ * @param {number} index The index to inspect.
+ * @returns {boolean} Whether a newline sequence begins at `index`.
+ * @author Cursor Grok 4.6
+ */
+function isNewlineSequenceStart(str: string, index: number): boolean {
+  return (
+    newlineWhitespaceCharacters.has(str.charCodeAt(index)) &&
+    str.charCodeAt(index - 1) !== CR
+  );
+}
+
+/**
+ * @summary Length of the newline sequence beginning at `index`.
+ * @description
+ * Returns `2` for a carriage-return / line-feed pair and `1` for any other
+ * recognized newline character.
+ *
+ * @param {string} str The text being scanned.
+ * @param {number} index The index of the first character of the newline.
+ * @returns {number} The number of characters in the newline sequence.
+ * @author Cursor Grok 4.6
+ */
+function newlineSequenceLength(str: string, index: number): number {
+  return str.startsWith('\r\n', index) ? 2 : 1;
+}
+
+/**
+ * @summary Advance line and column tracking through newlines in a token.
+ * @description
+ * ASN.1 block comments, character strings, and bstring / hstring values may
+ * contain newline characters while still being a single lexical token. Line
+ * numbers and column numbers of later tokens are wrong unless those embedded
+ * newlines update the current line after the token is emitted.
+ *
+ * @param {string} str The ASN.1 text being lexed.
+ * @param {number} fromIndex Inclusive start index of the range already yielded.
+ * @param {number} toIndex Exclusive end index of the range already yielded.
+ * @param {number} lineNumber The one-indexed line number at `fromIndex`.
+ * @param {number} lineStartIndex The substring-relative index of the first
+ *  character of the line that contains `fromIndex`.
+ * @returns {{ lineNumber: number, lineStartIndex: number }} Line tracking for
+ *  the character at `toIndex`.
+ * @author Cursor Grok 4.6
+ */
+function advanceLineTrackingAfterRange(
+  str: string,
+  fromIndex: number,
+  toIndex: number,
+  lineNumber: number,
+  lineStartIndex: number,
+): { lineNumber: number; lineStartIndex: number } {
+  let i: number = fromIndex;
+  while (i < toIndex) {
+    if (isNewlineSequenceStart(str, i)) {
+      const length: number = newlineSequenceLength(str, i);
+      lineNumber++;
+      lineStartIndex = i + length;
+      i += length;
+      continue;
+    }
+    i++;
+  }
+  return { lineNumber, lineStartIndex };
+}
+
+/**
  * @summary Convert ASN.1 into a sequence of lexical tokens.
  * @description
  * This function takes a `string` containing raw ASN.1 text. This text does not
@@ -60,19 +150,18 @@ export default function* lex(
   let loops: number = 0;
 
   let lineNumber: number = startloc?.lineNumber ?? 1;
-  let lineStartIndex: number = startloc
-    ? (startloc.startIndex - (startloc.columnNumber - 1))
-    : 0;
-  if (lineStartIndex < 0) {
-    lineStartIndex = 1;
-  }
+  /**
+   * Substring-relative index of the first character of the current line.
+   * This may be negative when `startloc.columnNumber` is greater than 1,
+   * because the current line then began before the substring being lexed.
+   */
+  let lineStartIndex: number = startloc ? 1 - startloc.columnNumber : 0;
+
+  const base: number = startloc?.startIndex ?? 0;
 
   // Used in detecting the end of single-line comments.
   function isAtStartOfNewlineSequence(): boolean {
-    return (
-      newlineWhitespaceCharacters.has(str.charCodeAt(i)) &&
-      str.charCodeAt(i - 1) !== CR
-    );
+    return isNewlineSequenceStart(str, i);
   }
 
   function theEndOfTheCurrentTokenIsKnown(): boolean {
@@ -118,12 +207,11 @@ export default function* lex(
             }
             case "'": {
               const indexOfNextSingleQuote: number = str.indexOf("'", i + 1);
-              const base =  startloc?.startIndex ?? 0;
               let errloc: Location = {
                 startIndex: tokenStartIndex + base,
                 endIndex: str.length + base,
                 lineNumber,
-                columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+                columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex),
               };
               if (
                 indexOfNextSingleQuote === -1 ||
@@ -270,13 +358,12 @@ export default function* lex(
           ) {
             tokenEndIndex = i + 2;
           } else if (atTheEnd) {
-            const base =  startloc?.startIndex ?? 0;
             throw new ASN1SyntaxError(
               new Production(ProductionType.SYNTAX_ERROR, [], {
                 startIndex: tokenStartIndex + base,
                 endIndex: str.length + base,
                 lineNumber,
-                columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+                columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex),
               }),
               'Unterminated comment.',
             );
@@ -313,13 +400,12 @@ export default function* lex(
             tokenEndIndex = i;
             if (str.charCodeAt(tokenEndIndex - 1) === 0x2d) {
               const ident = str.slice(tokenStartIndex, tokenEndIndex);
-              const base =  startloc?.startIndex ?? 0;
               throw new ASN1SyntaxError(
                 new Production(ProductionType.SYNTAX_ERROR, [], {
                   startIndex: tokenStartIndex + base,
                   endIndex: tokenEndIndex + base,
                   lineNumber,
-                  columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+                  columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex),
                 }),
                 `Identifier '${ident}' may not end with a hyphen.`,
               );
@@ -346,13 +432,12 @@ export default function* lex(
             tokenEndIndex = i;
             if (str.charCodeAt(tokenEndIndex - 1) === 0x2d) {
               const ident = str.slice(tokenStartIndex, tokenEndIndex);
-              const base =  startloc?.startIndex ?? 0;
               throw new ASN1SyntaxError(
                 new Production(ProductionType.SYNTAX_ERROR, [], {
                   startIndex: tokenStartIndex + base,
                   endIndex: tokenEndIndex + base,
                   lineNumber,
-                  columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+                  columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex),
                 }),
                 `Identifier '${ident}' may not end with a hyphen.`,
               );
@@ -392,23 +477,24 @@ export default function* lex(
     /**
      * The condition (i === tokenEndIndex) forces this to loop through every
      * character in the text, even if the location of the end of the token
-     * is known.
-     *
-     * This allows thingsThatMustBeDoneForEveryCharacter() to be executed
-     * for every character.
+     * is known. Line tracking for newlines inside that token (comments,
+     * strings, and newline whitespace) is updated after the token is yielded
+     * so the token itself still reports its start line and column.
      */
     if (i === tokenEndIndex && tokenEndIndex > tokenStartIndex) {
-      const base =  startloc?.startIndex ?? 0;
       yield new Production(tokenType, [], {
         startIndex: tokenStartIndex + base,
         endIndex: tokenEndIndex + base,
         lineNumber,
-        columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+        columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex),
       });
-      if (tokenType === ProductionType.newlineWhitespace) {
-        lineNumber++;
-        lineStartIndex = i;
-      }
+      ({ lineNumber, lineStartIndex } = advanceLineTrackingAfterRange(
+        str,
+        tokenStartIndex,
+        tokenEndIndex,
+        lineNumber,
+        lineStartIndex,
+      ));
       tokenStartIndex = tokenEndIndex;
       tokenType = ProductionType.empty;
     } else {
@@ -418,14 +504,13 @@ export default function* lex(
     // There should never be more loops than there are characters in `str`,
     // but we x4 it here, just in case I am forgetting something.
     if (loops > str.length * 4) {
-      const base =  startloc?.startIndex ?? 0;
       throw new ASN1ParserExpectationError(
         'Lexer caught in infinite loop.',
         new Production(ProductionType.SYNTAX_ERROR, [], {
           startIndex: tokenStartIndex + base,
           endIndex: tokenEndIndex + base,
           lineNumber,
-          columnNumber: (tokenStartIndex - lineStartIndex) + 1, // One-indexed
+          columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex),
         }),
       );
     }
