@@ -92,29 +92,28 @@ function newlineSequenceLength(str: string, index: number): number {
 }
 
 /**
- * @summary Advance line and column tracking through newlines in a token.
+ * @summary Apply one character to line and column tracking.
  * @description
- * ASN.1 block comments, character strings, and bstring / hstring values may
- * contain newline characters while still being a single lexical token. Line
- * numbers and column numbers of later tokens are wrong unless those embedded
- * newlines update the current line after the token is emitted.
+ * The lexer already advances `i` through every character of a token, even
+ * when the end was found with `indexOf`. Updating tracking on that advance
+ * means block comments and strings that contain newlines do not need a
+ * second scan after the token is yielded. The token itself still reports
+ * the line and column snapshotted at its first character.
  *
  * @param {string} str The ASN.1 text being lexed.
- * @param {number} fromIndex Inclusive start index of the range already yielded.
- * @param {number} toIndex Exclusive end index of the range already yielded.
- * @param {number} lineNumber The one-indexed line number at `fromIndex`.
+ * @param {number} index The character being passed.
+ * @param {number} lineNumber The one-indexed line number at `index`.
  * @param {number} lineStartIndex The substring-relative index of the first
  *  character of the current line that appears in `str`.
  * @param {number} columnOfLineStart The one-indexed column of the character
- *  at `lineStartIndex`. After a newline this becomes `1`.
+ *  at `lineStartIndex`.
  * @returns {{ lineNumber: number, lineStartIndex: number, columnOfLineStart: number }}
- *  Line tracking for the character at `toIndex`.
+ *  Line tracking for the character after `index`.
  * @author Cursor Grok 4.6
  */
-function advanceLineTrackingAfterRange(
+function advanceLineTrackingAt(
   str: string,
-  fromIndex: number,
-  toIndex: number,
+  index: number,
   lineNumber: number,
   lineStartIndex: number,
   columnOfLineStart: number,
@@ -123,19 +122,14 @@ function advanceLineTrackingAfterRange(
   lineStartIndex: number;
   columnOfLineStart: number;
 } {
-  let i: number = fromIndex;
-  while (i < toIndex) {
-    if (isNewlineSequenceStart(str, i)) {
-      const length: number = newlineSequenceLength(str, i);
-      lineNumber++;
-      lineStartIndex = i + length;
-      columnOfLineStart = 1;
-      i += length;
-      continue;
-    }
-    i++;
+  if (!isNewlineSequenceStart(str, index)) {
+    return { lineNumber, lineStartIndex, columnOfLineStart };
   }
-  return { lineNumber, lineStartIndex, columnOfLineStart };
+  return {
+    lineNumber: lineNumber + 1,
+    lineStartIndex: index + newlineSequenceLength(str, index),
+    columnOfLineStart: 1,
+  };
 }
 
 /**
@@ -178,6 +172,8 @@ export default function* lex(
   let lineNumber: number = startloc?.lineNumber ?? 1;
   let lineStartIndex: number = 0;
   let columnOfLineStart: number = startloc?.columnNumber ?? 1;
+  let tokenStartLineNumber: number = lineNumber;
+  let tokenStartColumnNumber: number = columnOfLineStart;
 
   // Used in detecting the end of single-line comments.
   function isAtStartOfNewlineSequence(): boolean {
@@ -230,8 +226,8 @@ export default function* lex(
               let errloc: Location = {
                 startIndex: tokenStartIndex + base,
                 endIndex: str.length + base,
-                lineNumber,
-                columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex, columnOfLineStart),
+                lineNumber: tokenStartLineNumber,
+                columnNumber: tokenStartColumnNumber,
               };
               if (
                 indexOfNextSingleQuote === -1 ||
@@ -382,8 +378,8 @@ export default function* lex(
               new Production(ProductionType.SYNTAX_ERROR, [], {
                 startIndex: tokenStartIndex + base,
                 endIndex: str.length + base,
-                lineNumber,
-                columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex, columnOfLineStart),
+                lineNumber: tokenStartLineNumber,
+                columnNumber: tokenStartColumnNumber,
               }),
               'Unterminated comment.',
             );
@@ -424,8 +420,8 @@ export default function* lex(
                 new Production(ProductionType.SYNTAX_ERROR, [], {
                   startIndex: tokenStartIndex + base,
                   endIndex: tokenEndIndex + base,
-                  lineNumber,
-                  columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex, columnOfLineStart),
+                  lineNumber: tokenStartLineNumber,
+                  columnNumber: tokenStartColumnNumber,
                 }),
                 `Identifier '${ident}' may not end with a hyphen.`,
               );
@@ -456,8 +452,8 @@ export default function* lex(
                 new Production(ProductionType.SYNTAX_ERROR, [], {
                   startIndex: tokenStartIndex + base,
                   endIndex: tokenEndIndex + base,
-                  lineNumber,
-                  columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex, columnOfLineStart),
+                  lineNumber: tokenStartLineNumber,
+                  columnNumber: tokenStartColumnNumber,
                 }),
                 `Identifier '${ident}' may not end with a hyphen.`,
               );
@@ -497,30 +493,34 @@ export default function* lex(
     /**
      * The condition (i === tokenEndIndex) forces this to loop through every
      * character in the text, even if the location of the end of the token
-     * is known. Line tracking for newlines inside that token (comments,
-     * strings, and newline whitespace) is updated after the token is yielded
-     * so the token itself still reports its start line and column.
+     * is known. Each increment of `i` updates line tracking, so comments
+     * and strings that contain newlines do not need a second scan.
      */
     if (i === tokenEndIndex && tokenEndIndex > tokenStartIndex) {
       yield new Production(tokenType, [], {
         startIndex: tokenStartIndex + base,
         endIndex: tokenEndIndex + base,
-        lineNumber,
-        columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex, columnOfLineStart),
+        lineNumber: tokenStartLineNumber,
+        columnNumber: tokenStartColumnNumber,
       });
+      tokenStartIndex = tokenEndIndex;
+      tokenType = ProductionType.empty;
+      tokenStartLineNumber = lineNumber;
+      tokenStartColumnNumber = columnNumberAt(
+        tokenStartIndex,
+        lineStartIndex,
+        columnOfLineStart,
+      );
+    } else {
       ({ lineNumber, lineStartIndex, columnOfLineStart } =
-        advanceLineTrackingAfterRange(
+        advanceLineTrackingAt(
           str,
-          tokenStartIndex,
-          tokenEndIndex,
+          i,
           lineNumber,
           lineStartIndex,
           columnOfLineStart,
         ));
-      tokenStartIndex = tokenEndIndex;
-      tokenType = ProductionType.empty;
-    } else {
-      i++; // TODO: Why is this only done in the "else" case?
+      i++;
     }
 
     // There should never be more loops than there are characters in `str`,
@@ -531,8 +531,8 @@ export default function* lex(
         new Production(ProductionType.SYNTAX_ERROR, [], {
           startIndex: tokenStartIndex + base,
           endIndex: tokenEndIndex + base,
-          lineNumber,
-          columnNumber: columnNumberAt(tokenStartIndex, lineStartIndex, columnOfLineStart),
+          lineNumber: tokenStartLineNumber,
+          columnNumber: tokenStartColumnNumber,
         }),
       );
     }
