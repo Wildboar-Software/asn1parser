@@ -19,7 +19,7 @@ export const ParameterizedValueSetTypeAssignment: Parser = recursiveParser(
         parserFor.ParameterList,
         parserFor.Type,
         literal(ProductionType.assignment),
-        parserFor.ValueSet,
+        parserFor.ValueSetInAssignment,
       ]
     )
 );

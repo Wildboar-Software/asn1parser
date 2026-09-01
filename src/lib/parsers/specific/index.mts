@@ -317,7 +317,12 @@ export { default as ValueFromObject } from './ValueFromObject.mjs';
 export { default as ValueList } from './ValueList.mjs';
 export { default as ValueOptionalitySpec } from './ValueOptionalitySpec.mjs';
 export { default as ValueRange } from './ValueRange.mjs';
-export { default as ValueSet } from './ValueSet.mjs';
+export {
+  default as ValueSet,
+  EmptyValueSet,
+  ValueSetInAssignment,
+  EMPTY_VALUE_SET_ERROR_MESSAGE,
+} from './ValueSet.mjs';
 export { default as ValueSetFromObjects } from './ValueSetFromObjects.mjs';
 export { default as ValueSetOptionalitySpec } from './ValueSetOptionalitySpec.mjs';
 export { default as ValueSetTypeAssignment } from './ValueSetTypeAssignment.mjs';

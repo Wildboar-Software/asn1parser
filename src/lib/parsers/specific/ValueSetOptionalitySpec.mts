@@ -23,7 +23,7 @@ export const ValueSetOptionalitySpec: Parser = recursiveParser(
       whitespaceTolerantSequenceOf(ProductionType.ValueSetOptionalitySpec, [
         literal(ProductionType._DEFAULT),
         assert(
-          parserFor.ValueSet,
+          parserFor.ValueSetInAssignment,
           choiceOf([
             literal(ProductionType.comma),
             literal(ProductionType.curlyClosing),
