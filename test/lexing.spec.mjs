@@ -214,6 +214,51 @@ describe('Lexing', () => {
     assertEqual(text.slice(tokens[2].location.startIndex, tokens[2].location.endIndex), '2');
   });
 
+  test('lexes a realnumber with an exponent and no decimal point', () => {
+    const tokens = Array.from(lex('1e10'));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.realnumber);
+    assertEqual(tokens[0].location.endIndex, 4);
+  });
+
+  test('lexes a realnumber with a signed exponent and no decimal point', () => {
+    const tokens = Array.from(lex('1E-5'));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.realnumber);
+    assertEqual(tokens[0].location.endIndex, 4);
+  });
+
+  test('lexes a realnumber with a decimal point and an exponent', () => {
+    const text = '1.0e10';
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.realnumber);
+    assertEqual(tokens[0].location.endIndex, text.length);
+  });
+
+  test('lexes a realnumber with a trailing decimal point and an exponent', () => {
+    const tokens = Array.from(lex('1.e10'));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.realnumber);
+    assertEqual(tokens[0].location.endIndex, 5);
+  });
+
+  test('does not lex a range as a realnumber', () => {
+    const text = '9..10';
+    const tokens = Array.from(lex(text));
+    assert.deepEqual(
+      tokens.map((token) => token.type),
+      [
+        ProductionType.number,
+        ProductionType.period,
+        ProductionType.period,
+        ProductionType.number,
+      ],
+    );
+    assertEqual(text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex), '9');
+    assertEqual(text.slice(tokens[3].location.startIndex, tokens[3].location.endIndex), '10');
+  });
+
   for (const [text, pt] of testcases) {
     test(`single-lexeme text '${text}' works and does not read out-of-bounds or loop infinitely (${pt})`, () => {
       let lexResults;
