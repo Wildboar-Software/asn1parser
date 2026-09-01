@@ -109,6 +109,9 @@ export default function* lex(
   let tokenStartLineNumber: number = lineNumber;
   let tokenStartColumnNumber: number = columnOfLineStart;
   let blockCommentDepth: number = 0;
+  // After matching `/*` or `*/`, skip the rest of that two-character delimiter
+  // so the opener cannot overlap a closer (`/*/` is not closed). Nesting is
+  // tracked only by `blockCommentDepth`; this is not per-level state.
   let blockCommentResumeAt: number = 0;
 
   // Used in detecting the end of single-line comments.
