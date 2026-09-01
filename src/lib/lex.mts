@@ -15,6 +15,14 @@ import ASN1ParserExpectationError from './errors/ASN1ParserExpectationError.mjs'
 const CR: number = '\r'.charCodeAt(0);
 
 /**
+ * ASN.1 `realnumber` (X.680 12.9):
+ * `number "." *decimal-digit [exponent]` or
+ * `number [ "." *decimal-digit ] exponent`.
+ * Sticky so it matches at `lastIndex` without copying the rest of the input.
+ */
+const REALNUMBER: RegExp = /(0|[1-9]\d*)(?:\.\d*(?:[eE]-?\d+)?|[eE]-?\d+)/y;
+
+/**
  * @summary Determine whether a character could be part of an `identifier`.
  * @description
  * Returns a `boolean` indicating whether the supplied character code is for
@@ -248,12 +256,8 @@ export default function* lex(
               const characterCode = str.charCodeAt(i);
 
               if (characterCode >= 0x30 && characterCode <= 0x39) {
-                const fractionalRealMatch: RegExpExecArray | null =
-                  /^(0|(?:[1-9]\d*))\.\d*(?:(e|E)-?\d+)?/.exec(str.slice(i));
-                const exponentialRealMatch: RegExpExecArray | null =
-                  /^(0|(?:[1-9]\d*))\.\d*(e|E)-?\d+/.exec(str.slice(i));
-                const match =
-                  fractionalRealMatch || exponentialRealMatch || null;
+                REALNUMBER.lastIndex = i;
+                const match: RegExpExecArray | null = REALNUMBER.exec(str);
                 if (match) {
                   /**
                    * This fixes an issue where a realnumber is
