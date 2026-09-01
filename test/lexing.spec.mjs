@@ -249,6 +249,43 @@ describe('Lexing', () => {
     assertEqual(tokens[0].type, ProductionType.realnumber);
   });
 
+  test('lexes lowercase true and false as XML boolean keywords', () => {
+    const text = 'true false TRUE FALSE';
+    const tokens = Array.from(lex(text)).filter(
+      (token) =>
+        token.type !== ProductionType.nonNewlineWhitespace,
+    );
+    assert.deepEqual(
+      tokens.map((token) => token.type),
+      [
+        ProductionType._true,
+        ProductionType._false,
+        ProductionType._TRUE,
+        ProductionType._FALSE,
+      ],
+    );
+  });
+
+  test('does not treat a longer identifier as the true keyword', () => {
+    const tokens = Array.from(lex('trueish'));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.identifier);
+  });
+
+  test('lexes XML empty-element boolean delimiters around lowercase true', () => {
+    const text = '<true/>';
+    const tokens = Array.from(lex(text));
+    assert.deepEqual(
+      tokens.map((token) => token.type),
+      [
+        ProductionType.lessThan,
+        ProductionType._true,
+        ProductionType.forwardSlash,
+        ProductionType.greaterThan,
+      ],
+    );
+  });
+
   test('lexes a realnumber with an exponent and no decimal point', () => {
     const tokens = Array.from(lex('1e10'));
     assertEqual(tokens.length, 1);
