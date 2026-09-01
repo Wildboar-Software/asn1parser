@@ -120,7 +120,7 @@ export default function* lex(
         case ProductionType.empty: {
           switch (str[i]) {
             case '-': {
-              if (str.indexOf('--', i) === i) {
+              if (str.startsWith('--', i)) {
                 tokenType = ProductionType.comment;
               } else {
                 tokenType = ProductionType.hyphen;
@@ -129,7 +129,7 @@ export default function* lex(
               break;
             }
             case '/': {
-              if (str.indexOf('/*', i) === i) {
+              if (str.startsWith('/*', i)) {
                 tokenType = ProductionType.comment;
               } else {
                 tokenType = ProductionType.forwardSlash;
@@ -227,7 +227,7 @@ export default function* lex(
               break;
             }
             case ':': {
-              if (str.indexOf('::=', i) === i) {
+              if (str.startsWith('::=', i)) {
                 tokenType = ProductionType.assignment;
                 tokenEndIndex = i + 3;
               } else {
@@ -260,10 +260,7 @@ export default function* lex(
                    * accidentally lexed from a range (e.g. "9..10" will
                    * be read as realnumber "9.", period, "10".)
                    */
-                  if (
-                    str.indexOf('..', i + match[0].length - 1) ===
-                    i + match[0].length - 1
-                  ) {
+                  if (str.startsWith('..', i + match[0].length - 1)) {
                     tokenType = ProductionType.number;
                     break;
                   }
@@ -284,7 +281,7 @@ export default function* lex(
 
               if (isAtStartOfNewlineSequence()) {
                 tokenType = ProductionType.newlineWhitespace;
-                if (str.indexOf('\r\n', i) === i) {
+                if (str.startsWith('\r\n', i)) {
                   // Unite CRLF into a single newline.
                   tokenEndIndex = i + 2;
                 } else {
@@ -318,14 +315,14 @@ export default function* lex(
           if (str[tokenStartIndex] === '-') {
             if (atTheEnd) {
               tokenEndIndex = i;
-            } else if (str.indexOf('--', i) === i) {
+            } else if (str.startsWith('--', i)) {
               tokenEndIndex = i + 2;
             } else if (isAtStartOfNewlineSequence()) {
               tokenEndIndex = i;
             }
           } else if (
             str[tokenStartIndex] === '/' &&
-            str.indexOf('*/', i) === i
+            str.startsWith('*/', i)
           ) {
             tokenEndIndex = i + 2;
           } else if (atTheEnd) {
