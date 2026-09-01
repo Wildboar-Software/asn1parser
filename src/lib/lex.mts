@@ -42,31 +42,6 @@ function isIdentifierCharacter(characterCode: number): boolean {
 }
 
 /**
- * @summary Whether a character is ASN.1 white-space or a newline (X.680 12.1.6).
- */
-function isAsn1Whitespace(characterCode: number): boolean {
-  return (
-    newlineWhitespaceCharacters.has(characterCode) ||
-    nonNewlineWhitespaceCharacters.has(characterCode)
-  );
-}
-
-/**
- * @summary Whether every character in `text` satisfies `predicate`.
- */
-function everyCharacterSatisfies(
-  text: string,
-  predicate: (characterCode: number) => boolean,
-): boolean {
-  for (let j: number = 0; j < text.length; j++) {
-    if (!predicate(text.charCodeAt(j))) {
-      return false;
-    }
-  }
-  return true;
-}
-
-/**
  * @summary Compute the one-indexed column number of a substring index.
  * @description
  * `startloc` is the location of `str[0]`. Until a newline is seen,
@@ -235,15 +210,7 @@ export default function* lex(
                     tokenStartIndex + 1,
                     indexOfNextSingleQuote
                   );
-                  if (
-                    !everyCharacterSatisfies(
-                      innards,
-                      (characterCode) =>
-                        characterCode === 0x30 ||
-                        characterCode === 0x31 ||
-                        isAsn1Whitespace(characterCode),
-                    )
-                  ) {
+                  if (!/^[01 \t\r\n\f\v\u00A0]*$/.test(innards)) {
                     throw new ASN1SyntaxError(
                       new Production(ProductionType.SYNTAX_ERROR, [], errloc),
                       `Invalid bstring: '${innards}'B.`,
@@ -258,15 +225,7 @@ export default function* lex(
                     tokenStartIndex + 1,
                     indexOfNextSingleQuote
                   );
-                  if (
-                    !everyCharacterSatisfies(
-                      innards,
-                      (characterCode) =>
-                        (characterCode >= 0x30 && characterCode <= 0x39) ||
-                        (characterCode >= 0x41 && characterCode <= 0x46) ||
-                        isAsn1Whitespace(characterCode),
-                    )
-                  ) {
+                  if (!/^[0-9A-F \t\r\n\f\v\u00A0]*$/.test(innards)) {
                     throw new ASN1SyntaxError(
                       new Production(ProductionType.SYNTAX_ERROR, [], errloc),
                       `Invalid hstring: '${innards}'H.`,
