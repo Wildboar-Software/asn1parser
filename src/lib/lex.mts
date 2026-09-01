@@ -93,7 +93,10 @@ export default function* lex(
 
   let tokenType: TerminalProductionType = ProductionType.empty;
   let tokenStartIndex: number = 0;
-  let tokenEndIndex: number = 0;
+  // `-1` means the end is not known yet. Using `tokenEndIndex > tokenStartIndex`
+  // cannot represent a zero-length token and treated `indexOf === -1` then `+ 1`
+  // as "still scanning" when the token started at 0.
+  let tokenEndIndex: number = -1;
   let i: number = 0;
   let loops: number = 0;
 
@@ -123,7 +126,7 @@ export default function* lex(
   }
 
   function theEndOfTheCurrentTokenIsKnown(): boolean {
-    return tokenEndIndex > tokenStartIndex;
+    return tokenEndIndex !== -1;
   }
 
   /**
@@ -464,7 +467,7 @@ export default function* lex(
      * at a time so line tracking stays current even inside comments and
      * strings whose end is already known.
      */
-    if (i === tokenEndIndex && tokenEndIndex > tokenStartIndex) {
+    if (i === tokenEndIndex && theEndOfTheCurrentTokenIsKnown()) {
       yield new Production(tokenType, [], {
         startIndex: tokenStartIndex + base,
         endIndex: tokenEndIndex + base,
@@ -472,6 +475,7 @@ export default function* lex(
         columnNumber: tokenStartColumnNumber,
       });
       tokenStartIndex = tokenEndIndex;
+      tokenEndIndex = -1;
       tokenType = ProductionType.empty;
       tokenStartLineNumber = lineNumber;
       tokenStartColumnNumber = columnNumberAt(
@@ -495,7 +499,8 @@ export default function* lex(
         'Lexer caught in infinite loop.',
         new Production(ProductionType.SYNTAX_ERROR, [], {
           startIndex: tokenStartIndex + base,
-          endIndex: tokenEndIndex + base,
+          endIndex:
+            (tokenEndIndex === -1 ? tokenStartIndex : tokenEndIndex) + base,
           lineNumber: tokenStartLineNumber,
           columnNumber: tokenStartColumnNumber,
         }),

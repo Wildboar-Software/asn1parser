@@ -21,8 +21,7 @@ export const specialCharacterToTokenMap: Map<string, LexicalProductionType> = ne
   ['-', LexicalProductionType.hyphen],
   [':', LexicalProductionType.colon],
   ['=', LexicalProductionType.equalSign],
-  ['"', LexicalProductionType.quotationMark],
-  ["'", LexicalProductionType.apostrophe],
+  // `"` and `'` are handled in dedicated lexer arms (`cstring`, `bstring`/`hstring`).
   // [ " ", TokenType.space ],
   [';', LexicalProductionType.semiColon],
   ['@', LexicalProductionType.atSign],

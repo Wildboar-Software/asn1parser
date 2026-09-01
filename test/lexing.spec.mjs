@@ -1,4 +1,4 @@
-import { ASN1SyntaxError, grok, lex, LogLevel, parse, ProductionType } from '../dist/index.mjs';
+import { ASN1SyntaxError, grok, lex, LogLevel, parse, ProductionType, specialCharacterToTokenMap } from '../dist/index.mjs';
 import { default as logger } from '../dist/lib/loggers/console.mjs';
 import { describe, test } from 'node:test';
 import { strict as assert, strictEqual as assertEqual } from 'node:assert';
@@ -18,8 +18,9 @@ const testcases = [
   // [ "-", ProductionType.hyphen ],
   [':', ProductionType.colon],
   ['=', ProductionType.equalSign],
+  // `"` / `'` start cstring / bstring|hstring; they are not quotationMark/apostrophe tokens.
   // [ "\"", ProductionType.quotationMark ],
-  ["'", ProductionType.apostrophe],
+  // [ "'", ProductionType.apostrophe ],
   [' ', ProductionType.nonNewlineWhitespace],
   [';', ProductionType.semiColon],
   ['@', ProductionType.atSign],
@@ -170,6 +171,29 @@ describe('Lexing', () => {
       (error) =>
         error instanceof ASN1SyntaxError &&
         error.message.includes('Unterminated cstring'),
+    );
+  });
+
+  test('does not map quotation marks or apostrophes as special-character tokens', () => {
+    assertEqual(specialCharacterToTokenMap.has('"'), false);
+    assertEqual(specialCharacterToTokenMap.has("'"), false);
+  });
+
+  test('lexes a cstring immediately followed by another token', () => {
+    const text = '"hi"INTEGER';
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens.length, 2);
+    assertEqual(tokens[0].type, ProductionType.cstring);
+    assertEqual(text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex), '"hi"');
+    assertEqual(tokens[1].type, ProductionType._INTEGER);
+  });
+
+  test('throws on a lone apostrophe instead of emitting an apostrophe token', () => {
+    assert.throws(
+      () => Array.from(lex("'")),
+      (error) =>
+        error instanceof ASN1SyntaxError &&
+        error.message.includes('Unterminated single-quoted token'),
     );
   });
 
