@@ -244,6 +244,120 @@ describe('Parser error detection', () => {
 
   test.todo('Add tests for all usages of the assert() parser.');
 
+  test('reports empty value set assignments with a descriptive syntax error', () => {
+    const cases = [
+      `A {iso} DEFINITIONS ::= BEGIN
+MealPlanEntitlements OBJECT IDENTIFIER ::= { ... }
+END`,
+      `A {iso} DEFINITIONS ::= BEGIN
+MealPlanEntitlements OBJECT IDENTIFIER ::= { }
+END`,
+      `A {iso} DEFINITIONS ::= BEGIN
+MealPlanEntitlements OBJECT IDENTIFIER ::= {}
+END`,
+    ];
+    for (const text of cases) {
+      const p = parse(text, Array.from(lex(text)));
+      assertEqual(p.error, undefined, text);
+      const errors = Object.values(p.syntaxErrors);
+      assertEqual(errors.length, 1, text);
+      assert(
+        errors[0].message.includes('Value sets cannot be empty'),
+        errors[0].message
+      );
+      const loc = errors[0].production.location;
+      const excerpt = text.slice(loc.startIndex, loc.endIndex).replace(/\s+/g, '');
+      assert(excerpt === '{...}' || excerpt === '{}', excerpt);
+      assert(find(ProductionType.ValueSetTypeAssignment, p.cst));
+      assert(find(ProductionType.ValueSet, p.cst));
+    }
+  });
+
+  test('continues parsing assignments after an empty value set', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+Foo ::= INTEGER
+MealPlanEntitlements OBJECT IDENTIFIER ::= { ... }
+Bar ::= INTEGER
+END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    assertEqual(Object.keys(p.syntaxErrors).length, 1);
+    assert(
+      Object.values(p.syntaxErrors)[0].message.includes(
+        'Value sets cannot be empty'
+      )
+    );
+    const assignments = [];
+    function collect(prod) {
+      if (prod.type === ProductionType.Assignment) {
+        assignments.push(prod);
+      }
+      for (const child of prod.children) {
+        collect(child);
+      }
+    }
+    collect(p.cst);
+    assertEqual(assignments.length, 3);
+  });
+
+  test('does not treat a legal empty object set as an empty value set', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+MY-CLASS ::= CLASS { &id INTEGER UNIQUE }
+MySet MY-CLASS ::= { ... }
+END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    assertEqual(Object.keys(p.syntaxErrors).length, 0);
+    assert(find(ProductionType.ObjectSetAssignment, p.cst));
+    assertEqual(find(ProductionType.ValueSetTypeAssignment, p.cst), undefined);
+  });
+
+  test('still parses a non-empty value set with an extension marker', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+Positive INTEGER ::= { 1 | 2, ... }
+END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    assertEqual(Object.keys(p.syntaxErrors).length, 0);
+    assert(find(ProductionType.ValueSetTypeAssignment, p.cst));
+  });
+
+  test('reports an empty DEFAULT value set on a class field', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+MY-CLASS ::= CLASS { &Set INTEGER DEFAULT { ... } }
+END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    const errors = Object.values(p.syntaxErrors);
+    assertEqual(errors.length, 1);
+    assert(errors[0].message.includes('Value sets cannot be empty'));
+  });
+
+  test('does not treat `{ ... }` in an ActualParameter as an empty value set', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+T {P} ::= INTEGER
+U ::= T { { ... } }
+END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    assertEqual(Object.keys(p.syntaxErrors).length, 0, text);
+  });
+
+  test('reports an empty parameterized value set assignment', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+MealPlanEntitlements {Param} OBJECT IDENTIFIER ::= { ... }
+END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    const errors = Object.values(p.syntaxErrors);
+    assertEqual(errors.length, 1);
+    assert(errors[0].message.includes('Value sets cannot be empty'));
+    assert(
+      find(ProductionType.ParameterizedValueSetTypeAssignment, p.cst)
+    );
+  });
+
+
   test('parses ObjectFromObjects and ObjectSetFromObjects differently.', () => {
     const text = `A {iso} DEFINITIONS ::= BEGIN
             Attrs ATTRIBUTE ::= {
