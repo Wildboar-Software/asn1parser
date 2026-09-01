@@ -286,6 +286,27 @@ describe('Lexing', () => {
     );
   });
 
+  test('lexes an all-uppercase typereference as an objectclassreference', () => {
+    const tokens = Array.from(lex('MY-CLASS'));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.objectclassreference);
+  });
+
+  test('still lexes INTEGER as a keyword rather than an objectclassreference', () => {
+    const tokens = Array.from(lex('INTEGER'));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType._INTEGER);
+  });
+
+  test('throws when an identifier ends with a hyphen', () => {
+    assert.throws(
+      () => Array.from(lex('foo-')),
+      (error) =>
+        error instanceof ASN1SyntaxError &&
+        error.message.includes('may not end with a hyphen'),
+    );
+  });
+
   test('allows NBSP inside an hstring', () => {
     const text = "'A\u00A0B'H INTEGER";
     const tokens = Array.from(lex(text));
