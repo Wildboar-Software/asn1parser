@@ -286,6 +286,37 @@ describe('Lexing', () => {
     );
   });
 
+  test('allows NBSP inside an hstring', () => {
+    const text = "'A\u00A0B'H INTEGER";
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens[0].type, ProductionType.hstring);
+    assertEqual(
+      text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex),
+      "'A\u00A0B'H",
+    );
+    assertEqual(tokens[tokens.length - 1].type, ProductionType._INTEGER);
+  });
+
+  test('allows NBSP inside a bstring', () => {
+    const text = "'1\u00A00'B INTEGER";
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens[0].type, ProductionType.bstring);
+    assertEqual(
+      text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex),
+      "'1\u00A00'B",
+    );
+    assertEqual(tokens[tokens.length - 1].type, ProductionType._INTEGER);
+  });
+
+  test('still rejects a non-hex character in an hstring', () => {
+    assert.throws(
+      () => Array.from(lex("'AG'H")),
+      (error) =>
+        error instanceof ASN1SyntaxError &&
+        error.message.includes('Invalid hstring'),
+    );
+  });
+
   test('lexes a realnumber with an exponent and no decimal point', () => {
     const tokens = Array.from(lex('1e10'));
     assertEqual(tokens.length, 1);
