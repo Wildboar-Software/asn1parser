@@ -259,6 +259,26 @@ describe('Lexing', () => {
     assertEqual(text.slice(tokens[3].location.startIndex, tokens[3].location.endIndex), '10');
   });
 
+  test('nests block comments and closes at the matching */', () => {
+    const text = '/* outer /* inner */ still */ INTEGER';
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens[0].type, ProductionType.comment);
+    assertEqual(
+      text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex),
+      '/* outer /* inner */ still */',
+    );
+    assertEqual(tokens[tokens.length - 1].type, ProductionType._INTEGER);
+  });
+
+  test('does not close a block comment by overlapping the opener', { timeout: 2000 }, () => {
+    assert.throws(
+      () => Array.from(lex('/*/')),
+      (error) =>
+        error instanceof ASN1SyntaxError &&
+        error.message.includes('Unterminated comment'),
+    );
+  });
+
   for (const [text, pt] of testcases) {
     test(`single-lexeme text '${text}' works and does not read out-of-bounds or loop infinitely (${pt})`, () => {
       let lexResults;
