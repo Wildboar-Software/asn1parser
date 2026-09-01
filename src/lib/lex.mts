@@ -59,80 +59,6 @@ function columnNumberAt(
 }
 
 /**
- * @summary Whether `index` is the first character of a newline sequence.
- * @description
- * Carriage return followed by line feed is treated as a single newline, so the
- * line feed that follows a carriage return is not a new newline start.
- *
- * @param {string} str The text being scanned.
- * @param {number} index The index to inspect.
- * @returns {boolean} Whether a newline sequence begins at `index`.
- * @author Cursor Grok 4.6
- */
-function isNewlineSequenceStart(str: string, index: number): boolean {
-  return (
-    newlineWhitespaceCharacters.has(str.charCodeAt(index)) &&
-    str.charCodeAt(index - 1) !== CR
-  );
-}
-
-/**
- * @summary Length of the newline sequence beginning at `index`.
- * @description
- * Returns `2` for a carriage-return / line-feed pair and `1` for any other
- * recognized newline character.
- *
- * @param {string} str The text being scanned.
- * @param {number} index The index of the first character of the newline.
- * @returns {number} The number of characters in the newline sequence.
- * @author Cursor Grok 4.6
- */
-function newlineSequenceLength(str: string, index: number): number {
-  return str.startsWith('\r\n', index) ? 2 : 1;
-}
-
-/**
- * @summary Apply one character to line and column tracking.
- * @description
- * The lexer already advances `i` through every character of a token, even
- * when the end was found with `indexOf`. Updating tracking on that advance
- * means block comments and strings that contain newlines do not need a
- * second scan after the token is yielded. The token itself still reports
- * the line and column snapshotted at its first character.
- *
- * @param {string} str The ASN.1 text being lexed.
- * @param {number} index The character being passed.
- * @param {number} lineNumber The one-indexed line number at `index`.
- * @param {number} lineStartIndex The substring-relative index of the first
- *  character of the current line that appears in `str`.
- * @param {number} columnOfLineStart The one-indexed column of the character
- *  at `lineStartIndex`.
- * @returns {{ lineNumber: number, lineStartIndex: number, columnOfLineStart: number }}
- *  Line tracking for the character after `index`.
- * @author Cursor Grok 4.6
- */
-function advanceLineTrackingAt(
-  str: string,
-  index: number,
-  lineNumber: number,
-  lineStartIndex: number,
-  columnOfLineStart: number,
-): {
-  lineNumber: number;
-  lineStartIndex: number;
-  columnOfLineStart: number;
-} {
-  if (!isNewlineSequenceStart(str, index)) {
-    return { lineNumber, lineStartIndex, columnOfLineStart };
-  }
-  return {
-    lineNumber: lineNumber + 1,
-    lineStartIndex: index + newlineSequenceLength(str, index),
-    columnOfLineStart: 1,
-  };
-}
-
-/**
  * @summary Convert ASN.1 into a sequence of lexical tokens.
  * @description
  * This function takes a `string` containing raw ASN.1 text. This text does not
@@ -177,7 +103,10 @@ export default function* lex(
 
   // Used in detecting the end of single-line comments.
   function isAtStartOfNewlineSequence(): boolean {
-    return isNewlineSequenceStart(str, i);
+    return (
+      newlineWhitespaceCharacters.has(str.charCodeAt(i)) &&
+      str.charCodeAt(i - 1) !== CR
+    );
   }
 
   function theEndOfTheCurrentTokenIsKnown(): boolean {
@@ -512,14 +441,11 @@ export default function* lex(
         columnOfLineStart,
       );
     } else {
-      ({ lineNumber, lineStartIndex, columnOfLineStart } =
-        advanceLineTrackingAt(
-          str,
-          i,
-          lineNumber,
-          lineStartIndex,
-          columnOfLineStart,
-        ));
+      if (isAtStartOfNewlineSequence()) {
+        lineNumber++;
+        lineStartIndex = i + (str.startsWith('\r\n', i) ? 2 : 1);
+        columnOfLineStart = 1;
+      }
       i++;
     }
 
