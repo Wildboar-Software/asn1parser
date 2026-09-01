@@ -422,6 +422,15 @@ export default function* lex(
               );
             }
           }
+          if (tokenEndIndex > tokenStartIndex) {
+            // Lowercase `true` / `false` are XML boolean keywords; lookup
+            // currently runs only here and on typereferences.
+            const token: string = str.slice(tokenStartIndex, tokenEndIndex);
+            const keywordType = keywordToTokenMap.get(token);
+            if (keywordType) {
+              tokenType = keywordType;
+            }
+          }
           break;
         }
         case ProductionType.typereference: {
