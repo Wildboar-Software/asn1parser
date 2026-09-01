@@ -108,6 +108,11 @@ export default function* lex(
   let columnOfLineStart: number = startloc?.columnNumber ?? 1;
   let tokenStartLineNumber: number = lineNumber;
   let tokenStartColumnNumber: number = columnOfLineStart;
+  let blockCommentDepth: number = 0;
+  // After matching `/*` or `*/`, skip the rest of that two-character delimiter
+  // so the opener cannot overlap a closer (`/*/` is not closed). Nesting is
+  // tracked only by `blockCommentDepth`; this is not per-level state.
+  let blockCommentResumeAt: number = 0;
 
   // Used in detecting the end of single-line comments.
   function isAtStartOfNewlineSequence(): boolean {
@@ -139,6 +144,9 @@ export default function* lex(
             case '/': {
               if (str.startsWith('/*', i)) {
                 tokenType = ProductionType.comment;
+                blockCommentDepth = 1;
+                // Do not match `*/` against the opener (`/*/` is not closed).
+                blockCommentResumeAt = i + 2;
               } else {
                 tokenType = ProductionType.forwardSlash;
                 tokenEndIndex = i + 1;
@@ -324,21 +332,31 @@ export default function* lex(
             } else if (isAtStartOfNewlineSequence()) {
               tokenEndIndex = i;
             }
-          } else if (
-            str[tokenStartIndex] === '/' &&
-            str.startsWith('*/', i)
-          ) {
-            tokenEndIndex = i + 2;
-          } else if (atTheEnd) {
-            throw new ASN1SyntaxError(
-              new Production(ProductionType.SYNTAX_ERROR, [], {
-                startIndex: tokenStartIndex + base,
-                endIndex: str.length + base,
-                lineNumber: tokenStartLineNumber,
-                columnNumber: tokenStartColumnNumber,
-              }),
-              'Unterminated comment.',
-            );
+          } else if (str[tokenStartIndex] === '/') {
+            if (atTheEnd) {
+              throw new ASN1SyntaxError(
+                new Production(ProductionType.SYNTAX_ERROR, [], {
+                  startIndex: tokenStartIndex + base,
+                  endIndex: str.length + base,
+                  lineNumber: tokenStartLineNumber,
+                  columnNumber: tokenStartColumnNumber,
+                }),
+                'Unterminated comment.',
+              );
+            }
+            if (i >= blockCommentResumeAt) {
+              if (str.startsWith('/*', i)) {
+                blockCommentDepth++;
+                blockCommentResumeAt = i + 2;
+              } else if (str.startsWith('*/', i)) {
+                blockCommentDepth--;
+                if (blockCommentDepth === 0) {
+                  tokenEndIndex = i + 2;
+                } else {
+                  blockCommentResumeAt = i + 2;
+                }
+              }
+            }
           }
           break;
         }
