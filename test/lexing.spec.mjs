@@ -214,6 +214,41 @@ describe('Lexing', () => {
     assertEqual(text.slice(tokens[2].location.startIndex, tokens[2].location.endIndex), '2');
   });
 
+  test('emits SYNTAX_ERROR for a number with leading zeros', () => {
+    const text = '0123';
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.SYNTAX_ERROR);
+    assertEqual(text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex), '0123');
+  });
+
+  test('still lexes a lone 0 as a number', () => {
+    const tokens = Array.from(lex('0'));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.number);
+  });
+
+  test('does not treat 00.5 as a number or realnumber', () => {
+    const text = '00.5';
+    const tokens = Array.from(lex(text));
+    assert.deepEqual(
+      tokens.map((token) => token.type),
+      [
+        ProductionType.SYNTAX_ERROR,
+        ProductionType.period,
+        ProductionType.number,
+      ],
+    );
+    assertEqual(text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex), '00');
+    assertEqual(text.slice(tokens[2].location.startIndex, tokens[2].location.endIndex), '5');
+  });
+
+  test('still lexes 0.5 as a realnumber', () => {
+    const tokens = Array.from(lex('0.5'));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.realnumber);
+  });
+
   test('lexes a realnumber with an exponent and no decimal point', () => {
     const tokens = Array.from(lex('1e10'));
     assertEqual(tokens.length, 1);
