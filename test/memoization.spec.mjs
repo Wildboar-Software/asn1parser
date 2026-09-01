@@ -48,6 +48,8 @@ describe('Packrat memoization', () => {
   });
 
   test('still groks INTEGER DEFAULT values using currentType', () => {
+    // Relies on NamedType's parse callback setting currentType, including
+    // when NamedType is served from the packrat table.
     const text = `
 M {iso} DEFINITIONS ::= BEGIN
   S ::= SEQUENCE {

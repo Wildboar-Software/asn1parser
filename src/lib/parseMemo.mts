@@ -14,6 +14,16 @@ export interface MemoEntry {
 }
 
 /**
+ * Fingerprint → cached parse outcome at one token index.
+ */
+export type MemoFingerprintTable = Map<number, MemoEntry>;
+
+/**
+ * Start token index → fingerprint table for one parser instance.
+ */
+export type MemoIndexTable = Map<number, MemoFingerprintTable>;
+
+/**
  * @summary Per-parse packrat table: parser instance → start index → fingerprint → entry.
  * @description
  * Parser instances that are module-level singletons (or resolved once by
@@ -22,7 +32,7 @@ export interface MemoEntry {
  * every `{...state}` copy, then dropped when `Parser.start` returns so failed
  * CSTs are not retained on the result.
  */
-export type ParseMemo = WeakMap<object, Map<number, Map<number, MemoEntry>>>;
+export type ParseMemo = WeakMap<object, MemoIndexTable>;
 
 const TYPE_CODE: Map<string, number> = new Map();
 
@@ -79,7 +89,8 @@ export function createParseMemo(): ParseMemo {
  * The returned context is a shallow copy of `state` with the cached
  * `index` / `cst` / `error` / type flags overlaid. Callers such as
  * `optional()` mutate the returned object (`delete result.error`); copying
- * keeps the table entry intact.
+ * keeps the table entry intact. `Parser.execute` still fires parse
+ * callbacks on this copy so type-aware `Value` parsing sees `currentType`.
  *
  * @param {object} parser The parser instance (`this` in `execute`).
  * @param {ParseContext} state The incoming parser state.
@@ -128,12 +139,12 @@ export function storeMemo(
   if (!table) {
     return;
   }
-  let byIndex = table.get(parser);
+  let byIndex: MemoIndexTable | undefined = table.get(parser);
   if (!byIndex) {
     byIndex = new Map();
     table.set(parser, byIndex);
   }
-  let byFp = byIndex.get(startIndex);
+  let byFp: MemoFingerprintTable | undefined = byIndex.get(startIndex);
   if (!byFp) {
     byFp = new Map();
     byIndex.set(startIndex, byFp);

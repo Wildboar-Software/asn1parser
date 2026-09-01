@@ -114,7 +114,10 @@ export default class Parser {
    * (`currentType`, `justParsedPluralLiteral`, and the sizes of the
    * identifier / syntax-token / enum-item collections). Hits return a
    * shallow copy so `optional()` can `delete result.error` without
-   * corrupting the table.
+   * corrupting the table. Callbacks still run on a hit: `NamedType` sets
+   * `currentType` so the following `Value` can choose a type-specific
+   * alternative, `Literal` sets `justParsedPluralLiteral`, and module /
+   * assignment callbacks update the shared identifier tables.
    *
    * EOF and already-errored states are not cached: those paths return the
    * caller's `cst` rather than a production of this parser.
@@ -145,19 +148,23 @@ export default class Parser {
           };
     }
     const startIndex = state.index;
-    const run = (): ParseContext => {
-      const ret = this.executor(state);
-      if (runCallbacks && !ret.error && state.callbackMap.has(ret.cst.type)) {
-        ret.callbackMap.get(ret.cst.type)!(ret);
+    const applyCallbacks = (result: ParseContext): ParseContext => {
+      if (
+        runCallbacks &&
+        !result.error &&
+        result.callbackMap.has(result.cst.type)
+      ) {
+        result.callbackMap.get(result.cst.type)!(result);
       }
-      return ret;
+      return result;
     };
+    const run = (): ParseContext => applyCallbacks(this.executor(state));
     if (this.packrat && state.memo) {
       const fingerprint = memoFingerprint(state);
       if (fingerprint !== undefined) {
         const cached = lookupMemo(this, state, fingerprint);
         if (cached) {
-          return cached;
+          return applyCallbacks(cached);
         }
         const ret = run();
         storeMemo(this, state, startIndex, fingerprint, ret);
