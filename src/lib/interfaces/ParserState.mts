@@ -1,6 +1,7 @@
 import type Production from '../Production.mjs';
 import type ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 import type ParseContext from './ParseContext.mjs';
+import type { ParseMemo } from '../parseMemo.mjs';
 import AssignmentType from '../constructs/AssignmentType.mjs';
 import TypeType from '../constructs/TypeType.mjs';
 
@@ -125,4 +126,15 @@ export default interface ParserState {
    * @readonly
    */
   justParsedPluralLiteral?: boolean;
+
+  /**
+   * @summary Packrat table for this parse, keyed by parser instance and index.
+   * @description
+   * Shared by reference across `{...state}` copies so backtracking reuses
+   * work. `Parser.start` installs a table and clears it before returning so
+   * failed CSTs are not retained on the result. Absent when a caller builds
+   * a `ParseContext` by hand.
+   * @member
+   */
+  memo?: ParseMemo;
 }

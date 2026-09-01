@@ -11,6 +11,12 @@ import onDidParseModuleDefinition from './parsers/callbacks/ModuleDefinition.mjs
 import onDidParseNamedType from './parsers/callbacks/NamedType.mjs';
 import onDidParseValue from './parsers/callbacks/Value.mjs';
 import onDidParseLiteral from './parsers/callbacks/Literal.mjs';
+import {
+  createParseMemo,
+  lookupMemo,
+  memoFingerprint,
+  storeMemo,
+} from './parseMemo.mjs';
 
 /**
  * @summary A class grouping the code and data for a parser.
@@ -20,12 +26,20 @@ export default class Parser {
   /**
    * @param name A function that returns the name of the `Parser`
    * @param executor A function that actually parses.
+   * @param packrat When true, cache results by token index and semantic context.
    * @public
    * @constructor
    */
   constructor(
     readonly name: () => string,
-    readonly executor: (state: ParseContext) => ParseContext
+    readonly executor: (state: ParseContext) => ParseContext,
+    /**
+     * When true, `execute` caches results by token index and semantic
+     * context. Enabled for expensive singleton parsers (`recursiveParser`,
+     * `whitespace`, `Setting`). Cheap combinators such as `literal()` skip
+     * the table so lookup cost does not exceed the work saved.
+     */
+    readonly packrat: boolean = false
   ) {}
 
   /**
@@ -43,7 +57,7 @@ export default class Parser {
    * @method
    */
   public start(tokens: Production[], text: string): ParseContext {
-    return this.executor({
+    const ret = this.executor({
       log: consoleLogger,
       tokens,
       index: 0,
@@ -69,7 +83,11 @@ export default class Parser {
       text,
       definedSyntaxTokens: new Set([]),
       definedEnumItems: new Set([]),
+      memo: createParseMemo(),
     });
+    // Drop the packrat table so failed CSTs are not retained on the result.
+    ret.memo = undefined;
+    return ret;
   }
 
   /**
@@ -85,19 +103,67 @@ export default class Parser {
    * @method
    */
   public execute(state: ParseContext): ParseContext {
+    return this.executeInternal(state, true, true);
+  }
+
+  /**
+   * @summary Run this parser, reusing a prior result at this index when safe.
+   * @description
+   * Packrat memoization is keyed by parser identity, token index, and a
+   * snapshot of context that can change which alternative is accepted
+   * (`currentType`, `justParsedPluralLiteral`, and the sizes of the
+   * identifier / syntax-token / enum-item collections). Hits return a
+   * shallow copy so `optional()` can `delete result.error` without
+   * corrupting the table.
+   *
+   * EOF and already-errored states are not cached: those paths return the
+   * caller's `cst` rather than a production of this parser.
+   *
+   * @param {ParseContext} state The starting state.
+   * @param {boolean} eofIsError Whether reading past the last token is an error.
+   * @param {boolean} runCallbacks Whether to fire `callbackMap` on success.
+   * @returns {ParseContext} The state after this parser runs (or a memo hit).
+   * @protected
+   * @method
+   */
+  protected executeInternal(
+    state: ParseContext,
+    eofIsError: boolean,
+    runCallbacks: boolean
+  ): ParseContext {
     if (state.error) {
       return state;
     }
     if (state.index >= state.tokens.length) {
-      return {
-        ...state,
-        error: true,
-      };
+      return eofIsError
+        ? {
+            ...state,
+            error: true,
+          }
+        : {
+            ...state,
+          };
     }
-    const ret = this.executor(state);
-    if (!ret.error && state.callbackMap.has(ret.cst.type)) {
-      ret.callbackMap.get(ret.cst.type)!(ret);
+    const startIndex = state.index;
+    const run = (): ParseContext => {
+      const ret = this.executor(state);
+      if (runCallbacks && !ret.error && state.callbackMap.has(ret.cst.type)) {
+        ret.callbackMap.get(ret.cst.type)!(ret);
+      }
+      return ret;
+    };
+    if (this.packrat && state.memo) {
+      const fingerprint = memoFingerprint(state);
+      if (fingerprint !== undefined) {
+        const cached = lookupMemo(this, state, fingerprint);
+        if (cached) {
+          return cached;
+        }
+        const ret = run();
+        storeMemo(this, state, startIndex, fingerprint, ret);
+        return ret;
+      }
     }
-    return ret;
+    return run();
   }
 }

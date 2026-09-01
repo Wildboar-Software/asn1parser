@@ -43,6 +43,7 @@ export const Setting: Parser = new Parser(
   (state: ParseContext): ParseContext =>
     state.justParsedPluralLiteral
       ? PluralSettingParser.execute(state)
-      : SingularSettingParser.execute(state)
+      : SingularSettingParser.execute(state),
+  true
 );
 export default Setting;
