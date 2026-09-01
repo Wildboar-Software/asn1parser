@@ -299,6 +299,17 @@ export default function* lex(
               if (nonNewlineWhitespaceCharacters.has(characterCode)) {
                 tokenType = ProductionType.nonNewlineWhitespace;
               }
+
+              /**
+               * A character that cannot start any ASN.1 lexeme. Emit it as
+               * `SYNTAX_ERROR` instead of leaving `tokenType` empty, which
+               * would swallow the character into the next token or spin until
+               * the infinite-loop guard.
+               */
+              if (tokenType === ProductionType.empty && i < str.length) {
+                tokenType = ProductionType.SYNTAX_ERROR;
+                tokenEndIndex = i + 1;
+              }
             }
           }
           break;

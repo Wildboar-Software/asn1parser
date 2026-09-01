@@ -204,6 +204,19 @@ describe('Parser error detection', () => {
     assertEqual(Object.keys(p.syntaxErrors).length, 1);
   }
 
+  test('parses the rest of a module after an unrecognized character', () => {
+    const text = 'A {iso} DEFINITIONS ::= BEGIN T ::= INTEGER\n%\nU ::= BOOLEAN END';
+    const tokens = Array.from(lex(text));
+    const junk = tokens.find((token) => token.type === ProductionType.SYNTAX_ERROR);
+    assert(junk);
+    assertEqual(text.slice(junk.location.startIndex, junk.location.endIndex), '%');
+    const p = parse(text, tokens);
+    assertEqual(p.error, undefined);
+    assertEqual(Object.keys(p.syntaxErrors).length, 1);
+    const modules = grok(text, p);
+    assertEqual(Object.keys(modules[0].assignments).sort().join(','), 'T,U');
+  });
+
   test('produces SYNTAX-ERROR productions where assert() parser is used', () => {
     const text = 'A {iso} DEFINITIONS EXPLICIT ::= BEGIN Typeyboi ::= ANY END';
     const p = parse(text, Array.from(lex(text)));
