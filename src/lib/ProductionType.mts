@@ -444,6 +444,8 @@ export enum UnlistedProductionType {
 export enum ControlProductionType {
   /**
    * This is a "fake" production that signals a syntax error in parsing.
+   * The lexer also emits it for a character that is not a valid ASN.1 lexeme,
+   * so the rest of the input can still be tokenized and parsed.
    */
   SYNTAX_ERROR = 'SYNTAX-ERROR',
 }
@@ -464,7 +466,8 @@ export type TerminalProductionType =
   | InferredButUndefinedSpecialCharacterProductionType
   | RemovedKeywordProductionType
   | RemovedLiteralProductionType
-  | RemovedLexicalProductionType;
+  | RemovedLexicalProductionType
+  | ControlProductionType;
 
 /**
  * @summary All productions that are not composed of other productions
@@ -483,6 +486,7 @@ export const TerminalProductionType = {
   ...RemovedKeywordProductionType,
   ...RemovedLiteralProductionType,
   ...RemovedLexicalProductionType,
+  ...ControlProductionType,
 };
 
 /**

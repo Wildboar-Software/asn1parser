@@ -173,6 +173,47 @@ describe('Lexing', () => {
     );
   });
 
+  test('emits SYNTAX_ERROR for an unrecognized character instead of hanging', { timeout: 2000 }, () => {
+    const tokens = Array.from(lex('?'));
+    assertEqual(tokens.length, 1);
+    assertEqual(tokens[0].type, ProductionType.SYNTAX_ERROR);
+    assertEqual(tokens[0].location.startIndex, 0);
+    assertEqual(tokens[0].location.endIndex, 1);
+  });
+
+  test('does not swallow an unrecognized character into the following identifier', () => {
+    const text = '%foo';
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens.length, 2);
+    assertEqual(tokens[0].type, ProductionType.SYNTAX_ERROR);
+    assertEqual(text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex), '%');
+    assertEqual(tokens[1].type, ProductionType.identifier);
+    assertEqual(text.slice(tokens[1].location.startIndex, tokens[1].location.endIndex), 'foo');
+  });
+
+  test('does not swallow an unrecognized character into following whitespace', () => {
+    const text = '% foo';
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens[0].type, ProductionType.SYNTAX_ERROR);
+    assertEqual(text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex), '%');
+    assertEqual(tokens[1].type, ProductionType.nonNewlineWhitespace);
+    assertEqual(text.slice(tokens[1].location.startIndex, tokens[1].location.endIndex), ' ');
+    assertEqual(tokens[2].type, ProductionType.identifier);
+    assertEqual(text.slice(tokens[2].location.startIndex, tokens[2].location.endIndex), 'foo');
+  });
+
+  test('does not swallow an unrecognized character into the following number', () => {
+    const text = '1%2';
+    const tokens = Array.from(lex(text));
+    assertEqual(tokens.length, 3);
+    assertEqual(tokens[0].type, ProductionType.number);
+    assertEqual(text.slice(tokens[0].location.startIndex, tokens[0].location.endIndex), '1');
+    assertEqual(tokens[1].type, ProductionType.SYNTAX_ERROR);
+    assertEqual(text.slice(tokens[1].location.startIndex, tokens[1].location.endIndex), '%');
+    assertEqual(tokens[2].type, ProductionType.number);
+    assertEqual(text.slice(tokens[2].location.startIndex, tokens[2].location.endIndex), '2');
+  });
+
   for (const [text, pt] of testcases) {
     test(`single-lexeme text '${text}' works and does not read out-of-bounds or loop infinitely (${pt})`, () => {
       let lexResults;
