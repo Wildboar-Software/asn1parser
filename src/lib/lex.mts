@@ -126,6 +126,49 @@ export default function* lex(
     return tokenEndIndex > tokenStartIndex;
   }
 
+  /**
+   * End an `identifier` or `typereference`. `--` starts a comment, so it is
+   * not part of the name (X.680 also forbids consecutive hyphens here).
+   * Trailing hyphen is an error. Keywords win; remaining all-caps
+   * typereferences become `objectclassreference`.
+   */
+  function finishIdentifierLikeToken(): void {
+    const atTheEnd: boolean = i === str.length;
+    const characterCode: number = str.charCodeAt(i);
+    const ended: boolean =
+      atTheEnd ||
+      !isIdentifierCharacter(characterCode) ||
+      (!atTheEnd &&
+        characterCode === 0x2d &&
+        str.charCodeAt(i + 1) === 0x2d);
+    if (!ended) {
+      return;
+    }
+    tokenEndIndex = i;
+    if (str.charCodeAt(tokenEndIndex - 1) === 0x2d) {
+      const ident: string = str.slice(tokenStartIndex, tokenEndIndex);
+      throw new ASN1SyntaxError(
+        new Production(ProductionType.SYNTAX_ERROR, [], {
+          startIndex: tokenStartIndex + base,
+          endIndex: tokenEndIndex + base,
+          lineNumber: tokenStartLineNumber,
+          columnNumber: tokenStartColumnNumber,
+        }),
+        `Identifier '${ident}' may not end with a hyphen.`,
+      );
+    }
+    const token: string = str.slice(tokenStartIndex, tokenEndIndex);
+    const keywordType = keywordToTokenMap.get(token);
+    if (keywordType) {
+      tokenType = keywordType;
+    } else if (
+      tokenType === ProductionType.typereference &&
+      token.toUpperCase() === token
+    ) {
+      tokenType = ProductionType.objectclassreference;
+    }
+  }
+
   while (tokenStartIndex < str.length) {
     const atTheEnd: boolean = i === str.length;
     if (!theEndOfTheCurrentTokenIsKnown()) {
@@ -392,89 +435,9 @@ export default function* lex(
           }
           break;
         }
-        case ProductionType.identifier: {
-          const characterCode = str.charCodeAt(i);
-          if (
-            atTheEnd ||
-            !isIdentifierCharacter(characterCode) ||
-            /**
-             * This condition discontinues lexing an identifier if it encounters
-             * two adjacent hyphens. Since two or more adjacent hyphens are not
-             * permitted within an identifier, this is correct, but it also has
-             * the benefit of allowing line comments to immediately follow an
-             * identifier without whitespace between them.
-             */
-            (!atTheEnd &&
-              characterCode === 0x2d &&
-              str.charCodeAt(i + 1) === 0x2d)
-          ) {
-            tokenEndIndex = i;
-            if (str.charCodeAt(tokenEndIndex - 1) === 0x2d) {
-              const ident = str.slice(tokenStartIndex, tokenEndIndex);
-              throw new ASN1SyntaxError(
-                new Production(ProductionType.SYNTAX_ERROR, [], {
-                  startIndex: tokenStartIndex + base,
-                  endIndex: tokenEndIndex + base,
-                  lineNumber: tokenStartLineNumber,
-                  columnNumber: tokenStartColumnNumber,
-                }),
-                `Identifier '${ident}' may not end with a hyphen.`,
-              );
-            }
-          }
-          if (tokenEndIndex > tokenStartIndex) {
-            // Lowercase `true` / `false` are XML boolean keywords; lookup
-            // currently runs only here and on typereferences.
-            const token: string = str.slice(tokenStartIndex, tokenEndIndex);
-            const keywordType = keywordToTokenMap.get(token);
-            if (keywordType) {
-              tokenType = keywordType;
-            }
-          }
-          break;
-        }
+        case ProductionType.identifier:
         case ProductionType.typereference: {
-          const characterCode = str.charCodeAt(i);
-          if (
-            atTheEnd ||
-            !isIdentifierCharacter(characterCode) ||
-            /**
-             * This condition discontinues lexing an identifier if it encounters
-             * two adjacent hyphens. Since two or more adjacent hyphens are not
-             * permitted within an identifier, this is correct, but it also has
-             * the benefit of allowing line comments to immediately follow an
-             * identifier without whitespace between them.
-             */
-            (!atTheEnd &&
-              characterCode === 0x2d &&
-              str.charCodeAt(i + 1) === 0x2d)
-          ) {
-            tokenEndIndex = i;
-            if (str.charCodeAt(tokenEndIndex - 1) === 0x2d) {
-              const ident = str.slice(tokenStartIndex, tokenEndIndex);
-              throw new ASN1SyntaxError(
-                new Production(ProductionType.SYNTAX_ERROR, [], {
-                  startIndex: tokenStartIndex + base,
-                  endIndex: tokenEndIndex + base,
-                  lineNumber: tokenStartLineNumber,
-                  columnNumber: tokenStartColumnNumber,
-                }),
-                `Identifier '${ident}' may not end with a hyphen.`,
-              );
-            }
-          }
-          if (tokenEndIndex > tokenStartIndex) {
-            const token: string = str.slice(tokenStartIndex, tokenEndIndex);
-            const keywordType = keywordToTokenMap.get(token);
-            if (keywordType) {
-              tokenType = keywordType;
-              break;
-            }
-            if (token.toUpperCase() === token) {
-              tokenType = ProductionType.objectclassreference;
-              break;
-            }
-          }
+          finishIdentifierLikeToken();
           break;
         }
         case ProductionType.nonNewlineWhitespace: {
@@ -495,10 +458,11 @@ export default function* lex(
     }
 
     /**
-     * The condition (i === tokenEndIndex) forces this to loop through every
-     * character in the text, even if the location of the end of the token
-     * is known. Each increment of `i` updates line tracking, so comments
-     * and strings that contain newlines do not need a second scan.
+     * When the token is complete, `i` already equals `tokenEndIndex` (the
+     * first character of the next token). Yield without incrementing, or
+     * that character would be skipped. Otherwise walk `i` one character
+     * at a time so line tracking stays current even inside comments and
+     * strings whose end is already known.
      */
     if (i === tokenEndIndex && tokenEndIndex > tokenStartIndex) {
       yield new Production(tokenType, [], {
