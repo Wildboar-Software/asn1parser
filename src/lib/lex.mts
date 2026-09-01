@@ -278,6 +278,23 @@ export default function* lex(
                   }
                   tokenType = ProductionType.realnumber;
                   tokenEndIndex = i + match[0].length;
+                } else if (
+                  // X.680 12.8: `number` is `0` or a non-zero digit plus digits.
+                  characterCode === 0x30 &&
+                  i + 1 < str.length &&
+                  str.charCodeAt(i + 1) >= 0x30 &&
+                  str.charCodeAt(i + 1) <= 0x39
+                ) {
+                  tokenType = ProductionType.SYNTAX_ERROR;
+                  let end: number = i + 2;
+                  while (
+                    end < str.length &&
+                    str.charCodeAt(end) >= 0x30 &&
+                    str.charCodeAt(end) <= 0x39
+                  ) {
+                    end++;
+                  }
+                  tokenEndIndex = end;
                 } else {
                   tokenType = ProductionType.number;
                 }

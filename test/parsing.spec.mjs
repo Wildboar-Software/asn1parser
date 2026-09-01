@@ -217,6 +217,22 @@ describe('Parser error detection', () => {
     assertEqual(Object.keys(modules[0].assignments).sort().join(','), 'T,U');
   });
 
+  test('records a leading-zero number as a lexer syntax error and parses the rest', () => {
+    const text = 'A {iso} DEFINITIONS ::= BEGIN T ::= INTEGER\n0123\nU ::= BOOLEAN END';
+    const tokens = Array.from(lex(text));
+    const junk = tokens.find((token) => token.type === ProductionType.SYNTAX_ERROR);
+    assert(junk);
+    assertEqual(text.slice(junk.location.startIndex, junk.location.endIndex), '0123');
+    const p = parse(text, tokens);
+    assertEqual(p.error, undefined);
+    assertEqual(Object.keys(p.syntaxErrors).length, 1);
+    assert(
+      Object.values(p.syntaxErrors)[0].message.includes('leading zeros'),
+    );
+    const modules = grok(text, p);
+    assertEqual(Object.keys(modules[0].assignments).sort().join(','), 'T,U');
+  });
+
   test('produces SYNTAX-ERROR productions where assert() parser is used', () => {
     const text = 'A {iso} DEFINITIONS EXPLICIT ::= BEGIN Typeyboi ::= ANY END';
     const p = parse(text, Array.from(lex(text)));

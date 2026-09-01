@@ -12,9 +12,10 @@ import ASN1SyntaxError from './errors/ASN1SyntaxError.mjs';
  * otherwise, will lex the `text` to produce them. The `lexemes` must have been
  * generated from the `text` if they are supplied separately.
  *
- * Comment tokens and lexer `SYNTAX_ERROR` tokens (unrecognized characters)
- * are omitted from the parser input so the rest of the file can still be
- * parsed. Lexer `SYNTAX_ERROR` tokens are recorded in `syntaxErrors`.
+ * Comment tokens and lexer `SYNTAX_ERROR` tokens (unrecognized characters
+ * and invalid numbers with leading zeros) are omitted from the parser input
+ * so the rest of the file can still be parsed. Lexer `SYNTAX_ERROR` tokens
+ * are recorded in `syntaxErrors`.
  * @param {string} text The raw ASN.1 text that is to be parsed.
  * @param {Production[]} lexemes The lexemes returned from lexing.
  * @returns {ParseContext} The final resulting parser state after parsing is
@@ -29,9 +30,13 @@ export default function parse(
   const lexerSyntaxErrors: Record<number, ASN1SyntaxError> = {};
   const parseableLexemes = lexemes_.filter((l: Production): boolean => {
     if (l.type === ProductionType.SYNTAX_ERROR) {
+      const lexeme = text.slice(l.location.startIndex, l.location.endIndex);
+      const message = /^0\d+$/.test(lexeme)
+        ? `Number with leading zeros at index ${l.location.startIndex}.`
+        : `Unrecognized character at index ${l.location.startIndex}.`;
       lexerSyntaxErrors[l.location.startIndex] = new ASN1SyntaxError(
         l,
-        `Unrecognized character at index ${l.location.startIndex}.`,
+        message,
       );
       return false;
     }
