@@ -210,7 +210,7 @@ export default function* lex(
                     tokenStartIndex + 1,
                     indexOfNextSingleQuote
                   );
-                  if (!/^[01 \t\r\n\f\v]*$/g.test(innards)) {
+                  if (!/^[01 \t\r\n\f\v\u00A0]*$/.test(innards)) {
                     throw new ASN1SyntaxError(
                       new Production(ProductionType.SYNTAX_ERROR, [], errloc),
                       `Invalid bstring: '${innards}'B.`,
@@ -225,7 +225,7 @@ export default function* lex(
                     tokenStartIndex + 1,
                     indexOfNextSingleQuote
                   );
-                  if (!/^[0-9A-F \t\r\n\f\v]*$/g.test(innards)) {
+                  if (!/^[0-9A-F \t\r\n\f\v\u00A0]*$/.test(innards)) {
                     throw new ASN1SyntaxError(
                       new Production(ProductionType.SYNTAX_ERROR, [], errloc),
                       `Invalid hstring: '${innards}'H.`,
