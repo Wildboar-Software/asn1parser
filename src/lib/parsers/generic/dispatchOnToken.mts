@@ -16,7 +16,7 @@ export type TokenParserTable = {
  * @summary `choiceOf` that looks at the current token instead of trying every alt.
  * @description
  * Alternatives whose FIRST set cannot include the current token are not
- * executed. Success wrapping matches `choiceOf`: the child’s CST is subsumed
+ * executed. Success wrapping matches `choiceOf`: the child's CST is subsumed
  * by `containingType` when that is set, and `currentType` is taken from the
  * incoming state.
  *

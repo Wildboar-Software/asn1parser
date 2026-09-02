@@ -94,7 +94,7 @@ export function peekNextNonWhitespaceType(
 }
 
 /**
- * @summary Cheap failed parse, matching `choiceOf`’s failure shape.
+ * @summary Cheap failed parse, matching `choiceOf`'s failure shape.
  */
 export function failParse(
   state: ParseContext,
