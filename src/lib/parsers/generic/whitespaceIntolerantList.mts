@@ -2,6 +2,7 @@ import Parser from '../../Parser.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
 import Production from '../../Production.mjs';
 import { ProductionType } from '../../ProductionType.mjs';
+import LogLevel from '../../LogLevel.mjs';
 
 /**
  * @summary Parse a list of items that does not tolerate whitespace between
@@ -24,7 +25,7 @@ import { ProductionType } from '../../ProductionType.mjs';
  * @param {Parser} delimiterParser The `Parser` that will parse the items that
  *  are used only syntactically to separate the semantic items of the list.
  * @returns {Parser} A `Parser` that will read a list of items parseable by
- *  `listItemParser` with delimiters parseable by `listItemParser`.
+ *  `listItemParser` with delimiters parseable by `delimiterParser`.
  * @function
  */
 export const whitespaceIntolerantList = function (
@@ -38,9 +39,11 @@ export const whitespaceIntolerantList = function (
       const startloc = state.tokens[state.index].location;
       let nextState: ParseContext = listItemParser.execute(state);
       if (nextState.error) {
-        state.log.debug(
-          `Could not read first ${nextState.cst.type} list item for ${containingType}.`
-        );
+        if (state.log.level <= LogLevel.debug) {
+          state.log.debug(
+            `Could not read first ${nextState.cst.type} list item for ${containingType}.`
+          );
+        }
         return {
           ...state,
           error: true,
@@ -50,27 +53,31 @@ export const whitespaceIntolerantList = function (
           }),
         };
       }
-      let children: Production[] = [nextState.cst];
+      const children: Production[] = [nextState.cst];
       // eslint-disable-next-line no-constant-condition
       while (true) {
         const delimiter = delimiterParser.execute(nextState);
         if (delimiter.error) {
           break;
         }
-        state.log.debug(
-          `Read ${delimiter.cst.type} delimiter for ${containingType}.`
-        );
+        if (state.log.level <= LogLevel.debug) {
+          state.log.debug(
+            `Read ${delimiter.cst.type} delimiter for ${containingType}.`
+          );
+        }
 
         const listItem = listItemParser.execute(delimiter);
         if (listItem.error) {
           break;
         }
-        state.log.debug(
-          `Read ${listItem.cst.type} list item for ${containingType}.`
-        );
+        if (state.log.level <= LogLevel.debug) {
+          state.log.debug(
+            `Read ${listItem.cst.type} list item for ${containingType}.`
+          );
+        }
 
         nextState = listItem;
-        children = children.concat([delimiter.cst, listItem.cst]);
+        children.push(delimiter.cst, listItem.cst);
         if (nextState.index >= nextState.tokens.length) {
           break;
         }
@@ -82,6 +89,6 @@ export const whitespaceIntolerantList = function (
       };
     }
   );
-}
-;
+};
+
 export default whitespaceIntolerantList;

@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Dispatch `BuiltinType`, `ReferencedType`, `BuiltinValue`, `CharacterStringType`, and related choices on the current token type (FIRST-set gating) so doomed alternatives are not executed. `TypeWithConstraint` and `OpenTypeFieldVal` are skipped unless the following token can start those productions.
 - Packrat-memoize expensive singleton parsers (`recursiveParser`, `whitespace`, `Setting`) by parser identity, token index, and semantic context so backtracking does not re-run the same production. `recursiveParser` now resolves its getter once so inner combinators keep a stable identity.
 - Use `String.prototype.startsWith` for lexer delimiter prefix checks so comments, colons, and slashes are not O(n²) on large inputs.
 

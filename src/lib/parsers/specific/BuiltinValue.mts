@@ -1,6 +1,13 @@
-import { choiceOf, recursiveParser, aliasFor } from '../generic/index.mjs';
+import {
+  aliasFor,
+  dispatchOnToken,
+  peekNextNonWhitespaceType,
+  recursiveParser,
+  when,
+} from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
-import type Parser from '../../Parser.mjs';
+import Parser from '../../Parser.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
 import { ProductionType } from '../../ProductionType.mjs';
 
 /**
@@ -28,65 +35,51 @@ import { ProductionType } from '../../ProductionType.mjs';
  *      | PrefixedValue
  *      | TimeValue`
  */
-export const BuiltinValue: Parser = recursiveParser(
-  (): Parser =>
-    choiceOf(
-      [
+export const BuiltinValue: Parser = recursiveParser((): Parser => {
+  const characterStringValue = aliasFor(
+    ProductionType.CharacterStringValue,
+    parserFor.RestrictedCharacterStringValue
+  );
+  const choiceValue = when(
+    (state: ParseContext): boolean =>
+      peekNextNonWhitespaceType(state) === ProductionType.colon,
+    parserFor.ChoiceValue
+  );
+  const curlyAlts: Parser[] = [
+    parserFor.BitStringValue,
+    parserFor.ObjectIdentifierValue,
+    parserFor.RelativeOIDValue,
+    parserFor.SequenceValue,
+    parserFor.SequenceOfValue,
+    parserFor.RealValue,
+  ];
+  return dispatchOnToken(
+    {
+      [ProductionType.bstring]: [
         parserFor.BitStringValue,
-        parserFor.BooleanValue,
-        /**
-         * The alias here effectively removes `UnrestrictedCharacterStringValue` as
-         * an option, which is an alias for `SequenceValue`.
-         */
-        aliasFor(
-          ProductionType.CharacterStringValue,
-          parserFor.RestrictedCharacterStringValue
-        ),
-        parserFor.ChoiceValue,
-        // parserFor.EmbeddedPDVValue, // Just an alias for SequenceValue.
-        /**
-         * `EnumeratedValue` is just an `identifier`, so it must be commented out
-         * so other productions that begin with an `identifier` can be attempted
-         * first.
-         */
-        // parserFor.EnumeratedValue,
-        // parserFor.ExternalValue, // Just an alias for SequenceValue.
-        /**
-         * InstanceOfValue cannot be used as an alternative, because it is simply
-         * an alias for Value, so it will induce an infinite loop.
-         */
-        // parserFor.InstanceOfValue,
-        parserFor.IntegerValue,
-        parserFor.IRIValue,
-        parserFor.NullValue,
-        parserFor.ObjectIdentifierValue,
         parserFor.OctetStringValue,
-        parserFor.RelativeIRIValue,
-        parserFor.RelativeOIDValue,
-        parserFor.SequenceValue,
-        parserFor.SequenceOfValue,
-        /**
-         * The following two value alternatives are commented out because
-         * SequenceValue and SequenceOfValue are identical, respectively.
-         */
-        // parserFor.SetValue,
-        // parserFor.SetOfValue,
-        /**
-         * PrefixedValue cannot be used as an alternative, because it is simply
-         * an alias for Value, so it will induce an infinite loop.
-         */
-        // parserFor.PrefixedValue,
-        /**
-         * This needs to go after SequenceValue or SetValue, because it contains
-         * SequenceValue as an alternative.
-         */
-        parserFor.RealValue,
-        parserFor.TimeValue,
-
-        // Retracted
-        // AnyValue (This is not parsed, because it is both retracted and excessively difficult to parse without bugs.)
       ],
-      ProductionType.BuiltinValue
-    )
-);
+      [ProductionType.hstring]: parserFor.OctetStringValue,
+      [ProductionType._CONTAINING]: [
+        parserFor.BitStringValue,
+        parserFor.OctetStringValue,
+      ],
+      [ProductionType._TRUE]: parserFor.BooleanValue,
+      [ProductionType._FALSE]: parserFor.BooleanValue,
+      [ProductionType.cstring]: [characterStringValue, parserFor.IRIValue],
+      [ProductionType.identifier]: choiceValue,
+      [ProductionType.number]: [parserFor.IntegerValue, parserFor.RealValue],
+      [ProductionType.hyphen]: [parserFor.IntegerValue, parserFor.RealValue],
+      [ProductionType.realnumber]: parserFor.RealValue,
+      [ProductionType._NULL]: parserFor.NullValue,
+      [ProductionType.curlyOpening]: curlyAlts,
+      [ProductionType.quotationMark]: parserFor.RelativeIRIValue,
+      [ProductionType._PLUS_INFINITY]: parserFor.RealValue,
+      [ProductionType._MINUS_INFINITY]: parserFor.RealValue,
+      [ProductionType._NOT_A_NUMBER]: parserFor.RealValue,
+      [ProductionType.tstring]: parserFor.TimeValue,
+    },
+    ProductionType.BuiltinValue
+  );
+});
 export default BuiltinValue;

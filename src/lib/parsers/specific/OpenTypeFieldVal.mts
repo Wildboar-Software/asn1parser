@@ -1,8 +1,10 @@
 import {
+  canStartOpenTypeFieldVal,
   doif,
   literal,
   recursiveParser,
   whitespaceTolerantSequenceOf,
+  when,
 } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
 import type Parser from '../../Parser.mjs';
@@ -15,10 +17,13 @@ import updateCurrentType from '../../updateCurrentType.mjs';
  */
 export const OpenTypeFieldVal: Parser = recursiveParser(
   (): Parser =>
-    whitespaceTolerantSequenceOf(ProductionType.OpenTypeFieldVal, [
-      doif(parserFor.Type, updateCurrentType),
-      literal(ProductionType.colon),
-      Value,
-    ])
+    when(
+      canStartOpenTypeFieldVal,
+      whitespaceTolerantSequenceOf(ProductionType.OpenTypeFieldVal, [
+        doif(parserFor.Type, updateCurrentType),
+        literal(ProductionType.colon),
+        Value,
+      ])
+    )
 );
 export default OpenTypeFieldVal;

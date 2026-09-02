@@ -1,10 +1,12 @@
 import {
+  aliasFor,
   choiceOf,
+  isTypeWithConstraintStart,
   optional,
   recursiveParser,
   whitespace,
-  aliasFor,
   whitespaceOptionalDelimitedList,
+  when,
 } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
 import Parser from '../../Parser.mjs';
@@ -22,6 +24,10 @@ const UnconstrainedType = recursiveParser(
  * @description
  * This parser does not re-parse `Type` if it fails to parse a `Constraint`.
  *
+ * `TypeWithConstraint` is only attempted when the current token is `SET` or
+ * `SEQUENCE` and the following token is `SIZE` or `(`. Other `SEQUENCE`/`SET`
+ * forms go straight to `BuiltinType`.
+ *
  * ### ASN.1 ABNF Definition
  *
  * ```abnf
@@ -31,45 +37,50 @@ const UnconstrainedType = recursiveParser(
  *
  * @constant {Parser}
  */
-export const Type: Parser = recursiveParser(
-  (): Parser =>
-    choiceOf(
-      [
-        aliasFor(ProductionType.ConstrainedType, parserFor.TypeWithConstraint),
-        new Parser(
-          () => 'Type',
-          (state: ParseContext): ParseContext => {
-            const type_: ParseContext = UnconstrainedType.execute(state);
-            if (type_.error) {
-              return type_;
-            }
-            const ws1 = optional(whitespace).execute(type_);
-            const constraints = whitespaceOptionalDelimitedList(
-              ProductionType.Constraints,
-              parserFor.Constraint
-            ).execute(ws1);
-            if (constraints.error) {
-              return type_;
-            }
-            return {
-              ...constraints,
-              cst: new Production(
-                ProductionType.ConstrainedType,
-                [
-                  {
-                    // 3F5B84A3-609A-4142-91D3-B3A2FB965F0B
-                    ...type_,
-                    cst: new Production(ProductionType.Type, [type_.cst]),
-                  },
-                  ws1,
-                  constraints,
-                ].map((c) => c.cst)
-              ),
-            };
-          }
+export const Type: Parser = recursiveParser((): Parser => {
+  const optionalWhitespace = optional(whitespace);
+  const constraintsList = whitespaceOptionalDelimitedList(
+    ProductionType.Constraints,
+    parserFor.Constraint
+  );
+  const unconstrainedThenOptionalConstraints = new Parser(
+    () => 'Type',
+    (state: ParseContext): ParseContext => {
+      const type_: ParseContext = UnconstrainedType.execute(state);
+      if (type_.error) {
+        return type_;
+      }
+      const ws1 = optionalWhitespace.execute(type_);
+      const constraints = constraintsList.execute(ws1);
+      if (constraints.error) {
+        return type_;
+      }
+      return {
+        ...constraints,
+        cst: new Production(
+          ProductionType.ConstrainedType,
+          [
+            {
+              // 3F5B84A3-609A-4142-91D3-B3A2FB965F0B
+              ...type_,
+              cst: new Production(ProductionType.Type, [type_.cst]),
+            },
+            ws1,
+            constraints,
+          ].map((c) => c.cst)
         ),
-      ],
-      ProductionType.Type
-    )
-);
+      };
+    }
+  );
+  return choiceOf(
+    [
+      when(
+        isTypeWithConstraintStart,
+        aliasFor(ProductionType.ConstrainedType, parserFor.TypeWithConstraint)
+      ),
+      unconstrainedThenOptionalConstraints,
+    ],
+    ProductionType.Type
+  );
+});
 export default Type;

@@ -26,32 +26,35 @@ export const recyclingSequenceOf = function (
   containingType: ProductionType,
   ...parserSets: Parser[][]
 ): Parser {
+  const sequenceParsers = parserSets.map((ps) =>
+    sequenceOf(containingType, ps)
+  );
+  if (sequenceParsers.length === 0) {
+    throw new ASN1ParserExpectationError(
+      'No parsers passed into recyclingSequenceOf'
+    );
+  }
+
   return new Parser(
     () => `${containingType} Sequence`,
     (state: ParseContext): ParseContext => {
       let previousState = state;
       const results: ParseContext[] = [];
-      const sequenceParsers = parserSets.map((ps) =>
-        sequenceOf(containingType, ps)
-      );
-      if (sequenceParsers.length === 0) {
-        throw new ASN1ParserExpectationError("No parsers passed into recyclingSequenceOf");
-      }
 
       // At least the first one must parse successfully.
-      const result = sequenceParsers[0].execute(previousState);
-      if (result.error) {
+      const first = sequenceParsers[0].execute(previousState);
+      if (first.error) {
         return {
           ...state,
           error: true,
         };
       }
-      results.push(result);
-      previousState = result;
+      results.push(first);
+      previousState = first;
 
       // The rest can fail.
-      for (const sp of sequenceParsers.slice(1)) {
-        const result = sp.execute(previousState);
+      for (let i = 1; i < sequenceParsers.length; i++) {
+        const result = sequenceParsers[i].execute(previousState);
         if (result.error) {
           break;
         }
@@ -68,6 +71,6 @@ export const recyclingSequenceOf = function (
       };
     }
   );
-}
-;
+};
+
 export default recyclingSequenceOf;

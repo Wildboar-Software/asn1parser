@@ -2,6 +2,7 @@ import Parser from '../../Parser.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
 import Production from '../../Production.mjs';
 import { ProductionType } from '../../ProductionType.mjs';
+import LogLevel from '../../LogLevel.mjs';
 
 /**
  * @summary Produce a `Parser` that attempts multiple alternatives.
@@ -36,11 +37,12 @@ export const choiceOf = function (
           // the Parser takes is especially valuable, with the
           // exception of whitespace.
           if (containingType === ProductionType.whitespace) {
-            state.log.debug(
-              `Read ${containingType || alts.map((p) => p.name()).join(',')} ` +
-                `alternative ${labeledParser.name()}.`
-            );
-          } else {
+            if (state.log.level <= LogLevel.debug) {
+              state.log.debug(
+                `Read ${containingType} alternative ${labeledParser.name()}.`
+              );
+            }
+          } else if (state.log.level <= LogLevel.info) {
             state.log.info(
               `Read ${containingType || alts.map((p) => p.name()).join(',')} ` +
                 `alternative ${labeledParser.name()}.`
