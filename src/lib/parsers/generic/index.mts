@@ -7,6 +7,18 @@ export { default as anythingExcept } from './anythingExcept.mjs';
 export { default as anythingUntil } from './anythingUntil.mjs';
 export { default as assert } from './assert.mjs';
 export { default as choiceOf } from './choiceOf.mjs';
+export { default as dispatchOnToken } from './dispatchOnToken.mjs';
+export { default as when } from './when.mjs';
+export {
+  canStartOpenTypeFieldVal,
+  canStartType,
+  failParse,
+  isTypeWithConstraintStart,
+  peekNextNonWhitespaceType,
+  RESTRICTED_CHARACTER_STRING_TYPES,
+  skipWhitespaceIndex,
+  TYPE_KEYWORD_FIRST,
+} from './tokenPeek.mjs';
 export { default as commaDelimitedList } from './commaDelimitedList.mjs';
 export { default as doif } from './doif.mjs';
 export { default as literal } from './literal.mjs';

@@ -1,9 +1,39 @@
-import { choiceOf, recursiveParser, aliasFor } from '../generic/index.mjs';
+import {
+  aliasFor,
+  canStartOpenTypeFieldVal,
+  choiceOf,
+  recursiveParser,
+  when,
+} from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
 import Parser from '../../Parser.mjs';
 import { ProductionType } from '../../ProductionType.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
 import TypeType from '../../constructs/TypeType.mjs';
+import typeTypeToValueParserMap from '../../maps/typeTypeToValueParserMap.mjs';
+
+/**
+ * Constructed values contain nested `Value` parsers. Those inner values must
+ * not inherit this type or `{}` is forced to `SequenceValue`, `ident : x` is
+ * forced to `ChoiceValue`, and so on. Scalar values do not recurse into
+ * `Value`, so `currentType` can stay until `onDidParseValue` clears it.
+ */
+const CLEAR_CURRENT_TYPE: ReadonlySet<TypeType> = new Set([
+  TypeType.ChoiceType,
+  TypeType.SequenceType,
+  TypeType.SequenceOfType,
+  TypeType.SetType,
+  TypeType.SetOfType,
+]);
+
+/**
+ * InstanceOfValue is an alias for Value (infinite loop if selected here).
+ * ObjectClassFieldValue is already the first alternative of this parser.
+ */
+const SKIP_TYPE_SPECIFIC_BUILTIN_VALUE: ReadonlySet<TypeType> = new Set([
+  TypeType.InstanceOfType,
+  TypeType.ObjectClassFieldType,
+]);
 
 /**
  * @summary `Value` parser that intelligently uses the right alternatives of
@@ -14,241 +44,55 @@ import TypeType from '../../constructs/TypeType.mjs';
  * them. Not only does this improve parsing speed, but it also reduces errors
  * by identifying the type of the value correctly the first time.
  *
- * ```abnf
- * Value ::= BuiltinValue | ReferencedValue | ObjectClassFieldValue
- * BuiltinType ::=
- *     BitStringType
- *     | BooleanType
- *     | CharacterStringType
- *     | ChoiceType
- *     | DateType
- *     | DateTimeType
- *     | DurationType
- *     | EmbeddedPDVType
- *     | EnumeratedType
- *     | ExternalType
- *     | InstanceOfType
- *     | IntegerType
- *     | IRIType
- *     | NullType
- *     | ObjectClassFieldType
- *     | ObjectIdentifierType
- *     | OctetStringType
- *     | RealType
- *     | RelativeIRIType
- *     | RelativeOIDType
- *     | SequenceType
- *     | SequenceOfType
- *     | SetType
- *     | SetOfType
- *     | PrefixedType
- *     | TimeType
- *     | TimeOfDayType
- * ```
+ * `ObjectClassFieldValue` (`Type ":" Value`) is skipped unless the current
+ * token can start an open-type field value.
+ *
+ * Type-specific `BuiltinValue` wrappers are built from
+ * `typeTypeToValueParserMap` once the circular `parserFor` graph has loaded.
  *
  * @constant {Parser}
  */
 export const Value_listens_to_currentType: Parser = recursiveParser(
-  (): Parser =>
-    choiceOf(
+  (): Parser => {
+    const builtinValueByType = new Map<TypeType, Parser>();
+    for (const [typeType, valueParser] of typeTypeToValueParserMap) {
+      if (SKIP_TYPE_SPECIFIC_BUILTIN_VALUE.has(typeType)) {
+        continue;
+      }
+      builtinValueByType.set(
+        typeType,
+        aliasFor(ProductionType.BuiltinValue, valueParser)
+      );
+    }
+    const specializedBuiltin = new Parser(
+      () => 'BuiltinValue (that listens to currentType)',
+      (state: ParseContext): ParseContext => {
+        const currentType = state.currentType;
+        if (currentType === undefined) {
+          return parserFor.BuiltinValue.execute(state);
+        }
+        const specialized = builtinValueByType.get(currentType);
+        if (!specialized) {
+          return parserFor.BuiltinValue.execute(state);
+        }
+        // Clear before execute so nested Value parsers (see CLEAR_CURRENT_TYPE)
+        // do not inherit the parent type. Do not wait for success: the nested
+        // values run during this execute. onDidParseValue still clears after
+        // the outer Value succeeds.
+        if (CLEAR_CURRENT_TYPE.has(currentType)) {
+          state.currentType = undefined;
+        }
+        return specialized.execute(state);
+      }
+    );
+    return choiceOf(
       [
-        parserFor.ObjectClassFieldValue,
-        new Parser(
-          () => 'BuiltinValue (that listens to currentType)',
-          (state: ParseContext): ParseContext => {
-            let valueParser: Parser = parserFor.BuiltinValue;
-            switch (state.currentType) {
-              case TypeType.BitStringType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.BitStringValue
-                );
-                break;
-              }
-              case TypeType.BooleanType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.BooleanValue
-                );
-                break;
-              }
-              // case (TypeType.CharacterStringType): {
-              //     break;
-              // }
-              case TypeType.ChoiceType: {
-                state.currentType = undefined;
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.ChoiceValue
-                );
-                break;
-              }
-              case TypeType.DateType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.TimeValue
-                );
-                break;
-              }
-              case TypeType.DateTimeType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.TimeValue
-                );
-                break;
-              }
-              case TypeType.DurationType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.TimeValue
-                );
-                break;
-              }
-              case TypeType.EmbeddedPDVType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.EmbeddedPDVValue
-                );
-                break;
-              }
-              case TypeType.EnumeratedType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.EnumeratedValue
-                );
-                break;
-              }
-              case TypeType.ExternalType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.ExternalValue
-                );
-                break;
-              }
-              // case (TypeType.InstanceOfType): {
-              //     valueParser = aliasFor(ProductionType.BuiltinValue, parserFor.InstanceOfValue);
-              //     break;
-              // }
-              case TypeType.IntegerType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.IntegerValue
-                );
-                break;
-              }
-              case TypeType.IRIType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.IRIValue
-                );
-                break;
-              }
-              case TypeType.NullType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.NullValue
-                );
-                break;
-              }
-              // case (TypeType.ObjectClassFieldType): {
-              //     valueParser = aliasFor(ProductionType.BuiltinValue, parserFor.ObjectClassFieldValue);
-              //     break;
-              // }
-              case TypeType.ObjectIdentifierType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.ObjectIdentifierValue
-                );
-                break;
-              }
-              case TypeType.OctetStringType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.OctetStringValue
-                );
-                break;
-              }
-              case TypeType.RealType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.RealValue
-                );
-                break;
-              }
-              case TypeType.RelativeIRIType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.RelativeIRIValue
-                );
-                break;
-              }
-              case TypeType.RelativeOIDType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.RelativeOIDValue
-                );
-                break;
-              }
-              case TypeType.SequenceType: {
-                state.currentType = undefined;
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.SequenceValue
-                );
-                break;
-              }
-              case TypeType.SequenceOfType: {
-                state.currentType = undefined;
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.SequenceOfValue
-                );
-                break;
-              }
-              case TypeType.SetType: {
-                state.currentType = undefined;
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.SetValue
-                );
-                break;
-              }
-              case TypeType.SetOfType: {
-                state.currentType = undefined;
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.SetOfValue
-                );
-                break;
-              }
-              // case (TypeType.PrefixedType): {
-              //     valueParser = aliasFor(ProductionType.BuiltinValue, parserFor.BooleanValue);
-              //     break;
-              // }
-              case TypeType.TimeType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.TimeValue
-                );
-                break;
-              }
-              case TypeType.TimeOfDayType: {
-                valueParser = aliasFor(
-                  ProductionType.BuiltinValue,
-                  parserFor.TimeValue
-                );
-                break;
-              }
-              default: {
-                return parserFor.BuiltinValue.execute(state);
-              }
-            }
-            return valueParser.execute(state);
-          }
-        ),
+        when(canStartOpenTypeFieldVal, parserFor.ObjectClassFieldValue),
+        specializedBuiltin,
         parserFor.ReferencedValue,
       ],
       ProductionType.Value
-    )
+    );
+  }
 );
 export default Value_listens_to_currentType;

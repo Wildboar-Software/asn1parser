@@ -1,4 +1,9 @@
-import { choiceOf, recursiveParser } from '../generic/index.mjs';
+import {
+  choiceOf,
+  recursiveParser,
+  when,
+  canStartOpenTypeFieldVal,
+} from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
 import type Parser from '../../Parser.mjs';
 import { ProductionType } from '../../ProductionType.mjs';
@@ -10,7 +15,7 @@ export const Value: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
-        parserFor.ObjectClassFieldValue, // Only used here.
+        when(canStartOpenTypeFieldVal, parserFor.ObjectClassFieldValue),
         parserFor.BuiltinValue,
         parserFor.ReferencedValue,
       ],

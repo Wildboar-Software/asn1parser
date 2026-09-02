@@ -3,11 +3,16 @@ import * as parserFor from '../specific/index.mjs';
 import Parser from '../../Parser.mjs';
 import { ProductionType } from '../../ProductionType.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
-// import { strict as assert } from 'assert';
 
 const literalShibboleths: Set<ProductionType> = new Set<ProductionType>([
   ProductionType.period, // Then it is actually the objectclassreference in an ObjectClassFieldType.
 ]);
+
+const literalCommaParser = literal(
+  ProductionType.comma,
+  ProductionType.Literal
+);
+const literalWordParser = aliasFor(ProductionType.Literal, parserFor.word);
 
 /**
  * @summary Intelligent `Literal` parser that avoids some mistakes
@@ -27,18 +32,12 @@ const literalShibboleths: Set<ProductionType> = new Set<ProductionType>([
 export const Literal: Parser = new Parser(
   (): string => 'Literal',
   (state: ParseContext): ParseContext => {
-    const literalComma: ParseContext = literal(
-      ProductionType.comma,
-      ProductionType.Literal
-    ).execute(state);
+    const literalComma: ParseContext = literalCommaParser.execute(state);
     if (!literalComma.error) {
       return literalComma;
     }
 
-    const literalWord: ParseContext = aliasFor(
-      ProductionType.Literal,
-      parserFor.word
-    ).execute(state);
+    const literalWord: ParseContext = literalWordParser.execute(state);
     if (literalWord.error) {
       return literalWord; // If a word cannot be read, there is no reason for further validation.
     }
@@ -48,14 +47,17 @@ export const Literal: Parser = new Parser(
       currentToken.location.startIndex,
       currentToken.location.endIndex
     );
-    // assert(!currentTokenText.endsWith(','), currentTokenText);
-    const nextNonWhitespace = state.tokens
-      .slice(state.index + 1)
-      .find(
-        (token) =>
-          token.type !== ProductionType.newlineWhitespace &&
-          token.type !== ProductionType.nonNewlineWhitespace
-      );
+    let nextNonWhitespace;
+    for (let i = state.index + 1; i < state.tokens.length; i++) {
+      const token = state.tokens[i];
+      if (
+        token.type !== ProductionType.newlineWhitespace &&
+        token.type !== ProductionType.nonNewlineWhitespace
+      ) {
+        nextNonWhitespace = token;
+        break;
+      }
+    }
     // I don't know where this would even happen, but whatever.
     if (!nextNonWhitespace) {
       return {

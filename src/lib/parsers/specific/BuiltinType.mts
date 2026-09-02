@@ -1,8 +1,37 @@
-import { choiceOf, recursiveParser } from '../generic/index.mjs';
+import {
+  dispatchOnToken,
+  failParse,
+  peekNextNonWhitespaceType,
+  recursiveParser,
+  RESTRICTED_CHARACTER_STRING_TYPES,
+  when,
+} from '../generic/index.mjs';
+import type { TokenParserTable } from '../generic/dispatchOnToken.mjs';
+import { tokenParserTable } from '../generic/dispatchOnToken.mjs';
 import * as parserFor from '../specific/index.mjs';
-import type Parser from '../../Parser.mjs';
+import Parser from '../../Parser.mjs';
+import type ParseContext from '../../interfaces/ParseContext.mjs';
 import { ProductionType } from '../../ProductionType.mjs';
 import AnyType from '../deprecated/AnyType.mjs';
+
+function sequenceOrSetBuiltin(
+  ofParser: Parser,
+  bracedParser: Parser
+): Parser {
+  return new Parser(
+    () => ofParser.name(),
+    (state: ParseContext): ParseContext => {
+      const next = peekNextNonWhitespaceType(state);
+      if (next === ProductionType._OF) {
+        return ofParser.execute(state);
+      }
+      if (next === ProductionType.curlyOpening) {
+        return bracedParser.execute(state);
+      }
+      return failParse(state);
+    }
+  );
+}
 
 /**
  * `BuiltinType ::=
@@ -34,42 +63,52 @@ import AnyType from '../deprecated/AnyType.mjs';
  *      | TimeType
  *      | TimeOfDayType`
  */
-export const BuiltinType: Parser = recursiveParser(
-  (): Parser =>
-    choiceOf(
-      [
-        parserFor.PrefixedType,
-        parserFor.BitStringType,
-        parserFor.BooleanType,
-        parserFor.CharacterStringType,
-        parserFor.ChoiceType,
-        parserFor.DateType,
-        parserFor.DateTimeType,
-        parserFor.DurationType,
-        parserFor.EmbeddedPDVType,
-        parserFor.EnumeratedType,
-        parserFor.ExternalType,
-        parserFor.InstanceOfType,
-        parserFor.IntegerType,
-        parserFor.IRIType,
-        parserFor.NullType,
-        parserFor.ObjectClassFieldType,
-        parserFor.ObjectIdentifierType,
-        parserFor.OctetStringType,
-        parserFor.RealType,
-        parserFor.RelativeIRIType,
-        parserFor.RelativeOIDType,
-        parserFor.SequenceType,
-        parserFor.SequenceOfType,
-        parserFor.SetType,
-        parserFor.SetOfType,
-        parserFor.TimeType,
-        parserFor.TimeOfDayType,
-
-        // Retracted, but still supported by this ASN.1 Parser for backwards compatibility.
-        AnyType,
-      ],
-      ProductionType.BuiltinType
-    )
-);
+export const BuiltinType: Parser = recursiveParser((): Parser => {
+  const objectClassFieldType = when(
+    (state: ParseContext): boolean =>
+      peekNextNonWhitespaceType(state) === ProductionType.period,
+    parserFor.ObjectClassFieldType
+  );
+  const table: TokenParserTable = tokenParserTable([
+    [ProductionType.squareOpening, parserFor.PrefixedType],
+    [ProductionType._BIT, parserFor.BitStringType],
+    [ProductionType._BOOLEAN, parserFor.BooleanType],
+    [ProductionType._CHARACTER, parserFor.CharacterStringType],
+    [ProductionType._CHOICE, parserFor.ChoiceType],
+    [ProductionType._DATE, parserFor.DateType],
+    [ProductionType._DATE_TIME, parserFor.DateTimeType],
+    [ProductionType._DURATION, parserFor.DurationType],
+    [ProductionType._EMBEDDED, parserFor.EmbeddedPDVType],
+    [ProductionType._ENUMERATED, parserFor.EnumeratedType],
+    [ProductionType._EXTERNAL, parserFor.ExternalType],
+    [ProductionType._INSTANCE, parserFor.InstanceOfType],
+    [ProductionType._INTEGER, parserFor.IntegerType],
+    [ProductionType._OID_IRI, parserFor.IRIType],
+    [ProductionType._NULL, parserFor.NullType],
+    [ProductionType.typereference, objectClassFieldType],
+    [ProductionType.objectclassreference, objectClassFieldType],
+    [ProductionType._TYPE_IDENTIFIER, objectClassFieldType],
+    [ProductionType._ABSTRACT_SYNTAX, objectClassFieldType],
+    [ProductionType._OBJECT, parserFor.ObjectIdentifierType],
+    [ProductionType._OCTET, parserFor.OctetStringType],
+    [ProductionType._REAL, parserFor.RealType],
+    [ProductionType._RELATIVE_OID_IRI, parserFor.RelativeIRIType],
+    [ProductionType._RELATIVE_OID, parserFor.RelativeOIDType],
+    [
+      ProductionType._SEQUENCE,
+      sequenceOrSetBuiltin(parserFor.SequenceOfType, parserFor.SequenceType),
+    ],
+    [
+      ProductionType._SET,
+      sequenceOrSetBuiltin(parserFor.SetOfType, parserFor.SetType),
+    ],
+    [ProductionType._TIME, parserFor.TimeType],
+    [ProductionType._TIME_OF_DAY, parserFor.TimeOfDayType],
+    [ProductionType._ANY, AnyType],
+  ]);
+  for (const type of RESTRICTED_CHARACTER_STRING_TYPES) {
+    table.set(type, parserFor.CharacterStringType);
+  }
+  return dispatchOnToken(table, ProductionType.BuiltinType);
+});
 export default BuiltinType;

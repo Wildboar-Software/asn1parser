@@ -7,6 +7,9 @@ import type ParseContext from '../../interfaces/ParseContext.mjs';
 import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 import Value from './Value_listens_to_currentType.mjs';
 
+const optionalLiteralParser = literal(ProductionType._OPTIONAL);
+const defaultLiteralParser = literal(ProductionType._DEFAULT);
+
 /**
  * @summary Efficient parser for a `ComponentType` that starts with a
  *  `NamedType`
@@ -44,9 +47,8 @@ export const ComponentType_NamedType: Parser = new Parser(
         cst: new Production(ProductionType.ComponentType, [nt.cst]),
       };
     }
-    const optionalLiteral: ParseContext = literal(
-      ProductionType._OPTIONAL
-    ).execute(ws1);
+    const optionalLiteral: ParseContext =
+      optionalLiteralParser.execute(ws1);
     if (!optionalLiteral.error) {
       results.push(ws1);
       results.push(optionalLiteral);
@@ -59,9 +61,7 @@ export const ComponentType_NamedType: Parser = new Parser(
       };
     }
 
-    const defaultLiteral: ParseContext = literal(
-      ProductionType._DEFAULT
-    ).execute(ws1);
+    const defaultLiteral: ParseContext = defaultLiteralParser.execute(ws1);
     if (defaultLiteral.error) {
       // If it was neither OPTIONAL, nor DEFAULT, it must be just `NamedType`.
       return {
