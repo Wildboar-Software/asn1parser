@@ -42,6 +42,16 @@ END`;
     assertEqual(comps[1].default.value, 5);
   });
 
+  test('still groks ENUMERATED DEFAULT identifiers via currentType', () => {
+    const text = `
+M {iso} DEFINITIONS ::= BEGIN
+  S ::= SEQUENCE { color ENUMERATED { red, green, blue } DEFAULT green }
+END`;
+    const modules = grok(text);
+    const comps = modules[0].assignments.S.type.type.rootComponentTypeList1;
+    assertEqual(comps[0].default.valueType, ValueType.EnumeratedValue);
+  });
+
   test('discerns SEQUENCE, SEQUENCE OF, and SEQUENCE SIZE OF', () => {
     const text = `
 M {iso} DEFINITIONS ::= BEGIN

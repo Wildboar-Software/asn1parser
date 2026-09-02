@@ -5,6 +5,8 @@ import {
   peekNextNonWhitespaceType,
   recursiveParser,
 } from '../generic/index.mjs';
+import type { TokenParserTable } from '../generic/dispatchOnToken.mjs';
+import { tokenParserTable } from '../generic/dispatchOnToken.mjs';
 import * as parserFor from '../specific/index.mjs';
 import Parser from '../../Parser.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
@@ -22,17 +24,15 @@ export const ReferencedType: Parser = recursiveParser((): Parser => {
     () => 'ReferencedType from typereference',
     (state: ParseContext): ParseContext => {
       const next = peekNextNonWhitespaceType(state);
-      if (next === ProductionType.curlyOpening) {
-        const parameterized = parserFor.DefinedType.execute(state);
-        if (!parameterized.error) {
-          return parameterized;
-        }
-        return parserFor.TypeFromObject.execute(state);
-      }
-      if (next === ProductionType.period) {
-        const external = parserFor.DefinedType.execute(state);
-        if (!external.error) {
-          return external;
+      // "{" → ParameterizedType; "." → ExternalTypeReference. Both live under
+      // DefinedType. If that fails, TypeFromObject (ReferencedObjects "." FieldName).
+      if (
+        next === ProductionType.curlyOpening ||
+        next === ProductionType.period
+      ) {
+        const defined = parserFor.DefinedType.execute(state);
+        if (!defined.error) {
+          return defined;
         }
         return parserFor.TypeFromObject.execute(state);
       }
@@ -55,16 +55,14 @@ export const ReferencedType: Parser = recursiveParser((): Parser => {
       return failParse(state);
     }
   );
-  return dispatchOnToken(
-    {
-      [ProductionType._UTCTime]: parserFor.UsefulType,
-      [ProductionType._GeneralizedTime]: parserFor.UsefulType,
-      [ProductionType._ObjectDescriptor]: parserFor.UsefulType,
-      [ProductionType.identifier]: fromIdentifier,
-      [ProductionType.typereference]: fromTypeReference,
-      [ProductionType.objectclassreference]: fromTypeReference,
-    },
-    ProductionType.ReferencedType
-  );
+  const table: TokenParserTable = tokenParserTable([
+    [ProductionType._UTCTime, parserFor.UsefulType],
+    [ProductionType._GeneralizedTime, parserFor.UsefulType],
+    [ProductionType._ObjectDescriptor, parserFor.UsefulType],
+    [ProductionType.identifier, fromIdentifier],
+    [ProductionType.typereference, fromTypeReference],
+    [ProductionType.objectclassreference, fromTypeReference],
+  ]);
+  return dispatchOnToken(table, ProductionType.ReferencedType);
 });
 export default ReferencedType;

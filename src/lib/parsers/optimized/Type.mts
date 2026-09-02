@@ -28,6 +28,12 @@ const UnconstrainedType = recursiveParser(
  * `SEQUENCE` and the following token is `SIZE` or `(`. Other `SEQUENCE`/`SET`
  * forms go straight to `BuiltinType`.
  *
+ * This is not a substitute for shrinking `Constraint` inside
+ * `TypeWithConstraint`. That production includes both `SIZE Constraint` and
+ * parenthesized `Constraint` (`SEQUENCE (SIZE (1..MAX)) OF Type`), so the
+ * `Constraint` alternative cannot be dropped. The expensive backtracking was
+ * `SEQUENCE {` / `SEQUENCE OF`, which this gate already skips.
+ *
  * ### ASN.1 ABNF Definition
  *
  * ```abnf

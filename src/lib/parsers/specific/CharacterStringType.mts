@@ -1,4 +1,10 @@
-import { dispatchOnToken, recursiveParser } from '../generic/index.mjs';
+import {
+  dispatchOnToken,
+  recursiveParser,
+  RESTRICTED_CHARACTER_STRING_TYPES,
+} from '../generic/index.mjs';
+import type { TokenParserTable } from '../generic/dispatchOnToken.mjs';
+import { tokenParserTable } from '../generic/dispatchOnToken.mjs';
 import * as parserFor from '../specific/index.mjs';
 import type Parser from '../../Parser.mjs';
 import { ProductionType } from '../../ProductionType.mjs';
@@ -6,29 +12,13 @@ import { ProductionType } from '../../ProductionType.mjs';
 /**
  * `CharacterStringType ::= RestrictedCharacterStringType | UnrestrictedCharacterStringType`
  */
-export const CharacterStringType: Parser = recursiveParser(
-  (): Parser =>
-    dispatchOnToken(
-      {
-        [ProductionType._BMPString]: parserFor.RestrictedCharacterStringType,
-        [ProductionType._GeneralString]: parserFor.RestrictedCharacterStringType,
-        [ProductionType._GraphicString]: parserFor.RestrictedCharacterStringType,
-        [ProductionType._IA5String]: parserFor.RestrictedCharacterStringType,
-        [ProductionType._ISO646String]: parserFor.RestrictedCharacterStringType,
-        [ProductionType._NumericString]: parserFor.RestrictedCharacterStringType,
-        [ProductionType._PrintableString]:
-          parserFor.RestrictedCharacterStringType,
-        [ProductionType._TeletexString]: parserFor.RestrictedCharacterStringType,
-        [ProductionType._T61String]: parserFor.RestrictedCharacterStringType,
-        [ProductionType._UniversalString]:
-          parserFor.RestrictedCharacterStringType,
-        [ProductionType._UTF8String]: parserFor.RestrictedCharacterStringType,
-        [ProductionType._VideotexString]:
-          parserFor.RestrictedCharacterStringType,
-        [ProductionType._VisibleString]: parserFor.RestrictedCharacterStringType,
-        [ProductionType._CHARACTER]: parserFor.UnrestrictedCharacterStringType,
-      },
-      ProductionType.CharacterStringType
-    )
-);
+export const CharacterStringType: Parser = recursiveParser((): Parser => {
+  const table: TokenParserTable = tokenParserTable([
+    [ProductionType._CHARACTER, parserFor.UnrestrictedCharacterStringType],
+  ]);
+  for (const type of RESTRICTED_CHARACTER_STRING_TYPES) {
+    table.set(type, parserFor.RestrictedCharacterStringType);
+  }
+  return dispatchOnToken(table, ProductionType.CharacterStringType);
+});
 export default CharacterStringType;

@@ -1,4 +1,6 @@
 import { dispatchOnToken, literal, recursiveParser } from '../generic/index.mjs';
+import type { TokenParserTable } from '../generic/dispatchOnToken.mjs';
+import { tokenParserTable } from '../generic/dispatchOnToken.mjs';
 import type Parser from '../../Parser.mjs';
 import { ProductionType } from '../../ProductionType.mjs';
 
@@ -11,19 +13,18 @@ import { ProductionType } from '../../ProductionType.mjs';
  * `UTCTime`, `GeneralizedTime`, and `ObjectDescriptor`. This is largely the
  * product of a historical accident.
  */
-export const UsefulType: Parser = recursiveParser(
-  (): Parser =>
-    dispatchOnToken(
-      {
-        [ProductionType._UTCTime]: literal(ProductionType._UTCTime),
-        [ProductionType._GeneralizedTime]: literal(
-          ProductionType._GeneralizedTime
-        ),
-        [ProductionType._ObjectDescriptor]: literal(
-          ProductionType._ObjectDescriptor
-        ),
-      },
-      ProductionType.UsefulType
-    )
-);
+export const UsefulType: Parser = recursiveParser((): Parser => {
+  const table: TokenParserTable = tokenParserTable([
+    [ProductionType._UTCTime, literal(ProductionType._UTCTime)],
+    [
+      ProductionType._GeneralizedTime,
+      literal(ProductionType._GeneralizedTime),
+    ],
+    [
+      ProductionType._ObjectDescriptor,
+      literal(ProductionType._ObjectDescriptor),
+    ],
+  ]);
+  return dispatchOnToken(table, ProductionType.UsefulType);
+});
 export default UsefulType;

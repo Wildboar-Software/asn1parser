@@ -26,6 +26,12 @@ export const RESTRICTED_CHARACTER_STRING_TYPES: readonly ProductionType[] = [
  * @description
  * Tokens that can begin a `Type` without needing a following `<` / `.` / `{`
  * (those extra tokens are required only for `identifier`).
+ *
+ * Covers:
+ * - `BuiltinType` keywords (`INTEGER`, `SEQUENCE`, `UTF8String`, …)
+ * - `UsefulType` (`UTCTime`, `GeneralizedTime`, `ObjectDescriptor`)
+ * - `UsefulObjectClassReference` (`TYPE-IDENTIFIER`, `ABSTRACT-SYNTAX`) as
+ *   the start of `ObjectClassFieldType`
  */
 export const TYPE_KEYWORD_FIRST: ReadonlySet<string> = new Set<string>([
   ProductionType._BIT,
@@ -123,6 +129,12 @@ export function failParse(
  * `TypeWithConstraint` is `SET`/`SEQUENCE` followed by `SIZE` or `(` then
  * `OF`. `SEQUENCE {` and `SEQUENCE OF` are `SequenceType` / `SequenceOfType`
  * and must not take this path.
+ *
+ * Gating here is cheaper than shrinking `Constraint` inside
+ * `TypeWithConstraint`: that production has both `SIZE Constraint` and
+ * parenthesized `Constraint` (`SEQUENCE (SIZE (1..MAX)) OF`), so the
+ * `Constraint` alternative cannot be dropped. The expensive case was
+ * `SEQUENCE {` / `SEQUENCE OF`, which this predicate already skips.
  */
 export function isTypeWithConstraintStart(state: ParseContext): boolean {
   const t0 = state.tokens[state.index]?.type;
@@ -144,12 +156,16 @@ export function canStartType(state: ParseContext): boolean {
   if (!t0) {
     return false;
   }
+  // BuiltinType / UsefulType keywords, TYPE-IDENTIFIER, ABSTRACT-SYNTAX.
   if (TYPE_KEYWORD_FIRST.has(t0)) {
     return true;
   }
+  // PrefixedType ::= TaggedType | EncodingPrefixedType, both start with "[".
   if (t0 === ProductionType.squareOpening) {
     return true;
   }
+  // DefinedType, ParameterizedType, ExternalTypeReference,
+  // ObjectClassFieldType, TypeFromObject (objectsetreference).
   if (
     t0 === ProductionType.typereference ||
     t0 === ProductionType.objectclassreference
@@ -159,8 +175,11 @@ export function canStartType(state: ParseContext): boolean {
   if (t0 === ProductionType.identifier) {
     const next = peekNextNonWhitespaceType(state);
     return (
+      // SelectionType ::= identifier "<" Type
       next === ProductionType.lessThan ||
+      // TypeFromObject ::= DefinedObject "." FieldName
       next === ProductionType.period ||
+      // TypeFromObject via ParameterizedObject ::= DefinedObject "{" … "}"
       next === ProductionType.curlyOpening
     );
   }
@@ -184,8 +203,11 @@ export function canStartOpenTypeFieldVal(state: ParseContext): boolean {
 
   if (t0 === ProductionType.identifier) {
     return (
+      // SelectionType ::= identifier "<" Type
       next === ProductionType.lessThan ||
+      // TypeFromObject ::= DefinedObject "." FieldName
       next === ProductionType.period ||
+      // TypeFromObject via ParameterizedObject ::= DefinedObject "{" … "}"
       next === ProductionType.curlyOpening
     );
   }
@@ -195,13 +217,18 @@ export function canStartOpenTypeFieldVal(state: ParseContext): boolean {
     t0 === ProductionType.objectclassreference
   ) {
     return (
+      // ExternalTypeReference / ObjectClassFieldType: "M.T" / "CLASS.&field"
       next === ProductionType.period ||
+      // ParameterizedType ::= SimpleDefinedType "{" ActualParameterList "}"
       next === ProductionType.curlyOpening ||
+      // ConstrainedType ::= Type Constraint, Constraint starts with "("
       next === ProductionType.parenthesisOpening ||
+      // OpenTypeFieldVal ::= Type ":" Value
       next === ProductionType.colon
     );
   }
 
+  // PrefixedType ::= "[" … "]" Type, then possibly ":" Value.
   if (t0 === ProductionType.squareOpening) {
     return true;
   }
@@ -210,6 +237,7 @@ export function canStartOpenTypeFieldVal(state: ParseContext): boolean {
     return false;
   }
 
+  // OpenTypeFieldVal ::= Type ":" Value, or ConstrainedType then ":".
   if (
     next === ProductionType.colon ||
     next === ProductionType.parenthesisOpening
@@ -218,13 +246,13 @@ export function canStartOpenTypeFieldVal(state: ParseContext): boolean {
   }
 
   switch (t0) {
+    // IntegerType ::= INTEGER "{" NamedNumberList "}"
     case ProductionType._INTEGER:
       return next === ProductionType.curlyOpening;
+    // BitStringType ::= BIT STRING [ "{" NamedBitList "}" ]
     case ProductionType._BIT:
-      return (
-        next === ProductionType._STRING ||
-        next === ProductionType.curlyOpening
-      );
+      return next === ProductionType._STRING;
+    // SequenceType / SetType / SequenceOfType / SetOfType / TypeWithConstraint
     case ProductionType._SEQUENCE:
     case ProductionType._SET:
       return (
@@ -232,18 +260,26 @@ export function canStartOpenTypeFieldVal(state: ParseContext): boolean {
         next === ProductionType._OF ||
         next === ProductionType._SIZE
       );
+    // OctetStringType ::= OCTET STRING
+    // UnrestrictedCharacterStringType ::= CHARACTER STRING
     case ProductionType._OCTET:
     case ProductionType._CHARACTER:
       return next === ProductionType._STRING;
+    // ObjectIdentifierType ::= OBJECT IDENTIFIER
     case ProductionType._OBJECT:
       return next === ProductionType._IDENTIFIER;
+    // InstanceOfType ::= INSTANCE OF DefinedObjectClass
     case ProductionType._INSTANCE:
       return next === ProductionType._OF;
+    // EmbeddedPDVType ::= EMBEDDED PDV
     case ProductionType._EMBEDDED:
       return next === ProductionType._PDV;
+    // EnumeratedType ::= ENUMERATED "{" Enumerations "}"
+    // ChoiceType ::= CHOICE "{" AlternativeTypeLists "}"
     case ProductionType._ENUMERATED:
     case ProductionType._CHOICE:
       return next === ProductionType.curlyOpening;
+    // ObjectClassFieldType starting at UsefulObjectClassReference "." FieldName
     case ProductionType._TYPE_IDENTIFIER:
     case ProductionType._ABSTRACT_SYNTAX:
       return next === ProductionType.period;
