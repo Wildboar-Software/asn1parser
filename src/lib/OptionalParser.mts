@@ -20,14 +20,6 @@ export default class OptionalParser extends Parser {
    * @method
    */
   public override execute(state: ParseContext): ParseContext {
-    if (state.error) {
-      return state;
-    }
-    if (state.index >= state.tokens.length) {
-      return {
-        ...state,
-      };
-    }
-    return this.executor(state);
+    return this.executeInternal(state, false, false);
   }
 }

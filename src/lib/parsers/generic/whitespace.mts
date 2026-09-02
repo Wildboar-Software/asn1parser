@@ -53,6 +53,7 @@ export const whitespace: Parser = new Parser(
         cst,
       };
     }
-  }
+  },
+  true
 );
 export default whitespace;
