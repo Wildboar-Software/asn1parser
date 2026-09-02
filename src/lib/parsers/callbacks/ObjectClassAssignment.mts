@@ -4,6 +4,18 @@ import { ProductionType } from '../../ProductionType.mjs';
 import split from '../../split.mjs';
 import ASN1ParserExpectationError from '../../errors/ASN1ParserExpectationError.mjs';
 
+function findChild(
+  children: Production[],
+  type_: ProductionType
+): Production | undefined {
+  for (let i = 0; i < children.length; i++) {
+    if (children[i].type === type_) {
+      return children[i];
+    }
+  }
+  return undefined;
+}
+
 // WithSyntaxSpec ::=
 //     WITH SYNTAX SyntaxList
 
@@ -158,12 +170,13 @@ const nonLiteralTokens: Set<string> = new Set<string>(['&', '[', ']', ',']);
 export const onDidParseObjectClassAssignment = function onDidParseObjectClassAssignment(
   ctx: ParseContext
 ): void {
-  const objectclassreference = ctx.cst.children.find(
-    (child: Production): boolean =>
-      child.type === ProductionType.objectclassreference
+  const objectclassreference = findChild(
+    ctx.cst.children,
+    ProductionType.objectclassreference
   );
-  const ObjectClass = ctx.cst.children.find(
-    (child: Production): boolean => child.type === ProductionType.ObjectClass
+  const ObjectClass = findChild(
+    ctx.cst.children,
+    ProductionType.ObjectClass
   );
   if (!objectclassreference || !ObjectClass || !ObjectClass.children[0]) {
     throw new ASN1ParserExpectationError(
@@ -175,8 +188,9 @@ export const onDidParseObjectClassAssignment = function onDidParseObjectClassAss
     return;
   }
   const ObjectClassDefn = ObjectClass.children[0];
-  const WithSyntaxSpec = ObjectClassDefn.children.find(
-    (child: Production): boolean => child.type === ProductionType.WithSyntaxSpec
+  const WithSyntaxSpec = findChild(
+    ObjectClassDefn.children,
+    ProductionType.WithSyntaxSpec
   );
   if (!WithSyntaxSpec) {
     return;
@@ -189,23 +203,19 @@ export const onDidParseObjectClassAssignment = function onDidParseObjectClassAss
       WithSyntaxSpec,
     );
   }
-  const TokenOrGroupSpec = SyntaxList.children.find(
-    (child: Production): boolean =>
-      child.type === ProductionType.TokenOrGroupSpec
+  const TokenOrGroupSpec = findChild(
+    SyntaxList.children,
+    ProductionType.TokenOrGroupSpec
   )!;
 
-  split(TokenOrGroupSpec, ProductionType.whitespace)
-    .map((token) =>
-      ctx.text.slice(token.location.startIndex, token.location.endIndex)
-    )
-    .filter(
-      (
-        token: string
-      ): boolean => // Only insert word literals.
-        !nonLiteralTokens.has(token) && token.toUpperCase() === token
-    )
-    .forEach((token: string): void => {
+  const tokens = split(TokenOrGroupSpec, ProductionType.whitespace);
+  for (let i = 0; i < tokens.length; i++) {
+    const location = tokens[i].location;
+    const token = ctx.text.slice(location.startIndex, location.endIndex);
+    // Only insert word literals.
+    if (!nonLiteralTokens.has(token) && token.toUpperCase() === token) {
       ctx.definedSyntaxTokens.add(token);
-    });
+    }
+  }
 };
 export default onDidParseObjectClassAssignment;

@@ -37,6 +37,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
+    "bench": "node bench/parse.bench.mjs",
     "build": "npx tsc",
     "bun-test": "bun test test/*.mjs",
     "deno-test": "deno test deno.test.mts",

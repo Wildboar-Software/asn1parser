@@ -8,7 +8,12 @@ function findRef(
   prods: Production[],
   type_: ProductionType
 ): Production | undefined {
-  return prods.find((p) => p.type === type_);
+  for (let i = 0; i < prods.length; i++) {
+    if (prods[i].type === type_) {
+      return prods[i];
+    }
+  }
+  return undefined;
 }
 
 // Assignment ::=

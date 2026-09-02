@@ -5,7 +5,17 @@ import { ProductionType } from '../../ProductionType.mjs';
 import whitespaceIntolerantSequenceOf from './whitespaceIntolerantSequenceOf.mjs';
 
 function spliceInWhitespace(parsers: Parser[]): Parser[] {
-  return parsers.flatMap((p) => [p, optional(whitespace)]).slice(0, -1);
+  if (parsers.length === 0) {
+    return [];
+  }
+  const spliced: Parser[] = new Array(parsers.length * 2 - 1);
+  for (let i = 0; i < parsers.length; i++) {
+    spliced[i * 2] = parsers[i];
+    if (i < parsers.length - 1) {
+      spliced[i * 2 + 1] = optional(whitespace);
+    }
+  }
+  return spliced;
 }
 
 /**

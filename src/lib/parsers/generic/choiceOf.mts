@@ -30,7 +30,8 @@ export const choiceOf = function (
     () => `${containingType || alts.map((p) => p.name()).join(',')} Choice`,
     (state: ParseContext): ParseContext => {
       const currentloc = state.tokens[state.index].location;
-      for (const labeledParser of alts) {
+      for (let i = 0; i < alts.length; i++) {
+        const labeledParser = alts[i];
         const result = labeledParser.execute(state);
         if (!result.error) {
           // This logs as "info" level, because knowing which paths
