@@ -11,6 +11,8 @@ import {
   lex,
   LogLevel,
   parse,
+  parserFor,
+  ProductionType,
   TypeType,
   ValueType,
 } from '../dist/index.mjs';
@@ -119,6 +121,47 @@ END`;
       modules[0].assignments.oid.value.valueType,
       ValueType.ObjectIdentifierValue
     );
+  });
+
+  test('groks SEQUENCE, SET, and empty braces as the type of the assignment', () => {
+    const text = `
+M {iso} DEFINITIONS ::= BEGIN
+  seq SEQUENCE { a INTEGER } ::= { a 1 }
+  emptySeq SEQUENCE { a INTEGER } ::= {}
+  setv SET { a INTEGER } ::= { a 1 }
+  setOf SET OF INTEGER ::= { 1, 2 }
+  oid OBJECT IDENTIFIER ::= { iso 1 }
+  bits BIT STRING ::= {}
+END`;
+    const modules = grok(text);
+    const a = modules[0].assignments;
+    assertEqual(a.seq.value.valueType, ValueType.SequenceValue);
+    assertEqual(a.seq.value.value[0].identifier, 'a');
+    assertEqual(a.emptySeq.value.valueType, ValueType.SequenceValue);
+    assertEqual(a.emptySeq.value.value.length, 0);
+    assertEqual(a.setv.value.valueType, ValueType.SetValue);
+    assertEqual(a.setv.value.value[0].identifier, 'a');
+    assertEqual(a.setOf.value.valueType, ValueType.SetOfValue);
+    assertEqual(a.oid.value.valueType, ValueType.ObjectIdentifierValue);
+    assertEqual(a.bits.value.valueType, ValueType.BitStringValue);
+  });
+
+  test('untyped BuiltinValue still prefers OID for { a 1 }', () => {
+    const text = '{ a 1 }';
+    const tokens = Array.from(lex(text)).filter(
+      (t) => t.type !== ProductionType.comment
+    );
+    const result = parserFor.BuiltinValue.start(tokens, text);
+    assertEqual(result.error, undefined);
+    function hasType(prod, type) {
+      if (prod.type === type) {
+        return true;
+      }
+      return prod.children.some((child) => hasType(child, type));
+    }
+    assert(hasType(result.cst, ProductionType.ObjectIdentifierValue));
+    assertEqual(hasType(result.cst, ProductionType.SequenceValue), false);
+    assertEqual(hasType(result.cst, ProductionType.SetValue), false);
   });
 
   test('still parses AuthenticationFramework and _problem.asn1', () => {
