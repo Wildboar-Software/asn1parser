@@ -15,6 +15,9 @@ import { ProductionType } from '../../ProductionType.mjs';
  * sequence of ASN.1 lexical items (including comment, cstring and white-space)
  * except the lexical items END and ENCODING-CONTROL, which will not appear in
  * an "EncodingInstructionAssignmentList"."
+ *
+ * If neither `END` nor `ENCODING-CONTROL` appears, this parser fails instead
+ * of treating end of input as a successful terminator.
  */
 export const EncodingInstructionAssignmentList: Parser = recursiveParser(
   (): Parser =>

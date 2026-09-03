@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Emit a `SYNTAX_ERROR` for numbers with leading zeros (`0123`), matching X.680 12.8. Bare `0` and realnumbers such as `0.5` and `0e10` are unchanged.
 - Lex lowercase `true` and `false` as XML boolean keywords (`ProductionType._true` / `_false`) so `EmptyElementBoolean` (`<true/>`, `<false/>`) parses correctly.
 - Allow NBSP (`U+00A0`) inside `bstring` and `hstring`, matching X.680 white-space.
+- Fail `anythingUntil` when its terminator never appears, instead of treating end of input as a successful match. Encoding instructions that never see `]` (or `END` / `ENCODING-CONTROL`) are now parse failures. `assert` recovery still skips to end of input and records a syntax error when the recovery token is missing.
 
 ### Changed
 
