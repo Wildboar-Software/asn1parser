@@ -29,9 +29,13 @@ export const repeatable = function (
       let result = state;
       // eslint-disable-next-line no-constant-condition
       while (true) {
+        const lastIndex = result.index;
         result = parser.execute(result);
         if (result.error) {
           break;
+        }
+        if (lastIndex === result.index) {
+          break; // Not progressing. Break from the loop.
         }
         state.log.debug(`Read optional repeatable ${result.cst.type}.`);
         children.push(result.cst);
