@@ -26,7 +26,7 @@ export const doif = function (
     (state: ParseContext): ParseContext => {
       const result = parser.execute(state);
       if (!result.error) {
-        callback(state);
+        callback(result);
       }
       return result;
     }
