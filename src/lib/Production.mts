@@ -23,6 +23,38 @@ export default class Production<Types extends ProductionType = ProductionType> {
   private _location?: Location;
 
   /**
+   * @private
+   * @member {Location}
+   */
+  private _emptyLocation?: Location;
+
+  /**
+   * @summary A zero-width `Location` at the start of this production.
+   * @description
+   * Every parser that fails on this token needs the same zero-width location
+   * for the empty `Production` it reports, and a backtracking parser retries
+   * the same token many times. The result is cached so that those retries
+   * share one object instead of allocating a new one apiece.
+   *
+   * `Location` objects are never mutated after construction, so sharing is
+   * safe.
+   * @public
+   * @returns {Location}
+   */
+  get emptyLocation(): Location {
+    if (!this._emptyLocation) {
+      const loc: Location = this.location;
+      this._emptyLocation = {
+        startIndex: loc.startIndex,
+        endIndex: loc.startIndex,
+        lineNumber: loc.lineNumber,
+        columnNumber: loc.columnNumber,
+      };
+    }
+    return this._emptyLocation;
+  }
+
+  /**
    * @public
    * @returns {Location}
    */

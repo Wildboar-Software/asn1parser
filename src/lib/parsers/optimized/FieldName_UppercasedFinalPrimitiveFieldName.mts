@@ -27,12 +27,12 @@ export const FieldName_UppercasedFinalPrimitiveFieldName: Parser = new Parser(
       loc.startIndex,
       loc.endIndex
     );
-    const primitiveFieldNames: string[] = fieldNameText
-      .split('.')
-      .map((c) => c.replace('&', ''));
-    const finalPrimitiveFieldName: string =
-      primitiveFieldNames[primitiveFieldNames.length - 1];
-    const firstChar: string = finalPrimitiveFieldName.slice(0, 1);
+    // Only the final PrimitiveFieldName decides this, so the leading
+    // components are skipped rather than split out and allocated.
+    const finalStart: number = fieldNameText.lastIndexOf('.') + 1;
+    const firstChar: string = fieldNameText.charAt(
+      fieldNameText.charAt(finalStart) === '&' ? finalStart + 1 : finalStart
+    );
     if (firstChar.toUpperCase() === firstChar) {
       return fn;
     } else {

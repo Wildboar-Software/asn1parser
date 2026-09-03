@@ -3,6 +3,7 @@ import * as parserFor from '../specific/index.mjs';
 import Parser from '../../Parser.mjs';
 import { ProductionType } from '../../ProductionType.mjs';
 import type ParseContext from '../../interfaces/ParseContext.mjs';
+import type Production from '../../Production.mjs';
 import AssignmentType from '../../constructs/AssignmentType.mjs';
 
 const shibboleths: Set<ProductionType> = new Set<ProductionType>([
@@ -55,13 +56,17 @@ export const ParamGovernor: Parser = recursiveParser(
               return ocr;
             }
 
-            const nextNonWhitespace = state.tokens
-              .slice(state.index + 1)
-              .find(
-                (token) =>
-                  token.type !== ProductionType.newlineWhitespace &&
-                  token.type !== ProductionType.nonNewlineWhitespace
-              );
+            let nextNonWhitespace: Production | undefined = undefined;
+            for (let i = state.index + 1; i < state.tokens.length; i++) {
+              const token = state.tokens[i];
+              if (
+                token.type !== ProductionType.newlineWhitespace &&
+                token.type !== ProductionType.nonNewlineWhitespace
+              ) {
+                nextNonWhitespace = token;
+                break;
+              }
+            }
             // I don't know where this would even happen, but whatever.
             if (!nextNonWhitespace) {
               return {
