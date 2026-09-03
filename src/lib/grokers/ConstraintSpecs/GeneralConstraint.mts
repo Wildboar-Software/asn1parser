@@ -79,15 +79,32 @@ export default function grok(
   } else if (alt.type === ProductionType.ContentsConstraint) {
     const Type: Production | undefined = alt.children.find(
       (prod: Production): boolean => prod.type === ProductionType.Type
-    )!;
+    );
     const Value: Production | undefined = alt.children.find(
       (prod: Production): boolean => prod.type === ProductionType.Value
-    )!;
-    return {
-      containing: grokType(Type, ctx),
-      encodedBy: grokValue(Value, ctx),
-      production: cst,
-    };
+    );
+    if (Type && Value) {
+      return {
+        containing: grokType(Type, ctx),
+        encodedBy: grokValue(Value, ctx),
+        production: cst,
+      };
+    } else if (Type) {
+      return {
+        containing: grokType(Type, ctx),
+        production: cst,
+      };
+    } else if (Value) {
+      return {
+        encodedBy: grokValue(Value, ctx),
+        production: cst,
+      };
+    } else {
+      throw new ASN1SyntaxError(
+        alt,
+        "Missing Type or Value CST node immediately under a ContentsConstraint CST node",
+      );
+    }
   } else {
     throw new ASN1SyntaxError(
       alt,
