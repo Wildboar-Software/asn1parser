@@ -4,45 +4,90 @@ import Production from '../../Production.mjs';
 import { ProductionType } from '../../ProductionType.mjs';
 import anythingExcept from './anythingExcept.mjs';
 
+function locationAtCursor(
+  state: ParseContext,
+  zeroWidth: boolean
+): ParseContext['cst']['location'] | undefined {
+  const token = state.tokens[state.index];
+  if (token) {
+    return zeroWidth
+      ? {
+          ...token.location,
+          endIndex: token.location.startIndex,
+        }
+      : token.location;
+  }
+  const last = state.tokens[state.tokens.length - 1];
+  if (!last) {
+    return undefined;
+  }
+  return {
+    ...last.location,
+    startIndex: last.location.endIndex,
+    endIndex: last.location.endIndex,
+  };
+}
+
 /**
- * @summary Produce a `Parser` that will parse any tokens until an exception.
+ * @summary Produce a `Parser` that will parse any tokens until a terminator.
  * @description
- * This parser will attempt to parse the next token with `exception` first.
- * As long as that fails, the generated parser will continue to consume tokens.
- * @param {Parser} exception The parser whose success will cause this parser to
- *  error.
- * @returns {Parser} The parser that will read any tokens until an exception.
+ * Consumes tokens one at a time while `terminator` does not match. When
+ * `terminator` matches, this parser succeeds and leaves that token unconsumed
+ * so a parent can parse it.
+ *
+ * End of input is **not** treated as the terminator. If `terminator` never
+ * matches, this parser fails after consuming every remaining token. Callers
+ * that use this for error recovery (such as `assert`) may then clear `error`
+ * and keep the advanced index.
+ *
+ * @param {ProductionType} containingType The type of the `Production` that
+ *  will subsume the consumed tokens.
+ * @param {Parser} terminator The parser whose success stops consumption.
+ * @returns {Parser} The parser that will read any tokens until the terminator.
  */
 export const anythingUntil = function (
   containingType: ProductionType,
   terminator: Parser
 ): Parser {
   return new Parser(
-    () => `${containingType} / Anything Until ${terminator}`,
+    () => `${containingType} / Anything Until ${terminator.name()}`,
     (state: ParseContext): ParseContext => {
       const children: Production[] = [];
       let prevState: ParseContext = state;
-      let nextState: ParseContext = anythingExcept(terminator).execute(state);
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        nextState = anythingExcept(terminator).execute(prevState);
+      while (prevState.index < prevState.tokens.length) {
+        const nextState: ParseContext =
+          anythingExcept(terminator).execute(prevState);
         if (nextState.error) {
           state.log.debug(
             `Read ${containingType} terminator ${terminator.name()}.`
           );
-          break; // Error means that we encountered the terminator.
-        } else {
-          children.push(nextState.cst);
+          return {
+            ...state,
+            index: prevState.index,
+            cst: new Production(
+              containingType,
+              children,
+              children.length
+                ? undefined
+                : locationAtCursor(state, false)
+            ),
+          };
         }
+        children.push(nextState.cst);
         prevState = nextState;
       }
+      state.log.debug(
+        `Did not read ${containingType} terminator ${terminator.name()} before end of input.`
+      );
       return {
         ...state,
-        index: nextState.index,
-        cst: new Production(containingType, children, {
-          ...state.cst.location,
-          endIndex: nextState.cst.location.endIndex,
-        }),
+        error: true,
+        index: prevState.index,
+        cst: new Production(
+          containingType,
+          children,
+          children.length ? undefined : locationAtCursor(state, true)
+        ),
       };
     }
   );

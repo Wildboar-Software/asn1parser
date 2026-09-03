@@ -1,4 +1,4 @@
-import { AssignmentType, grok, lex, LogLevel, MAX_CONSTRUCTED_NESTING_DEPTH, parse, ProductionType, TypeType, ValueType } from '../dist/index.mjs';
+import { AssignmentType, grok, lex, LogLevel, MAX_CONSTRUCTED_NESTING_DEPTH, parse, parserFor, ProductionType, TypeType, ValueType } from '../dist/index.mjs';
 import find from '../dist/lib/find.mjs';
 import { default as logger } from '../dist/lib/loggers/console.mjs';
 import { describe, test } from 'node:test';
@@ -245,6 +245,43 @@ describe('Parser error detection', () => {
     assert(loc.startIndex < loc.endIndex);
     assertEqual(loc.lineNumber, 1);
     assert(loc.columnNumber, 'A {iso} DEFINITIONS EXPLICIT '.length);
+  });
+
+  test('anythingUntil succeeds only when the terminator is present', () => {
+    const closed = 'hello ] leftover';
+    const closedTokens = Array.from(lex(closed));
+    const closedResult = parserFor.EncodingInstruction.start(closedTokens, closed);
+    assertEqual(closedResult.error, undefined);
+    assertEqual(closedTokens[closedResult.index].type, ProductionType.squareClosing);
+    assertEqual(
+      closed.slice(
+        closedResult.cst.location.startIndex,
+        closedResult.cst.location.endIndex
+      ).trim(),
+      'hello'
+    );
+
+    const unclosed = 'hello world';
+    const unclosedTokens = Array.from(lex(unclosed));
+    const unclosedResult = parserFor.EncodingInstruction.start(
+      unclosedTokens,
+      unclosed
+    );
+    assertEqual(unclosedResult.error, true);
+    assertEqual(unclosedResult.index, unclosedTokens.length);
+  });
+
+  test('anythingUntil does not treat an empty remainder as a found terminator', () => {
+    const text = '';
+    const result = parserFor.EncodingInstruction.start([], text);
+    assertEqual(result.error, true);
+    assertEqual(result.index, 0);
+  });
+
+  test('still recovers when assert() never finds its recovery token', () => {
+    const text = 'A {iso} DEFINITIONS EXPLICIT BEGIN Typeyboi ::= ANY END';
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(Object.keys(p.syntaxErrors).length >= 1, true);
   });
 
   test('detects a missing closure to DefinitiveNameAndNumberForm', () => {
