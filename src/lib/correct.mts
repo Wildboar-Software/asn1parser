@@ -28,8 +28,11 @@ export default function correct(modules: Module[]): void {
     if (duplicates.length > 0) {
         throw new ASN1SemanticError(`Duplicated module names: ${duplicates.join(", ")}`);
     }
-  modules.forEach((module) =>
-    Object.values(module.assignments).forEach((assn) => {
+  for (let i = 0; i < modules.length; i++) {
+    const module = modules[i];
+    const assignments = Object.values(module.assignments);
+    for (let j = 0; j < assignments.length; j++) {
+      const assn = assignments[j];
       unconfuseObjectAndValueAssignments(assn, module, modules);
       switch (assn.assignmentType) {
         case AssignmentType.ValueAssignment: {
@@ -158,7 +161,7 @@ export default function correct(modules: Module[]): void {
                   iterateOverComponentTypes(t.type)
                 );
                 // components
-                newV.value.forEach((cv): void => {
+                for (const cv of newV.value) {
                   // eslint-disable-line
                   const ct = components.find((c) => {
                     if ('componentsOf' in c) {
@@ -199,7 +202,7 @@ export default function correct(modules: Module[]): void {
                       }
                     }
                   }
-                });
+                }
               }
             }
           }
@@ -216,6 +219,6 @@ export default function correct(modules: Module[]): void {
           break;
         }
       }
-    })
-  );
+    }
+  }
 }
