@@ -11,6 +11,10 @@ import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
  * fails, it will fast-forward through tokens until the `recovery` parser
  * succeeds.
  *
+ * If the recovery token never appears, the scan stops at end of input, a
+ * syntax error is recorded, and this parser still succeeds so the rest of
+ * the file can be parsed.
+ *
  * This is for scenarios where a parsing syntax could be said with certainty to
  * be incorrect a run time. For instance, when parsing an `ExtensionDefault`,
  * the ASN.1 keyword `EXTENSIBILITY` must always be followed by an `IMPLIED`, so
@@ -38,6 +42,11 @@ export const assert = function (
           ProductionType.SYNTAX_ERROR,
           recovery
         ).execute(state);
+        // `anythingUntil` fails when the recovery token is absent. Keep the
+        // skipped tokens and continue so the rest of the module can parse.
+        if (recoveryResult.error) {
+          delete recoveryResult.error;
+        }
         const key: number = result.cst.location.startIndex;
         if (!(key in recoveryResult.syntaxErrors)) {
           recoveryResult.syntaxErrors[key] = new ASN1SyntaxError(
