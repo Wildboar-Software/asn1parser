@@ -1,4 +1,4 @@
-import { AssignmentType, grok, lex, LogLevel, parse, ProductionType, TypeType, ValueType } from '../dist/index.mjs';
+import { AssignmentType, grok, lex, LogLevel, MAX_CONSTRUCTED_NESTING_DEPTH, parse, ProductionType, TypeType, ValueType } from '../dist/index.mjs';
 import find from '../dist/lib/find.mjs';
 import { default as logger } from '../dist/lib/loggers/console.mjs';
 import { describe, test } from 'node:test';
@@ -434,5 +434,82 @@ END`;
       const oid = value.value;
       assert(oid.prefix.reference, "youso");
     }
+  });
+
+  test('parses SEQUENCE nesting at the constructed-type depth limit', () => {
+    let inner = 'INTEGER';
+    for (let i = 0; i < MAX_CONSTRUCTED_NESTING_DEPTH; i++) {
+      inner = `SEQUENCE { a ${inner} }`;
+    }
+    const text = `M {iso} DEFINITIONS ::= BEGIN T ::= ${inner} END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    assert(
+      !Object.values(p.syntaxErrors).some((e) =>
+        String(e.message).includes('nesting exceeds')
+      )
+    );
+  });
+
+  test('does not overflow the stack on inline SEQUENCE nesting past the limit', () => {
+    let inner = 'INTEGER';
+    for (let i = 0; i < MAX_CONSTRUCTED_NESTING_DEPTH + 1; i++) {
+      inner = `SEQUENCE { a ${inner} }`;
+    }
+    const text = `M {iso} DEFINITIONS ::= BEGIN T ::= ${inner} END`;
+    const p = parse(text, Array.from(lex(text)));
+    assert(
+      Object.values(p.syntaxErrors).some((e) =>
+        String(e.message).includes('nesting exceeds')
+      )
+    );
+  });
+
+  test('does not overflow the stack on inline SET and CHOICE nesting past the limit', () => {
+    let inner = 'INTEGER';
+    for (let i = 0; i < MAX_CONSTRUCTED_NESTING_DEPTH + 1; i++) {
+      inner =
+        i % 2 === 0
+          ? `SET { a ${inner} }`
+          : `CHOICE { a ${inner} }`;
+    }
+    const text = `M {iso} DEFINITIONS ::= BEGIN T ::= ${inner} END`;
+    const p = parse(text, Array.from(lex(text)));
+    assert(
+      Object.values(p.syntaxErrors).some((e) =>
+        String(e.message).includes('nesting exceeds')
+      )
+    );
+  });
+
+  test('does not count sibling SEQUENCE components toward nesting depth', () => {
+    const fields = [];
+    for (let i = 0; i < MAX_CONSTRUCTED_NESTING_DEPTH + 10; i++) {
+      fields.push(`c${i} SEQUENCE { id INTEGER }`);
+    }
+    const text = `M {iso} DEFINITIONS ::= BEGIN T ::= SEQUENCE { ${fields.join(', ')} } END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    assert(
+      !Object.values(p.syntaxErrors).some((e) =>
+        String(e.message).includes('nesting exceeds')
+      )
+    );
+  });
+
+  test('does not overflow the stack on nested SEQUENCE values past the limit', () => {
+    let valueInner = 'TRUE';
+    for (let i = 0; i < MAX_CONSTRUCTED_NESTING_DEPTH + 1; i++) {
+      valueInner = `{ a ${valueInner} }`;
+    }
+    const text = `M {iso} DEFINITIONS ::= BEGIN
+      v SEQUENCE { a BOOLEAN } ::= ${valueInner}
+    END`;
+    const p = parse(text, Array.from(lex(text)));
+    assert(
+      Object.values(p.syntaxErrors).some((e) =>
+        String(e.message).includes('nesting exceeds')
+      )
+    );
   });
 });

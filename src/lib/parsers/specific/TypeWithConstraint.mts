@@ -2,8 +2,8 @@ import {
   anything,
   assert,
   choiceOf,
+  limitConstructedNesting,
   literal,
-  recursiveParser,
   whitespaceTolerantSequenceOf,
 } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
@@ -21,7 +21,7 @@ import { ProductionType } from '../../ProductionType.mjs';
  *      | SEQUENCE Constraint OF NamedType
  *      | SEQUENCE SizeConstraint OF NamedType`
  */
-export const TypeWithConstraint: Parser = recursiveParser(
+export const TypeWithConstraint: Parser = limitConstructedNesting(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.TypeWithConstraint, [
       choiceOf([
