@@ -1,3 +1,4 @@
+import type Production from './Production.mjs';
 import { ProductionType } from './ProductionType.mjs';
 import type ParseContext from './interfaces/ParseContext.mjs';
 import productionTypeToTypeTypeMap from './maps/productionTypeToTypeTypeMap.mjs';
@@ -12,10 +13,20 @@ import productionTypeToTypeTypeMap from './maps/productionTypeToTypeTypeMap.mjs'
  */
 export default function updateCurrentType(ctx: ParseContext): void {
   const Type = ctx.cst;
-  if (!Type || Type.children[0]?.type !== ProductionType.BuiltinType) {
+  if (!Type) {
     return;
   }
-  const BuiltinType = Type.children[0];
+  const t: Production = (
+    (Type.children[0]?.type === ProductionType.ConstrainedType)
+    && (Type.children[0]?.children[0]?.type === ProductionType.Type)
+  )
+    ? Type.children[0].children[0]
+    : Type
+    ;
+  if (t.children[0]?.type !== ProductionType.BuiltinType) {
+    return;
+  }
+  const BuiltinType = t.children[0];
   let innerType = BuiltinType.children[0];
   while (innerType.type === ProductionType.PrefixedType) {
     const TaggedOrEncodingPrefixedType = innerType.children[0];
