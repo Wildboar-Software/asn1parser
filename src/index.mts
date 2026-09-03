@@ -171,6 +171,7 @@ export { default as newlineWhitespaceCharacters } from './lib/newlineWhitespaceC
 export { default as nonNewlineWhitespaceCharacters } from './lib/nonNewlineWhitespaceCharacters.mjs';
 export { default as normalize } from './lib/normalize.mjs';
 export { default as parse } from './lib/parse.mjs';
+export { MAX_CONSTRUCTED_NESTING_DEPTH } from './lib/parsers/generic/limitConstructedNesting.mjs';
 export { default as recursivelyResolve } from './lib/recursivelyResolve.mjs';
 export { default as replicateComponentsOf } from './lib/normalizers/replicateComponentsOf.mjs';
 export { default as resolve } from './lib/resolve.mjs';

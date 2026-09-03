@@ -1,7 +1,7 @@
 import {
   assert,
+  limitConstructedNesting,
   literal,
-  recursiveParser,
   whitespaceTolerantSequenceOf,
 } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
@@ -11,7 +11,7 @@ import { ProductionType } from '../../ProductionType.mjs';
 /**
  * `ChoiceType ::= CHOICE "{" AlternativeTypeLists "}"`
  */
-export const ChoiceType: Parser = recursiveParser(
+export const ChoiceType: Parser = limitConstructedNesting(
   (): Parser =>
     whitespaceTolerantSequenceOf(ProductionType.ChoiceType, [
       literal(ProductionType._CHOICE),

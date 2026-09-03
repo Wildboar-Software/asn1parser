@@ -21,6 +21,8 @@ export {
 } from './tokenPeek.mjs';
 export { default as commaDelimitedList } from './commaDelimitedList.mjs';
 export { default as doif } from './doif.mjs';
+export { default as limitConstructedNesting } from './limitConstructedNesting.mjs';
+export { MAX_CONSTRUCTED_NESTING_DEPTH } from './limitConstructedNesting.mjs';
 export { default as literal } from './literal.mjs';
 export { default as optional } from './optional.mjs';
 export { default as periodDelimitedList } from './periodDelimitedList.mjs';

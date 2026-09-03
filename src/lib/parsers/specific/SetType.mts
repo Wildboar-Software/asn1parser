@@ -2,8 +2,8 @@ import {
   anything,
   assert,
   choiceOf,
+  limitConstructedNesting,
   literal,
-  recursiveParser,
   whitespaceTolerantSequenceOf,
 } from '../generic/index.mjs';
 import * as parserFor from '../specific/index.mjs';
@@ -16,7 +16,7 @@ import { ProductionType } from '../../ProductionType.mjs';
  *      | SET "{" ExtensionAndException OptionalExtensionMarker "}"
  *      | SET "{" ComponentTypeLists "}"`
  */
-export const SetType: Parser = recursiveParser(
+export const SetType: Parser = limitConstructedNesting(
   (): Parser =>
     choiceOf([
       whitespaceTolerantSequenceOf(ProductionType.SetType, [
