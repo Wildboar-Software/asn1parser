@@ -44,7 +44,7 @@ export default function grokDefinitiveOID(
           const nameAndNumber: string = granchildText;
           const indexOfFirstParentheses: number = nameAndNumber.indexOf('(');
           return {
-            name: nameAndNumber.slice(0, indexOfFirstParentheses),
+            name: nameAndNumber.slice(0, indexOfFirstParentheses).trimEnd(),
             number: parseInt(
               nameAndNumber.slice(indexOfFirstParentheses + 1, -1),
               10
