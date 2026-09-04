@@ -1,0 +1,2061 @@
+{
+    "module": {
+        "name": "MAP-ApplicationContexts",
+        "oid": [
+            {
+                "name": "itu-t"
+            },
+            {
+                "name": "identified-organization ",
+                "number": 4
+            },
+            {
+                "name": "etsi ",
+                "number": 0
+            },
+            {
+                "name": "mobileDomain ",
+                "number": 0
+            },
+            {
+                "name": "gsm-Network ",
+                "number": 1
+            },
+            {
+                "name": "modules ",
+                "number": 3
+            },
+            {
+                "name": "map-ApplicationContexts ",
+                "number": 2
+            },
+            {
+                "name": "version22 ",
+                "number": 22
+            }
+        ],
+        "taggingMode": "EXPLICIT",
+        "extensibilityImplied": false,
+        "imports": {
+            "MobileDomainDefinitions": {
+                "identifier": "MobileDomainDefinitions",
+                "assignedIdentifier": {
+                    "text": "{\n   itu-t (0) identified-organization (4) etsi (0) mobileDomain (0)\n   mobileDomainDefinitions (0) version1 (1)}",
+                    "components": [
+                        {
+                            "text": "itu-t (0)",
+                            "name": "itu-t",
+                            "number": 0
+                        },
+                        {
+                            "text": "identified-organization (4)",
+                            "name": "identified-organization",
+                            "number": 4
+                        },
+                        {
+                            "text": "etsi (0)",
+                            "name": "etsi",
+                            "number": 0
+                        },
+                        {
+                            "text": "mobileDomain (0)",
+                            "name": "mobileDomain",
+                            "number": 0
+                        },
+                        {
+                            "text": "mobileDomainDefinitions (0)",
+                            "name": "mobileDomainDefinitions",
+                            "number": 0
+                        },
+                        {
+                            "text": "version1 (1)",
+                            "name": "version1",
+                            "number": 1
+                        }
+                    ]
+                },
+                "symbolList": {
+                    "gsm-NetworkId": null,
+                    "ac-Id": null
+                }
+            }
+        },
+        "assignments": {
+            "map-ac": {
+                "identifier": "map-ac",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "map-ac  OBJECT IDENTIFIER ",
+                "rightHandSide": " {gsm-NetworkId ac-Id}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{gsm-NetworkId ac-Id}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{gsm-NetworkId ac-Id}",
+                        "prefix": {
+                            "reference": "gsm-NetworkId",
+                            "computedModule": "MobileDomainDefinitions"
+                        },
+                        "components": [
+                            {
+                                "text": "ac-Id",
+                                "name": "ac-Id"
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MobileDomainDefinitions.gsm-NetworkId": {
+                        "reference": "gsm-NetworkId",
+                        "computedModule": "MobileDomainDefinitions"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 0
+            },
+            "networkLocUpContext-v3": {
+                "identifier": "networkLocUpContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "networkLocUpContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac networkLocUp(1) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac networkLocUp(1) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac networkLocUp(1) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "networkLocUp(1)",
+                                "name": "networkLocUp",
+                                "number": 1
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 1
+            },
+            "locationCancellationContext-v3": {
+                "identifier": "locationCancellationContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "locationCancellationContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac locationCancel(2) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac locationCancel(2) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac locationCancel(2) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "locationCancel(2)",
+                                "name": "locationCancel",
+                                "number": 2
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 2
+            },
+            "roamingNumberEnquiryContext-v3": {
+                "identifier": "roamingNumberEnquiryContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "roamingNumberEnquiryContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac roamingNbEnquiry(3) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac roamingNbEnquiry(3) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac roamingNbEnquiry(3) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "roamingNbEnquiry(3)",
+                                "name": "roamingNbEnquiry",
+                                "number": 3
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 3
+            },
+            "authenticationFailureReportContext-v3": {
+                "identifier": "authenticationFailureReportContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "authenticationFailureReportContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac authenticationFailureReport(39) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac authenticationFailureReport(39) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac authenticationFailureReport(39) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "authenticationFailureReport(39)",
+                                "name": "authenticationFailureReport",
+                                "number": 39
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 4
+            },
+            "locationInfoRetrievalContext-v3": {
+                "identifier": "locationInfoRetrievalContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "locationInfoRetrievalContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac locInfoRetrieval(5) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac locInfoRetrieval(5) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac locInfoRetrieval(5) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "locInfoRetrieval(5)",
+                                "name": "locInfoRetrieval",
+                                "number": 5
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 5
+            },
+            "resetContext-v3": {
+                "identifier": "resetContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "resetContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac reset(10) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac reset(10) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac reset(10) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "reset(10)",
+                                "name": "reset",
+                                "number": 10
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 6
+            },
+            "handoverControlContext-v3": {
+                "identifier": "handoverControlContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "handoverControlContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac handoverControl(11) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac handoverControl(11) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac handoverControl(11) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "handoverControl(11)",
+                                "name": "handoverControl",
+                                "number": 11
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 7
+            },
+            "equipmentMngtContext-v3": {
+                "identifier": "equipmentMngtContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "equipmentMngtContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac equipmentMngt(13) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac equipmentMngt(13) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac equipmentMngt(13) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "equipmentMngt(13)",
+                                "name": "equipmentMngt",
+                                "number": 13
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 8
+            },
+            "infoRetrievalContext-v3": {
+                "identifier": "infoRetrievalContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "infoRetrievalContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac infoRetrieval(14) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac infoRetrieval(14) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac infoRetrieval(14) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "infoRetrieval(14)",
+                                "name": "infoRetrieval",
+                                "number": 14
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 9
+            },
+            "interVlrInfoRetrievalContext-v3": {
+                "identifier": "interVlrInfoRetrievalContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "interVlrInfoRetrievalContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac interVlrInfoRetrieval(15) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac interVlrInfoRetrieval(15) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac interVlrInfoRetrieval(15) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "interVlrInfoRetrieval(15)",
+                                "name": "interVlrInfoRetrieval",
+                                "number": 15
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 10
+            },
+            "subscriberDataMngtContext-v3": {
+                "identifier": "subscriberDataMngtContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "subscriberDataMngtContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac subscriberDataMngt(16) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac subscriberDataMngt(16) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac subscriberDataMngt(16) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "subscriberDataMngt(16)",
+                                "name": "subscriberDataMngt",
+                                "number": 16
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 11
+            },
+            "tracingContext-v3": {
+                "identifier": "tracingContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "tracingContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac tracing(17) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac tracing(17) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac tracing(17) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "tracing(17)",
+                                "name": "tracing",
+                                "number": 17
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 12
+            },
+            "networkFunctionalSsContext-v2": {
+                "identifier": "networkFunctionalSsContext-v2",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "networkFunctionalSsContext-v2  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac networkFunctionalSs(18) version2(2)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac networkFunctionalSs(18) version2(2)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac networkFunctionalSs(18) version2(2)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "networkFunctionalSs(18)",
+                                "name": "networkFunctionalSs",
+                                "number": 18
+                            },
+                            {
+                                "text": "version2(2)",
+                                "name": "version2",
+                                "number": 2
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 13
+            },
+            "networkUnstructuredSsContext-v2": {
+                "identifier": "networkUnstructuredSsContext-v2",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "networkUnstructuredSsContext-v2  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac networkUnstructuredSs(19) version2(2)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac networkUnstructuredSs(19) version2(2)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac networkUnstructuredSs(19) version2(2)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "networkUnstructuredSs(19)",
+                                "name": "networkUnstructuredSs",
+                                "number": 19
+                            },
+                            {
+                                "text": "version2(2)",
+                                "name": "version2",
+                                "number": 2
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 14
+            },
+            "shortMsgGatewayContext-v3": {
+                "identifier": "shortMsgGatewayContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "shortMsgGatewayContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac shortMsgGateway(20) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac shortMsgGateway(20) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac shortMsgGateway(20) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "shortMsgGateway(20)",
+                                "name": "shortMsgGateway",
+                                "number": 20
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 15
+            },
+            "shortMsgMO-RelayContext-v3": {
+                "identifier": "shortMsgMO-RelayContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "shortMsgMO-RelayContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac shortMsgMO-Relay(21) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac shortMsgMO-Relay(21) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac shortMsgMO-Relay(21) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "shortMsgMO-Relay(21)",
+                                "name": "shortMsgMO-Relay",
+                                "number": 21
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 16
+            },
+            "shortMsgAlertContext-v2": {
+                "identifier": "shortMsgAlertContext-v2",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "shortMsgAlertContext-v2  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac shortMsgAlert(23) version2(2)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac shortMsgAlert(23) version2(2)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac shortMsgAlert(23) version2(2)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "shortMsgAlert(23)",
+                                "name": "shortMsgAlert",
+                                "number": 23
+                            },
+                            {
+                                "text": "version2(2)",
+                                "name": "version2",
+                                "number": 2
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 17
+            },
+            "mwdMngtContext-v3": {
+                "identifier": "mwdMngtContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "mwdMngtContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac mwdMngt(24) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac mwdMngt(24) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac mwdMngt(24) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "mwdMngt(24)",
+                                "name": "mwdMngt",
+                                "number": 24
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 18
+            },
+            "shortMsgMT-RelayContext-v3": {
+                "identifier": "shortMsgMT-RelayContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "shortMsgMT-RelayContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac shortMsgMT-Relay(25) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac shortMsgMT-Relay(25) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac shortMsgMT-Relay(25) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "shortMsgMT-Relay(25)",
+                                "name": "shortMsgMT-Relay",
+                                "number": 25
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 19
+            },
+            "shortMsgMT-Relay-VGCS-Context-v3": {
+                "identifier": "shortMsgMT-Relay-VGCS-Context-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "shortMsgMT-Relay-VGCS-Context-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac shortMsgMT-Relay-VGCS(41) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac shortMsgMT-Relay-VGCS(41) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac shortMsgMT-Relay-VGCS(41) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "shortMsgMT-Relay-VGCS(41)",
+                                "name": "shortMsgMT-Relay-VGCS",
+                                "number": 41
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 20
+            },
+            "imsiRetrievalContext-v2": {
+                "identifier": "imsiRetrievalContext-v2",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "imsiRetrievalContext-v2  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac imsiRetrieval(26) version2(2)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac imsiRetrieval(26) version2(2)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac imsiRetrieval(26) version2(2)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "imsiRetrieval(26)",
+                                "name": "imsiRetrieval",
+                                "number": 26
+                            },
+                            {
+                                "text": "version2(2)",
+                                "name": "version2",
+                                "number": 2
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 21
+            },
+            "msPurgingContext-v3": {
+                "identifier": "msPurgingContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "msPurgingContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac msPurging(27) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac msPurging(27) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac msPurging(27) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "msPurging(27)",
+                                "name": "msPurging",
+                                "number": 27
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 22
+            },
+            "subscriberInfoEnquiryContext-v3": {
+                "identifier": "subscriberInfoEnquiryContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "subscriberInfoEnquiryContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac subscriberInfoEnquiry(28) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac subscriberInfoEnquiry(28) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac subscriberInfoEnquiry(28) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "subscriberInfoEnquiry(28)",
+                                "name": "subscriberInfoEnquiry",
+                                "number": 28
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 23
+            },
+            "anyTimeInfoEnquiryContext-v3": {
+                "identifier": "anyTimeInfoEnquiryContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "anyTimeInfoEnquiryContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac anyTimeInfoEnquiry(29) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac anyTimeInfoEnquiry(29) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac anyTimeInfoEnquiry(29) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "anyTimeInfoEnquiry(29)",
+                                "name": "anyTimeInfoEnquiry",
+                                "number": 29
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 24
+            },
+            "callControlTransferContext-v4": {
+                "identifier": "callControlTransferContext-v4",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "callControlTransferContext-v4  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac callControlTransfer(6) version4(4)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac callControlTransfer(6) version4(4)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac callControlTransfer(6) version4(4)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "callControlTransfer(6)",
+                                "name": "callControlTransfer",
+                                "number": 6
+                            },
+                            {
+                                "text": "version4(4)",
+                                "name": "version4",
+                                "number": 4
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 25
+            },
+            "ss-InvocationNotificationContext-v3": {
+                "identifier": "ss-InvocationNotificationContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "ss-InvocationNotificationContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac ss-InvocationNotification(36) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac ss-InvocationNotification(36) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac ss-InvocationNotification(36) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "ss-InvocationNotification(36)",
+                                "name": "ss-InvocationNotification",
+                                "number": 36
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 26
+            },
+            "groupCallControlContext-v3": {
+                "identifier": "groupCallControlContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "groupCallControlContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac groupCallControl(31) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac groupCallControl(31) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac groupCallControl(31) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "groupCallControl(31)",
+                                "name": "groupCallControl",
+                                "number": 31
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 27
+            },
+            "groupCallInfoRetrievalContext-v3": {
+                "identifier": "groupCallInfoRetrievalContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "groupCallInfoRetrievalContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac groupCallInfoRetrieval(45) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac groupCallInfoRetrieval(45) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac groupCallInfoRetrieval(45) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "groupCallInfoRetrieval(45)",
+                                "name": "groupCallInfoRetrieval",
+                                "number": 45
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 28
+            },
+            "gprsLocationUpdateContext-v3": {
+                "identifier": "gprsLocationUpdateContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "gprsLocationUpdateContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac gprsLocationUpdate(32) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac gprsLocationUpdate(32) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac gprsLocationUpdate(32) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "gprsLocationUpdate(32)",
+                                "name": "gprsLocationUpdate",
+                                "number": 32
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 29
+            },
+            "gprsLocationInfoRetrievalContext-v4": {
+                "identifier": "gprsLocationInfoRetrievalContext-v4",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "gprsLocationInfoRetrievalContext-v4  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac gprsLocationInfoRetrieval(33) version4(4)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac gprsLocationInfoRetrieval(33) version4(4)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac gprsLocationInfoRetrieval(33) version4(4)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "gprsLocationInfoRetrieval(33)",
+                                "name": "gprsLocationInfoRetrieval",
+                                "number": 33
+                            },
+                            {
+                                "text": "version4(4)",
+                                "name": "version4",
+                                "number": 4
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 30
+            },
+            "failureReportContext-v3": {
+                "identifier": "failureReportContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "failureReportContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac failureReport(34) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac failureReport(34) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac failureReport(34) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "failureReport(34)",
+                                "name": "failureReport",
+                                "number": 34
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 31
+            },
+            "gprsNotifyContext-v3": {
+                "identifier": "gprsNotifyContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "gprsNotifyContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac gprsNotify(35) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac gprsNotify(35) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac gprsNotify(35) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "gprsNotify(35)",
+                                "name": "gprsNotify",
+                                "number": 35
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 32
+            },
+            "reportingContext-v3": {
+                "identifier": "reportingContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "reportingContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac reporting(7) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac reporting(7) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac reporting(7) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "reporting(7)",
+                                "name": "reporting",
+                                "number": 7
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 33
+            },
+            "callCompletionContext-v3": {
+                "identifier": "callCompletionContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "callCompletionContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac callCompletion(8) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac callCompletion(8) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac callCompletion(8) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "callCompletion(8)",
+                                "name": "callCompletion",
+                                "number": 8
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 34
+            },
+            "istAlertingContext-v3": {
+                "identifier": "istAlertingContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "istAlertingContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac istAlerting(4) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac istAlerting(4) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac istAlerting(4) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "istAlerting(4)",
+                                "name": "istAlerting",
+                                "number": 4
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 35
+            },
+            "serviceTerminationContext-v3": {
+                "identifier": "serviceTerminationContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "serviceTerminationContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac immediateTermination(9) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac immediateTermination(9) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac immediateTermination(9) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "immediateTermination(9)",
+                                "name": "immediateTermination",
+                                "number": 9
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 36
+            },
+            "locationSvcGatewayContext-v3": {
+                "identifier": "locationSvcGatewayContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "locationSvcGatewayContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac locationSvcGateway(37) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac locationSvcGateway(37) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac locationSvcGateway(37) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "locationSvcGateway(37)",
+                                "name": "locationSvcGateway",
+                                "number": 37
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 37
+            },
+            "locationSvcEnquiryContext-v3": {
+                "identifier": "locationSvcEnquiryContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "locationSvcEnquiryContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac locationSvcEnquiry(38) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac locationSvcEnquiry(38) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac locationSvcEnquiry(38) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "locationSvcEnquiry(38)",
+                                "name": "locationSvcEnquiry",
+                                "number": 38
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 38
+            },
+            "mm-EventReportingContext-v3": {
+                "identifier": "mm-EventReportingContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "mm-EventReportingContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac mm-EventReporting(42) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac mm-EventReporting(42) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac mm-EventReporting(42) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "mm-EventReporting(42)",
+                                "name": "mm-EventReporting",
+                                "number": 42
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 39
+            },
+            "anyTimeInfoHandlingContext-v3": {
+                "identifier": "anyTimeInfoHandlingContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "anyTimeInfoHandlingContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac anyTimeInfoHandling(43) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac anyTimeInfoHandling(43) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac anyTimeInfoHandling(43) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "anyTimeInfoHandling(43)",
+                                "name": "anyTimeInfoHandling",
+                                "number": 43
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 40
+            },
+            "subscriberDataModificationNotificationContext-v3": {
+                "identifier": "subscriberDataModificationNotificationContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "subscriberDataModificationNotificationContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac subscriberDataModificationNotification(22) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac subscriberDataModificationNotification(22) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac subscriberDataModificationNotification(22) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "subscriberDataModificationNotification(22)",
+                                "name": "subscriberDataModificationNotification",
+                                "number": 22
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 41
+            },
+            "resourceManagementContext-v3": {
+                "identifier": "resourceManagementContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "resourceManagementContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac resourceManagement(44) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac resourceManagement(44) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac resourceManagement(44) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "resourceManagement(44)",
+                                "name": "resourceManagement",
+                                "number": 44
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 42
+            },
+            "vcsgLocationUpdateContext-v3": {
+                "identifier": "vcsgLocationUpdateContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "vcsgLocationUpdateContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac vcsgLocationUpdate(46) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac vcsgLocationUpdate(46) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac vcsgLocationUpdate(46) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "vcsgLocationUpdate(46)",
+                                "name": "vcsgLocationUpdate",
+                                "number": 46
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 43
+            },
+            "vcsgLocationCancellationContext-v3": {
+                "identifier": "vcsgLocationCancellationContext-v3",
+                "assignmentType": "ValueAssignment",
+                "leftHandSide": "vcsgLocationCancellationContext-v3  OBJECT IDENTIFIER ",
+                "rightHandSide": "\n\t{map-ac vcsgLocationCancel(47) version3(3)}",
+                "type": {
+                    "text": "OBJECT IDENTIFIER",
+                    "typeType": "ObjectIdentifierType",
+                    "type": "OBJECT IDENTIFIER"
+                },
+                "value": {
+                    "text": "{map-ac vcsgLocationCancel(47) version3(3)}",
+                    "valueType": "ObjectIdentifierValue",
+                    "value": {
+                        "text": "{map-ac vcsgLocationCancel(47) version3(3)}",
+                        "prefix": {
+                            "reference": "map-ac",
+                            "computedModule": "MAP-ApplicationContexts"
+                        },
+                        "components": [
+                            {
+                                "text": "vcsgLocationCancel(47)",
+                                "name": "vcsgLocationCancel",
+                                "number": 47
+                            },
+                            {
+                                "text": "version3(3)",
+                                "name": "version3",
+                                "number": 3
+                            }
+                        ]
+                    }
+                },
+                "dependencies": {
+                    "MAP-ApplicationContexts.map-ac": {
+                        "reference": "map-ac",
+                        "computedModule": "MAP-ApplicationContexts"
+                    }
+                },
+                "module": {
+                    "name": "MAP-ApplicationContexts"
+                },
+                "dependencyIndex": 44
+            }
+        },
+        "definedEnumItems": {}
+    }
+}

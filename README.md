@@ -21,6 +21,12 @@ and [X.683](https://www.itu.int/rec/T-REC-X.683/en).
 - [Terminology Used by this Module](./doc/terminology.md)
 - [Design Mistakes](./doc/design-mistakes.md)
 
+## Security
+
+It is ill-advised to allow this to be used with untrusted inputs. There have
+been denial-of-service vulnerabilities found, and there are probably more yet
+to be uncovered.
+
 ## Usage Example
 
 This is a test, completely copied and pasted here to showcase the capabilies
@@ -111,17 +117,15 @@ assertEquals(ta.identifier, "MyType");
 If you are re-parsing a substring of the entire ASN.1 file:
 
 - Supply a `Location` object to the `startloc` parameter of
-  `lex(text, startloc)`, which will add that location's
-  `startIndex` to the start and end offsets of all lexical
-  tokens (`Production`s). It will also adjust the line and
-  column number. That way, the offsets for those tokens
-  correctly point to their offsets in the original text, not
-  the substring you re-lexed.
-- In the `GrokContext`, set `textStartsAtOffset` to the same
-  `startIndex` of the `Location` you used for `startloc` in
-  `lex()`. This is needed because the groking functions take
-  the substring, not the whole string, so you have to "undo"
-  the offset correction you did in `lex()`.
+  `lex(text, startloc)`, which will add that location's `startIndex` to the
+  start and end offsets of all lexical tokens (`Production`s). It will also
+  adjust the line and column number. That way, the offsets for those tokens
+  correctly point to their offsets in the original text, not the substring you
+  re-lexed.
+- In the `GrokContext`, set `textStartsAtOffset` to the same `startIndex` of the
+  `Location` you used for `startloc` in `lex()`. This is needed because the
+  groking functions take the substring, not the whole string, so you have to
+  "undo" the offset correction you did in `lex()`.
 
 Sorry this API is so dumb. I have never written a lexer / parser before this,
 and I originally had no intention or even thoughts about this being able to
@@ -153,6 +157,34 @@ assignment identifiers.
 
 This module theoretically supports reading XML value assignments, but this was
 never tested at all. It is very plausible that it works poorly, if at all.
+
+### JSON Exports
+
+If you want to use this parser to do the parsing of ASN.1, then hand off
+friendlier data to another program, you can export the lexed tokens, the
+concrete syntax tree (CST), and the abstract syntax tree (AST) as JSON.
+The types used for these data structures were chosen so that they could
+serialize to JSON for consumption externally.
+
+Example of exporting at each stage:
+
+```typescript
+const lexResults = Array.from(lex(text));
+const parseResults = parse(text, lexResults);
+const modules = grok(text, parseResults);
+const normalizedModules = normalize(modules);
+fs.writeFileSync("./lexical-tokens.json", JSON.stringify(lexResults));
+fs.writeFileSync("./cst.json", JSON.stringify(parseResults.cst));
+fs.writeFileSync("./ast.json", JSON.stringify(normalizedModules));
+```
+
+See [`doc/example.ast.json`] for an example of what one ASN.1 module in
+`./ast.json` would look like for you.
+
+See [`doc/example.lex.json`] for what `./lexical-tokens.json` might look like
+for you.
+
+See [Usage](./doc/usage.md) for slightly better documentation about this.
 
 ## Module System and Environment
 
@@ -201,7 +233,6 @@ annotations.
 
 ## To Do
 
-- [ ] Performance Enhancements
 - [ ] Make dependency on `dependency-graph` optional
 - [ ] Could the lexer take a `TNext` to change behavior, such as by returning a syntax error?
 - [ ] Convert `ProductionType` to string constants (maybe other enums too) (will require major version bump)

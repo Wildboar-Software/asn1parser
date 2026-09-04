@@ -276,3 +276,83 @@ const p = parse(text, lex);
 doublyLinkCST(p.cst);
 // Now every node in the CST has the `.parent` property populated.
 ```
+
+## JSON Exports
+
+If you want to use this parser to do the parsing of ASN.1, then hand off
+friendlier data to another program, you can export the lexed tokens, the
+concrete syntax tree (CST), and the abstract syntax tree (AST) as JSON.
+The types used for these data structures were chosen so that they could
+serialize to JSON for consumption externally.
+
+Example of exporting at each stage:
+
+```typescript
+const lexResults = Array.from(lex(text));
+const parseResults = parse(text, lexResults);
+const modules = grok(text, parseResults);
+const normalizedModules = normalize(modules);
+fs.writeFileSync("./lexical-tokens.json", JSON.stringify(lexResults));
+fs.writeFileSync("./cst.json", JSON.stringify(parseResults.cst));
+fs.writeFileSync("./ast.json", JSON.stringify(normalizedModules));
+```
+
+`ast.json` will look something like (prettified and simplified for readability):
+
+```jsonc
+[
+    {
+        "module": {
+            "name": "MAP-ApplicationContexts",
+            "oid": [],
+            "taggingMode": "EXPLICIT",
+            "extensibilityImplied": false,
+            "imports": {},
+            "assignments": {}
+        },
+        // ... Much more JSON
+    }
+]
+```
+
+See `doc/example.ast.json` for an example of what one object in this array
+would look like for you.
+
+`lexical-tokens.json` will look something like this for you, only much larger:
+
+```jsonc
+[
+    {
+        "type": "objectclassreference",
+        "location": {
+            "startIndex": 0,
+            "endIndex": 1,
+            "lineNumber": 1,
+            "columnNumber": 1
+        },
+        "children": []
+    },
+    {
+        "type": "nonNewlineWhitespace",
+        "location": {
+            "startIndex": 1,
+            "endIndex": 2,
+            "lineNumber": 1,
+            "columnNumber": 2
+        },
+        "children": []
+    },
+    {
+        "type": "curlyOpening",
+        "location": {
+            "startIndex": 2,
+            "endIndex": 3,
+            "lineNumber": 1,
+            "columnNumber": 3
+        },
+        "children": []
+    }
+]
+```
+
+See `doc/example.lex.json` for what this might look like for you.
