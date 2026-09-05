@@ -186,6 +186,27 @@ for you.
 
 See [Usage](./doc/usage.md) for slightly better documentation about this.
 
+### Command Line
+
+After this package is installed, `npx asn1parser` concatenates one or more
+ASN.1 files and prints JSON (or `ok` for `check`):
+
+```sh
+npx asn1parser lex module.asn1
+npx asn1parser cst module.asn1
+npx asn1parser ast a.asn1 b.asn1
+npx asn1parser check module.asn1
+npx asn1parser --pretty ast -o ast.json module.asn1
+```
+
+`ast` runs grok, correct, and normalize so the JSON is ready for other
+programs. `-p` / `--pretty` indents with tabs. `-o` / `--output FILE` writes
+to a file instead of stdout. `--help` / `help` and `--version` / `version`
+are also supported.
+
+Without a local install, the equivalent one-shot command is
+`npx @wildboar/asn1-parser`.
+
 ## Module System and Environment
 
 This module is published as an ESM module exclusively. If you are still using

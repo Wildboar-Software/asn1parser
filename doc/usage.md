@@ -356,3 +356,22 @@ would look like for you.
 ```
 
 See `doc/example.lex.json` for what this might look like for you.
+
+## Command Line
+
+The `asn1parser` CLI does this file-to-JSON handoff without writing a script.
+After installing the package, run `npx asn1parser`:
+
+```sh
+npx asn1parser lex module.asn1
+npx asn1parser cst module.asn1 -o cst.json
+npx asn1parser --pretty ast a.asn1 b.asn1
+npx asn1parser check module.asn1
+```
+
+Multiple files are concatenated in the order given. `ast` and `check` run
+`grok()`, `correct()`, and `normalize()`. `check` prints `ok` and exits `0`
+when that pipeline succeeds. `--help` / `help` and `--version` / `version`
+print usage or the package version.
+
+Without a local install, use `npx @wildboar/asn1-parser` instead.

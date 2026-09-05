@@ -5,6 +5,7 @@
     "jsr:@std/internal@^1.0.12": "1.0.13",
     "npm:@jsr/std__assert@^1.0.19": "1.0.19",
     "npm:@types/deno@^2.5.0": "2.5.0",
+    "npm:@types/node@^26.4.1": "26.4.1",
     "npm:dependency-graph@1": "1.0.0",
     "npm:typescript@^6.0.3": "6.0.3"
   },
@@ -34,12 +35,21 @@
     "@types/deno@2.5.0": {
       "integrity": "sha512-g8JS38vmc0S87jKsFzre+0ZyMOUDHPVokEJymSCRlL57h6f/FdKPWBXgdFh3Z8Ees9sz11qt9VWELU9Y9ZkiVw=="
     },
+    "@types/node@26.4.1": {
+      "integrity": "sha512-k97ENvZWtvA6yqz5/FS6a7duDgOPEeOQOc2iKS/nY6mX6qJUKtLnWzQS+Xj6tXweyj6ZcTAK2Qecetnvi9nCLA==",
+      "dependencies": [
+        "undici-types"
+      ]
+    },
     "dependency-graph@1.0.0": {
       "integrity": "sha512-cW3gggJ28HZ/LExwxP2B++aiKxhJXMSIt9K48FOXQkm+vuG5gyatXnLsONRJdzO/7VfjDIiaOOa/bs4l464Lwg=="
     },
     "typescript@6.0.3": {
       "integrity": "sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==",
       "bin": true
+    },
+    "undici-types@8.3.0": {
+      "integrity": "sha512-j375ScV60dom+YkPFIfTLcOiPxkN/buHz5GobjLhixFuANaNs3C9l4GmrWqejgXWJ7BbJcFYpTEUkS1Ge8bpZQ=="
     }
   },
   "workspace": {
@@ -47,6 +57,7 @@
       "dependencies": [
         "npm:@jsr/std__assert@^1.0.19",
         "npm:@types/deno@^2.5.0",
+        "npm:@types/node@^26.4.1",
         "npm:dependency-graph@1",
         "npm:typescript@^6.0.3"
       ]
