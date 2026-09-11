@@ -26,9 +26,12 @@ import type {
   ObjectSetSetting,
   Setting,
 } from '../constructs/AssignmentTypes/ObjectAssignment/Setting.mjs';
-import { LexicalProductionType } from "../ProductionType.mjs";
+import { LexicalProductionType, NonTerminalProductionType, ProductionType } from "../ProductionType.mjs";
 import ASN1ParserExpectationError from '../errors/ASN1ParserExpectationError.mjs';
 import ASN1SemanticError from '../errors/ASN1SemanticError.mjs';
+import Production from '../Production.mjs';
+import type { default as Location } from "../interfaces/Location.mjs";
+import type { ValueSet } from '../constructs/ValueSet.mjs';
 
 function deleteKeys(s: Partial<Setting>): void {
   if ('value' in s) {
@@ -46,6 +49,29 @@ function deleteKeys(s: Partial<Setting>): void {
   if ('objectSet' in s) {
     delete s.objectSet;
   }
+}
+
+/**
+ * There is no DefinedValueSet alternative for `Setting`. A `typereference`
+ * that names a `ValueSetTypeAssignment` is therefore represented as a
+ * single-element value set, the same way dummy value-set parameters are.
+ */
+function valueSetFromTypeReference(text: string): ValueSet {
+  return {
+    productionType: NonTerminalProductionType.ElementSetSpecs,
+    rootElementSetSpec: {
+      unions: [
+        {
+          intersections: [
+            {
+              elements: text,
+            },
+          ],
+        },
+      ],
+    },
+    explicitlyExtensible: false,
+  };
 }
 
 /**
@@ -134,7 +160,8 @@ function unconfuseSettingsGivenObjectClassAssignment(
             && spec.type.typeType === TypeType.ObjectIdentifierType
             && setting.value.valueType === ValueType.BitStringValue
         ) {
-            const lexemes = Array.from(lex(setting.text!)).filter((l) => l.type !== LexicalProductionType.comment);
+            const lexemes = Array.from(lex(setting.text!, setting.production?.location))
+              .filter((l) => l.type !== LexicalProductionType.comment);
             const parsing = oidValueParser.start(lexemes, setting.text!);
             const ctx: GrokContext = {
               log: consoleLogger,
@@ -178,25 +205,94 @@ function unconfuseSettingsGivenObjectClassAssignment(
       case FieldSpecType.FixedTypeValueSetFieldSpec:
       case FieldSpecType.VariableTypeValueSetFieldSpec: {
         if (!('valueSet' in setting) && setting.text) {
-          const lexemes = Array.from(lex(setting.text)).filter((l) => l.type !== LexicalProductionType.comment);
+          const val0 = Object.values(setting)[0];
+
+          // Unfortunately, there are a few places where the CST node could be
+          // and we have to try them all.
+          const settingProd: Production | undefined =
+            // Try to get the location right from the setting
+            setting.production
+            // Failing that, try from the discriminated thing in the setting.
+            ?? ((
+              (typeof val0 === "object")
+              && val0
+              && ("production" in val0)
+            ) ? (val0 as { production: Production }).production
+              : undefined)
+            // Failing that, get the location from the object in which it appears.
+            ?? object
+              .fieldProductions
+              ?.[name]
+              ?.children
+              .findLast(() => true)
+            ;
+          const settingLoc: Location | undefined = settingProd?.location;
+
+          // A typereference (DefinedType) already satisfies a ValueSet field.
+          if ('type' in setting && setting.type.typeType === TypeType.DefinedType) {
+            const vs: ValueSetSetting = {
+              valueSet: valueSetFromTypeReference(
+                setting.type.text ?? setting.type.type.reference
+              ),
+            };
+            deleteKeys(setting);
+            Object.assign(setting, vs);
+            break;
+          }
+          const lexemes = Array.from(lex(setting.text, settingLoc))
+            .filter((l) => l.type !== LexicalProductionType.comment);
           const parsing = valueSetParser.start(lexemes, setting.text);
-          const ctx: GrokContext = {
-            log: consoleLogger,
-            text: setting.text,
-            currentModule,
-            enumItems: parsing.definedEnumItems,
-          };
-          const vs: ValueSetSetting = {
-            valueSet: valueSetGroker(parsing.cst, ctx),
-          };
-          deleteKeys(setting);
-          Object.assign(setting, vs);
+          const ess = parsing.cst.children.find(
+            (c) => c.type === ProductionType.ElementSetSpecs
+          );
+          if (!parsing.error && ess) {
+            const ctx: GrokContext = {
+              log: consoleLogger,
+              text: setting.text,
+              currentModule,
+              enumItems: parsing.definedEnumItems,
+              textStartsAtOffset: settingLoc?.startIndex,
+            };
+            const groked = valueSetGroker(parsing.cst, ctx);
+            const vs: ValueSetSetting = {
+              valueSet: groked,
+              production: groked.production,
+            };
+            deleteKeys(setting);
+            Object.assign(setting, vs);
+          } else {
+            // This case is kind of duplicate with the DefinedType case above.
+            const significant = lexemes.filter(
+              (l) =>
+                l.type !== ProductionType.newlineWhitespace &&
+                l.type !== ProductionType.nonNewlineWhitespace
+            );
+            if (
+              significant.length === 1 &&
+              (significant[0].type === ProductionType.typereference ||
+                significant[0].type === ProductionType.objectclassreference)
+            ) {
+              const vs: ValueSetSetting = {
+                valueSet: valueSetFromTypeReference(setting.text),
+              };
+              deleteKeys(setting);
+              Object.assign(setting, vs);
+            } else {
+              throw new ASN1SemanticError(
+                `Text of field ${name} in object of class ${oca.identifier} `
+                + `in module ${currentModule.name} cannot be parsed as a value set.`,
+                settingProd,
+                currentModule.name,
+              );
+            }
+          }
         }
         break;
       }
       case FieldSpecType.ObjectSetFieldSpec: {
         if (!('objectSet' in setting) && setting.text) {
-          const lexemes = Array.from(lex(setting.text)).filter((l) => l.type !== LexicalProductionType.comment);
+          const lexemes = Array.from(lex(setting.text, setting.production?.location))
+            .filter((l) => l.type !== LexicalProductionType.comment);
           const parsing = objectSetParser.start(lexemes, setting.text);
           const ctx: GrokContext = {
             log: consoleLogger,

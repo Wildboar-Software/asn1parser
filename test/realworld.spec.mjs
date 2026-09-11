@@ -72,6 +72,7 @@ const ASN1_FILES = [
     "IN-SCF-SDF.asn1",
     "InformationFramework.asn1",
     "LdapSystemSchema.asn1",
+    "MMS.asn1",
     "MSMatchingRules.asn1",
     "MTAAbstractService.asn1",
     "OCSP.asn1",

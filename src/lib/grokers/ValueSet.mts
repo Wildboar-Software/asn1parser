@@ -15,6 +15,7 @@ export default function grok(cst: Production, ctx: GrokContext): ValueSet {
     throw new ASN1SyntaxError(
       cst,
       "Missing ElementSetSpecs CST node immediately under a ValueSet CST node",
+      ctx.currentModule?.name,
     );
   }
   return grokElementSetSpecs(ess, ctx);

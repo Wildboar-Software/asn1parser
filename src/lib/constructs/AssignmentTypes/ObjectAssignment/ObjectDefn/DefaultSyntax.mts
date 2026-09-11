@@ -23,9 +23,24 @@ import type Production from '../../../../Production.mjs';
  * ```
  */
 export type DefaultSyntax = {
+  /**
+   * Mapping of primitive field names to settings.
+   * I am pretty sure this includes the leading ampersand.
+   */
   fieldSettings: {
     [PrimitiveFieldName: string]: Setting;
   };
+  /**
+   * Mapping of primitive field name to production that spans the field name
+   * and its setting.
+   * 
+   * To obtain the setting's production, use:
+   * 
+   * ```ts
+   * const fs = obj.fieldProductions["&Type"];
+   * const Setting: Production = fs.children[fs.children.length - 1];
+   * ```
+   */
   fieldProductions?: {
     [PrimitiveFieldName: string]: Production;
   };

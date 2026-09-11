@@ -1058,3 +1058,52 @@ END
   assert.doesNotThrow(() => correct(g));
   assert.doesNotThrow(() => normalize(g));
 });
+
+describe('Correction', () => {
+  logger.level = LogLevel.error;
+
+  test('does not throw when trying to reparse a valueset used as a setting', () => {
+    // const text = 'A {iso} DEFINITIONS ::= BEGIN asdf REAL ::= { mantissa 1, base 2, exponent 3 } END';
+    const text = `
+MMS-Object-Module-1 { iso standard 9506 part(1) } DEFINITIONS ::= BEGIN
+
+TRANSACTION ::= CLASS {
+    &invokeID                   INTEGER UNIQUE,
+    &Pre-executionModifiers     INTEGER OPTIONAL,
+    &Post-executionModifiers    INTEGER OPTIONAL
+}
+
+ServiceParameter INTEGER ::= { 6 | 7 }
+
+transaction2 TRANSACTION ::= {
+    &invokeID                   newID,
+    &Pre-executionModifiers     ServiceParameter,
+    &Post-executionModifiers    ServiceParameter
+}
+
+END
+    `;
+    let lexResults;
+    /** @type {import("../src/lib/interfaces/ParseContext.mjs").default} */
+    let parseResults;
+    let grokResults;
+    assert.doesNotThrow(() => {
+      lexResults = Array.from(lex(text));
+      parseResults = parse(text, lexResults);
+    });
+    assertEqual(parseResults.error, undefined);
+    assertEqual(Object.keys(parseResults.syntaxErrors).length, 0);
+    assert.doesNotThrow(() => {
+      grokResults = grok(text, parseResults);
+    });
+    try {
+      correct(grokResults);
+    } catch (e) {
+      console.error(e.production.location);
+    }
+    assert.doesNotThrow(() => {
+      correct(grokResults);
+    });
+  });
+
+});
