@@ -31,6 +31,9 @@ jobs:
         run: npm run deno-test
         env:
           CI: true
+      - name: JSR publish dry-run
+        if: matrix.node-version == '26.x'
+        run: npx --yes jsr@0.14.3 publish --dry-run --allow-dirty
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
           bun-version: latest

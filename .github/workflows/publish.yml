@@ -23,7 +23,7 @@ jobs:
       - name: Install Dependencies
         run: deno install --frozen
       - name: Publish to JSR
-        run: npx jsr publish
+        run: npx --yes jsr@0.14.3 publish
   publish-npm:
     runs-on: ubuntu-latest
     steps:
