@@ -4,18 +4,18 @@ name: Publish to NPM and JSR
 
 on:
   workflow_dispatch:
-
-permissions:
-  contents: read
-  # The OIDC ID token is used for authentication with JSR and NPM.
-  id-token: write
-
 jobs:
   publish-jsr:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # The OIDC ID token is used for authentication with JSR and NPM.
+      id-token: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+      - name: Set SOURCE_DATE_EPOCH
+        run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: Set up Deno
         uses: denoland/setup-deno@ff4860f9d7236f320afa0f82b7e6457384805d05 # v2.0.4
         with:
@@ -26,9 +26,15 @@ jobs:
         run: npx --yes jsr@0.14.3 publish
   publish-npm:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # The OIDC ID token is used for authentication with JSR and NPM.
+      id-token: write
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+      - name: Set SOURCE_DATE_EPOCH
+        run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct "$GITHUB_SHA")" >> "$GITHUB_ENV"
       - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
@@ -46,3 +52,28 @@ jobs:
       # publishers in npmjs.com under this package's settings.
       - name: Publish to NPM
         run: npm publish --provenance
+  publish-github:
+    runs-on: ubuntu-latest
+    needs: [publish-npm, publish-jsr]
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+      - name: Get Version
+        run: echo "VERSION=$(node -p "require('./deno.json').version")" >> "$GITHUB_ENV"
+      - name: Create Git Tag
+        run: |
+          git tag "v${VERSION}"
+          git push origin "v${VERSION}"
+      - name: Extract release notes
+        id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@273da39a24fb7db106a35526c8162815faffd31d # v3.1.0
+      - name: Create Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          NOTES: ${{ steps.extract-release-notes.outputs.release_notes }}
+        run: |
+          gh release create "v${VERSION}" \
+            --title "v${VERSION}" \
+            --notes "${NOTES}"
