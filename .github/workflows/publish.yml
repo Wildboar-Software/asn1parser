@@ -3,9 +3,7 @@
 name: Publish to NPM and JSR
 
 on:
-  release:
-    types:
-    - published
+  workflow_dispatch:
 
 permissions:
   contents: read
