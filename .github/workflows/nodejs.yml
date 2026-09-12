@@ -31,6 +31,9 @@ jobs:
         run: npm run deno-test
         env:
           CI: true
+      - name: NPM publish dry-run
+        if: matrix.node-version == '26.x'
+        run: npm publish --dry-run
       - name: JSR publish dry-run
         if: matrix.node-version == '26.x'
         run: npx --yes jsr@0.14.3 publish --dry-run --allow-dirty
