@@ -67,24 +67,30 @@ import productionTypeToTypeTypeMap from '../../maps/productionTypeToTypeTypeMap.
  */
 export const onDidParseNamedType = function onDidParseNamedType(ctx: ParseContext): void {
   const Type = ctx.cst.children[ctx.cst.children.length - 1];
-  if (Type.children[0].type !== ProductionType.BuiltinType) {
+  if (!Type?.children[0] || Type.children[0].type !== ProductionType.BuiltinType) {
     ctx.currentType = undefined;
     return;
   }
   const BuiltinType = Type.children[0];
   let innerType = BuiltinType.children[0];
+  if (!innerType) {
+    ctx.currentType = undefined;
+    return;
+  }
   while (innerType.type === ProductionType.PrefixedType) {
     const TaggedOrEncodingPrefixedType = innerType.children[0];
-    const TypeAfterPrefix =
-      TaggedOrEncodingPrefixedType.children[
-        TaggedOrEncodingPrefixedType.children.length - 1
-      ];
-    if (TypeAfterPrefix.children[0].type !== ProductionType.BuiltinType) {
+    const taggedKids = TaggedOrEncodingPrefixedType?.children;
+    const TypeAfterPrefix = taggedKids?.[taggedKids.length - 1];
+    if (!TypeAfterPrefix?.children[0] || TypeAfterPrefix.children[0].type !== ProductionType.BuiltinType) {
       ctx.currentType = undefined;
       return;
     }
     const innerBuiltinType = TypeAfterPrefix.children[0];
     innerType = innerBuiltinType.children[0];
+    if (!innerType) {
+      ctx.currentType = undefined;
+      return;
+    }
   }
   ctx.currentType = productionTypeToTypeTypeMap.get(innerType.type);
 };

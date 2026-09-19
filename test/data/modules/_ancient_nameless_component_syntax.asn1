@@ -1,0 +1,16 @@
+Asdf DEFINITIONS ::= BEGIN
+
+/*
+An ancient version of ASN.1 allowed CHOICE alternatives and SET or SEQUENCE
+components to have no name. This is a real-world type definition (pared down)
+that I extracted from the OSI Virtual Terminal specification. Notice that the
+OCTET STRING is not named.
+*/
+DOupdate ::= CHOICE {
+    repeatText      [5]  IMPLICIT SEQUENCE {
+        finishAddress Pointer,
+        OCTET STRING
+    }
+}
+
+END

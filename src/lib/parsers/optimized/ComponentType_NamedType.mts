@@ -34,7 +34,7 @@ export const ComponentType_NamedType: Parser = new Parser(
   (state: ParseContext): ParseContext => {
     const results: ParseContext[] = [];
 
-    const nt: ParseContext = parserFor.NamedType.execute(state);
+    const nt: ParseContext = parserFor.NamedTypeRequiringIdentifier.execute(state);
     if (nt.error) {
       return nt;
     }

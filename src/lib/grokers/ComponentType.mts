@@ -4,6 +4,8 @@ import { ProductionType } from '../ProductionType.mjs';
 import { type ComponentType } from '../constructs/ComponentType.mjs';
 import grokType from './Type.mjs';
 import grokValue from './Value.mjs';
+import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
+import { ANCIENT_NAMELESS_NAMED_TYPE_ERROR_MESSAGE } from '../ancientNamelessNamedType.mjs';
 
 // ComponentType ::=
 //     NamedType
@@ -29,6 +31,13 @@ export default function grok(cst: Production, ctx: GrokContext): ComponentType {
   }
   const NamedType: Production = cst.children[0];
   const NamedType_identifier: Production = NamedType.children[0];
+  if (NamedType_identifier?.type !== ProductionType.identifier) {
+    throw new ASN1SyntaxError(
+      cst,
+      ANCIENT_NAMELESS_NAMED_TYPE_ERROR_MESSAGE,
+      ctx.currentModule.name,
+    );
+  }
   const NamedType_type: Production =
     NamedType.children[NamedType.children.length - 1];
   const optional: boolean = cst.children.length > 1;

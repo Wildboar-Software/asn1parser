@@ -7,6 +7,8 @@ import grokType from '../Type.mjs';
 import grokExceptionSpec from '../ExceptionSpec.mjs';
 import { type ExceptionIdentification } from '../../constructs/ExceptionIdentification.mjs';
 import { type Type } from '../../constructs/Type.mjs';
+import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
+import { ANCIENT_NAMELESS_NAMED_TYPE_ERROR_MESSAGE } from '../../ancientNamelessNamedType.mjs';
 
 // ChoiceType ::=
 // 	CHOICE "{" AlternativeTypeLists "}"
@@ -64,6 +66,13 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
       (child: Production): boolean => child.type === ProductionType.NamedType
     )
     .map((namedType: Production): NamedType => {
+      if (namedType.children[0]?.type !== ProductionType.identifier) {
+        throw new ASN1SyntaxError(
+          namedType,
+          ANCIENT_NAMELESS_NAMED_TYPE_ERROR_MESSAGE,
+          ctx.currentModule.name,
+        );
+      }
       const identifier: string = text.slice(
         namedType.children[0].location.startIndex,
         namedType.children[0].location.endIndex
@@ -147,6 +156,13 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
                       child.type === ProductionType.NamedType
                   )
                   .map((namedType: Production): NamedType => {
+                    if (namedType.children[0]?.type !== ProductionType.identifier) {
+                      throw new ASN1SyntaxError(
+                        namedType,
+                        ANCIENT_NAMELESS_NAMED_TYPE_ERROR_MESSAGE,
+                        ctx.currentModule.name,
+                      );
+                    }
                     const identifier: string = text.slice(
                       namedType.children[0].location.startIndex,
                       namedType.children[0].location.endIndex
@@ -162,6 +178,13 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
               };
             } else {
               // It is a NamedType.
+              if (eaa.children[0]?.type !== ProductionType.identifier) {
+                throw new ASN1SyntaxError(
+                  eaa,
+                  ANCIENT_NAMELESS_NAMED_TYPE_ERROR_MESSAGE,
+                  ctx.currentModule.name,
+                );
+              }
               const identifier: string = text.slice(
                 eaa.children[0].location.startIndex,
                 eaa.children[0].location.endIndex

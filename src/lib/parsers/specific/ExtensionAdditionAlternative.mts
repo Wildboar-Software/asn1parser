@@ -9,7 +9,10 @@ import { ProductionType } from '../../ProductionType.mjs';
 export const ExtensionAdditionAlternative: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
-      [parserFor.ExtensionAdditionAlternativesGroup, parserFor.NamedType],
+      [
+        parserFor.ExtensionAdditionAlternativesGroup,
+        parserFor.NamedTypeRequiringIdentifier,
+      ],
       ProductionType.ExtensionAdditionAlternative
     )
 );

@@ -160,7 +160,7 @@ export { default as NamedBitList } from './NamedBitList.mjs';
 export { default as NamedConstraint } from './NamedConstraint.mjs';
 export { default as NamedNumber } from './NamedNumber.mjs';
 export { default as NamedNumberList } from './NamedNumberList.mjs';
-export { default as NamedType } from './NamedType.mjs';
+export { default as NamedType, NamedTypeRequiringIdentifier } from './NamedType.mjs';
 export { default as NamedValue } from './NamedValue.mjs';
 export { default as NamedValueList } from './NamedValueList.mjs';
 export { default as NameForm } from './NameForm.mjs';

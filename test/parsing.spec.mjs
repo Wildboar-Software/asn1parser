@@ -424,6 +424,53 @@ END`;
   });
 
 
+  test('reports nameless SEQUENCE components as unsupported ancient syntax', () => {
+    const text = `Asdf DEFINITIONS ::= BEGIN
+DOupdate ::= CHOICE {
+    repeatText      [5]  IMPLICIT SEQUENCE {
+        finishAddress Pointer,
+        OCTET STRING
+    }
+}
+END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    const errors = Object.values(p.syntaxErrors);
+    assert(errors.length >= 1, 'expected a syntax error for nameless components');
+    assert(
+      errors.some((e) =>
+        e.message.includes('ancient ASN.1 syntax that is no longer supported')
+      ),
+      errors.map((e) => e.message).join('\n')
+    );
+  });
+
+  test('reports nameless CHOICE alternatives as unsupported ancient syntax', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+T ::= CHOICE { INTEGER, BOOLEAN }
+END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    const errors = Object.values(p.syntaxErrors);
+    assert(errors.length >= 1);
+    assert(
+      errors.some((e) =>
+        e.message.includes('ancient ASN.1 syntax that is no longer supported')
+      ),
+      errors.map((e) => e.message).join('\n')
+    );
+  });
+
+  test('still parses SEQUENCE and CHOICE members that have identifiers', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+T ::= SEQUENCE { finishAddress INTEGER, payload OCTET STRING }
+U ::= CHOICE { a INTEGER, b BOOLEAN }
+END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    assertEqual(Object.keys(p.syntaxErrors).length, 0, text);
+  });
+
   test('parses ObjectFromObjects and ObjectSetFromObjects differently.', () => {
     const text = `A {iso} DEFINITIONS ::= BEGIN
             Attrs ATTRIBUTE ::= {
