@@ -182,7 +182,12 @@ export { default as ObjectFromObject } from './ObjectFromObject.mjs';
 export { default as ObjectIdentifierType } from './ObjectIdentifierType.mjs';
 export { default as ObjectIdentifierValue } from './ObjectIdentifierValue.mjs';
 export { default as ObjectOptionalitySpec } from './ObjectOptionalitySpec.mjs';
-export { default as ObjectSet } from './ObjectSet.mjs';
+export {
+  default as ObjectSet,
+  EmptyObjectSet,
+  ObjectSetInAssignment,
+  EMPTY_OBJECT_SET_ERROR_MESSAGE,
+} from './ObjectSet.mjs';
 export { default as ObjectSetAssignment } from './ObjectSetAssignment.mjs';
 export { default as ObjectSetElements } from './ObjectSetElements.mjs';
 export { default as ObjectSetFieldSpec } from './ObjectSetFieldSpec.mjs';

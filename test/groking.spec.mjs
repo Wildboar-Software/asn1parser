@@ -1,4 +1,4 @@
-import { LogLevel, grok, FieldSpecType } from '../dist/index.mjs';
+import { AssignmentType, LogLevel, grok, parse, FieldSpecType } from '../dist/index.mjs';
 import { default as logger } from '../dist/lib/loggers/console.mjs';
 import { describe, test } from 'node:test';
 import { strictEqual as assertEqual, strict as assert } from 'node:assert';
@@ -154,6 +154,21 @@ describe('Groking', () => {
     for (const assignment of Object.values(g[0].assignments)) {
       assert(assignment.production);
     }
+  });
+
+  test('groks an empty object set assigned to an object class', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+DFR-Returnable OPERATION ::= {}
+END`;
+    const parsed = parse(text);
+    assertEqual(Object.keys(parsed.syntaxErrors).length, 1);
+    const modules = grok(text, parsed);
+    const assignment = modules[0].assignments['DFR-Returnable'];
+    assertEqual(assignment.assignmentType, AssignmentType.ObjectSetAssignment);
+    assertEqual(assignment.definedObjectClass.reference, 'OPERATION');
+    assertEqual(assignment.objectSetSpec.rootElementSetSpec, undefined);
+    assertEqual(assignment.objectSetSpec.additionalElementSetSpec, undefined);
+    assertEqual(assignment.objectSetSpec.explicitlyExtensible, false);
   });
 
 });

@@ -9,6 +9,10 @@ import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * `ObjectSetAssignment ::= objectsetreference DefinedObjectClass "::=" ObjectSet`
+ *
+ * Empty `{ }` is accepted as an `ObjectSet` so the assignment can be
+ * consumed, then reported via `syntaxErrors`. `{ }` is not a legal
+ * `ObjectSetSpec` (X.681); `{ ... }` is.
  */
 export const ObjectSetAssignment: Parser = recursiveParser(
   (): Parser =>
@@ -16,7 +20,7 @@ export const ObjectSetAssignment: Parser = recursiveParser(
       parserFor.objectsetreference,
       parserFor.DefinedObjectClass,
       literal(ProductionType.assignment),
-      parserFor.ObjectSet,
+      parserFor.ObjectSetInAssignment,
     ])
 );
 export default ObjectSetAssignment;

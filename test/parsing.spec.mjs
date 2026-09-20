@@ -378,6 +378,44 @@ END`;
     assertEqual(find(ProductionType.ValueSetTypeAssignment, p.cst), undefined);
   });
 
+  test('reports empty object set assignments with a descriptive syntax error', () => {
+    const cases = [
+      `A {iso} DEFINITIONS ::= BEGIN
+MY-CLASS ::= CLASS { &id INTEGER UNIQUE }
+MySet MY-CLASS ::= {}
+END`,
+      `A {iso} DEFINITIONS ::= BEGIN
+DFR-Returnable OPERATION ::= {}
+END`,
+      `A {iso} DEFINITIONS ::= BEGIN
+DFR-Returnable OPERATION ::= { }
+END`,
+      `A {iso} DEFINITIONS ::= BEGIN
+DFR-Returnable TYPE-IDENTIFIER ::= {}
+END`,
+    ];
+    for (const text of cases) {
+      const p = parse(text, Array.from(lex(text)));
+      assertEqual(p.error, undefined, text);
+      const errors = Object.values(p.syntaxErrors);
+      assertEqual(errors.length, 1, text);
+      assert(
+        errors[0].message.includes('Object sets cannot be empty'),
+        errors[0].message
+      );
+      assert(errors[0].message.includes('...'), errors[0].message);
+      const loc = errors[0].production.location;
+      const excerpt = text.slice(loc.startIndex, loc.endIndex).replace(/\s+/g, '');
+      assertEqual(excerpt, '{}', excerpt);
+      assert(find(ProductionType.ObjectSetAssignment, p.cst), text);
+      assertEqual(
+        find(ProductionType.ValueSetTypeAssignment, p.cst),
+        undefined,
+        text
+      );
+    }
+  });
+
   test('still parses a non-empty value set with an extension marker', () => {
     const text = `A {iso} DEFINITIONS ::= BEGIN
 Positive INTEGER ::= { 1 | 2, ... }
@@ -397,6 +435,17 @@ END`;
     const errors = Object.values(p.syntaxErrors);
     assertEqual(errors.length, 1);
     assert(errors[0].message.includes('Value sets cannot be empty'));
+  });
+
+  test('reports an empty DEFAULT object set on a class field', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+MY-CLASS ::= CLASS { &Set OTHER-CLASS DEFAULT {} }
+END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    const errors = Object.values(p.syntaxErrors);
+    assertEqual(errors.length, 1);
+    assert(errors[0].message.includes('Object sets cannot be empty'));
   });
 
   test('does not treat `{ ... }` in an ActualParameter as an empty value set', () => {
@@ -420,6 +469,22 @@ END`;
     assert(errors[0].message.includes('Value sets cannot be empty'));
     assert(
       find(ProductionType.ParameterizedValueSetTypeAssignment, p.cst)
+    );
+  });
+
+  test('does not treat a parameterized empty object set as an empty value set', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+DFR-Returnable {P} OPERATION ::= {}
+END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    const errors = Object.values(p.syntaxErrors);
+    assertEqual(errors.length, 1, text);
+    assert(errors[0].message.includes('Object sets cannot be empty'));
+    assert(find(ProductionType.ParameterizedObjectSetAssignment, p.cst));
+    assertEqual(
+      find(ProductionType.ParameterizedValueSetTypeAssignment, p.cst),
+      undefined
     );
   });
 

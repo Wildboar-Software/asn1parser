@@ -32,9 +32,13 @@ export default function grok(cst: Production, ctx: GrokContext): ComponentType {
   const NamedType: Production = cst.children[0];
   const NamedType_identifier: Production = NamedType.children[0];
   if (NamedType_identifier?.type !== ProductionType.identifier) {
+    const badtext = ctx.text.slice(
+      NamedType_identifier.location.startIndex,
+      NamedType_identifier.location.endIndex,
+    );
     throw new ASN1SyntaxError(
       cst,
-      ANCIENT_NAMELESS_NAMED_TYPE_ERROR_MESSAGE,
+      ANCIENT_NAMELESS_NAMED_TYPE_ERROR_MESSAGE + " " + badtext,
       ctx.currentModule.name,
     );
   }

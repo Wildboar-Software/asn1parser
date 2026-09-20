@@ -13,13 +13,13 @@ import { ProductionType } from '../../ProductionType.mjs';
 export const ParameterizedObjectSetAssignment: Parser = recursiveParser(
   (): Parser =>
     whitespaceTolerantSequenceOf(
-      ProductionType.ParameterizedObjectClassAssignment,
+      ProductionType.ParameterizedObjectSetAssignment,
       [
         parserFor.objectsetreference,
         parserFor.ParameterList,
         parserFor.DefinedObjectClass,
         literal(ProductionType.assignment),
-        parserFor.ObjectSet,
+        parserFor.ObjectSetInAssignment,
       ]
     )
 );

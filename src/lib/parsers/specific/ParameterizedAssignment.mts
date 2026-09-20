@@ -11,6 +11,11 @@ import { ProductionType } from '../../ProductionType.mjs';
  *      | ParameterizedObjectClassAssignment
  *      | ParameterizedObjectAssignment
  *      | ParameterizedObjectSetAssignment`
+ *
+ * `ParameterizedObjectSetAssignment` is attempted before
+ * `ParameterizedValueSetTypeAssignment` so `Name {P} OPERATION ::= {}` is
+ * not stolen by `ValueSetInAssignment`. That mirrors `Assignment`, where
+ * `ObjectSetAssignment` is tried before `ValueSetTypeAssignment`.
  */
 export const ParameterizedAssignment: Parser = recursiveParser(
   (): Parser =>
@@ -18,10 +23,10 @@ export const ParameterizedAssignment: Parser = recursiveParser(
       [
         parserFor.ParameterizedTypeAssignment,
         parserFor.ParameterizedValueAssignment,
-        parserFor.ParameterizedValueSetTypeAssignment,
         parserFor.ParameterizedObjectClassAssignment,
         parserFor.ParameterizedObjectAssignment,
         parserFor.ParameterizedObjectSetAssignment,
+        parserFor.ParameterizedValueSetTypeAssignment,
       ],
       ProductionType.ParameterizedAssignment
     )
