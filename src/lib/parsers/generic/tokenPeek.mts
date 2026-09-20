@@ -161,8 +161,10 @@ export function canStartType(state: ParseContext): boolean {
     return true;
   }
   // PrefixedType ::= TaggedType | EncodingPrefixedType, both start with "[".
+  // `[[` is an ExtensionAdditionGroup / ExtensionAdditionAlternativesGroup,
+  // not a tag or encoding prefix.
   if (t0 === ProductionType.squareOpening) {
-    return true;
+    return peekNextNonWhitespaceType(state) !== ProductionType.squareOpening;
   }
   // DefinedType, ParameterizedType, ExternalTypeReference,
   // ObjectClassFieldType, TypeFromObject (objectsetreference).

@@ -1,4 +1,5 @@
 import {
+  canStartType,
   literal,
   recursiveParser,
   whitespaceTolerantSequenceOf,
@@ -38,6 +39,13 @@ export const NamedTypeRequiringIdentifier: Parser = new Parser(
   (state: ParseContext): ParseContext => {
     const nt: ParseContext = NamedType.execute(state);
     if (!nt.error) {
+      return nt;
+    }
+    // EncodingPrefixedType greedily reads until the first `]`, so a versioned
+    // extension group that contains a tagged component (`[[3: id [3] Type`)
+    // would otherwise succeed as a nameless Type and steal the group from
+    // ExtensionAdditionGroup.
+    if (!canStartType(state)) {
       return nt;
     }
     const typeAttempt: ParseContext = parserFor.Type.execute(state);

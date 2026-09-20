@@ -536,6 +536,40 @@ END`;
     assertEqual(Object.keys(p.syntaxErrors).length, 0, text);
   });
 
+  test('does not treat a versioned extension group with a tagged component as nameless', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+T ::= SEQUENCE {
+    a INTEGER,
+    ...,
+    [[3: -- if present, version shall be v2 or v3
+    extensions               [3]  Extensions OPTIONAL]]
+}
+U ::= CHOICE {
+    a INTEGER,
+    ...,
+    [[2: b [1] BOOLEAN]]
+}
+END`;
+    const p = parse(text, Array.from(lex(text)));
+    assertEqual(p.error, undefined);
+    assertEqual(
+      Object.keys(p.syntaxErrors).length,
+      0,
+      Object.values(p.syntaxErrors).map((e) => e.message).join('\n')
+    );
+    const modules = grok(text, p);
+    const seq = modules[0].assignments.T.type.type;
+    assertEqual(seq.extensionAdditionList[0].versionNumber, 3);
+    assertEqual(
+      seq.extensionAdditionList[0].componentTypeList[0].namedType.identifier,
+      'extensions'
+    );
+    const choice = modules[0].assignments.U.type.type;
+    const extAlt = choice.extensionAdditionAlternatives[0];
+    assertEqual(extAlt.versionNumber, 2);
+    assertEqual(extAlt.alternativeTypeList[0].identifier, 'b');
+  });
+
   test('parses ObjectFromObjects and ObjectSetFromObjects differently.', () => {
     const text = `A {iso} DEFINITIONS ::= BEGIN
             Attrs ATTRIBUTE ::= {

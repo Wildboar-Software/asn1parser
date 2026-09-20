@@ -508,6 +508,16 @@ describe('Groker', () => {
         },
       ],
       [
+        'SEQUENCE { ..., [[ 3: extensions [3] Extensions OPTIONAL ]] }',
+        TypeType.SequenceType,
+        {
+          root1: undefined,
+          extAdds: [undefined],
+          root2: undefined,
+          group: { versionNumber: 3, identifiers: ['extensions'] },
+        },
+      ],
+      [
         'SET { ..., field INTEGER }',
         TypeType.SetType,
         {
