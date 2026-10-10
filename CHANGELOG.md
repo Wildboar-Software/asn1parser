@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Reject an absolute `OBJECT IDENTIFIER` whose first arc uses a name that is
+  not a recognized root arc name for that number (`itu-t` / `ccitt` for 0,
+  `iso` for 1, `joint-iso-itu-t` / `joint-iso-ccitt` for 2). A single arc
+  numbered 0, 1, or 2 was previously accepted, so `{ pkiAttributeType(2) }`
+  was not reported; that form is now an error suggesting the prefix notation
+  `{ pkiAttributeType 2 }`.
 - Fix `RELATIVE-OID` parsing
 - Report nameless CHOICE alternatives and SET or SEQUENCE components (ancient
   ASN.1 syntax that X.680 no longer allows) as a syntax error instead of

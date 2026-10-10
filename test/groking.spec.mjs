@@ -1,4 +1,4 @@
-import { AssignmentType, LogLevel, grok, parse, FieldSpecType } from '../dist/index.mjs';
+import { ASN1SemanticError, AssignmentType, LogLevel, grok, parse, FieldSpecType, ValueType } from '../dist/index.mjs';
 import { default as logger } from '../dist/lib/loggers/console.mjs';
 import { describe, test } from 'node:test';
 import { strictEqual as assertEqual, strict as assert } from 'node:assert';
@@ -154,6 +154,106 @@ describe('Groking', () => {
     for (const assignment of Object.values(g[0].assignments)) {
       assert(assignment.production);
     }
+  });
+
+  test('rejects a single-arc object identifier whose name is not a recognized root arc', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+asdf OBJECT IDENTIFIER ::= { pkiAttributeType (2) }
+END`;
+    assert.throws(
+      () => grok(text),
+      (error) =>
+        error instanceof ASN1SemanticError &&
+        error.message.includes("'pkiAttributeType' (2)") &&
+        error.message.includes("'joint-iso-itu-t' and 'joint-iso-ccitt'") &&
+        error.message.includes('{ pkiAttributeType 2 }') &&
+        error.production !== undefined,
+    );
+  });
+
+  test('rejects a root arc name that does not match its number', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+asdf OBJECT IDENTIFIER ::= { joint-iso-itu-t(1) 5 }
+END`;
+    assert.throws(
+      () => grok(text),
+      (error) =>
+        error instanceof ASN1SemanticError &&
+        error.message.includes("'joint-iso-itu-t' (1)") &&
+        error.message.includes("'iso'"),
+    );
+  });
+
+  test('rejects an unrecognized name on the first arc of a longer object identifier', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+asdf OBJECT IDENTIFIER ::= { goofyboi(1) 5 }
+END`;
+    assert.throws(
+      () => grok(text),
+      (error) =>
+        error instanceof ASN1SemanticError &&
+        error.message.includes("'goofyboi' (1)"),
+    );
+  });
+
+  test('accepts a single root arc that uses a recognized name or number', () => {
+    const values = [
+      '{ joint-iso-itu-t }',
+      '{ joint-iso-ccitt }',
+      '{ joint-iso-itu-t(2) }',
+      '{ joint-iso-ccitt(2) }',
+      '{ iso(1) }',
+      '{ itu-t(0) }',
+      '{ ccitt(0) }',
+      '{ 0 }',
+      '{ 1 }',
+      '{ 2 }',
+    ];
+    for (const value of values) {
+      const text = `A {iso} DEFINITIONS ::= BEGIN
+asdf OBJECT IDENTIFIER ::= ${value}
+END`;
+      const modules = grok(text);
+      const assignment = modules[0].assignments.asdf;
+      assertEqual(assignment.assignmentType, AssignmentType.ValueAssignment);
+      assertEqual(assignment.value.valueType, ValueType.ObjectIdentifierValue);
+      assertEqual(assignment.value.value.prefix, undefined);
+    }
+  });
+
+  test('still treats a non-root name followed by a bare number as an object identifier prefix', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+asdf OBJECT IDENTIFIER ::= { pkiAttributeType 2 }
+END`;
+    const modules = grok(text);
+    const assignment = modules[0].assignments.asdf;
+    assertEqual(assignment.assignmentType, AssignmentType.ValueAssignment);
+    assertEqual(assignment.value.valueType, ValueType.ObjectIdentifierValue);
+    assertEqual(assignment.value.value.prefix.reference, 'pkiAttributeType');
+    assertEqual(assignment.value.value.components[0].number, 2);
+  });
+
+  test('still accepts a bare name as a single object identifier arc', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+id-pkix-ocsp OBJECT IDENTIFIER ::= {id-ad}
+END`;
+    const modules = grok(text);
+    const assignment = modules[0].assignments['id-pkix-ocsp'];
+    assertEqual(assignment.assignmentType, AssignmentType.ValueAssignment);
+    assertEqual(assignment.value.valueType, ValueType.ObjectIdentifierValue);
+    assertEqual(assignment.value.value.components[0].name, 'id-ad');
+  });
+
+  test('accepts a recognized root name on a longer object identifier', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+asdf OBJECT IDENTIFIER ::= { iso(1) member-body(2) us(840) }
+END`;
+    const modules = grok(text);
+    const assignment = modules[0].assignments.asdf;
+    assertEqual(assignment.value.valueType, ValueType.ObjectIdentifierValue);
+    assertEqual(assignment.value.value.components[0].name, 'iso');
+    assertEqual(assignment.value.value.components[0].number, 1);
+    assertEqual(assignment.value.value.components[1].name, 'member-body');
   });
 
   test('groks an empty object set assigned to an object class', () => {

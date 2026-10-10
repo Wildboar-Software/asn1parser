@@ -4,7 +4,10 @@ import type ObjectIdentifierValue from '../../constructs/Values/ObjectIdentifier
 import grokDefinedValue from '../Defined.mjs';
 import grokObjIdComponents from '../ObjIdComponents.mjs';
 import { type ObjIdComponents } from '../../constructs/ObjIdComponents.mjs';
+import type NameAndOrNumberForm from '../../constructs/NameAndOrNumberForm.mjs';
 import { ProductionType } from '../../ProductionType.mjs';
+import ASN1SemanticError from '../../errors/ASN1SemanticError.mjs';
+import { recognizedRootArcNamesForNumber } from '../../builtinRootArcNamesRootNumber.mjs';
 
 /**
  * NOTE: Notice that DefinedValue is an optional suffix of ObjectIdentifierValue,
@@ -43,6 +46,72 @@ import { ProductionType } from '../../ProductionType.mjs';
 // unambiguously identify an object. Object identifier values are required (see 32.11) to have at least two components.
 // This is why there is a restriction on the starting node.
 
+function quotedNames(names: readonly string[]): string {
+  const quoted = names.map((name: string): string => `'${name}'`);
+  if (quoted.length <= 1) {
+    return quoted[0] ?? '';
+  }
+  if (quoted.length === 2) {
+    return `${quoted[0]} and ${quoted[1]}`;
+  }
+  return `${quoted.slice(0, -1).join(', ')}, and ${quoted[quoted.length - 1]}`;
+}
+
+/**
+ * ITU-T X.680 clauses 32.3–32.5: a `NameAndNumberForm` on the root arc may
+ * only use a name from ITU-T X.660 Annex A, and the number must be the one
+ * assigned to that name. A single `NameAndNumberForm` whose number is 0, 1,
+ * or 2 is otherwise a legal root arc, so `{ prefix(2) }` is accepted unless
+ * the name is checked. A bare `NameForm` is left alone: `{ id-ad }` is used
+ * in real modules to cite another object identifier without adding arcs.
+ */
+function unrecognizedRootArcMessage(
+  name: string,
+  number: number,
+  singleNameAndNumber: boolean,
+): string {
+  const recognized = recognizedRootArcNamesForNumber(number);
+  const expected =
+    recognized.length === 0
+      ? `Root arcs are numbered 0 (${quotedNames(recognizedRootArcNamesForNumber(0))}), 1 (${quotedNames(recognizedRootArcNamesForNumber(1))}), and 2 (${quotedNames(recognizedRootArcNamesForNumber(2))}).`
+      : `The recognized ${recognized.length === 1 ? 'name' : 'names'} for root arc ${number} ${recognized.length === 1 ? 'is' : 'are'} ${quotedNames(recognized)}.`;
+  const prefixHint = singleNameAndNumber
+    ? ` If '${name}' is an object identifier prefix, write '{ ${name} ${number} }' instead of '{ ${name}(${number}) }'.`
+    : '';
+  return `Object identifier root arc '${name}' (${number}) is not a recognized root arc name. ${expected}${prefixHint}`;
+}
+
+function isNamedRootArc(
+  component: ObjIdComponents,
+): component is NameAndOrNumberForm & { name: string } {
+  return 'name' in component && typeof component.name === 'string';
+}
+
+function assertRecognizedRootArcName(
+  components: ObjIdComponents[],
+  ctx: GrokContext,
+): void {
+  const first = components[0];
+  if (!first) {
+    return;
+  }
+  if (!isNamedRootArc(first) || typeof first.number !== 'number') {
+    return;
+  }
+  if (recognizedRootArcNamesForNumber(first.number).includes(first.name)) {
+    return;
+  }
+  throw new ASN1SemanticError(
+    unrecognizedRootArcMessage(
+      first.name,
+      first.number,
+      components.length === 1,
+    ),
+    first.production,
+    ctx.currentModule.name,
+  );
+}
+
 export default function grokObjectIdentifierValue(
   cst: Production,
   ctx: GrokContext
@@ -62,6 +131,9 @@ export default function grokObjectIdentifierValue(
         child.type === ProductionType.ObjIdComponents
     )
     .map((oic: Production): ObjIdComponents => grokObjIdComponents(oic, ctx));
+  if (!prefix) {
+    assertRecognizedRootArcName(components, ctx);
+  }
   return {
     text: ctx.text.slice(cst.location.startIndex, cst.location.endIndex),
     prefix,
