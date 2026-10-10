@@ -193,6 +193,23 @@ END`);
     assertEqual(spec.constrainedBy.length, 1);
     assertEqual(spec.constrainedBy[0].replace(/\s+/g, ' ').trim(), 'INTEGER: 5');
   });
+
+  test('parses a RELATIVE-OID value that mixes a defined value and a name-and-number form', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+      iEFRecordOID RELATIVE-OID ::= {tS33128IdentityAssociationOID iEF(1)}
+    END`;
+    const p = parse(text);
+    assertEqual(p.error, undefined);
+    assertEqual(Object.keys(p.syntaxErrors).length, 0);
+    const modules = grok(text, p);
+    const assignment = modules[0].assignments.iEFRecordOID;
+    assert(assignment.assignmentType === AssignmentType.ValueAssignment);
+    const value = assignment.value;
+    assert(value.valueType === ValueType.RelativeOIDValue);
+    assertEqual(value.value[0].reference, 'tS33128IdentityAssociationOID');
+    assertEqual(value.value[1].name, 'iEF');
+    assertEqual(value.value[1].number, 1);
+  });
 });
 
 describe('Parser error detection', () => {

@@ -5,13 +5,17 @@ import { ProductionType } from '../../ProductionType.mjs';
 
 /**
  * `RelativeOIDComponents ::= NumberForm | NameAndNumberForm | DefinedValue`
+ *
+ * `NameAndNumberForm` must precede `NumberForm`. `NumberForm` includes
+ * `DefinedValue`, which accepts a bare identifier, so `iEF(1)` would
+ * otherwise stop after `iEF` and leave `(1)` unparsed.
  */
 export const RelativeOIDComponents: Parser = recursiveParser(
   (): Parser =>
     choiceOf(
       [
-        parserFor.NumberForm,
         parserFor.NameAndNumberForm,
+        parserFor.NumberForm,
         parserFor.DefinedValue,
       ],
       ProductionType.RelativeOIDComponents

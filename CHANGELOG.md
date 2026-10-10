@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Fix `RELATIVE-OID` parsing
 - Report nameless CHOICE alternatives and SET or SEQUENCE components (ancient
   ASN.1 syntax that X.680 no longer allows) as a syntax error instead of
   crashing with `TypeError: Cannot read properties of undefined (reading 'type')`.
