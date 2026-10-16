@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   crashing with `TypeError: Cannot read properties of undefined (reading 'type')`.
 - More descriptive error when encountering a totally empty object set `{ }`.
   (Not valid syntax, but `{...}` is.)
+- Merge imports from the same module
+  - Even though this is invalid, the way to handle this is still obvious.
 
 ## [2.7.2] - 2026-09-11
 

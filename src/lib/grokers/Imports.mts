@@ -62,7 +62,22 @@ export default function grokImports(
         ctx
       );
       ret.modulesInOriginalOrder.push(sfm);
-      ret.modules[sfm.identifier] = sfm;
+      const existing = ret.modules[sfm.identifier];
+      if (!existing) {
+        ret.modules[sfm.identifier] = sfm;
+        return;
+      }
+      // Real modules (for example, the CSTA event modules) sometimes import
+      // the same module in more than one SymbolsFromModule. The map is keyed
+      // by module name, so a later clause must be merged rather than replace
+      // the earlier symbol list.
+      Object.assign(existing.symbolList, sfm.symbolList);
+      if (!existing.assignedIdentifier && sfm.assignedIdentifier) {
+        existing.assignedIdentifier = sfm.assignedIdentifier;
+      }
+      if (!existing.selectionOption && sfm.selectionOption) {
+        existing.selectionOption = sfm.selectionOption;
+      }
     });
 
   return ret;
