@@ -14,7 +14,8 @@ export const onDidParseSymbol = function onDidParseSymbol(ctx: ParseContext): vo
   ctx.discoveredIdentifiers.set(
     ctx.text
       .slice(ctx.cst.location.startIndex, ctx.cst.location.endIndex)
-      .replace(/\{.*\}/, ''),
+      .replace(/\{.*\}/, '')
+      .trim(),
     null // The assignment type of imports cannot be determined at parsing time.
   );
 };

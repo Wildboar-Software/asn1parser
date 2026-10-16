@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Merge imports from the same module
   - Even though this is invalid, the way to handle this is still obvious.
 - Slightly better (but still incorrect) symbol resolution in `resolve()`
+- Handle whitespace in between parameterized imported references
 
 ## [2.7.2] - 2026-09-11
 

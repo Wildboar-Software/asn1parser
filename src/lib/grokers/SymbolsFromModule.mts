@@ -54,7 +54,8 @@ export default function grokSymbolsFromModule(
     .forEach((child: Production): void => {
       const symtext = text
         .slice(child.location.startIndex, child.location.endIndex)
-        .replace(/\{.*\}/g, '');
+        .replace(/\{.*\}/g, '')
+        .trim();
       if (symtext in symbolMap) {
         duplicateSymbols.push(child);
       } else {
