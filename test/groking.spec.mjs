@@ -256,6 +256,52 @@ END`;
     assertEqual(assignment.value.value.components[1].name, 'member-body');
   });
 
+  test('groks an object set whose exclusion is a parenthesized union', () => {
+    const text = `A {iso} DEFINITIONS ::= BEGIN
+      OPERATION ::= CLASS {
+        &Errors ERROR OPTIONAL
+      } WITH SYNTAX {
+        [ERRORS &Errors]
+      }
+      Errors ERROR ::= { operation.&Errors EXCEPT (referral | in-DSAReferral) }
+      chained{OPERATION:operation} OPERATION ::= {
+        ERRORS {operation.&Errors EXCEPT (referral | in-DSAReferral)}
+      }
+      Universe ERROR ::= { ALL EXCEPT (referral | in-DSAReferral) }
+      Single ERROR ::= { (referral) }
+    END`;
+    const modules = grok(text);
+    const excluded = modules[0].assignments.Errors.objectSetSpec
+      .rootElementSetSpec.unions[0].intersections[0];
+    assertEqual(excluded.elements.referencedObjects.reference, 'operation');
+    assertEqual(excluded.elements.fieldName[0], '&Errors');
+    assert('unions' in excluded.exclusions);
+    assertEqual(excluded.exclusions.unions.length, 2);
+    assertEqual(
+      excluded.exclusions.unions[0].intersections[0].elements.reference,
+      'referral',
+    );
+    assertEqual(
+      excluded.exclusions.unions[1].intersections[0].elements.reference,
+      'in-DSAReferral',
+    );
+
+    const universe = modules[0].assignments.Universe.objectSetSpec
+      .rootElementSetSpec;
+    assert('allExcept' in universe);
+    assert('unions' in universe.allExcept);
+    assertEqual(universe.allExcept.unions.length, 2);
+    assertEqual(
+      universe.allExcept.unions[0].intersections[0].elements.reference,
+      'referral',
+    );
+
+    const single = modules[0].assignments.Single.objectSetSpec
+      .rootElementSetSpec.unions[0].intersections[0];
+    assertEqual(single.elements.reference, 'referral');
+    assertEqual(single.exclusions, undefined);
+  });
+
   test('groks an empty object set assigned to an object class', () => {
     const text = `A {iso} DEFINITIONS ::= BEGIN
 DFR-Returnable OPERATION ::= {}

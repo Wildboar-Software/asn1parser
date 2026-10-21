@@ -14,6 +14,10 @@ import type ObjectAssignment from '../constructs/AssignmentTypes/ObjectAssignmen
 import type ObjectClassAssignment from '../constructs/AssignmentTypes/ObjectClassAssignment.mjs';
 import type ObjectSetAssignment from '../constructs/AssignmentTypes/ObjectSetAssignment.mjs';
 import { type Object_ } from '../constructs/AssignmentTypes/ObjectAssignment/Object.mjs';
+import {
+  isObjectSetElementSetSpec,
+  type ElementSetSpec_ObjectSet,
+} from '../constructs/ElementSetSpec_ObjectSet.mjs';
 import FieldSpecType from '../constructs/FieldSpecType.mjs';
 import ASN1ParserExpectationError from '../errors/ASN1ParserExpectationError.mjs';
 
@@ -807,6 +811,120 @@ export function unnestObjectFromObjectSet( // eslint-disable-line
  * @param {Parameter[] | undefined} parameters The parameters of the assignment.
  * @function
  */
+function replaceWithUnnestedObject(
+  currentModule: Module,
+  path: string[]
+): Defined {
+  return {
+    computedModule: currentModule.name,
+    reference: path.join('-'),
+    assignmentType: AssignmentType.ObjectAssignment,
+  };
+}
+
+function unnestObjectSetElementSetSpec(
+  ess: ElementSetSpec_ObjectSet,
+  definedObjectClass: Defined,
+  currentModule: Module,
+  modulesInScope: Module[],
+  path: string[],
+  parameters?: Parameter[]
+): void {
+  if ('allExcept' in ess) {
+    if (isObjectSetElementSetSpec(ess.allExcept)) {
+      unnestObjectSetElementSetSpec(
+        ess.allExcept,
+        definedObjectClass,
+        currentModule,
+        modulesInScope,
+        [...path, 'AllExcept'],
+        parameters
+      );
+    }
+    return;
+  }
+  ess.unions.forEach((union, unionIndex) =>
+    union.intersections.forEach((intersection, intersectionIndex) => {
+      const elements = intersection.elements;
+      if (isObjectSetElementSetSpec(elements)) {
+        unnestObjectSetElementSetSpec(
+          elements,
+          definedObjectClass,
+          currentModule,
+          modulesInScope,
+          [
+            ...path,
+            `Union${unionIndex}`,
+            `Intersection${intersectionIndex}`,
+            'Element',
+          ],
+          parameters
+        );
+      } else if ('tokens' in elements || 'fieldSettings' in elements) {
+        const newPath: string[] = [
+          ...path,
+          `Union${unionIndex}`,
+          `Intersection${intersectionIndex}`,
+          'Element',
+        ];
+        unnestObjectFromObjectSet(
+          elements,
+          definedObjectClass,
+          currentModule,
+          modulesInScope,
+          newPath,
+          parameters
+        );
+        intersection.elements = replaceWithUnnestedObject(
+          currentModule,
+          newPath
+        );
+      }
+
+      const exclusions = intersection.exclusions;
+      if (!exclusions) {
+        return;
+      }
+      if (isObjectSetElementSetSpec(exclusions)) {
+        unnestObjectSetElementSetSpec(
+          exclusions,
+          definedObjectClass,
+          currentModule,
+          modulesInScope,
+          [
+            ...path,
+            `Union${unionIndex}`,
+            `Intersection${intersectionIndex}`,
+            'Exclusion',
+          ],
+          parameters
+        );
+        return;
+      }
+      if (Array.isArray(exclusions) || 'fieldSettings' in exclusions) {
+        const newPath: string[] = [
+          ...path,
+          `Union${unionIndex}`,
+          `Intersection${intersectionIndex}`,
+          'Exclusion',
+        ];
+        unnestObjectFromObjectSet(
+          exclusions,
+          definedObjectClass,
+          currentModule,
+          modulesInScope,
+          newPath,
+          parameters
+        );
+        intersection.exclusions = replaceWithUnnestedObject(
+          currentModule,
+          newPath
+        );
+      }
+    })
+  );
+}
+
 export function unnestObjectSetAssignment(
   osa: ObjectSetAssignment,
   currentModule: Module,
@@ -823,64 +941,13 @@ export function unnestObjectSetAssignment(
     sets.push(aess);
   }
   sets.forEach((ess) => {
-    if (ess && !('allExcept' in ess)) {
-      ess.unions.forEach((union, unionIndex) =>
-        union.intersections.forEach((intersection, intersectionIndex) => {
-          if (
-            ('tokens' in intersection.elements) ||
-            ('fieldSettings' in intersection.elements)
-          ) {
-            // DefinedSyntax or DefaultSyntax
-            const obj = intersection.elements;
-            const newPath: string[] = [
-              ...path,
-              `Union${unionIndex}`,
-              `Intersection${intersectionIndex}`,
-              'Element',
-            ];
-            unnestObjectFromObjectSet(
-              obj,
-              osa.definedObjectClass,
-              currentModule,
-              modulesInScope,
-              newPath,
-              osa.parameters
-            );
-            intersection.elements = {
-              computedModule: currentModule.name,
-              reference: newPath.join('-'),
-              assignmentType: AssignmentType.ObjectAssignment,
-            };
-          }
-
-          if (
-            intersection.exclusions && // DefinedSyntax or DefaultSyntax
-            (Array.isArray(intersection.exclusions) ||
-              'fieldSettings' in intersection.exclusions)
-          ) {
-            const obj = intersection.exclusions;
-            const newPath: string[] = [
-              ...path,
-              `Union${unionIndex}`,
-              `Intersection${intersectionIndex}`,
-              'Exclusion',
-            ];
-            unnestObjectFromObjectSet(
-              obj,
-              osa.definedObjectClass,
-              currentModule,
-              modulesInScope,
-              newPath,
-              osa.parameters
-            );
-            intersection.exclusions = {
-              computedModule: currentModule.name,
-              reference: newPath.join('-'),
-              assignmentType: AssignmentType.ObjectAssignment,
-            };
-          }
-        })
-      );
-    }
+    unnestObjectSetElementSetSpec(
+      ess,
+      osa.definedObjectClass,
+      currentModule,
+      modulesInScope,
+      path,
+      osa.parameters
+    );
   });
 }

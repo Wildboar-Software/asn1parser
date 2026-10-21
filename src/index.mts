@@ -10,7 +10,11 @@ export type { ConstraintSpec } from './lib/constructs/ConstraintSpec.mjs';
 export type { default as Defined } from './lib/constructs/Defined.mjs';
 export type { DefinitiveObjIdComponent } from './lib/constructs/DefinitiveObjIdComponent.mjs';
 export type { ElementSetSpec } from './lib/constructs/ElementSetSpec.mjs';
-export type { ElementSetSpec_ObjectSet } from './lib/constructs/ElementSetSpec_ObjectSet.mjs';
+export type {
+  ElementSetSpec_ObjectSet,
+  ObjectSetElement,
+} from './lib/constructs/ElementSetSpec_ObjectSet.mjs';
+export { isObjectSetElementSetSpec } from './lib/constructs/ElementSetSpec_ObjectSet.mjs';
 export type { ElementSetSpec_Subtype } from './lib/constructs/ElementSetSpec_Subtype.mjs';
 export type { default as ElementSetSpecs } from './lib/constructs/ElementSetSpecs.mjs';
 export type { default as EnumerationItem } from './lib/constructs/EnumerationItem.mjs';

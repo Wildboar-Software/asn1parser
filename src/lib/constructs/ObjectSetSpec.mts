@@ -1,6 +1,5 @@
 import type GrokedThing from '../interfaces/GrokedThing.mjs';
-import { type ElementSetSpec } from './ElementSetSpec.mjs';
-import { type ObjectSetElements } from './ObjectSetElements.mjs';
+import { type ElementSetSpec_ObjectSet } from './ElementSetSpec_ObjectSet.mjs';
 import { NonTerminalProductionType } from '../ProductionType.mjs';
 
 // ObjectSet ::=
@@ -16,9 +15,9 @@ import { NonTerminalProductionType } from '../ProductionType.mjs';
 export default interface ObjectSetSpec extends GrokedThing {
   productionType: NonTerminalProductionType.ObjectSetSpec;
   /** The root objects of the object set */
-  rootElementSetSpec?: ElementSetSpec<ObjectSetElements>;
+  rootElementSetSpec?: ElementSetSpec_ObjectSet;
   /** The additional objects added after extension */
-  additionalElementSetSpec?: ElementSetSpec<ObjectSetElements>;
+  additionalElementSetSpec?: ElementSetSpec_ObjectSet;
   /** Whether the object set is explicitly extensible */
   explicitlyExtensible: boolean;
 }
