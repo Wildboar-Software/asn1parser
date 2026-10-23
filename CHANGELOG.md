@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   element position contains a parenthesized element set, such as
   `EXCEPT (referral | in-DSAReferral)`. The parenthesized set is kept in the
   abstract syntax tree.
+- **BREAKING**: Make `ProductionType` an erasable union of constant strings.
+  This might not actually break your code, depending on what you're doing.
+
+## [2.7.3]
+
 - Reject an absolute `OBJECT IDENTIFIER` whose first arc uses a name that is
   not a recognized root arc name for that number (`itu-t` / `ccitt` for 0,
   `iso` for 1, `joint-iso-itu-t` / `joint-iso-ccitt` for 2). A single arc

@@ -11,7 +11,7 @@ import type { ElementSetSpec } from './ElementSetSpec.mjs';
 // AdditionalElementSetSpec ::= ElementSetSpec
 
 export default interface ElementSetSpecs<ElementType> extends GrokedThing {
-  productionType: NonTerminalProductionType.ElementSetSpecs;
+  productionType: typeof NonTerminalProductionType.ElementSetSpecs;
   rootElementSetSpec: ElementSetSpec<ElementType>;
   additionalElementSetSpec?: ElementSetSpec<ElementType>;
 
