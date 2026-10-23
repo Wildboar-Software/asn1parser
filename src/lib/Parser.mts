@@ -24,6 +24,24 @@ import {
  */
 export default class Parser {
   /**
+   * A function that returns the name of the `Parser`.
+   */
+  readonly name: () => string;
+
+  /**
+   * A function that actually parses.
+   */
+  readonly executor: (state: ParseContext) => ParseContext;
+
+  /**
+   * When true, `execute` caches results by token index and semantic
+   * context. Enabled for expensive singleton parsers (`recursiveParser`,
+   * `whitespace`, `Setting`). Cheap combinators such as `literal()` skip
+   * the table so lookup cost does not exceed the work saved.
+   */
+  readonly packrat: boolean;
+
+  /**
    * @param name A function that returns the name of the `Parser`
    * @param executor A function that actually parses.
    * @param packrat When true, cache results by token index and semantic context.
@@ -31,16 +49,14 @@ export default class Parser {
    * @constructor
    */
   constructor(
-    readonly name: () => string,
-    readonly executor: (state: ParseContext) => ParseContext,
-    /**
-     * When true, `execute` caches results by token index and semantic
-     * context. Enabled for expensive singleton parsers (`recursiveParser`,
-     * `whitespace`, `Setting`). Cheap combinators such as `literal()` skip
-     * the table so lookup cost does not exceed the work saved.
-     */
-    readonly packrat: boolean = false
-  ) {}
+    name: () => string,
+    executor: (state: ParseContext) => ParseContext,
+    packrat: boolean = false
+  ) {
+    this.name = name;
+    this.executor = executor;
+    this.packrat = packrat;
+  }
 
   /**
    * @summary Kick off a parsing.

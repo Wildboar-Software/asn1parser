@@ -7,6 +7,18 @@ import type Production from '../Production.mjs';
  */
 export class ASN1SyntaxError extends SyntaxError {
   /**
+   * The `Production` in which the syntax error occurs.
+   */
+  readonly production: Production;
+
+  override readonly message: string;
+
+  /**
+   * The current ASN.1 module name.
+   */
+  readonly moduleName?: string;
+
+  /**
    * @param {Production} production The `Production` in which the syntax error
    *  occurs.
    * @param {string} message The error message.
@@ -14,11 +26,14 @@ export class ASN1SyntaxError extends SyntaxError {
    * @constructor
    */
   constructor(
-    readonly production: Production,
-    override readonly message: string,
-    readonly moduleName?: string,
+    production: Production,
+    message: string,
+    moduleName?: string,
   ) {
     super(message);
+    this.production = production;
+    this.message = message;
+    this.moduleName = moduleName;
   }
 }
 

@@ -24,6 +24,7 @@
     "strict": true,
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
+    "erasableSyntaxOnly": true,
     "noUncheckedSideEffectImports": true,
     "removeComments": true
   },

@@ -7,7 +7,7 @@ import ValueType from './constructs/ValueType.mjs';
 /**
  * The types that could refer to any builtin type.
  */
-const ambiguousTypeTypes = new Set([
+const ambiguousTypeTypes = new Set<TypeType>([
   // ReferencedType
   TypeType.DefinedType,
   // TypeType.UsefulType,

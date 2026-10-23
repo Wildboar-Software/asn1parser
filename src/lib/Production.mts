@@ -81,6 +81,26 @@ export default class Production<Types extends ProductionType = ProductionType> {
   }
 
   /**
+   * @summary The type of this production, which could be as narrow as a
+   *  single lexeme, such as `comma`, or which could be as broad as a `ModuleBody`.
+   * @public
+   * @readonly
+   */
+  readonly type: Types;
+
+  /**
+   * @summary Subordinate nodes in the Concrete Syntax Tree (CST)
+   * @description
+   * 
+   * This should be empty for productions returned from lexing. It is
+   * otherwise only used for parsing.
+   * 
+   * @public
+   * @readonly
+   */
+  readonly children: Production[];
+
+  /**
    * @param {Type} type The type of this production.
    * @param {Production[]} children The child productions that compose this
    *  production.
@@ -89,25 +109,8 @@ export default class Production<Types extends ProductionType = ProductionType> {
    * @constructor
    */
   constructor(
-    /**
-     * @summary The type of this production, which could be as narrow as a
-     *  single lexeme, such as `comma`, or which could be as broad as a `ModuleBody`.
-     * @public
-     * @readonly
-     */
-    readonly type: Types,
-    /**
-     * @summary Subordinate nodes in the Concrete Syntax Tree (CST)
-     * @description
-     * 
-     * This should be empty for productions returned from lexing. It is
-     * otherwise only used for parsing.
-     * 
-     * @public
-     * @readonly
-     */
-    readonly children: Production[] = [],
-
+    type: Types,
+    children: Production[] = [],
     /**
      * @summary The location of this production within the processed text.
      * @public
@@ -115,6 +118,8 @@ export default class Production<Types extends ProductionType = ProductionType> {
      */
     loc?: Location
   ) {
+    this.type = type;
+    this.children = children;
     this._location = loc;
   }
 

@@ -6,6 +6,23 @@ import type Production from '../Production.mjs';
  * This is kind of like an assertion failure, but it in
  */
 export class ASN1SemanticError extends Error {
+  override readonly message: string;
+
+  /**
+   * The `Production` in which the error occurs, if known.
+   */
+  readonly production?: Production;
+
+  /**
+   * The current ASN.1 module name.
+   */
+  readonly moduleName?: string;
+
+  /**
+   * The ASN.1 assignment identifier.
+   */
+  readonly assignment?: string;
+
   /**
    * @param {string} message The error message.
    * @param {Production} production The `Production` in which the error occurs,
@@ -15,12 +32,16 @@ export class ASN1SemanticError extends Error {
    * @constructor
    */
   constructor(
-    override readonly message: string,
-    readonly production?: Production, 
-    readonly moduleName?: string,
-    readonly assignment?: string,
+    message: string,
+    production?: Production,
+    moduleName?: string,
+    assignment?: string,
   ) {
     super(message);
+    this.message = message;
+    this.production = production;
+    this.moduleName = moduleName;
+    this.assignment = assignment;
   }
 }
 

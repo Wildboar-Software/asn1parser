@@ -13,6 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   abstract syntax tree.
 - **BREAKING**: Make `ProductionType` an erasable union of constant strings.
   This might not actually break your code, depending on what you're doing.
+- **BREAKING**: Replace the remaining enums (`AssignmentType`, `FieldSpecType`,
+  `TaggingMode`, `TypeType`, `ValueType`, `ValueAssignmentType`,
+  `SelectionOption`, `LogLevel`, and `ASN1UniversalType`) with const objects
+  and unions, and enable `erasableSyntaxOnly`. Member values are unchanged, and
+  each type is the union of those values, so a matching string or number
+  literal is assignable where the old enum member type was required.
+  `LogLevel` and `ASN1UniversalType` no longer have numeric-enum reverse
+  mappings. `ASN1UniversalType.boolean` is still the value `1`; use
+  `typeof ASN1UniversalType.boolean` when that member is needed as a type.
+  Constructor parameters that previously declared properties are now ordinary
+  fields assigned in the constructor.
 
 ## [2.7.3]
 

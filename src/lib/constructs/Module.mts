@@ -41,68 +41,94 @@ export default class Module implements GrokedThing {
    */
   public duplicateAssignments: Production[] = [];
 
+  /**
+   * Name of the ASN.1 module
+   */
+  readonly name: string;
+
+  /**
+   * Object identifier that identifies this ASN.1 module
+   */
+  readonly oid: NameAndOrNumber[] | undefined;
+
+  /**
+   * International Resource Identifier (IRI) that identifies this ASN.1 module
+   */
+  readonly iri: string | undefined;
+
+  readonly encodingReference: string | undefined;
+
+  /**
+   * The tagging mode of this module. `EXPLICIT` is the default.
+   */
+  readonly taggingMode: TaggingMode;
+
+  /**
+   * Whether extensibility is implied for the ASN.1 module. Defaults to 
+   * false.
+   */
+  readonly extensibilityImplied: boolean;
+
+  /**
+   * Imported symbols from other ASN.1 modules.
+   */
+  readonly imports: Imports;
+
+  /**
+   * Symbols explicitly exported from this ASN.1 module, or
+   * `undefined` if all of them are.
+   */
+  readonly exports: Exports | undefined;
+
+  /**
+   * Identifiers assigned to types, values, information objects, information
+   * object classes, information object sets, and value sets. These are
+   * indexed by the identifier.
+   */
+  readonly assignments: { [identifier: string]: Assignment };
+
+  /**
+   * Path to the file from whence this module was parsed.
+   */
+  readonly asn1FilePath: string | undefined;
+
+  /**
+   * Comment that appeared above this ASN.1 module.
+   */
+  readonly comment: string | undefined;
+
+  /**
+   * `ENUMERATED` variant identifiers that were defined. This is simply to aid
+   * in parsing and groking.
+   */
+  readonly definedEnumItems: Set<string>;
+
   // eslint-disable-next-line max-params
   constructor(
-    /**
-     * Name of the ASN.1 module
-     */
-    readonly name: string,
-
-    /**
-     * Object identifier that identifies this ASN.1 module
-     */
-    readonly oid: NameAndOrNumber[] | undefined,
-
-    /**
-     * International Resource Identifier (IRI) that identifies this ASN.1 module
-     */
-    readonly iri: string | undefined,
-
-    readonly encodingReference: string | undefined,
-
-    /**
-     * The tagging mode of this module. `EXPLICIT` is the default.
-     */
-    readonly taggingMode: TaggingMode,
-
-    /**
-     * Whether extensibility is implied for the ASN.1 module. Defaults to 
-     * false.
-     */
-    readonly extensibilityImplied: boolean,
-    
-    /**
-     * Imported symbols from other ASN.1 modules.
-     */
-    readonly imports: Imports,
-
-    /**
-     * Symbols explicitly exported from this ASN.1 module, or
-     * `undefined` if all of them are.
-     */
-    readonly exports: Exports | undefined,
-
-    /**
-     * Identifiers assigned to types, values, information objects, information
-     * object classes, information object sets, and value sets. These are
-     * indexed by the identifier.
-     */
-    readonly assignments: { [identifier: string]: Assignment },
-
-    /**
-     * Path to the file from whence this module was parsed.
-     */
-    readonly asn1FilePath: string | undefined,
-
-    /**
-     * Comment that appeared above this ASN.1 module.
-     */
-    readonly comment: string | undefined,
-
-    /**
-     * `ENUMERATED` variant identifiers that were defined. This is simply to aid
-     * in parsing and groking.
-     */
-    readonly definedEnumItems: Set<string>,
-  ) {}
+    name: string,
+    oid: NameAndOrNumber[] | undefined,
+    iri: string | undefined,
+    encodingReference: string | undefined,
+    taggingMode: TaggingMode,
+    extensibilityImplied: boolean,
+    imports: Imports,
+    exports: Exports | undefined,
+    assignments: { [identifier: string]: Assignment },
+    asn1FilePath: string | undefined,
+    comment: string | undefined,
+    definedEnumItems: Set<string>,
+  ) {
+    this.name = name;
+    this.oid = oid;
+    this.iri = iri;
+    this.encodingReference = encodingReference;
+    this.taggingMode = taggingMode;
+    this.extensibilityImplied = extensibilityImplied;
+    this.imports = imports;
+    this.exports = exports;
+    this.assignments = assignments;
+    this.asn1FilePath = asn1FilePath;
+    this.comment = comment;
+    this.definedEnumItems = definedEnumItems;
+  }
 }
