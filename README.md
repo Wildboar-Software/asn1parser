@@ -256,4 +256,3 @@ annotations.
 
 - [ ] Make dependency on `dependency-graph` optional
 - [ ] Could the lexer take a `TNext` to change behavior, such as by returning a syntax error?
-- [ ] Convert `ProductionType` to string constants (maybe other enums too) (will require major version bump)
