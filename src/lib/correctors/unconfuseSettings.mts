@@ -168,6 +168,7 @@ function unconfuseSettingsGivenObjectClassAssignment(
               text: setting.text!,
               currentModule,
               enumItems: parsing.definedEnumItems,
+              textStartsAtOffset: setting.production?.location?.startIndex,
             };
             const v: ValueSetting = {
                 value: {
@@ -291,7 +292,30 @@ function unconfuseSettingsGivenObjectClassAssignment(
       }
       case FieldSpecType.ObjectSetFieldSpec: {
         if (!('objectSet' in setting) && setting.text) {
-          const lexemes = Array.from(lex(setting.text, setting.production?.location))
+          const val0 = Object.values(setting)[0];
+
+          // Unfortunately, there are a few places where the CST node could be
+          // and we have to try them all.
+          const settingProd: Production | undefined =
+            // Try to get the location right from the setting
+            setting.production
+            // Failing that, try from the discriminated thing in the setting.
+            ?? ((
+              (typeof val0 === "object")
+              && val0
+              && ("production" in val0)
+            ) ? (val0 as { production: Production }).production
+              : undefined)
+            // Failing that, get the location from the object in which it appears.
+            ?? object
+              .fieldProductions
+              ?.[name]
+              ?.children
+              .findLast(() => true)
+            ;
+          const settingLoc: Location | undefined = settingProd?.location;
+
+          const lexemes = Array.from(lex(setting.text, settingLoc))
             .filter((l) => l.type !== LexicalProductionType.comment);
           const parsing = objectSetParser.start(lexemes, setting.text);
           const ctx: GrokContext = {
@@ -299,6 +323,7 @@ function unconfuseSettingsGivenObjectClassAssignment(
             text: setting.text,
             currentModule,
             enumItems: parsing.definedEnumItems,
+            textStartsAtOffset: settingLoc?.startIndex,
           };
           const os: ObjectSetSetting = {
             objectSet: objectSetGroker(parsing.cst, ctx),

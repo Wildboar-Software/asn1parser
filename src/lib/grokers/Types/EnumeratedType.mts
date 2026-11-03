@@ -41,6 +41,7 @@ import ASN1SemanticError from '../../errors/ASN1SemanticError.mjs';
 // 	| empty
 
 export default function grok(cst: Production, ctx: GrokContext): Type {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const components: Production[] = cst.children.filter(
     (child: Production): boolean => child.type !== ProductionType.whitespace
@@ -67,8 +68,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
       if (ei.type === ProductionType.identifier) {
         allItemsExplicitlyNumbered = false;
         const identifier = text.slice(
-          ei.location.startIndex,
-          ei.location.endIndex
+          ei.location.startIndex - base,
+          ei.location.endIndex - base
         );
         return {
           identifier,
@@ -77,8 +78,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
           production: ei,
           productionType: ei.type,
           text: text.slice(
-            ei.location.startIndex,
-            ei.location.endIndex
+            ei.location.startIndex - base,
+            ei.location.endIndex - base
           ),
         };
       } else {
@@ -87,12 +88,12 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
             child.type !== ProductionType.whitespace
         );
         const identifier: string = text.slice(
-          namedNumberComponents[0].location.startIndex,
-          namedNumberComponents[0].location.endIndex
+          namedNumberComponents[0].location.startIndex - base,
+          namedNumberComponents[0].location.endIndex - base
         );
         const numberString: string = text.slice(
-          namedNumberComponents[2].location.startIndex,
-          namedNumberComponents[2].location.endIndex
+          namedNumberComponents[2].location.startIndex - base,
+          namedNumberComponents[2].location.endIndex - base
         );
         if (namedNumberComponents[2].type === ProductionType.SignedNumber) {
           const numericNumber: number = Number.parseInt(numberString, 10);
@@ -118,8 +119,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
             production: ei,
             productionType: ei.type,
             text: text.slice(
-              ei.location.startIndex,
-              ei.location.endIndex
+              ei.location.startIndex - base,
+              ei.location.endIndex - base
             ),
           };
         } else {
@@ -131,8 +132,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
             production: ei,
             productionType: ei.type,
             text: text.slice(
-              ei.location.startIndex,
-              ei.location.endIndex
+              ei.location.startIndex - base,
+              ei.location.endIndex - base
             ),
           };
         }
@@ -163,8 +164,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
           if (ei.type === ProductionType.identifier) {
             allItemsExplicitlyNumbered = false;
             const identifier = text.slice(
-              ei.location.startIndex,
-              ei.location.endIndex
+              ei.location.startIndex - base,
+              ei.location.endIndex - base
             );
             return {
               identifier,
@@ -173,8 +174,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
               production: ei,
               productionType: ei.type,
               text: text.slice(
-                ei.location.startIndex,
-                ei.location.endIndex
+                ei.location.startIndex - base,
+                ei.location.endIndex - base
               ),
             };
           } else {
@@ -183,12 +184,12 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
                 child.type !== ProductionType.whitespace
             );
             const identifier: string = text.slice(
-              namedNumberComponents[0].location.startIndex,
-              namedNumberComponents[0].location.endIndex
+              namedNumberComponents[0].location.startIndex - base,
+              namedNumberComponents[0].location.endIndex - base
             );
             const numberString: string = text.slice(
-              namedNumberComponents[2].location.startIndex,
-              namedNumberComponents[2].location.endIndex
+              namedNumberComponents[2].location.startIndex - base,
+              namedNumberComponents[2].location.endIndex - base
             );
             if (namedNumberComponents[2].type === ProductionType.SignedNumber) {
               const numericNumber: number = Number.parseInt(numberString, 10);
@@ -214,8 +215,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
                 production: ei,
                 productionType: ei.type,
                 text: text.slice(
-                  ei.location.startIndex,
-                  ei.location.endIndex
+                  ei.location.startIndex - base,
+                  ei.location.endIndex - base
                 ),
               };
             } else {
@@ -227,8 +228,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
                 production: ei,
                 productionType: ei.type,
                 text: text.slice(
-                  ei.location.startIndex,
-                  ei.location.endIndex
+                  ei.location.startIndex - base,
+                  ei.location.endIndex - base
                 ),
               };
             }
@@ -282,7 +283,7 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
     .forEach((item) => ctx.enumItems.add(item));
 
   return {
-    text: text.slice(cst.location.startIndex, cst.location.endIndex),
+    text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
     typeType: TypeType.EnumeratedType,
     type: {
       items,

@@ -20,6 +20,7 @@ import { type Type } from '../../constructs/Type.mjs';
 // 	| identifier "(" DefinedValue ")"
 
 export default function grok(cst: Production, ctx: GrokContext): Type {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const components: Production[] = cst.children.filter(
     (child: Production): boolean => child.type !== ProductionType.whitespace
@@ -36,8 +37,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
             child.type !== ProductionType.whitespace
         );
         const numberOrDefinedValue: string = text.slice(
-          namedBitComponents[2].location.startIndex,
-          namedBitComponents[2].location.endIndex
+          namedBitComponents[2].location.startIndex - base,
+          namedBitComponents[2].location.endIndex - base
         );
         const numberValue: number = Number.parseInt(numberOrDefinedValue, 10);
         const number_: number | Defined = ((): number | Defined => {
@@ -50,20 +51,20 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
         })();
         return {
           identifier: text.slice(
-            namedBitComponents[0].location.startIndex,
-            namedBitComponents[0].location.endIndex
+            namedBitComponents[0].location.startIndex - base,
+            namedBitComponents[0].location.endIndex - base
           ),
           number: number_,
           production: namedBit,
           productionType: ProductionType.NamedBit,
           text: text.slice(
-            namedBit.location.startIndex,
-            namedBit.location.endIndex
+            namedBit.location.startIndex - base,
+            namedBit.location.endIndex - base
           ),
         };
       });
     return {
-      text: text.slice(cst.location.startIndex, cst.location.endIndex),
+      text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
       typeType: TypeType.BitStringType,
       type: {
         namedBitList,
@@ -73,7 +74,7 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
     };
   } else {
     return {
-      text: text.slice(cst.location.startIndex, cst.location.endIndex),
+      text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
       typeType: TypeType.BitStringType,
       type: {
         selfContained,

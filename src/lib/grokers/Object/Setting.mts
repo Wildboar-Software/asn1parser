@@ -16,6 +16,7 @@ import ASN1ParserExpectationError from '../../errors/ASN1ParserExpectationError.
  * @param ctx
  */
 export default function grok(cst: Production, ctx: GrokContext): Setting {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   if (cst.children.length !== 1) {
     throw new ASN1ParserExpectationError(
       "Setting CST node had an unexpected number of child nodes: " + cst.children.length.toString(),
@@ -24,8 +25,8 @@ export default function grok(cst: Production, ctx: GrokContext): Setting {
     );
   }
   const text: string = ctx.text.slice(
-    cst.location.startIndex,
-    cst.location.endIndex
+    cst.location.startIndex - base,
+    cst.location.endIndex - base
   );
   const alt: Production = cst.children[0];
   switch (alt.type) {

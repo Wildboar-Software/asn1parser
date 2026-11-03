@@ -1117,3 +1117,129 @@ END
   });
 
 });
+
+test("compiles OBJECT-CLASS MUST and MAY object sets", () => {
+  const other = `
+Other {iso(1) other(1)} DEFINITIONS ::= BEGIN
+ATTRIBUTE ::= CLASS {
+&id OBJECT IDENTIFIER UNIQUE }
+WITH SYNTAX { ID &id }
+foreign ATTRIBUTE ::= { ID { 1 2 9 } }
+END
+`;
+  const home = `
+M {iso(1) member(2)} DEFINITIONS ::= BEGIN
+IMPORTS
+foreign
+FROM Other {iso(1) other(1)};
+
+ATTRIBUTE ::= CLASS {
+&id OBJECT IDENTIFIER UNIQUE }
+WITH SYNTAX { ID &id }
+
+OBJECT-CLASS ::= CLASS {
+&Superclasses         OBJECT-CLASS OPTIONAL,
+&MandatoryAttributes  ATTRIBUTE OPTIONAL,
+&OptionalAttributes   ATTRIBUTE OPTIONAL,
+&id                   OBJECT IDENTIFIER UNIQUE }
+WITH SYNTAX {
+[SUBCLASS OF          &Superclasses]
+[MUST CONTAIN         &MandatoryAttributes]
+[MAY CONTAIN          &OptionalAttributes]
+ID                    &id }
+
+a ATTRIBUTE ::= { ID { 1 1 } }
+b ATTRIBUTE ::= { ID { 1 2 } }
+c ATTRIBUTE ::= { ID { 1 3 } }
+d ATTRIBUTE ::= { ID { 1 4 } }
+x-pos ATTRIBUTE ::= { ID { 1 5 } }
+top OBJECT-CLASS ::= { ID { 1 9 } }
+
+snap OBJECT-CLASS ::= {
+SUBCLASS OF  { top }
+MUST CONTAIN { a
+           | b
+           | c
+           | d
+           | x-pos }
+MAY CONTAIN  { foreign | a }
+ID           { 1 9 1 } }
+
+trimmed OBJECT-CLASS ::= {
+MUST CONTAIN { a | b EXCEPT foreign }
+ID           { 1 9 2 } }
+END
+`;
+  const modules = [ other, home ].flatMap((asn1) => {
+      const lexemes = Array.from(lex(asn1)).filter((lexeme) => lexeme.type !== "comment");
+      const parseResult = parse(asn1, lexemes);
+      assert(!parseResult.error);
+      return grok(asn1, parseResult);
+  });
+  correct(modules);
+  normalize(modules);
+  const M = modules.find((mod) => mod.name === "M");
+  const snap = M.assignments.snap;
+  const trimmed = M.assignments.trimmed;
+  assert(snap !== undefined);
+  assert(trimmed !== undefined);
+  assert(snap.assignmentType === AssignmentType.ObjectAssignment);
+  const obj = snap.defaultSyntax ?? snap.object;
+  assert("fieldSettings" in obj, JSON.stringify(obj));
+  const superclasses1 = obj.fieldSettings["&Superclasses"];
+  const mandatoryAttributes1 = obj.fieldSettings["&MandatoryAttributes"];
+  const optionalAttributes1 = obj.fieldSettings["&OptionalAttributes"];
+  const id1 = obj.fieldSettings["&id"];
+  assert("objectSet" in superclasses1);
+  assert("objectSet" in mandatoryAttributes1);
+  assert("objectSet" in optionalAttributes1);
+  assert("unions" in superclasses1.objectSet.rootElementSetSpec);
+  const ref1 = superclasses1
+    .objectSet
+    .rootElementSetSpec
+    .unions[0]
+    .intersections[0]
+    .elements
+    .reference;
+  assert.equal(ref1, "top");
+  const ref2 = mandatoryAttributes1
+    .objectSet
+    .rootElementSetSpec
+    .unions[0]
+    .intersections[0]
+    .elements
+    .reference;
+  assert.equal(ref2, "a");
+  const ref3 = optionalAttributes1
+    .objectSet
+    .rootElementSetSpec
+    .unions[0]
+    .intersections[0]
+    .elements
+    .reference;
+  assert.equal(ref3, "foreign");
+  // assert(superclasses1.valueSet.type === ValueSetType.ObjectSet);
+  // assert(mandatoryAttributes1.valueSet.type === ValueSetType.ObjectSet);
+  // assert(optionalAttributes1.valueSet.type === ValueSetType.ObjectSet);
+  // assert(id1.valueSet.type === ValueSetType.ObjectSet);
+  // assert(id1.valueSet.object.identifier === "{ 1 9 1 }");
+});
+
+// test("compiles gosaSnapshotObject mandatory attributes", () => {
+//   const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../../../..");
+//   const files = [
+//       "data/modules/modified/itu-t_x_x501_2019_InformationFramework.asn1",
+//       "data/modules/itu-t_x_x520_2019_SelectedAttributeTypes.asn1",
+//       "data/modules/ldap-schema/LdapGosaCoreGosaSamba3.asn1",
+//   ];
+//   const modules = files.flatMap((relativePath) => {
+//       const text = readFileSync(join(repoRoot, relativePath), "utf8");
+//       const lexemes = Array.from(lex(text)).filter((lexeme) => lexeme.type !== "comment");
+//       const parseResult = parse(text, lexemes);
+//       expect(parseResult.error, relativePath).toBeFalsy();
+//       return grok(text, parseResult);
+//   });
+//   correct(modules);
+//   normalize(modules);
+//   modules.find((mod) => mod.name === "LdapGosaCoreGosaSamba3").assignments.gosaSnapshotObject[1];
+// });

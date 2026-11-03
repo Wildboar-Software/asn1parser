@@ -30,6 +30,7 @@ export default function grokRealValue(
   cst: Production,
   ctx: GrokContext
 ): RealValue {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   if (cst.children.length !== 1) {
     throw new ASN1SyntaxError(
@@ -53,9 +54,9 @@ export default function grokRealValue(
     ) {
       const numStr: string = text
         .slice(
-          NumericRealValue.children[0].location.startIndex,
+          NumericRealValue.children[0].location.startIndex - base,
           NumericRealValue.children[NumericRealValue.children.length - 1]
-            .location.endIndex
+            .location.endIndex - base
         )
         .replace(/\s+/gu, '');
       const num: number = Number.parseFloat(numStr);

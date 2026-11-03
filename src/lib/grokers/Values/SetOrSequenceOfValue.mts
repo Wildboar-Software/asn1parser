@@ -22,6 +22,7 @@ export default function grokSetOrSequenceOfValue(
   cst: Production,
   ctx: GrokContext
 ): SetOrSequenceOfValue {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const determinant: Production | undefined = cst.children
     .slice(1, -1) // Remove curlies.
@@ -40,8 +41,8 @@ export default function grokSetOrSequenceOfValue(
       .filter((child: Production) => child.type === ProductionType.NamedValue)
       .map((namedValue: Production) => {
         const name: string = text.slice(
-          namedValue.children[0].location.startIndex,
-          namedValue.children[0].location.endIndex
+          namedValue.children[0].location.startIndex - base,
+          namedValue.children[0].location.endIndex - base
         );
         return {
           identifier: name,

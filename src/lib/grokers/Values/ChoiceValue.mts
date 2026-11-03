@@ -10,6 +10,7 @@ export default function grokChoiceValue(
   cst: Production,
   ctx: GrokContext
 ): ChoiceValue {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const identifier: Production = cst.children[0];
   const value: Production = cst.children[cst.children.length - 1];
@@ -22,8 +23,8 @@ export default function grokChoiceValue(
   }
   return {
     identifier: text.slice(
-      identifier.location.startIndex,
-      identifier.location.endIndex
+      identifier.location.startIndex - base,
+      identifier.location.endIndex - base
     ),
     value: grokValue(value, ctx),
     production: cst,

@@ -68,6 +68,7 @@ import { type Type } from '../../constructs/Type.mjs';
 // 	| COMPONENTS OF Type
 
 export default function grok(cst: Production, ctx: GrokContext): Type {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const typeType: TypeType =
     cst.type === ProductionType.SequenceType
@@ -79,7 +80,7 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
 
   if (components.length <= 3) {
     return {
-      text: text.slice(cst.location.startIndex, cst.location.endIndex),
+      text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
       typeType,
       type: {
         explicitlyExtensible: false,
@@ -94,7 +95,7 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
     const ExceptionSpec: Production =
       ExtensionAndException.children[ExtensionAndException.children.length - 1];
     return {
-      text: text.slice(cst.location.startIndex, cst.location.endIndex),
+      text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
       typeType,
       type: {
         explicitlyExtensible: true,
@@ -218,8 +219,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
               VersionNumber && VersionNumber.children.length > 0
                 ? Number.parseInt(
                     text.slice(
-                      VersionNumber.children[0].location.startIndex,
-                      VersionNumber.children[0].location.endIndex
+                      VersionNumber.children[0].location.startIndex - base,
+                      VersionNumber.children[0].location.endIndex - base
                     ),
                     10
                   )
@@ -255,7 +256,7 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
       : undefined; // If it is not self-contained, we cannot say for sure.
 
   return {
-    text: text.slice(cst.location.startIndex, cst.location.endIndex),
+    text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
     typeType,
     type: {
       rootComponentTypeList1: rootComponentTypes1,

@@ -28,13 +28,14 @@ import ASN1SyntaxError from '../../errors/ASN1SyntaxError.mjs';
 // 	| identifier
 
 export default function grok(cst: Production, ctx: GrokContext): Type {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const components: Production[] = cst.children.filter(
     (child: Production): boolean => child.type !== ProductionType.whitespace
   );
   if (components.length === 1) {
     return {
-      text: text.slice(cst.location.startIndex, cst.location.endIndex),
+      text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
       typeType: TypeType.IntegerType,
       type: {
         selfContained: true,
@@ -54,12 +55,12 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
         (child: Production): boolean => child.type !== ProductionType.whitespace
       );
       const identifier: string = text.slice(
-        nnComponents[0].location.startIndex,
-        nnComponents[0].location.endIndex
+        nnComponents[0].location.startIndex - base,
+        nnComponents[0].location.endIndex - base
       );
       const valueString: string = text.slice(
-        nnComponents[2].location.startIndex,
-        nnComponents[2].location.endIndex
+        nnComponents[2].location.startIndex - base,
+        nnComponents[2].location.endIndex - base
       );
       if (nnComponents[2].type === ProductionType.SignedNumber) {
         const value: number = Number.parseInt(valueString, 10);
@@ -76,8 +77,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
           production: nn,
           productionType: ProductionType.NamedNumber,
           text: text.slice(
-            nn.location.startIndex,
-            nn.location.endIndex
+            nn.location.startIndex - base,
+            nn.location.endIndex - base
           ),
         };
       } else {
@@ -88,15 +89,15 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
           production: nn,
           productionType: ProductionType.NamedNumber,
           text: text.slice(
-            nn.location.startIndex,
-            nn.location.endIndex
+            nn.location.startIndex - base,
+            nn.location.endIndex - base
           ),
         };
       }
     });
 
   return {
-    text: text.slice(cst.location.startIndex, cst.location.endIndex),
+    text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
     typeType: TypeType.IntegerType,
     type: {
       namedNumberList: namedNumbers,

@@ -14,19 +14,20 @@ import { type Type } from '../../constructs/Type.mjs';
 //     DefinedObjectClass "." FieldName
 
 export default function grok(cst: Production, ctx: GrokContext): Type {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const components: Production[] = cst.children.filter(
     (child: Production): boolean => child.type !== ProductionType.whitespace
   );
   return {
-    text: text.slice(cst.location.startIndex, cst.location.endIndex),
+    text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
     typeType: TypeType.ObjectClassFieldType,
     type: {
       definedObjectClass: grokDefined(components[0], ctx),
       fieldName: text
         .slice(
-          components[2].location.startIndex,
-          components[2].location.endIndex
+          components[2].location.startIndex - base,
+          components[2].location.endIndex - base
         )
         .split('.'),
     },

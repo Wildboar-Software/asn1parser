@@ -25,6 +25,7 @@ export default function grokObjIdComponents(
   cst: Production,
   ctx: GrokContext
 ): ObjIdComponents {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   if (cst.children.length !== 1) {
     throw new ASN1SyntaxError(
@@ -37,8 +38,8 @@ export default function grokObjIdComponents(
   switch (innercst.type) {
     case ProductionType.NameForm: {
         const name = text.slice(
-          cst.children[0].location.startIndex,
-          cst.children[0].location.endIndex
+          cst.children[0].location.startIndex - base,
+          cst.children[0].location.endIndex - base
         );
       return {
         text: name,
@@ -52,8 +53,8 @@ export default function grokObjIdComponents(
         return grokDefinedValue(NumberForm.children[0], ctx);
       } else {
         const numstr = text.slice(
-            NumberForm.children[0].location.startIndex,
-            NumberForm.children[0].location.endIndex
+            NumberForm.children[0].location.startIndex - base,
+            NumberForm.children[0].location.endIndex - base
         );
         // Assume it is a number
         const num: number = Number.parseInt(numstr, 10);
@@ -77,15 +78,15 @@ export default function grokObjIdComponents(
         (child: Production): boolean => child.type !== ProductionType.whitespace
       );
       const identifier: string = text.slice(
-        nonws[0].location.startIndex,
-        nonws[0].location.endIndex
+        nonws[0].location.startIndex - base,
+        nonws[0].location.endIndex - base
       );
       const NumberForm: Production = nonws[2];
       if (NumberForm.children[0].type === ProductionType.DefinedValue) {
         return {
           text: text.slice(
-            NameAndNumberForm.location.startIndex,
-            NameAndNumberForm.location.endIndex
+            NameAndNumberForm.location.startIndex - base,
+            NameAndNumberForm.location.endIndex - base
           ),
           name: identifier,
           number: grokDefinedValue(NumberForm.children[0], ctx),
@@ -95,8 +96,8 @@ export default function grokObjIdComponents(
         // Assume it is a number
         const num: number = Number.parseInt(
           text.slice(
-            NumberForm.children[0].location.startIndex,
-            NumberForm.children[0].location.endIndex
+            NumberForm.children[0].location.startIndex - base,
+            NumberForm.children[0].location.endIndex - base
           ),
           10
         );
@@ -109,8 +110,8 @@ export default function grokObjIdComponents(
         }
         return {
           text: text.slice(
-            NameAndNumberForm.location.startIndex,
-            NameAndNumberForm.location.endIndex
+            NameAndNumberForm.location.startIndex - base,
+            NameAndNumberForm.location.endIndex - base
           ),
           name: identifier,
           number: num,

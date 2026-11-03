@@ -116,6 +116,7 @@ export default function grokObjectIdentifierValue(
   cst: Production,
   ctx: GrokContext
 ): ObjectIdentifierValue {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const usefulSubproductions: Production[] = cst.children
     .slice(1, -1) // Remove the curly brackets
     .filter((child): boolean => child.type !== ProductionType.whitespace);
@@ -135,7 +136,7 @@ export default function grokObjectIdentifierValue(
     assertRecognizedRootArcName(components, ctx);
   }
   return {
-    text: ctx.text.slice(cst.location.startIndex, cst.location.endIndex),
+    text: ctx.text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
     prefix,
     components,
     production: cst,

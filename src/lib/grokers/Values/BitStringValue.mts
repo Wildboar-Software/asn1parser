@@ -24,14 +24,15 @@ export default function grokBitStringValue(
   cst: Production,
   ctx: GrokContext
 ): BitStringValue {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   switch (cst.children[0].type) {
     case ProductionType.bstring: {
       return {
         bstring: text
           .slice(
-            cst.children[0].location.startIndex,
-            cst.children[0].location.endIndex
+            cst.children[0].location.startIndex - base,
+            cst.children[0].location.endIndex - base
           )
           .replace(/'/g, '')
           .replace(/\s+/g, '')
@@ -43,8 +44,8 @@ export default function grokBitStringValue(
       return {
         hstring: text
           .slice(
-            cst.children[0].location.startIndex,
-            cst.children[0].location.endIndex
+            cst.children[0].location.startIndex - base,
+            cst.children[0].location.endIndex - base
           )
           .replace(/'/g, '')
           .replace(/\s+/g, '')
@@ -73,8 +74,8 @@ export default function grokBitStringValue(
           .filter((p: Production) => p.type === ProductionType.identifier)
           .map((identifier: Production): string =>
             text.slice(
-              identifier.location.startIndex,
-              identifier.location.endIndex
+              identifier.location.startIndex - base,
+              identifier.location.endIndex - base
             )
           ),
         production: cst,

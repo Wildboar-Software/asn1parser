@@ -14,12 +14,13 @@ export default function grokOctetStringValue(
   cst: Production,
   ctx: GrokContext
 ): OctetStringValue {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   switch (cst.children[0].type) {
     case ProductionType.bstring: {
       return {
         bstring: text
-          .slice(cst.location.startIndex, cst.location.endIndex)
+          .slice(cst.location.startIndex - base, cst.location.endIndex - base)
           .replace(/'/g, '')
           .replace(/\s+/g, '')
           .replace('B', ''),
@@ -29,7 +30,7 @@ export default function grokOctetStringValue(
     case ProductionType.hstring: {
       return {
         hstring: text
-          .slice(cst.location.startIndex, cst.location.endIndex)
+          .slice(cst.location.startIndex - base, cst.location.endIndex - base)
           .replace(/'/g, '')
           .replace(/\s+/g, '')
           .replace('H', ''),

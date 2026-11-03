@@ -15,6 +15,7 @@ export default function grok(
   cst: Production,
   ctx: GrokContext
 ): GeneralConstraint {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const alt = cst.children[0];
   if (alt.type === ProductionType.UserDefinedConstraint) {
@@ -29,7 +30,7 @@ export default function grok(
             prod.type === ProductionType.UserDefinedConstraintParameter
         )
         .map((udcp: Production): string =>
-          text.slice(udcp.location.startIndex, udcp.location.endIndex)
+          text.slice(udcp.location.startIndex - base, udcp.location.endIndex - base)
         ),
       production: cst,
     };
@@ -67,7 +68,7 @@ export default function grok(
             (prod: Production): boolean =>
               prod.type === ProductionType.AtNotation
           )
-          .map((a) => text.slice(a.location.startIndex, a.location.endIndex)),
+          .map((a) => text.slice(a.location.startIndex - base, a.location.endIndex - base)),
         production: cst,
       };
     } else {

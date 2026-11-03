@@ -27,6 +27,7 @@ export default function grok(
   cst: Production,
   ctx: GrokContext
 ): ObjectFromObject {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const ReferencedObjects: Production = cst.children[0];
   const FieldName: Production = cst.children[cst.children.length - 1];
@@ -41,7 +42,7 @@ export default function grok(
           child.type === ProductionType.PrimitiveFieldName
       )
       .map((pfn: Production): string =>
-        text.slice(pfn.location.startIndex, pfn.location.endIndex)
+        text.slice(pfn.location.startIndex - base, pfn.location.endIndex - base)
       ),
     production: cst,
   };

@@ -21,6 +21,7 @@ export default function grokSymbolsFromModule(
   ctx: GrokContext
 ): SymbolsFromModule {
   const text: string = ctx.text;
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const components: Production[] = cst.children.filter(
     (child: Production): boolean => child.type !== ProductionType.whitespace
   );
@@ -53,7 +54,7 @@ export default function grokSymbolsFromModule(
     .filter((child: Production) => child.type === ProductionType.Symbol)
     .forEach((child: Production): void => {
       const symtext = text
-        .slice(child.location.startIndex, child.location.endIndex)
+        .slice(child.location.startIndex - base, child.location.endIndex - base)
         .replace(/\{.*\}/g, '')
         .trim();
       if (symtext in symbolMap) {
@@ -63,7 +64,6 @@ export default function grokSymbolsFromModule(
       }
     });
 
-  const base: number = ctx.textStartsAtOffset ?? 0;
   return {
     identifier: text.slice(
       modulereference.location.startIndex - base,

@@ -103,14 +103,13 @@ function applyAssignmentType(parameter: Parameter): void {
 
 export default function grok(cst: Production, ctx: GrokContext): Parameter {
   const text: string = ctx.text;
+  const base: number = ctx.textStartsAtOffset ?? 0;
 
   const commonFields = {
     production: cst,
     productionType: cst.type,
-    text: text.slice(cst.location.startIndex, cst.location.endIndex),
+    text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
   } satisfies GrokedThing;
-
-  const base: number = ctx.textStartsAtOffset ?? 0;
   if (cst.children.length === 1) {
     // It must have been DummyReference.
     const DummyReference: Production = cst.children[0];

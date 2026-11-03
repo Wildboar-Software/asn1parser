@@ -18,11 +18,12 @@ export default function grok(
   cst: Production,
   ctx: GrokContext
 ): ValueSetTypeAssignment {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const reference: Production = cst.children[0];
   const identifier: string = text.slice(
-    reference.location.startIndex,
-    reference.location.endIndex
+    reference.location.startIndex - base,
+    reference.location.endIndex - base
   );
   const Type: Production = cst.children.find(
     (child: Production): boolean => child.type === ProductionType.Type
@@ -59,12 +60,12 @@ export default function grok(
     identifier,
     assignmentType: AssignmentType.ValueSetTypeAssignment,
     leftHandSide: text.slice(
-      cst.location.startIndex,
-      assignmentOperator.location.startIndex
+      cst.location.startIndex - base,
+      assignmentOperator.location.startIndex - base
     ),
     rightHandSide: text.slice(
-      assignmentOperator.location.endIndex,
-      cst.location.endIndex
+      assignmentOperator.location.endIndex - base,
+      cst.location.endIndex - base
     ),
     type: grokType(Type, ctx),
     valueSet: grokValueSet(ValueSet, ctx),

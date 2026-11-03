@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [3.0.2]
+
+- Fix wrong re-parsing of object settings in some cases
+
 ## [3.0.1]
 
 - Fix wrong NPM `main` and `types`.

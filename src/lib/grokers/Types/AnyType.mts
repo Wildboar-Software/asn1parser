@@ -9,18 +9,19 @@ import { type Type } from '../../constructs/Type.mjs';
  */
 
 export default function grok(cst: Production, ctx: GrokContext): Type {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const last: Production = cst.children[cst.children.length - 1];
   return {
-    text: text.slice(cst.location.startIndex, cst.location.endIndex),
+    text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
     typeType: TypeType.AnyType,
     type:
       cst.children.length === 1
         ? ({} as AnyType)
         : {
             definedBy: text.slice(
-              last.location.startIndex,
-              last.location.endIndex
+              last.location.startIndex - base,
+              last.location.endIndex - base
             ),
           },
     production: cst,

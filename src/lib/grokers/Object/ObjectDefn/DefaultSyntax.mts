@@ -26,6 +26,7 @@ import ASN1SyntaxError from '../../../errors/ASN1SyntaxError.mjs';
 //     | ObjectSet
 
 export default function grok(cst: Production, ctx: GrokContext): DefaultSyntax {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const fieldSettings = cst.children.find(
     (child: Production): boolean => child.type === ProductionType.FieldSetting
@@ -52,8 +53,8 @@ export default function grok(cst: Production, ctx: GrokContext): DefaultSyntax {
           const PrimitiveFieldName: Production = fs.children[0];
           const Setting: Production = fs.children[fs.children.length - 1];
           const fieldName = text.slice(
-            PrimitiveFieldName.location.startIndex,
-            PrimitiveFieldName.location.endIndex
+            PrimitiveFieldName.location.startIndex - base,
+            PrimitiveFieldName.location.endIndex - base
           );
           fieldProductions[fieldName] = fs;
           return [

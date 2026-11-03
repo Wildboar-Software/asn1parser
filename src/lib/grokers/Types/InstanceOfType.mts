@@ -21,11 +21,12 @@ import { type Type } from '../../constructs/Type.mjs';
 //     | ABSTRACT-SYNTAX
 
 export default function grok(cst: Production, ctx: GrokContext): Type {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const components: Production[] = cst.children.filter(
     (child: Production): boolean => child.type !== ProductionType.whitespace
   );
   return {
-    text: ctx.text.slice(cst.location.startIndex, cst.location.endIndex),
+    text: ctx.text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
     typeType: TypeType.InstanceOfType,
     type: {
       definedObjectClass: grokDefined(components[2], ctx),

@@ -31,7 +31,7 @@
   "main": "./dist/index.mjs",
   "name": "@wildboar/asn1-parser",
   "types": "./dist/index.d.mts",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "type": "module",
   "dependencies": {
     "dependency-graph": "^1.0.0"

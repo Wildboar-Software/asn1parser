@@ -18,11 +18,12 @@ export default function grok(
   cst: Production,
   ctx: GrokContext
 ): ObjectAssignment {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const reference: Production = cst.children[0];
   const identifier: string = text.slice(
-    reference.location.startIndex,
-    reference.location.endIndex
+    reference.location.startIndex - base,
+    reference.location.endIndex - base
   );
   const DefinedObjectClass: Production = cst.children.find(
     (child: Production): boolean =>
@@ -60,12 +61,12 @@ export default function grok(
     identifier,
     assignmentType: AssignmentType.ObjectAssignment,
     leftHandSide: text.slice(
-      cst.location.startIndex,
-      assignmentOperator.location.startIndex
+      cst.location.startIndex - base,
+      assignmentOperator.location.startIndex - base
     ),
     rightHandSide: text.slice(
-      assignmentOperator.location.endIndex,
-      cst.location.endIndex
+      assignmentOperator.location.endIndex - base,
+      cst.location.endIndex - base
     ),
     definedObjectClass: grokDefinedObjectClass(DefinedObjectClass, ctx),
     object: Object_,

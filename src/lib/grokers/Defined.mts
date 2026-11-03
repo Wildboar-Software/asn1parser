@@ -104,6 +104,7 @@ import ASN1SyntaxError from '../errors/ASN1SyntaxError.mjs';
 
 export default function grok(cst: Production, ctx: GrokContext): Defined {
   const text: string = ctx.text;
+  const base: number = ctx.textStartsAtOffset ?? 0;
   switch (cst.children[0].type) {
     case ProductionType.DefinedValue:
     case ProductionType.DefinedType:
@@ -123,8 +124,8 @@ export default function grok(cst: Production, ctx: GrokContext): Defined {
       const ExternalReference: Production = cst.children[0];
       const [mod, ref] = text
         .slice(
-          ExternalReference.location.startIndex,
-          ExternalReference.location.endIndex
+          ExternalReference.location.startIndex - base,
+          ExternalReference.location.endIndex - base,
         )
         .split('.');
       return {
@@ -141,7 +142,6 @@ export default function grok(cst: Production, ctx: GrokContext): Defined {
     case ProductionType.objectclassreference:
     case ProductionType.objectsetreference:
     case ProductionType.UsefulObjectClassReference: {
-      const base: number = ctx.textStartsAtOffset ?? 0;
       const reference: string = text.slice(
         cst.children[0].location.startIndex - base,
         cst.children[0].location.endIndex - base,
@@ -175,8 +175,8 @@ export default function grok(cst: Production, ctx: GrokContext): Defined {
       }
       const sd: string[] = text
         .slice(
-          SimpleDefined.location.startIndex,
-          SimpleDefined.location.endIndex
+          SimpleDefined.location.startIndex - base,
+          SimpleDefined.location.endIndex - base,
         )
         .replace(/\s+/gu, '')
         .split('.');

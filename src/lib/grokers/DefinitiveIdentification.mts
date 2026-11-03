@@ -19,6 +19,7 @@ export default function grok(
   cst: Production,
   ctx: GrokContext
 ): [NameAndOrNumber[], string | undefined] | undefined {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   if (cst.children[0].type === ProductionType.DefinitiveOID) {
     return [grokDefinitiveOID(cst.children[0], ctx), undefined];
@@ -31,7 +32,7 @@ export default function grok(
     return [
       grokDefinitiveOID(DefinitiveOID, ctx),
       text
-        .slice(IRIValue.location.startIndex, IRIValue.location.endIndex)
+        .slice(IRIValue.location.startIndex - base, IRIValue.location.endIndex - base)
         .replace(/"/g, ''),
     ];
   }

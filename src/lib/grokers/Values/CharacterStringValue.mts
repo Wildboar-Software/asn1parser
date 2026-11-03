@@ -36,13 +36,14 @@ export default function grok(
   cst: Production,
   ctx: GrokContext
 ): CharacterStringValue {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   if (cst.children[0].type === ProductionType.RestrictedCharacterStringValue) {
     const RestrictedCharacterStringValue: Production = cst.children[0];
     switch (RestrictedCharacterStringValue.children[0].type) {
       case ProductionType.cstring: {
         return unescapeCstring(
-          text.slice(cst.location.startIndex, cst.location.endIndex)
+          text.slice(cst.location.startIndex - base, cst.location.endIndex - base)
         );
       }
       case ProductionType.Tuple: {
@@ -66,7 +67,7 @@ export default function grok(
             switch (cd.children[0].type) {
               case ProductionType.cstring: {
                 return unescapeCstring(
-                  text.slice(cd.location.startIndex, cd.location.endIndex)
+                  text.slice(cd.location.startIndex - base, cd.location.endIndex - base)
                 );
               }
               case ProductionType.Tuple: {

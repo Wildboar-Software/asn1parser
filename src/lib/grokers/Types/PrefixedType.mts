@@ -45,6 +45,7 @@ import type Defined from '../../constructs/Defined.mjs';
 // 	| ParameterizedValue
 
 export default function grok(cst: Production, ctx: GrokContext): Type {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const components: Production[] = cst.children.filter(
     (child: Production): boolean => child.type !== ProductionType.whitespace
@@ -89,16 +90,16 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
 
   // const EncodingReference: Production = tagComponents[0];
   const class_: string = text.slice(
-    Class.location.startIndex,
-    Class.location.endIndex
+    Class.location.startIndex - base,
+    Class.location.endIndex - base
   );
   const classNumber: number | Defined =
     ClassNumber.children[0].type === ProductionType.DefinedValue
       ? grokDefined(ClassNumber.children[0], ctx)
       : Number.parseInt(
           text.slice(
-            ClassNumber.location.startIndex,
-            ClassNumber.location.endIndex
+            ClassNumber.location.startIndex - base,
+            ClassNumber.location.endIndex - base
           ),
           10
         );
@@ -110,8 +111,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
         encodingReference: EncodingReference
           ? text
               .slice(
-                EncodingReference.location.startIndex,
-                EncodingReference.location.endIndex
+                EncodingReference.location.startIndex - base,
+                EncodingReference.location.endIndex - base
               )
               .replace(':', '')
           : undefined,

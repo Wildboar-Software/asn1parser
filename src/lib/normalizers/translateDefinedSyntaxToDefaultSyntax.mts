@@ -141,7 +141,8 @@ export default function translateDefinedSyntaxToDefaultSyntax(
           if (upperCasedFieldName) {
             if ('value' in token || 'object' in token) {
               // We parsed a value or object when we should have parsed a type, value set, or object set.
-              const lexemes = Array.from(lex(token.text)).filter((l) => l.type !== LexicalProductionType.comment);
+              const lexemes = Array.from(lex(token.text, token.production?.location))
+                .filter((l) => l.type !== LexicalProductionType.comment);
               const parsing = uppercasedFieldParser.start(lexemes, token.text);
               if (
                 !parsing.error &&
@@ -152,6 +153,7 @@ export default function translateDefinedSyntaxToDefaultSyntax(
                   text: token.text,
                   currentModule,
                   enumItems: parsing.definedEnumItems,
+                  textStartsAtOffset: token.production?.location?.startIndex,
                 };
                 if ('value' in token) {
                   delete (token as {value?: any}).value;
@@ -168,7 +170,8 @@ export default function translateDefinedSyntaxToDefaultSyntax(
             'objectSet' in token
           ) {
             // We parsed a type, value set, or object set when we should have parsed a value or object.
-            const lexemes = Array.from(lex(token.text)).filter((l) => l.type !== LexicalProductionType.comment);
+            const lexemes = Array.from(lex(token.text, token.production?.location))
+              .filter((l) => l.type !== LexicalProductionType.comment);
             const parsing = lowercasedFieldParser.start(lexemes, token.text);
             if (
               !parsing.error &&
@@ -179,6 +182,7 @@ export default function translateDefinedSyntaxToDefaultSyntax(
                 text: token.text,
                 currentModule,
                 enumItems: parsing.definedEnumItems,
+                textStartsAtOffset: token.production?.location?.startIndex,
               };
               if ('type' in token) {
                 delete (token as {type?: any}).type;

@@ -25,6 +25,7 @@ import { type Type } from '../../constructs/Type.mjs';
 // SizeConstraint ::= SIZE Constraint
 
 export default function grok(cst: Production, ctx: GrokContext): Type {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const components: Production[] = cst.children.filter(
     (child: Production): boolean => child.type !== ProductionType.whitespace
@@ -39,7 +40,7 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
 
   const lastComponent: Production = components[components.length - 1];
   return {
-    text: text.slice(cst.location.startIndex, cst.location.endIndex),
+    text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
     typeType,
     type: {
       of:
@@ -47,8 +48,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
           ? grokType(lastComponent, ctx)
           : {
               identifier: text.slice(
-                lastComponent.children[0].location.startIndex,
-                lastComponent.children[0].location.endIndex
+                lastComponent.children[0].location.startIndex - base,
+                lastComponent.children[0].location.endIndex - base
               ),
               type: grokType(
                 lastComponent.children[lastComponent.children.length - 1],

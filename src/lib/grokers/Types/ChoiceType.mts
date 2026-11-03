@@ -54,6 +54,7 @@ import { ANCIENT_NAMELESS_NAMED_TYPE_ERROR_MESSAGE } from '../../ancientNameless
 // }
 
 export default function grok(cst: Production, ctx: GrokContext): Type {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const components: Production[] = cst.children.filter(
     (child: Production): boolean => child.type !== ProductionType.whitespace
@@ -74,22 +75,22 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
         );
       }
       const identifier: string = text.slice(
-        namedType.children[0].location.startIndex,
-        namedType.children[0].location.endIndex
+        namedType.children[0].location.startIndex - base,
+        namedType.children[0].location.endIndex - base
       );
       return {
         identifier,
         type: grokType(namedType.children[2], ctx),
         production: namedType,
         productionType: namedType.type,
-        text: text.slice(namedType.location.startIndex, namedType.location.endIndex),
+        text: text.slice(namedType.location.startIndex - base, namedType.location.endIndex - base),
       };
     });
 
   if (AlternativeTypeLists.children.length === 1) {
     // It is just RootAlternativeTypeList
     return {
-      text: text.slice(cst.location.startIndex, cst.location.endIndex),
+      text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
       typeType: TypeType.ChoiceType,
       type: {
         explicitlyExtensible: false,
@@ -142,8 +143,8 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
                 VersionNumber.children.length > 0
                   ? Number.parseInt(
                       text.slice(
-                        VersionNumber.children[0].location.startIndex,
-                        VersionNumber.children[0].location.endIndex
+                        VersionNumber.children[0].location.startIndex - base,
+                        VersionNumber.children[0].location.endIndex - base
                       ),
                       10
                     )
@@ -164,15 +165,15 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
                       );
                     }
                     const identifier: string = text.slice(
-                      namedType.children[0].location.startIndex,
-                      namedType.children[0].location.endIndex
+                      namedType.children[0].location.startIndex - base,
+                      namedType.children[0].location.endIndex - base
                     );
                     return {
                       identifier,
                       type: grokType(namedType.children[2], ctx),
                       production: namedType,
                       productionType: namedType.type,
-                      text: text.slice(namedType.location.startIndex, namedType.location.endIndex),
+                      text: text.slice(namedType.location.startIndex - base, namedType.location.endIndex - base),
                     };
                   }),
               };
@@ -186,22 +187,22 @@ export default function grok(cst: Production, ctx: GrokContext): Type {
                 );
               }
               const identifier: string = text.slice(
-                eaa.children[0].location.startIndex,
-                eaa.children[0].location.endIndex
+                eaa.children[0].location.startIndex - base,
+                eaa.children[0].location.endIndex - base
               );
               return {
                 identifier,
                 type: grokType(eaa.children[2], ctx),
                 production: eaa,
                 productionType: eaa.type,
-                text: text.slice(eaa.location.startIndex, eaa.location.endIndex),
+                text: text.slice(eaa.location.startIndex - base, eaa.location.endIndex - base),
               };
             }
           })
       : undefined;
 
     return {
-      text: text.slice(cst.location.startIndex, cst.location.endIndex),
+      text: text.slice(cst.location.startIndex - base, cst.location.endIndex - base),
       typeType: TypeType.ChoiceType,
       type: {
         explicitlyExtensible: true,

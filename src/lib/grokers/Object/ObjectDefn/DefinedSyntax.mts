@@ -26,6 +26,7 @@ import ASN1ParserExpectationError from '../../../errors/ASN1ParserExpectationErr
 //     | ","
 
 export default function grok(cst: Production, ctx: GrokContext): DefinedSyntax {
+  const base: number = ctx.textStartsAtOffset ?? 0;
   const text: string = ctx.text;
   const tokens = cst.children.filter(
     (child: Production): boolean =>
@@ -46,7 +47,7 @@ export default function grok(cst: Production, ctx: GrokContext): DefinedSyntax {
       }
       const alt: Production = dst.children[0];
       if (alt.type === ProductionType.Literal) {
-        return text.slice(dst.location.startIndex, dst.location.endIndex);
+        return text.slice(dst.location.startIndex - base, dst.location.endIndex - base);
       } else if (alt.type === ProductionType.Setting) {
         return grokSetting(alt, ctx);
       } else {
